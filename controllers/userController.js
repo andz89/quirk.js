@@ -1,20 +1,21 @@
 const User = require('../models/User')
 
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
     let user = new User(req.body);
-    user.login().then((result) => {
+  let xx =  await  user.login()
+    console.log(xx);
+    if(xx.length > 0) {
         req.session.user = {
-            username: user.data.username
-
+            email: user.data.username
         }
         res.redirect('/')
 
-
-    }).catch((err) => {
-        req.flash('errors', err)
+    }else{
+        req.flash('errors', 'wrong password')
         res.redirect('/')
+    }
+    
 
-    })
 };
 exports.logout = function (req, res) {
     req.session.destroy();
@@ -22,7 +23,7 @@ exports.logout = function (req, res) {
 }
 exports.home = (req, res) => {
     if (req.session.user) {
-        res.render('home-dashboard', {username: req.session.user.username})
+        res.render('home-dashboard', {email: req.session.user.email})
 
     } else {
         res.render('home-guest', {

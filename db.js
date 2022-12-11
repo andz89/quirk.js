@@ -14,14 +14,18 @@ dotenv.config()
 //     console.log('database is connected');
 // }
 // start()
-var mysql = require('mysql');
-var con = mysql.createConnection({host: "localhost", user: "root", password: "123456"});
+var mysql = require('mysql2');
 
-con.connect(function (err) {
+let pool = mysql.createPool({host: "localhost", user: "root", password: "123456", database: 'node'})
+
+pool.getConnection(function (err) {
     if (err) 
         throw err;
     
 
 
-    console.log("Connected na ang lahat!");
-});
+    module.exports = pool;
+    const app = require('./index');
+    app.listen(process.env.PORT);
+    console.log('database is connected');
+})

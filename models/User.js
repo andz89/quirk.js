@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 
-const usersCollection = require('../db').collection('users');
+
+const db = require('../db')
+
 
 let validator = require('validator');
 
@@ -30,6 +32,7 @@ User.prototype.cleanUp = function () {
 };
 User.prototype.validate = function () {
     return new Promise(async (resolve, reject) => { // if inputs are empty
+
         if (this.data.username === "") {
             this.errors.push('You must provide username.')
         };
@@ -59,64 +62,64 @@ User.prototype.validate = function () {
         }
 
 
-        // Only if username is valid then check to see if it's already taken
-        if (this.data.username.length > 2 && this.data.username.length < 31 && validator.isAlphanumeric(this.data.username)) {
-            let usernameExists = await usersCollection.findOne({username: this.data.username})
-            if (usernameExists) {
-                this.errors.push("That username is already taken.")
-            }
-        }
+        // // Only if username is valid then check to see if it's already taken
+        // if (this.data.username.length > 2 && this.data.username.length < 31 && validator.isAlphanumeric(this.data.username)) {
+        //     let usernameExists = await usersCollection.findOne({username: this.data.username})
+        //     if (usernameExists) {
+        //         this.errors.push("That username is already taken.")
+        //     }
+        // }
 
-        // Only if email is valid then check to see if it's already taken
-        if (validator.isEmail(this.data.email)) {
-            let emailExists = await usersCollection.findOne({email: this.data.email})
-            if (emailExists) {
-                this.errors.push("That email is already being used.")
-            }
-        }
+        // // Only if email is valid then check to see if it's already taken
+        // if (validator.isEmail(this.data.email)) {
+        //     let emailExists = await usersCollection.findOne({email: this.data.email})
+        //     if (emailExists) {
+        //         this.errors.push("That email is already being used.")
+        //     }
+        // }
         resolve()
     })
-
 }
 
 
 User.prototype.login = function () {
 
-    return new Promise((resolve, reject) => {
-        this.cleanUp()
-        usersCollection.findOne({username: this.data.username}).then((user) => {
-            if (user && bcrypt.compareSync(this.data.password, user.password)) {
-                resolve(user)
-            } else {
-                reject('Invalid username or password')
-            }
-        }).catch((e) => {
-            reject('please try again')
-        })
+    this.cleanUp()
+    return (new Promise((resolve, reject) => {
+ 
+    let sql = `SELECT * FROM users WHERE password = "${this.data.password}"`
+    db.query(sql, (err, result) => {
+        if (err) {
+            reject(err)
+            return false;
+        }
+    
+        resolve(result);
     })
-
+}))
 
 }
 
 User.prototype.register = function () {
-    return new Promise(async (resolve, reject) => { // this.cleanUp()
-
+    return new Promise(async (resolve, reject) => {
         this.cleanUp();
         await this.validate();
         if (!this.errors.length) {
             let salt = bcrypt.genSaltSync(10)
-            this.data.password = bcrypt.hashSync(this.data.password, salt)
-            usersCollection.insertOne(this.data, function (err, result) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log("User Registered");
-                }
-            });
+            this.data.password = bcrypt.hashSync(this.data.password, salt);
+            let data = {
+                name: this.data.username,
+                email: this.data.email,
+                password: this.data.password
+            }
+            let sql = 'INSERT INTO users SET ?';
+            db.query(sql, data)
             resolve();
         } else {
             reject(this.errors);
         }
     })
+
+
 }
 module.exports = User;
