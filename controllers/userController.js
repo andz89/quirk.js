@@ -11,7 +11,7 @@ exports.login = (req, res) => {
       res.redirect("/");
     })
     .catch((err) => {
-      req.flash("errors", err);
+      req.flash("errors", "wrong password or email");
       res.redirect("/");
     });
 };
