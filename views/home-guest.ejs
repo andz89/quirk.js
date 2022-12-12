@@ -20,10 +20,10 @@
       <form action="./login" method="POST" class="mb-0 pt-2 pt-md-0">
         <div class="row align-items-center">
           <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-            <input name="username" class="form-control form-control-sm input-dark" type="text" placeholder="Username" autocomplete="off">
+            <input name="user_email" class="form-control form-control-sm input-dark" type="text" placeholder="Email" autocomplete="off">
           </div>
           <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
-            <input name="password" class="form-control form-control-sm input-dark" type="password" placeholder="Password">
+            <input name="user_password" class="form-control form-control-sm input-dark" type="password" placeholder="Password">
           </div>
           <div class="col-md-auto">
             <button class="btn btn-primary btn-sm">Sign In</button>
@@ -47,7 +47,7 @@
     
           <div class="form-group">
             <label for="username-register" class="text-muted mb-1"><small>Username</small></label>
-            <input name="username" id="username-register" class="form-control" type="text" placeholder="Pick a username" autocomplete="off">
+            <input name="user_name" id="username-register" class="form-control" type="text" placeholder="Pick a username" autocomplete="off">
             <% if (regErrors.length) { %> 
               <span class="text-danger small"> <%=  regErrors[0].username %></span>
               <% } %>
@@ -56,7 +56,7 @@
           
           <div class="form-group">
             <label for="email-register" class="text-muted mb-1"><small>Email</small></label>
-            <input name="email" id="email-register" class="form-control" type="text" placeholder="you@example.com" autocomplete="off">
+            <input name="user_email" id="email-register" class="form-control" type="text" placeholder="you@example.com" autocomplete="off">
             <% if (regErrors.length) { %> 
           
               <span class="text-danger small"> <%= regErrors[0].email %></span>
@@ -65,7 +65,7 @@
           
           <div class="form-group">
             <label for="password-register" class="text-muted mb-1"><small>Password</small></label>
-            <input name="password" id="password-register" class="form-control" type="password" placeholder="Create a password">
+            <input name="user_password" id="password-register" class="form-control" type="password" placeholder="Create a password">
             <% if (regErrors.length) { %> 
           
               <span class="text-danger small"> <%= regErrors[0].password%></span>

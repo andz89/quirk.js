@@ -6,12 +6,13 @@ exports.login = (req, res) => {
     .login()
     .then((data) => {
       req.session.user = {
-        email: data[0].email,
+        user_email: data[0].user_email,
+        user_name: data[0].user_name,
       };
       res.redirect("/");
     })
     .catch((err) => {
-      req.flash("errors", "Wrong password or email");
+      req.flash("errors", "Invalid username or password");
       res.redirect("/");
     });
 };
@@ -21,7 +22,7 @@ exports.logout = function (req, res) {
 };
 exports.home = (req, res) => {
   if (req.session.user) {
-    res.render("home-dashboard", { email: req.session.user.email });
+    res.render("home-dashboard", { user_name: req.session.user.user_name });
   } else {
     res.render("home-guest", {
       errors: req.flash("errors"),
@@ -35,7 +36,7 @@ exports.register = (req, res) => {
     .register()
     .then(() => {
       req.session.user = {
-        email: user.data.email,
+        user_name: user.data.user_name,
       };
       res.redirect("/");
     })
