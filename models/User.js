@@ -130,7 +130,7 @@ User.prototype.login = function () {
       }
 
       if (
-        result &&
+        result.length &&
         bcrypt.compareSync(this.data.password, result[0].password)
       ) {
         resolve(result);
