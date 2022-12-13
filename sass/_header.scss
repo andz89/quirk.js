@@ -1,0 +1,31 @@
+.header-container{
+    padding: 10px 10px;
+    display: flex;
+    justify-content: space-between;
+    
+   h4 a{
+        color: #fff;
+    }
+}
+
+.header-right-btn-container{
+    display: flex;
+    align-items: center;
+    
+    form{
+        margin-left: 5px;
+    }
+    a{  
+
+      margin-right: 10px;
+    }
+
+    // login guest page
+    input{
+        margin-left: 10px;
+        color: #333;
+    }
+  
+   
+}
+

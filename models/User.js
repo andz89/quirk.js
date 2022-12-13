@@ -1,8 +1,7 @@
 const bcrypt = require("bcryptjs");
-
 const db = require("../db");
 
-let validator = require("validator");
+const validator = require("validator");
 
 let User = function (data) {
   this.data = data;
@@ -59,7 +58,7 @@ User.prototype.validate = function () {
       //     "you must povide atleast 12 characters in your password"
       //   );
       this.errors_data.password =
-        "you must povide atleast 12 characters in your password.";
+        "you must povide atleast 6 characters in your password.";
     }
     if (this.data.user_password.length > 30) {
       //   this.errors.push("Password cannot exceed 30 characters");

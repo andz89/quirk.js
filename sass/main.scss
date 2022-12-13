@@ -1,0 +1,34 @@
+@import 'home-dashboard';
+@import 'config';
+@import 'utilities';
+@import 'form';
+@import 'header';
+@import 'footer';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+a{
+
+    text-decoration: none;
+    color: $primary-color;
+}
+ul {
+    list-style: none;
+}
+img{
+    width: 100%;
+}
+
+input{
+    all: unset
+}

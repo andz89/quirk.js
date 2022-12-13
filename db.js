@@ -13,13 +13,14 @@ dotenv.config();
 //     console.log('database is connected');
 // }
 // start()
+
 var mysql = require("mysql2");
 
 let pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "123456",
-  database: "node",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.MYSQL_DB,
 });
 
 pool.getConnection(function (err) {
