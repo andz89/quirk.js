@@ -197,9 +197,8 @@
 }
 
 .text {
-    font-size: 1rem;
-
-
+    margin: 0;
+    padding: 0;
     &.text-primary {
        color: $primary-color;
 
@@ -225,7 +224,9 @@
         color: $light-color;
  
      }
- 
+     &.text-small{
+        font-size: .8rem;
+     }
    &.text-center{
     text-align: center;
    }

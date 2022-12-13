@@ -46,11 +46,8 @@ exports.register = (req, res) => {
       res.redirect("/");
     })
     .catch((regErrors) => {
-      //   regErrors.forEach((error) => {
-      //     req.flash("regErrors", error);
-      //   });
-
       req.flash("regErrors", regErrors);
+
       res.redirect("/");
     });
 };

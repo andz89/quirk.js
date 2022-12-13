@@ -1,7 +1,35 @@
 
 
 
+//header home-dashboard
+.header-container{
+    padding: 10px 10px;
+    display: flex;
+    justify-content: space-between;
+    
+   h4 a{
+        color: #fff;
+    }
+}
 
+.header-right-btn-container{
+    display: flex;
+    align-items: center;
+    
+    form{
+        margin-left: 5px;
+    }
+    a{  
+
+      margin-right: 10px;
+    }
+
+  
+  
+   
+}
+
+//header home-dashboard ends
 
 
 //landing
@@ -25,44 +53,8 @@
    
     }
 }
-//guset landing inner
-.guest-landing-inner{
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 90%;
-    margin: auto;
-    gap: 20px;
-    width: 100%;
-    padding-top: 50px;
-    
-}
-.guest-message-container{
-    flex:60%;
-    padding: 0 10px;
-}
-.form-container{
-    flex:40%;
-    width: 100%;
-
-
-.register-btn-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items:center ;
-}
-  
-}
 
 @media (max-width: 768px) {
-    .guest-landing-inner{
-  
-        flex-direction: column;
-        .form-container{
-            width: 100%;
-        }
-    }
+
   .display-3 {font-size: 2.5rem}
 }

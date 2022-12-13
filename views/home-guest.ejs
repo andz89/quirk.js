@@ -15,10 +15,10 @@
     <% if(errors.length){ %>
       <div class="bg-light text text-center text-danger"><small>  <%= errors %></small></div>
       <% } %>
-    <div class="header-container">
+    <div class="header-guest-container">
       <h4 class="lead"><a href="/" class="">Quirk</a></h4>
       <form action="./login" method="POST" class="mb-0 pt-2 pt-md-0">
-        <div class="header-right-btn-container form form-text">
+        <div class="header-guest-btn-container form form-text">
        
             <input name="user_email" class="form" type="text" placeholder="Email" autocomplete="off">
        
@@ -39,41 +39,54 @@
 
   <div class="guest-landing-inner">
     <div class="guest-message-container">
-      <h1 class="display-3">Remember Writing?</h1>      
-      <p class="lead text-muted">Are you sick of short tweets and impersonal &ldquo;shared&rdquo; posts that are reminiscent of the late 90&rsquo;s email forwards? We believe getting back to actually writing is the key to enjoying the internet again.</p>
+      <h1 class="">Remember Writing?</h1>      
+      <p class="">Are you sick of short tweets and impersonal &ldquo;shared&rdquo; posts that are reminiscent of the late 90&rsquo;s email forwards? We believe getting back to actually writing is the key to enjoying the internet again.</p>
     </div>
     <!-- register -->
     <div class="form-container">
       <form action="./register" method="POST" id="registration-form" class="form">
     
-          <div class="form-group">
+          <div class="my-1">
             <label for="username-register" class="text-muted mb-1"><small>Username</small></label>
             <input name="user_name" id="username-register" class="form-control" type="text" placeholder="Pick a username" autocomplete="off">
-            <% if (regErrors.length) { %> 
-              <span class="text text-danger small"> <%=  regErrors[0].username %></span>
-              <% } %>
+            <div style="height:5px" >
+              <% if (regErrors.length) { %> 
+              
+                <small class="text text-danger text-small" > <%=  regErrors[0].username %></small>
+                <% } %>
+            </div>
+          
     
           </div>
           
-          <div class=" form-group">
+          <div class="">
             <label for="email-register" class="text-muted mb-1"><small>Email</small></label>
             <input name="user_email" id="email-register" class="form-control" type="text" placeholder="you@example.com" autocomplete="off">
+            <div style="height:5px" >
             <% if (regErrors.length) { %> 
           
-              <span class="text text-danger small"> <%= regErrors[0].email %></span>
+              <small class="text text-danger text-small"> <%= regErrors[0].email %></small>
               <% } %>
           </div>
+        </div>
+
           
-          <div class="form-group">
+          <div class="my-1">
             <label for="password-register" class="text-muted mb-1"><small>Password</small></label>
             <input name="user_password" id="password-register" class="form-control" type="password" placeholder="Create a password">
+            <div style="height:5px" >
+
             <% if (regErrors.length) { %> 
           
-              <span class="text text-danger small"> <%= regErrors[0].password%></span>
+              <small class="text text-danger text-small"> <%= regErrors[0].password%></small>
               <% } %>
           </div>
-  
-            <button type="submit" class="btn btn-lg btn-success ">Sign up for Quirk</button>
+        </div>
+
+        <div class="my-2">
+          <button type="submit" class="btn btn-lg btn-success ">Sign up for Quirk</button>
+
+        </div>
 
        
 
