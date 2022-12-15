@@ -12,6 +12,7 @@ User.prototype.cleanUp = function () {
     this.data.user_name = "";
   }
   if (typeof this.data.user_email != "string") {
+    console.log("cleanUp");
     this.data.user_email = "";
   }
   if (typeof this.data.user_password != "string") {
@@ -57,8 +58,7 @@ User.prototype.validate = function () {
       //   this.errors.push(
       //     "you must povide atleast 12 characters in your password"
       //   );
-      this.errors_data.password =
-        " *you must povide atleast 6 characters in your password. ";
+      this.errors_data.password = " *you must povide atleast 6 characters. ";
     }
     if (this.data.user_password.length > 30) {
       //   this.errors.push("Password cannot exceed 30 characters");
@@ -67,8 +67,7 @@ User.prototype.validate = function () {
     // length of input username
     if (this.data.user_name.length > 0 && this.data.user_name.length < 3) {
       //   this.errors.push("you must povide atleast 3 characters in your username");
-      this.errors_data.username =
-        " *you must povide atleast 3 characters in your username ";
+      this.errors_data.username = " *you must povide atleast 3 characters.";
     }
     if (this.data.user_name.length > 30) {
       //   this.errors.push("username cannot exceed 30 characters");
@@ -164,8 +163,35 @@ User.prototype.register = function () {
         resolve(result);
       });
     } else {
-      reject(this.errors_data);
+      let data = {};
+      data.error = this.errors_data;
+      data.user = this.data;
+
+      reject(data);
     }
   });
 };
+
+User.prototype.test = function () {
+  return new Promise((resolve, reject) => {
+    let sql = `SELECT * FROM users WHERE user_email = "andzrivero89@gmail.com"`;
+
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      if (
+        result.length &&
+        bcrypt.compareSync("123456", result[0].user_password)
+      ) {
+        resolve(result);
+      } else {
+        reject("wrong password");
+      }
+    });
+  });
+};
+
 module.exports = User;

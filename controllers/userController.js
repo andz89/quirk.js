@@ -21,7 +21,7 @@ exports.login = (req, res) => {
     });
 };
 exports.login_page = (req, res) => {
-  res.render("login_page", {
+  res.render("users/login_page", {
     errors: req.flash("errors"),
   });
 };
@@ -32,12 +32,11 @@ exports.logout = function (req, res) {
 };
 exports.home = (req, res) => {
   if (req.session.user) {
-    res.render("home-dashboard", { user_name: req.session.user.user_name });
-  } else {
-    res.render("landing_page", {
-      errors: req.flash("errors"),
-      regErrors: req.flash("regErrors"),
+    res.render("pages/home-dashboard", {
+      user_name: req.session.user.user_name,
     });
+  } else {
+    res.render("pages/landing_page");
   }
 };
 
@@ -51,16 +50,23 @@ exports.register = (req, res) => {
       };
       res.redirect("/");
     })
-    .catch((regErrors) => {
+    .catch((data) => {
       // req.flash("errors", "Invalid username or password");
-      req.flash("regErrors", regErrors);
+      req.flash("regErrors", data.error);
+
+      req.flash("users_data", data.user);
 
       res.redirect("/register_page");
     });
 };
 
 exports.register_page = (req, res) => {
-  res.render("register_page", {
+  res.render("users/register_page", {
     regErrors: req.flash("regErrors"),
+    users_data: req.flash("users_data"),
   });
+};
+
+exports.contact_page = (req, res) => {
+  res.render("pages/contact_page", { user_name: req.session.user.user_name });
 };

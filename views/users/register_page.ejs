@@ -28,6 +28,7 @@
             <label for="username-register" class="text-muted"
               ><small>Username</small></label
             >
+
             <input
               name="user_name"
               id="username-register"
@@ -35,7 +36,9 @@
               type="text"
               placeholder="Pick a username"
               autocomplete="off"
+              value=" <%= users_data.length ? users_data[0].user_name : ' ' %> "
             />
+
             <div style="height: 5px">
               <% if (regErrors.length) { %>
 
@@ -55,6 +58,7 @@
               type="text"
               placeholder="you@example.com"
               autocomplete="off"
+              value=" <%= users_data.length ? users_data[0].user_email : ' ' %> "
             />
             <div style="height: 5px">
               <% if (regErrors.length) { %>
@@ -78,7 +82,7 @@
             <% if (regErrors.length) { %>
             <div style="height: 5px" class="">
               <small class="text text-danger text-small">
-                <%= regErrors[0].password%></small
+                <%= regErrors[0].password %></small
               >
             </div>
             <% } %>
@@ -88,20 +92,17 @@
             <input
               type="submit"
               class="btn btn-md btn-success"
-              value="Sign up for Quirk"
+              value="Submit"
             />
 
             <div class="d-flex justify-content-end">
               <small>
-                <a
-                  href="/login_page"
-                  class="text text-dark white-hover text-dark"
-                >
+                <a href="/login_page" class="text text-dark white-hover">
                   Sign in for Quirk?
                 </a>
               </small>
               <small>
-                <a href="/" class="text text-dark white-hover text-dark">
+                <a href="/" class="text text-dark white-hover">
                   &nbsp; Home &nbsp;
                 </a>
               </small>
@@ -110,6 +111,6 @@
         </form>
       </div>
     </div>
-    <%- include('footer') %>
+    <%- include('../include/footer') %>
   </body>
 </html>

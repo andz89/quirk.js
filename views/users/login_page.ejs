@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/style/main.min.css" />
   </head>
   <body>
-    <div class="bg-primary p-2">
+    <div class="bg-primary">
       <div style="height: 10px">
         <% if(errors.length){ %>
         <div class="bg-light text text-center text-danger">
@@ -22,13 +22,13 @@
         <% } %>
       </div>
       <div
-        class="signup-guest-container d-flex justify-content-center flex-direction-column"
+        class="signup-guest-container d-flex justify-content-center flex-direction-column py-2"
       >
         <h1 class="">Quirk</h1>
 
-        <form action="./login" method="POST" class="">
+        <form action="/login" method="POST" class="">
           <div
-            class="d-flex gap-20 justify-content-center flex-direction-column form my-2"
+            class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1"
           >
             <input
               name="user_email"
@@ -42,28 +42,29 @@
               type="password"
               placeholder="Password"
             />
-
-            <div class="d-flex justify-content-between align-items-end">
+          </div>
+          <div class="d-flex justify-content-between align-items-end">
+            <div>
               <button class="btn btn-md btn-success">Sign In</button>
+            </div>
 
-              <div class="d-flex justify-content-end align-items-end">
-                <small>
-                  <a href="/register_page" class="text text-white white-hover">
-                    &nbsp;Sign up for Quirk? &nbsp;</a
-                  ></small
-                >
-                &nbsp;
-                <small>
-                  <a href="/" class="text text-white white-hover">
-                    &nbsp;Home &nbsp;</a
-                  ></small
-                >
-              </div>
+            <div class="d-flex justify-content-end">
+              <small>
+                <a href="/register_page" class="text text-white white-hover">
+                  &nbsp;Sign up for Quirk? &nbsp;</a
+                ></small
+              >
+              &nbsp;
+              <small>
+                <a href="/" class="text text-white white-hover">
+                  &nbsp;Home &nbsp;</a
+                ></small
+              >
             </div>
           </div>
         </form>
       </div>
     </div>
-    <%- include('footer') %>
+    <%- include('../include/footer') %>
   </body>
 </html>
