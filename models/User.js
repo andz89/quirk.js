@@ -30,7 +30,7 @@ User.prototype.validate = function () {
 
     if (this.data.user_name === "") {
       //   this.errors.push("You must provide username.");
-      this.errors_data.username = "You must provide username.";
+      this.errors_data.username = " *You must provide username. ";
     }
     if (
       this.data.user_name != "" &&
@@ -38,15 +38,15 @@ User.prototype.validate = function () {
     ) {
       //   this.errors.push("username can only contain numbers and letters.");
       this.errors_data.username =
-        "username can only contain numbers and letters.";
+        " *username can only contain numbers and letters. ";
     }
     if (!validator.isEmail(this.data.user_email)) {
       //   this.errors.push("You must provide a valid email address.");
-      this.errors_data.email = "You must provide a valid email address.";
+      this.errors_data.email = " *You must provide a valid email address. ";
     }
     if (this.data.user_password === "") {
       //   this.errors.push("You must provide a password.");
-      this.errors_data.password = "You must provide a password.";
+      this.errors_data.password = " *You must provide a password. ";
     }
 
     // length of input password
@@ -58,21 +58,21 @@ User.prototype.validate = function () {
       //     "you must povide atleast 12 characters in your password"
       //   );
       this.errors_data.password =
-        "you must povide atleast 6 characters in your password.";
+        " *you must povide atleast 6 characters in your password. ";
     }
     if (this.data.user_password.length > 30) {
       //   this.errors.push("Password cannot exceed 30 characters");
-      this.errors_data.password = "Password cannot exceed 30 characters";
+      this.errors_data.password = " *Password cannot exceed 30 characters ";
     }
     // length of input username
     if (this.data.user_name.length > 0 && this.data.user_name.length < 3) {
       //   this.errors.push("you must povide atleast 3 characters in your username");
       this.errors_data.username =
-        "you must povide atleast 3 characters in your username";
+        " *you must povide atleast 3 characters in your username ";
     }
     if (this.data.user_name.length > 30) {
       //   this.errors.push("username cannot exceed 30 characters");
-      this.errors_data.username = "username cannot exceed 30 characters";
+      this.errors_data.username = " *username cannot exceed 30 characters ";
     }
 
     const checkExistUsername = () => {
@@ -98,7 +98,7 @@ User.prototype.validate = function () {
         if (result.length) {
           if (result[0].user_email === this.data.user_email) {
             //   this.errors.push("That email is already taken.");
-            this.errors_data.email = "That email is already taken.";
+            this.errors_data.email = " *That email is already taken. ";
 
             resolve();
           }

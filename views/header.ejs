@@ -1,0 +1,59 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Quirk</title>
+
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/style/main.min.css" />
+</head>
+<body>
+  <nav class="bg-primary">
+    <input type="checkbox" id="check" />
+    <label for="check" class="checkbtn">
+      <div class="burger">
+        <div class="line1"></div>
+        <div class="line2"></div>
+        <div class="line3"></div>
+      </div>
+    </label>
+    <label class="text text-white title">Quirk</label>
+    <ul>
+      <% if(locals.user_name){ %>
+      <li>
+        <a href="" class="">Home</a>
+      </li>
+      <li>
+        <a href="" class="">Templates</a>
+      </li>
+      <li>
+        <a href="" class="">Purchase</a>
+      </li>
+      <li>
+        <a href="" class="">Contact Us</a>
+      </li>
+      <li>
+        <a href="" class="">Account</a>
+      </li>
+      <li>
+        <form action="/logout" method="POST" class="">
+          <input type="submit" class="btn btn-sm btn-light" value="Sign Out" />
+        </form>
+      </li>
+
+      <% }else { %>
+
+      <div class="sign-btns">
+        <a href="/login_page" class="btn btn-sm btn-light"> Sign In</a>
+
+        <a href="/register_page" class="btn btn-sm btn-success">Sign Up</a>
+      </div>
+
+      <% }%>
+    </ul>
+  </nav>
+</body>

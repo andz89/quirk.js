@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Quirk</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style/main.min.css" />
+  </head>
+  <body>
+    <div class="bg-primary p-2">
+      <div style="height: 10px">
+        <% if(errors.length){ %>
+        <div class="bg-light text text-center text-danger">
+          <small> <%= errors %></small>
+        </div>
+        <% } %>
+      </div>
+      <div
+        class="signup-guest-container d-flex justify-content-center flex-direction-column"
+      >
+        <h1 class="">Quirk</h1>
+
+        <form action="./login" method="POST" class="">
+          <div
+            class="d-flex gap-20 justify-content-center flex-direction-column form my-2"
+          >
+            <input
+              name="user_email"
+              type="text"
+              placeholder="Email"
+              autocomplete="off"
+            />
+
+            <input
+              name="user_password"
+              type="password"
+              placeholder="Password"
+            />
+
+            <div class="d-flex justify-content-between align-items-end">
+              <button class="btn btn-md btn-success">Sign In</button>
+
+              <div class="d-flex justify-content-end align-items-end">
+                <small>
+                  <a href="/register_page" class="text text-white white-hover">
+                    &nbsp;Sign up for Quirk? &nbsp;</a
+                  ></small
+                >
+                &nbsp;
+                <small>
+                  <a href="/" class="text text-white white-hover">
+                    &nbsp;Home &nbsp;</a
+                  ></small
+                >
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <%- include('footer') %>
+  </body>
+</html>

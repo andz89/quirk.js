@@ -16,9 +16,14 @@ exports.login = (req, res) => {
     .catch((err) => {
       req.flash("errors", "Invalid username or password");
       req.session.save(function (err) {
-        res.redirect("/");
+        res.redirect("/login_page");
       });
     });
+};
+exports.login_page = (req, res) => {
+  res.render("login_page", {
+    errors: req.flash("errors"),
+  });
 };
 exports.logout = function (req, res) {
   req.session.destroy(() => {
@@ -29,12 +34,13 @@ exports.home = (req, res) => {
   if (req.session.user) {
     res.render("home-dashboard", { user_name: req.session.user.user_name });
   } else {
-    res.render("home-guest", {
+    res.render("landing_page", {
       errors: req.flash("errors"),
       regErrors: req.flash("regErrors"),
     });
   }
 };
+
 exports.register = (req, res) => {
   let user = new User(req.body);
   user
@@ -46,8 +52,15 @@ exports.register = (req, res) => {
       res.redirect("/");
     })
     .catch((regErrors) => {
+      // req.flash("errors", "Invalid username or password");
       req.flash("regErrors", regErrors);
 
-      res.redirect("/");
+      res.redirect("/register_page");
     });
+};
+
+exports.register_page = (req, res) => {
+  res.render("register_page", {
+    regErrors: req.flash("regErrors"),
+  });
 };
