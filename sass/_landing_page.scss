@@ -1,26 +1,26 @@
-
-
 .landing {
-   
 
-    background:#fcffd8;
-     min-height: 500px;
 
-    &-inner {
-        color: #333;
-        height: 50%;
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        margin: auto;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-   
-    }
+  background: #fcffd8;
+  min-height: 500px;
+
+  &-inner {
+    color: #333;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+  }
 }
 
 @media (max-width: 768px) {
 
-  .display-3 {font-size: 2.5rem}
+  .display-3 {
+    font-size: 2.5rem
+  }
 }

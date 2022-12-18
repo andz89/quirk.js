@@ -10,5 +10,6 @@ router.post("/logout", userController.logout);
 router.get("/login_page", userController.login_page);
 router.get("/register_page", userController.register_page);
 router.get("/contact_page", userController.contact_page);
+router.get("/account_page", userController.account_page);
 
 module.exports = router;

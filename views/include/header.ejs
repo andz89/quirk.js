@@ -1,16 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Quirk</title>
 
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet" />
 
   <link rel="stylesheet" href="/style/main.min.css" />
 </head>
+
 <body>
   <nav class="bg-primary">
     <input type="checkbox" id="check" />
@@ -23,37 +24,39 @@
     </label>
     <label class="text text-white title">Quirk</label>
     <ul>
-      <% if(locals.user_name){ %>
       <li>
         <a href="/" class="">Home</a>
       </li>
       <li>
         <a href="" class="">Templates</a>
       </li>
-      <li>
-        <a href="" class="">Purchase</a>
-      </li>
+
       <li>
         <a href="/contact_page" class="">Contact Us</a>
       </li>
-      <li>
-        <a href="" class="">Account</a>
-      </li>
-      <li>
-        <form action="/logout" method="POST" class="">
-          <input type="submit" class="btn btn-sm btn-light" value="Sign Out" />
-        </form>
-      </li>
+      <% if(user_name){ %>
 
-      <% }else { %>
+        <li>
+          <a href="" class="">Purchase</a>
+        </li>
 
-      <div class="sign-btns">
-        <a href="/login_page" class="btn btn-sm btn-light"> Sign In</a>
+        <li>
+          <a href="/account_page" class="">Account</a>
+        </li>
+        <li>
+          <form action="/logout" method="POST" class="">
+            <input type="submit" class="btn btn-sm btn-light" value="Sign Out" />
+          </form>
+        </li>
 
-        <a href="/register_page" class="btn btn-sm btn-success">Sign Up</a>
-      </div>
+        <% }else{ %>
 
-      <% }%>
+          <div class="sign-btns">
+            <a href="/login_page" class="btn btn-sm btn-light"> Sign In</a>
+
+            <a href="/register_page" class="btn btn-sm btn-success">Sign Up</a>
+          </div>
+
+          <% } %>
     </ul>
   </nav>
-</body>

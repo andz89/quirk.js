@@ -13,9 +13,11 @@ exports.login = (req, res) => {
         res.redirect("/");
       });
     })
-    .catch((err) => {
+    .catch((user_data) => {
       req.flash("errors", "Invalid username or password");
-      req.session.save(function (err) {
+      req.flash("data", user_data);
+
+      req.session.save(function () {
         res.redirect("/login_page");
       });
     });
@@ -23,6 +25,8 @@ exports.login = (req, res) => {
 exports.login_page = (req, res) => {
   res.render("users/login_page", {
     errors: req.flash("errors"),
+    user_data: req.flash("data"),
+    user_name: req.session.user,
   });
 };
 exports.logout = function (req, res) {
@@ -36,7 +40,7 @@ exports.home = (req, res) => {
       user_name: req.session.user.user_name,
     });
   } else {
-    res.render("pages/landing_page");
+    res.render("pages/landing_page", { user_name: req.session.user });
   }
 };
 
@@ -55,8 +59,9 @@ exports.register = (req, res) => {
       req.flash("regErrors", data.error);
 
       req.flash("users_data", data.user);
-
-      res.redirect("/register_page");
+      req.session.save(function (err) {
+        res.redirect("/register_page");
+      });
     });
 };
 
@@ -64,9 +69,21 @@ exports.register_page = (req, res) => {
   res.render("users/register_page", {
     regErrors: req.flash("regErrors"),
     users_data: req.flash("users_data"),
+    user_name: req.session.user, //for header fields
   });
 };
 
 exports.contact_page = (req, res) => {
-  res.render("pages/contact_page", { user_name: req.session.user.user_name });
+  res.render("pages/contact_page", {
+    user_name: req.session.user, //for header fields
+  });
+};
+exports.account_page = (req, res) => {
+  if (req.session.user) {
+    res.render("pages/account_page", {
+      user_name: req.session.user, //for header fields
+    });
+  } else {
+    res.redirect("/");
+  }
 };

@@ -135,7 +135,7 @@ User.prototype.login = function () {
       ) {
         resolve(result);
       } else {
-        reject("wrong password");
+        reject(this.data);
       }
     });
   });
