@@ -1,7 +1,6 @@
 const User = require("../models/User");
 
 exports.login = (req, res) => {
-  console.log(req.body);
   let user = new User(req.body);
   user
     .login()
@@ -48,4 +47,15 @@ exports.register = (req, res) => {
         res.redirect("/register_page");
       });
     });
+};
+exports.update_account = function (req, res) {
+  const user_name = req.query.user_name;
+  const user_email = req.query.user_email;
+  let user = new User(user_name);
+  user.update_account().then(function () {
+    console.log("successfully");
+  });
+  // if (user_name === req.session.user.user_name) {
+  //   console.log("matching user");
+  // }
 };

@@ -8,6 +8,7 @@ const pageController = require("./controllers/pageController");
 router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);
+router.post("/update_account", userController.update_account);
 
 //pages
 router.get("/", pageController.home); // home

@@ -25,27 +25,35 @@
 
             </div>
             <div class="d-flex justify-content-end align-items-end">
-                <span id="modal-btn" class="">Update</span>
 
+                <img id="modal-btn" src="images/edit.png" width="19" alt="" class="" />
             </div>
         </div>
-        <div id="my-modal" class="modal">
+        <div id="my-modal" class="modal ">
             <div class="modal-content">
                 <div class="modal-header bg-dark">
                     <span class="close">&times;</span>
                     <h2>Edit Account</h2>
                 </div>
-                <div class="modal-body">
-                    <p>This is my modal</p>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla repellendus nisi, sunt consectetur
-                        ipsa velit
-                        repudiandae aperiam modi quisquam nihil nam asperiores doloremque mollitia dolor deleniti
-                        quibusdam nemo
-                        commodi ab.</p>
+                <div class="modal-body ">
+                    <% account_data.forEach((data)=>{%>
+                        <form action="" class="form   d-flex  flex-direction-column align-items-start gap-20">
+
+
+                            <div class="d-flex flex-direction-column align-items-start">
+                                <label for="edit-user-name">Username</label>
+                                <input type="text" id="edit-user-name" value="<%= data.user_name %>">
+                            </div>
+                            <div class="d-flex flex-direction-column align-items-start">
+                                <label for="edit-user-email">Email</label>
+                                <input type="text" id="edit-user-email" value="<%= data.user_email %>">
+                            </div>
+                        </form>
+                        <% }) %>
                 </div>
                 <div class="modal-footer bg-white d-flex justify-content-end">
 
-                    <span class="btn btn-sm btn-primary">Update</span>
+                    <span id="update-btn" class="btn btn-sm btn-primary ">Update</span>
                 </div>
             </div>
         </div>

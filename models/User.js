@@ -194,4 +194,17 @@ User.prototype.test = function () {
   });
 };
 
+User.prototype.update_account = function () {
+  return new Promise((resolve, reject) => {
+    var sql = `UPDATE users SET user_name = '${this.data.user_name}' `;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      resolve();
+    });
+  });
+};
+
 module.exports = User;
