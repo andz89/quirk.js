@@ -1,20 +1,58 @@
 <%- include('../include/header') %>
 
     <div class="account-container">
-        <div class="account-content d-flex justiy-content-start flex-direction-column bg-light align-items-start">
-            <div class="account-body d-flex justify-content-start flex-direction-column gap-20 align-items-start my-2">
+        <div class="account-content d-flex justify-content-between  bg-light align-items-start">
+
+            <div class="account-body d-flex justify-content-start flex-direction-column gap-20 align-items-start ">
+
                 <h3 class="">Your Account</h3>
-                <div class="d-flex justify-content-start gap-10">
-                    <img src="images/username.png" width="19" alt="" class="" />
-                    <p>Username: andz89</p>
+
+                <% account_data.forEach((data)=>{%>
+                    <div class="d-flex justify-content-start gap-10">
+                        <img src="images/username.png" width="19" alt="" class="" />
+
+                        <p>Username: <%= data.user_name %>
+                        </p>
+
+                    </div>
+                    <div class="d-flex justify-content-start gap-10 ">
+                        <img src="images/email-black.png" width="20" alt="" class="" />
+                        <p>Email: <%= data.user_email %>
+                        </p>
+                    </div>
+
+                    <% }) %>
+
+            </div>
+            <div class="d-flex justify-content-end align-items-end">
+                <span id="modal-btn" class="">Update</span>
+
+            </div>
+        </div>
+        <div id="my-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header bg-dark">
+                    <span class="close">&times;</span>
+                    <h2>Edit Account</h2>
                 </div>
-                <div class="d-flex justify-content-start gap-10 ">
-                    <img src="images/email-black.png" width="20" alt="" class="" />
-                    <p>email: andz89@gmail.com</p>
+                <div class="modal-body">
+                    <p>This is my modal</p>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla repellendus nisi, sunt consectetur
+                        ipsa velit
+                        repudiandae aperiam modi quisquam nihil nam asperiores doloremque mollitia dolor deleniti
+                        quibusdam nemo
+                        commodi ab.</p>
                 </div>
+                <div class="modal-footer bg-white d-flex justify-content-end">
 
-
-
+                    <span class="btn btn-sm btn-primary">Update</span>
+                </div>
+            </div>
+        </div>
+        <div class="account-purchase-details d-flex justify-content-between gap-20 bg-light align-items-start   my-2">
+            <div>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem iure ipsa iste cupiditate odit sapiente
+                labore voluptatum ut officia quisquam.
             </div>
         </div>
     </div>
