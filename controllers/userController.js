@@ -54,7 +54,7 @@ exports.update_account = function (req, res) {
   user
     .update_account()
     .then(function () {
-      res.json(data);
+      res.send("true");
     })
     .catch((err) => {
       res.json(err);

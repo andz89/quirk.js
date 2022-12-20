@@ -13,9 +13,15 @@ class Update {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
           // console.log(xhttp.responseText);
           let data = JSON.parse(xhttp.responseText);
-          console.log(data);
-          // document.querySelector("#db_user_name").innerHTML = data.user_name;
-          // document.querySelector("#db_user_email").innerHTML = data.user_email;
+
+          if (data == true) {
+            document.querySelector("#db_user_name").innerHTML = user_name;
+            document.querySelector("#db_user_email").innerHTML = user_email;
+          } else {
+            document.querySelector("#user_name_error").innerHTML =
+              data.username;
+            document.querySelector("#user_email_error").innerHTML = data.email;
+          }
         }
       };
       xhttp.open(

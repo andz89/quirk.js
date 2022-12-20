@@ -127,7 +127,7 @@ User.prototype.validate = function () {
               this.errors_data.email = " *That email is already taken. ";
             }
             if (element.user_name === this.data.user_name) {
-              this.errors_data.username = "That username is already taken.";
+              this.errors_data.username = "*That username is already taken.";
             }
 
             resolve();
@@ -200,9 +200,8 @@ User.prototype.register = function () {
 };
 
 User.prototype.update_account = function () {
-  this.validate();
-
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
+    await this.validate();
     if (Object.keys(this.errors_data).length === 0) {
       var sql = `UPDATE users SET user_email = '${this.data.user_email}',user_name = '${this.data.user_name}' WHERE user_id = '${this.data.user_id}'`;
       db.query(sql, (err, result) => {
