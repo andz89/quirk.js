@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const db = require("../db");
-
+const { v4: uuidv4 } = require("uuid");
 const validator = require("validator");
 
 let User = function (data) {
@@ -145,11 +145,12 @@ User.prototype.register = function () {
   return new Promise(async (resolve, reject) => {
     this.cleanUp();
     await this.validate();
-
+    // uuidv4()
     if (Object.keys(this.errors_data).length === 0) {
       let salt = bcrypt.genSaltSync(10);
       this.data.user_password = bcrypt.hashSync(this.data.user_password, salt);
       let data = {
+        user_id: uuidv4(),
         user_name: this.data.user_name,
         user_email: this.data.user_email,
         user_password: this.data.user_password,
@@ -160,7 +161,8 @@ User.prototype.register = function () {
           reject(err);
           return false;
         }
-        resolve(result);
+
+        resolve();
       });
     } else {
       let data = {};
@@ -172,37 +174,15 @@ User.prototype.register = function () {
   });
 };
 
-User.prototype.test = function () {
-  return new Promise((resolve, reject) => {
-    let sql = `SELECT * FROM users WHERE user_email = "andzrivero89@gmail.com"`;
-
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
-
-      if (
-        result.length &&
-        bcrypt.compareSync("123456", result[0].user_password)
-      ) {
-        resolve(result);
-      } else {
-        reject("wrong password");
-      }
-    });
-  });
-};
-
 User.prototype.update_account = function () {
   return new Promise((resolve, reject) => {
-    var sql = `UPDATE users SET user_name = '${this.data.user_name}' `;
+    var sql = `UPDATE users SET user_email = '${this.data.user_email}',user_name = '${this.data.user_name}' WHERE user_id = '${this.data.user_id}'`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
         return false;
       }
-      resolve();
+      resolve(result);
     });
   });
 };

@@ -6,8 +6,7 @@ exports.login = (req, res) => {
     .login()
     .then((data) => {
       req.session.user = {
-        user_email: data[0].user_email,
-        user_name: data[0].user_name,
+        user_id: data[0].user_id,
       };
       req.session.save(function (err) {
         res.redirect("/");
@@ -18,7 +17,7 @@ exports.login = (req, res) => {
       req.flash("data", user_data);
 
       req.session.save(function () {
-        res.redirect("/login_page");
+        res.redirect("pages/login_page");
       });
     });
 };
@@ -33,10 +32,8 @@ exports.register = (req, res) => {
   let user = new User(req.body);
   user
     .register()
-    .then(() => {
-      req.session.user = {
-        user_name: user.data.user_name,
-      };
+    .then((data) => {
+      req.flash("success_message", "You have successfully registered");
       res.redirect("/");
     })
     .catch((data) => {
@@ -49,13 +46,12 @@ exports.register = (req, res) => {
     });
 };
 exports.update_account = function (req, res) {
-  const user_name = req.query.user_name;
-  const user_email = req.query.user_email;
-  let user = new User(user_name);
+  let data = {};
+  data.user_name = req.query.user_name;
+  data.user_email = req.query.user_email;
+  data.user_id = req.session.user.user_id;
+  let user = new User(data);
   user.update_account().then(function () {
-    console.log("successfully");
+    res.json(data);
   });
-  // if (user_name === req.session.user.user_name) {
-  //   console.log("matching user");
-  // }
 };

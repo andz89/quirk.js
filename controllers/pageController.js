@@ -2,16 +2,23 @@ const Page = require("../models/Page");
 
 exports.home = (req, res) => {
   if (req.session.user) {
-    res.render("pages/home-dashboard", {
-      user_name: req.session.user.user_name,
+    // console.log(req.session.user.user_id);
+    let page = new Page(req.session.user);
+    page.getAccount().then((data) => {
+      res.render("pages/home-dashboard", {
+        user_data: data,
+        // user_name: data,
+      });
     });
   } else {
-    res.render("pages/landing_page", { user_name: req.session.user });
+    res.render("users/login_page", {
+      success_message: req.flash("success_message"),
+    });
   }
 };
 exports.contact_page = (req, res) => {
   res.render("pages/contact_page", {
-    user_name: req.session.user, //for header fields
+    user_data: req.session.user, //for header fields
   });
 };
 exports.account_page = (req, res) => {
@@ -19,8 +26,7 @@ exports.account_page = (req, res) => {
     let page = new Page(req.session.user);
     page.getAccount().then((data) => {
       res.render("pages/account_page", {
-        user_name: req.session.user, //for header fields
-        account_data: data,
+        user_data: data, //for header fields
       });
     });
   } else {
@@ -37,7 +43,7 @@ exports.register_page = (req, res) => {
 exports.login_page = (req, res) => {
   res.render("users/login_page", {
     errors: req.flash("errors"),
-    user_data: req.flash("data"),
-    user_name: req.session.user,
+    user_data_input: req.flash("data"),
+    // user_data: req.session.user,
   });
 };

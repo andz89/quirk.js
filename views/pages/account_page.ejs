@@ -7,17 +7,21 @@
 
                 <h3 class="">Your Account</h3>
 
-                <% account_data.forEach((data)=>{%>
+                <% user_data.forEach((data)=>{%>
                     <div class="d-flex justify-content-start gap-10">
                         <img src="images/username.png" width="19" alt="" class="" />
 
-                        <p>Username: <%= data.user_name %>
+                        <p>Username: <span id="db_user_name">
+                                <%= data.user_name %>
+                            </span>
                         </p>
 
                     </div>
                     <div class="d-flex justify-content-start gap-10 ">
                         <img src="images/email-black.png" width="20" alt="" class="" />
-                        <p>Email: <%= data.user_email %>
+                        <p>Email: <span id="db_user_email">
+                                <%= data.user_email %>
+                            </span>
                         </p>
                     </div>
 
@@ -36,7 +40,7 @@
                     <h2>Edit Account</h2>
                 </div>
                 <div class="modal-body ">
-                    <% account_data.forEach((data)=>{%>
+                    <% user_data.forEach((data)=>{%>
                         <form action="" class="form   d-flex  flex-direction-column align-items-start gap-20">
 
 

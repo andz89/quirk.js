@@ -6,7 +6,7 @@ let Page = function (data) {
 
 Page.prototype.getAccount = function () {
   return new Promise((resolve, reject) => {
-    let sql = `SELECT * FROM users WHERE user_name = "${this.data.user_name}"`;
+    let sql = `SELECT * FROM users WHERE user_id = "${this.data.user_id}"`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);

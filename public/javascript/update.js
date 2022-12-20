@@ -8,18 +8,21 @@ class Update {
       data.user_name = user_name;
       data.user_email = user_email;
       var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = () => {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          // console.log(xhttp.responseText);
+          let data = JSON.parse(xhttp.responseText);
+
+          document.querySelector("#db_user_name").innerHTML = data.user_name;
+          document.querySelector("#db_user_email").innerHTML = data.user_email;
+        }
+      };
       xhttp.open(
         "POST",
         `http://localhost:5000/update_account?user_name=${data.user_name}&user_email=${data.user_email}`,
         true
       );
-
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("data-ajax").innerHTML = this.responseText;
-          //   console.log(this.responseText);
-        }
-      };
       xhttp.send();
     });
   }
