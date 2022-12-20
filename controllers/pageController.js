@@ -7,18 +7,18 @@ exports.home = (req, res) => {
     page.getAccount().then((data) => {
       res.render("pages/home-dashboard", {
         user_data: data,
-        // user_name: data,
+        session: req.session.user ? true : false,
       });
     });
   } else {
-    res.render("users/login_page", {
+    res.render("pages/landing_page", {
       success_message: req.flash("success_message"),
     });
   }
 };
 exports.contact_page = (req, res) => {
   res.render("pages/contact_page", {
-    user_data: req.session.user, //for header fields
+    session: req.session.user ? true : false,
   });
 };
 exports.account_page = (req, res) => {
@@ -26,7 +26,8 @@ exports.account_page = (req, res) => {
     let page = new Page(req.session.user);
     page.getAccount().then((data) => {
       res.render("pages/account_page", {
-        user_data: data, //for header fields
+        user_data: data,
+        session: req.session.user ? true : false,
       });
     });
   } else {
@@ -37,13 +38,11 @@ exports.register_page = (req, res) => {
   res.render("users/register_page", {
     regErrors: req.flash("regErrors"),
     users_data: req.flash("users_data"),
-    user_name: req.session.user, //for header fields
   });
 };
 exports.login_page = (req, res) => {
   res.render("users/login_page", {
     errors: req.flash("errors"),
-    user_data_input: req.flash("data"),
-    // user_data: req.session.user,
+    users_data: req.flash("users_data"),
   });
 };

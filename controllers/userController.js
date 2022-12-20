@@ -12,12 +12,12 @@ exports.login = (req, res) => {
         res.redirect("/");
       });
     })
-    .catch((user_data) => {
+    .catch((data) => {
       req.flash("errors", "Invalid username or password");
-      req.flash("data", user_data);
+      req.flash("users_data", data);
 
       req.session.save(function () {
-        res.redirect("pages/login_page");
+        res.redirect("/login_page");
       });
     });
 };
@@ -32,7 +32,7 @@ exports.register = (req, res) => {
   let user = new User(req.body);
   user
     .register()
-    .then((data) => {
+    .then(() => {
       req.flash("success_message", "You have successfully registered");
       res.redirect("/");
     })
@@ -51,7 +51,12 @@ exports.update_account = function (req, res) {
   data.user_email = req.query.user_email;
   data.user_id = req.session.user.user_id;
   let user = new User(data);
-  user.update_account().then(function () {
-    res.json(data);
-  });
+  user
+    .update_account()
+    .then(function () {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 };

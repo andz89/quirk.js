@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const db = require("../db");
 const { v4: uuidv4 } = require("uuid");
 const validator = require("validator");
+const e = require("express");
 
 let User = function (data) {
   this.data = data;
@@ -50,20 +51,26 @@ User.prototype.validate = function () {
       this.errors_data.password = " *You must provide a password. ";
     }
 
-    // length of input password
-    if (
-      this.data.user_password.length > 0 &&
-      this.data.user_password.length < 5
-    ) {
-      //   this.errors.push(
-      //     "you must povide atleast 12 characters in your password"
-      //   );
-      this.errors_data.password = " *you must povide atleast 6 characters. ";
+    //execute only if the id is true // user for registration only
+    if (this.data.user_id === true) {
+      // length of input password
+      if (
+        this.data.user_password.length > 0 &&
+        this.data.user_password.length < 5
+      ) {
+        //   this.errors.push(
+        //     "you must povide atleast 12 characters in your password"
+        //   );
+        this.errors_data.password = " *you must povide atleast 6 characters. ";
+      }
+
+      if (this.data.user_password.length > 30) {
+        //   this.errors.push("Password cannot exceed 30 characters");
+        this.errors_data.password = " *Password cannot exceed 30 characters ";
+      }
     }
-    if (this.data.user_password.length > 30) {
-      //   this.errors.push("Password cannot exceed 30 characters");
-      this.errors_data.password = " *Password cannot exceed 30 characters ";
-    }
+    // end ------------ execute only if the id is true // user for registration only
+
     // length of input username
     if (this.data.user_name.length > 0 && this.data.user_name.length < 3) {
       //   this.errors.push("you must povide atleast 3 characters in your username");
@@ -75,16 +82,36 @@ User.prototype.validate = function () {
     }
 
     const checkExistUsername = () => {
-      return new Promise((resolve, reject) => {
-        let sql = `SELECT * FROM users WHERE user_name = "${this.data.user_name}" OR user_email = "${this.data.user_email}"`;
-        db.query(sql, (err, result) => {
-          if (err) {
-            reject(err);
-            return false;
-          }
-          resolve(result);
+      if (this.data.user_id === true) {
+        console.log("id already");
+      } else {
+        console.log("no id  ");
+      }
+      if (this.data.user_id === true) {
+        return new Promise((resolve, reject) => {
+          let sql = `SELECT * FROM users WHERE user_name = "${this.data.user_name}"
+           OR user_email = "${this.data.user_email}"`;
+          db.query(sql, (err, result) => {
+            if (err) {
+              reject(err);
+              return false;
+            }
+            resolve(result);
+          });
         });
-      });
+      } else {
+        return new Promise((resolve, reject) => {
+          let sql = `SELECT * FROM users WHERE user_name = "${this.data.user_name}"
+           OR user_email = "${this.data.user_email}"`;
+          db.query(sql, (err, result) => {
+            if (err) {
+              reject(err);
+              return false;
+            }
+            resolve(result);
+          });
+        });
+      }
     };
 
     // Only if username and email is valid then check to see if it's already taken
@@ -95,18 +122,16 @@ User.prototype.validate = function () {
     ) {
       checkExistUsername().then((result) => {
         if (result.length) {
-          if (result[0].user_email === this.data.user_email) {
-            //   this.errors.push("That email is already taken.");
-            this.errors_data.email = " *That email is already taken. ";
+          result.forEach((element) => {
+            if (element.user_email === this.data.user_email) {
+              this.errors_data.email = " *That email is already taken. ";
+            }
+            if (element.user_name === this.data.user_name) {
+              this.errors_data.username = "That username is already taken.";
+            }
 
             resolve();
-          }
-          if (result[0].user_name === this.data.user_name) {
-            //   this.errors.push("That username is already taken.");
-            this.errors_data.username = "That username is already taken.";
-
-            resolve();
-          }
+          });
         } else {
           resolve();
         }
@@ -168,22 +193,28 @@ User.prototype.register = function () {
       let data = {};
       data.error = this.errors_data;
       data.user = this.data;
-
+      console.log(this.data);
       reject(data);
     }
   });
 };
 
 User.prototype.update_account = function () {
+  this.validate();
+
   return new Promise((resolve, reject) => {
-    var sql = `UPDATE users SET user_email = '${this.data.user_email}',user_name = '${this.data.user_name}' WHERE user_id = '${this.data.user_id}'`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
-      resolve(result);
-    });
+    if (Object.keys(this.errors_data).length === 0) {
+      var sql = `UPDATE users SET user_email = '${this.data.user_email}',user_name = '${this.data.user_name}' WHERE user_id = '${this.data.user_id}'`;
+      db.query(sql, (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }
+        resolve(result);
+      });
+    } else {
+      reject(this.errors_data);
+    }
   });
 };
 
