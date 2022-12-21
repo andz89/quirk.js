@@ -12,7 +12,9 @@
                         <img src="images/username.png" width="19" alt="" class="" />
 
                         <p>Username: <span id="db_user_name">
-                                <%= data.user_name %>
+                                <b>
+                                    <%= data.user_name %>
+                                </b>
                             </span>
                         </p>
 
@@ -20,7 +22,9 @@
                     <div class="d-flex justify-content-start gap-10 ">
                         <img src="images/email-black.png" width="20" alt="" class="" />
                         <p>Email: <span id="db_user_email">
-                                <%= data.user_email %>
+                                <b>
+                                    <%= data.user_email %>
+                                </b>
                             </span>
                         </p>
                     </div>
@@ -35,13 +39,14 @@
         </div>
         <div id="my-modal" class="modal ">
             <div class="modal-content">
-                <div class="modal-header bg-dark">
+                <div class="modal-header bg-dark d-flex justify-content-between">
+                    <p>Update Account</p>
                     <span class="close">&times;</span>
-                    <h2>Update Account</h2>
+
                 </div>
                 <div style="height: 23px;" class="bg-white">
                     <div id="success-message" class="bg-success text text-center d-none  opacity-8">
-                        <span class="">Changes Save</span>
+                        <span class="">Changes Saved</span>
 
                     </div>
                 </div>
