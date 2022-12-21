@@ -37,5 +37,7 @@ app.use(express.static("public")); // static file
 app.set("view engine", "ejs"); // ejs
 
 app.use("/", router);
-
+app.all("*", function (req, res) {
+  res.redirect("/");
+});
 module.exports = app;
