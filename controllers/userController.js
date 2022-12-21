@@ -34,7 +34,14 @@ exports.register = (req, res) => {
     .register()
     .then(() => {
       req.flash("success_message", "You have successfully registered");
-      res.redirect("/");
+      req.session.success = true;
+      req.session.temp = {
+        user_name: req.body.user_name,
+        user_email: req.body.user_email,
+      };
+      req.session.save(function (err) {
+        res.redirect("/success_registration_page");
+      });
     })
     .catch((data) => {
       req.flash("regErrors", data.error);
@@ -54,7 +61,7 @@ exports.update_account = function (req, res) {
   user
     .update_account()
     .then(function () {
-      res.send("true");
+      res.json(data);
     })
     .catch((err) => {
       res.json(err);

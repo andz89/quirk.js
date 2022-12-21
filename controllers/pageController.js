@@ -46,3 +46,17 @@ exports.login_page = (req, res) => {
     users_data: req.flash("users_data"),
   });
 };
+
+exports.success_registration_page = function (req, res) {
+  if (req.session.success == true) {
+    req.session.success = null;
+
+    res.render("pages/success_registration_page", {
+      success_message: req.flash("success_message"),
+      temp_data: req.session.temp,
+    });
+    req.session.temp = null;
+  } else {
+    res.redirect("/");
+  }
+};

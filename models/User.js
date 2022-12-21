@@ -124,10 +124,18 @@ User.prototype.validate = function () {
         if (result.length) {
           result.forEach((element) => {
             if (element.user_email === this.data.user_email) {
-              this.errors_data.email = " *That email is already taken. ";
+              if (element.user_id === this.data.user_id) {
+                console.log("di katulad");
+              } else {
+                this.errors_data.email = " *That email is already taken. ";
+              }
             }
             if (element.user_name === this.data.user_name) {
-              this.errors_data.username = "*That username is already taken.";
+              if (element.user_id === this.data.user_id) {
+                console.log("di katulad");
+              } else {
+                this.errors_data.username = "*That username is already taken.";
+              }
             }
 
             resolve();

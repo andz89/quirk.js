@@ -50,6 +50,7 @@
     transition: all 0.2s ease-in;
     border-radius: 2px;
     white-space: nowrap;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     &.btn-primary {
         @include set-background($primary-color);
 
@@ -275,8 +276,8 @@
         gap: 20px;
     }
 
-    //to be changed later
-    .pad-x{
-        padding:0 7px;
-    }
+    //to be changed laterbt
+   
 }
+
+

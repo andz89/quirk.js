@@ -61,3 +61,16 @@ $spaceamounts: (1, 2, 3, 4, 5);
     padding: 0 0 0 #{$space}rem;
   }
 }
+
+
+
+// Opacity
+$spaceamounts: (1,2,3,4,5,6,7,8,9);
+
+@each $space in $spaceamounts {
+  // All around margin
+  .opacity-#{$space} {
+    opacity: #{'.'}#{$space};
+  }
+  
+}

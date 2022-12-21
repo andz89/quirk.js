@@ -37,26 +37,34 @@
             <div class="modal-content">
                 <div class="modal-header bg-dark">
                     <span class="close">&times;</span>
-                    <h2>Edit Account</h2>
+                    <h2>Update Account</h2>
                 </div>
+                <div style="height: 23px;" class="bg-white">
+                    <div id="success-message" class="bg-success text text-center d-none  opacity-8">
+                        <span class="">Changes Save</span>
+
+                    </div>
+                </div>
+
                 <div class="modal-body ">
-                    <% user_data.forEach((data)=>{%>
-                        <form action="" class="form   d-flex  flex-direction-column align-items-start gap-10">
 
 
-                            <div class="d-flex flex-direction-column align-items-start">
-                                <label for="edit-user-name">Username</label>
-                                <input type="text" id="edit-user-name" value="<%= data.user_name %>">
-                                <small style="height: 10px;" class="text text-danger" id="user_name_error"></small>
-                            </div>
-                            <div class="d-flex flex-direction-column align-items-start">
-                                <label for="edit-user-email">Email</label>
-                                <input type="text" id="edit-user-email" value="<%= data.user_email %>">
-                                <small style="height: 10px;" class="text text-danger" id="user_email_error"></small>
+                    <form action="" class="form   d-flex  flex-direction-column align-items-start gap-10">
 
-                            </div>
-                        </form>
-                        <% }) %>
+
+                        <div class="d-flex flex-direction-column align-items-start">
+                            <label for="edit-user-name">Username</label>
+                            <input type="text" id="edit-user-name">
+                            <small style="height: 10px;" class="text text-danger" id="user_name_error"></small>
+                        </div>
+                        <div class="d-flex flex-direction-column align-items-start">
+                            <label for="edit-user-email">Email</label>
+                            <input type="text" id="edit-user-email">
+                            <small style="height: 10px;" class="text text-danger" id="user_email_error"></small>
+
+                        </div>
+                    </form>
+
                 </div>
                 <div class="modal-footer bg-white d-flex justify-content-end">
 

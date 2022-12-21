@@ -16,5 +16,9 @@ router.get("/account_page", pageController.account_page);
 router.get("/register_page", pageController.register_page);
 router.get("/contact_page", pageController.contact_page);
 router.get("/login_page", pageController.login_page);
+router.get(
+  "/success_registration_page",
+  pageController.success_registration_page
+);
 
 module.exports = router;
