@@ -13,7 +13,6 @@ User.prototype.cleanUp = function () {
     this.data.user_name = "";
   }
   if (typeof this.data.user_email != "string") {
-    console.log("cleanUp");
     this.data.user_email = "";
   }
   if (typeof this.data.user_password != "string") {
@@ -52,7 +51,7 @@ User.prototype.validate = function () {
     }
 
     //execute only if the id is true // user for registration only
-    if (this.data.user_id === true) {
+    if (this.data.user_id === undefined) {
       // length of input password
       if (
         this.data.user_password.length > 0 &&
@@ -82,11 +81,6 @@ User.prototype.validate = function () {
     }
 
     const checkExistUsername = () => {
-      if (this.data.user_id === true) {
-        console.log("id already");
-      } else {
-        console.log("no id  ");
-      }
       if (this.data.user_id === true) {
         return new Promise((resolve, reject) => {
           let sql = `SELECT * FROM users WHERE user_name = "${this.data.user_name}"
@@ -125,14 +119,12 @@ User.prototype.validate = function () {
           result.forEach((element) => {
             if (element.user_email === this.data.user_email) {
               if (element.user_id === this.data.user_id) {
-                console.log("di katulad");
               } else {
                 this.errors_data.email = " *That email is already taken. ";
               }
             }
             if (element.user_name === this.data.user_name) {
               if (element.user_id === this.data.user_id) {
-                console.log("di katulad");
               } else {
                 this.errors_data.username = "*That username is already taken.";
               }
@@ -201,7 +193,7 @@ User.prototype.register = function () {
       let data = {};
       data.error = this.errors_data;
       data.user = this.data;
-      console.log(this.data);
+
       reject(data);
     }
   });

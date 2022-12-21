@@ -23,6 +23,13 @@ nav ul li {
   display: inline-block;
   line-height: 50px;
   margin: 0 5px;
+
+  a.active,
+a:hover {
+  background: #fcfcfc;
+  transition: .5s;
+  color: #333;
+}
 }
 
 nav ul li a {
@@ -33,12 +40,7 @@ nav ul li a {
   text-transform: uppercase;
 }
 
-a.active,
-a:hover {
-  background: #fcfcfc;
-  transition: .5s;
-  color: #333;
-}
+
 
 .sign-btns {
   float: right;

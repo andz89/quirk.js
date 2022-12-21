@@ -51,11 +51,20 @@ exports.success_registration_page = function (req, res) {
   if (req.session.success == true) {
     req.session.success = null;
 
-    res.render("pages/success_registration_page", {
-      success_message: req.flash("success_message"),
-      temp_data: req.session.temp,
+    function success_registration() {
+      return new Promise((resolve, reject) => {
+        res.render("pages/success_registration_page", {
+          success_message: req.flash("success_message"),
+          temp_data: req.session.temp,
+        });
+
+        resolve();
+      });
+    }
+
+    success_registration().then(() => {
+      req.session.destroy();
     });
-    req.session.temp = null;
   } else {
     res.redirect("/");
   }
