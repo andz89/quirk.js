@@ -13,12 +13,14 @@ exports.login = (req, res) => {
       });
     })
     .catch((data) => {
-      req.flash("errors", "Invalid username or password");
-      req.flash("users_data", data);
+      setTimeout(() => {
+        req.flash("errors", "Invalid username or password");
+        req.flash("users_data", data);
 
-      req.session.save(function () {
-        res.redirect("/login_page");
-      });
+        req.session.save(function () {
+          res.redirect("/login_page");
+        });
+      }, 1000);
     });
 };
 
@@ -30,6 +32,7 @@ exports.logout = function (req, res) {
 
 exports.register = (req, res) => {
   let user = new User(req.body);
+
   user
     .register()
     .then(() => {
@@ -44,12 +47,14 @@ exports.register = (req, res) => {
       });
     })
     .catch((data) => {
-      req.flash("regErrors", data.error);
+      setTimeout(() => {
+        req.flash("regErrors", data.error);
 
-      req.flash("users_data", data.user);
-      req.session.save(function (err) {
-        res.redirect("/register_page");
-      });
+        req.flash("users_data", data.user);
+        req.session.save(function (err) {
+          res.redirect("/register_page");
+        });
+      }, 1000);
     });
 };
 exports.update_account = function (req, res) {
