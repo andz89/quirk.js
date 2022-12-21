@@ -2,26 +2,26 @@ const User = require("../models/User");
 
 exports.login = (req, res) => {
   let user = new User(req.body);
-  user
-    .login()
-    .then((data) => {
-      req.session.user = {
-        user_id: data[0].user_id,
-      };
-      req.session.save(function (err) {
-        res.redirect("/");
-      });
-    })
-    .catch((data) => {
-      setTimeout(() => {
+  setTimeout(() => {
+    user
+      .login()
+      .then((data) => {
+        req.session.user = {
+          user_id: data[0].user_id,
+        };
+        req.session.save(function (err) {
+          res.redirect("/");
+        });
+      })
+      .catch((data) => {
         req.flash("errors", "Invalid username or password");
         req.flash("users_data", data);
 
         req.session.save(function () {
           res.redirect("/login_page");
         });
-      }, 1000);
-    });
+      });
+  }, 1000);
 };
 
 exports.logout = function (req, res) {
@@ -32,30 +32,29 @@ exports.logout = function (req, res) {
 
 exports.register = (req, res) => {
   let user = new User(req.body);
-
-  user
-    .register()
-    .then(() => {
-      req.flash("success_message", "You have successfully registered");
-      req.session.success = true;
-      req.session.temp = {
-        user_name: req.body.user_name,
-        user_email: req.body.user_email,
-      };
-      req.session.save(function (err) {
-        res.redirect("/success_registration_page");
-      });
-    })
-    .catch((data) => {
-      setTimeout(() => {
+  setTimeout(() => {
+    user
+      .register()
+      .then(() => {
+        req.flash("success_message", "You have successfully registered");
+        req.session.success = true;
+        req.session.temp = {
+          user_name: req.body.user_name,
+          user_email: req.body.user_email,
+        };
+        req.session.save(function (err) {
+          res.redirect("/success_registration_page");
+        });
+      })
+      .catch((data) => {
         req.flash("regErrors", data.error);
 
         req.flash("users_data", data.user);
         req.session.save(function (err) {
           res.redirect("/register_page");
         });
-      }, 1000);
-    });
+      });
+  }, 1000);
 };
 exports.update_account = function (req, res) {
   let data = {};
