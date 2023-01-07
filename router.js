@@ -20,5 +20,6 @@ router.get(
   "/success_registration_page",
   pageController.success_registration_page
 );
+router.get("/canvas", pageController.canvas);
 
 module.exports = router;

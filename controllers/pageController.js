@@ -69,3 +69,13 @@ exports.success_registration_page = function (req, res) {
     res.redirect("/");
   }
 };
+exports.canvas = (req, res) => {
+  if (req.session.user) {
+    res.render("pages/canvas", {
+      // user_data: data,
+      // session: req.session.user ? true : false,
+    });
+  } else {
+    res.redirect("/");
+  }
+};
