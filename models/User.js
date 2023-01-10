@@ -2,7 +2,6 @@ const bcrypt = require("bcryptjs");
 const db = require("../db");
 const { v4: uuidv4 } = require("uuid");
 const validator = require("validator");
-const e = require("express");
 
 let User = function (data) {
   this.data = data;
@@ -165,7 +164,29 @@ User.prototype.login = function () {
     });
   });
 };
+User.prototype.admin_login = function () {
+  this.cleanUp();
 
+  return new Promise((resolve, reject) => {
+    let sql = `SELECT * FROM admin_user WHERE admin_user_email = "${this.data.user_email}"`;
+
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      if (
+        result.length &&
+        bcrypt.compareSync(this.data.user_password, result[0].password)
+      ) {
+        resolve(result);
+      } else {
+        reject(this.data);
+      }
+    });
+  });
+};
 User.prototype.register = function () {
   return new Promise(async (resolve, reject) => {
     this.cleanUp();

@@ -15,6 +15,14 @@ var sessionStore = new MySQLStore({
 
 const app = express();
 
+app.use(function (req, res, next) {
+  res.header(
+    "Cache-Control",
+    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+  );
+  next();
+});
+
 let sessionOptions = session({
   name: process.env.SESS_NAME,
   secret: process.env.SESS_SECRET,

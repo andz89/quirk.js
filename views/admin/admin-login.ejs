@@ -1,9 +1,9 @@
-<%- include('../include/header') %>
+<%- include('../include/header_link') %>
 
-  <div class="p-1 ">
+  <div class="p-1 " style="min-height:400px">
     <div class="d-flex justify-content-center flex-direction-column form-container py-2 bg-white">
 
-      <h1 class="text text-primary">Quirktool</h1>
+      <h1 class="text text-primary">Hello Admin!</h1>
 
       <div style="height: 10px">
         <% if(locals.errors){ %>
@@ -17,7 +17,7 @@
           <% } %>
       </div>
 
-      <form action="/login" method="POST" class="login-form form">
+      <form action="/admin-login-request" method="POST" class="login-form form">
 
         <div class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1">
           <input name="user_email" type="text" placeholder="Email" autocomplete="off"
@@ -37,11 +37,7 @@
 
           </div>
 
-          <div class="d-flex justify-content-end">
-            <small>
-              <a href="/register_page" class="text text-dark white-hover">
-                &nbsp;Sign up for Quirk? &nbsp;</a></small>
-          </div>
+
         </div>
       </form>
     </div>

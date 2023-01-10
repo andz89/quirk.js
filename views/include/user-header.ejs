@@ -1,0 +1,53 @@
+<%- include('../include/header_link') %>
+
+  <body>
+    <nav class="bg-primary">
+      <input type="checkbox" id="check" />
+      <label for="check" class="checkbtn">
+        <div class="burger">
+          <div class="line1"></div>
+          <div class="line2"></div>
+          <div class="line3"></div>
+        </div>
+      </label>
+      <label class="text text-white title">Quirktool</label>
+      <ul>
+        <li>
+          <a href="/" class="">Home</a>
+        </li>
+        <li>
+          <a href="/canvas" target="_blank" class="">Canvas</a>
+        </li>
+        <li>
+          <a href="" class="">Templates</a>
+        </li>
+
+        <li>
+          <a href="/contact_page" class="">Contact Us</a>
+        </li>
+        <% if(locals.session ){ %>
+
+          <li>
+            <a href="" class="">Purchase</a>
+          </li>
+
+          <li>
+            <a href="/account_page" class="">Account</a>
+          </li>
+          <li>
+            <form action="/logout" method="POST" class="">
+              <input type="submit" class="btn btn-sm btn-light" value="Sign Out" />
+            </form>
+          </li>
+
+          <% }else{ %>
+
+            <div class="sign-btns">
+              <a href="/login_page" class="btn btn-sm btn-light"> Sign In</a>
+
+              <a href="/register_page" class="btn btn-sm btn-success">Sign Up</a>
+            </div>
+
+            <% } %>
+      </ul>
+    </nav>

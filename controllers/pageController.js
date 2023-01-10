@@ -2,7 +2,6 @@ const Page = require("../models/Page");
 
 exports.home = (req, res) => {
   if (req.session.user) {
-    // console.log(req.session.user.user_id);
     let page = new Page(req.session.user);
     page.getAccount().then((data) => {
       res.render("pages/home-dashboard", {
@@ -41,10 +40,14 @@ exports.register_page = (req, res) => {
   });
 };
 exports.login_page = (req, res) => {
-  res.render("users/login_page", {
-    errors: req.flash("errors"),
-    users_data: req.flash("users_data"),
-  });
+  if (req.session.user) {
+    res.redirect("/");
+  } else {
+    res.render("users/login_page", {
+      errors: req.flash("errors"),
+      users_data: req.flash("users_data"),
+    });
+  }
 };
 
 exports.success_registration_page = function (req, res) {

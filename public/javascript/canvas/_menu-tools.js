@@ -2,7 +2,7 @@ import { Modification } from "./_modification.js";
 
 export class Menu_tools extends Modification {
   loadPage() {
-    let link = "http://127.0.0.1:5501/certificate.jpg";
+    let link = "http://localhost:5000/images/certificate.jpg";
 
     fabric.Image.fromURL(link, (img) => {
       img.name = "background-image";
@@ -674,7 +674,7 @@ export class Menu_tools extends Modification {
   preview_image() {
     const preview_image = document.querySelector("#preview-image");
     const modal = document.querySelector("#modal-container");
-    const closeBtn = document.querySelector(".modal .close");
+    const closeBtn = document.querySelector(".modal-canvas .close");
     closeBtn.addEventListener("click", closeModal);
     window.addEventListener("click", outsideClick);
 

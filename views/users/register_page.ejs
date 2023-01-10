@@ -1,77 +1,76 @@
 <%- include('../include/header') %>
-  <%- include('../include/loader') %>
-    <div class="my-2">
-      <div class="d-flex flex-direction-column justify-content-center form-container bg-white">
-        <form action="./register" method="POST" id="registration-form" class="form">
-          <h1 class="text text-center text-primary my-1">Quirk</h1>
-          <div class="d-flex flex-direction-column align-items-start">
-            <label for="username-register" class="text-muted"><small>Username</small></label>
 
-            <input name="user_name" id="username-register" class="" type="text" placeholder="Pick a username"
-              autocomplete="off" value="<%= users_data.length ? users_data[0].user_name : '' %>" />
+  <div class="p-1 ">
+    <div class="d-flex flex-direction-column justify-content-center form-container bg-white">
+      <form action="./register" method="POST" id="registration-form" class="form">
+        <h1 class="text text-center text-primary my-1">Quirk</h1>
+        <div class="d-flex flex-direction-column align-items-start">
+          <label for="username-register" class="text-muted"><small>Username</small></label>
 
-            <div style="height: 5px">
-              <% if (regErrors.length) { %>
+          <input name="user_name" id="username-register" class="" type="text" placeholder="Pick a username"
+            autocomplete="off" value="<%= users_data.length ? users_data[0].user_name : '' %>" />
 
-                <small class="text text-danger text-small">
-                  <%= regErrors[0].username %>
-                </small>
-                <% } %>
-            </div>
-          </div>
+          <div style="height: 5px">
+            <% if (regErrors.length) { %>
 
-          <div class="my-1 d-flex flex-direction-column align-items-start">
-            <label for="email-register"><small>Email</small></label>
-            <input name="user_email" id="email-register" class="" type="text" placeholder="you@example.com"
-              autocomplete="off" value="<%= users_data.length ? users_data[0].user_email : '' %>" />
-            <div style="height: 5px">
-              <% if (regErrors.length) { %>
-
-                <small class="text text-danger text-small">
-                  <%= regErrors[0].email %>
-                </small>
-                <% } %>
-            </div>
-          </div>
-
-          <div class="my-1 d-flex flex-direction-column align-items-start">
-            <label for="password-register"><small>Password</small></label>
-            <input name="user_password" id="register-password" class="" type="password"
-              placeholder="Create a password" />
-
-            <div class="d-flex align-items-center check-password-container">
-              <input type="checkbox" id="check-password-register-input" />
-
-              <label for="check-password-register-input" class="pad-x"><small> Show Password</small>
-              </label>
-            </div>
-
-            <div style="height: 8px" class="">
-              <% if (regErrors.length) { %>
-                <small class="text text-danger text-small">
-                  <%= regErrors[0].password %>
-                </small>
-                <% } %>
-            </div>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-end py-1">
-            <input type="submit" id="register-button" class="btn btn-md btn-success" value="Submit" />
-
-            <div class="d-flex justify-content-end">
-              <small>
-                <a href="/login_page" class="text text-dark white-hover">
-                  Sign in for Quirk?
-                </a>
+              <small class="text text-danger text-small">
+                <%= regErrors[0].username %>
               </small>
-              <small>
-                <a href="/" class="text text-dark white-hover">
-                  &nbsp; Home &nbsp;
-                </a>
-              </small>
-            </div>
+              <% } %>
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div class="my-1 d-flex flex-direction-column align-items-start">
+          <label for="email-register"><small>Email</small></label>
+          <input name="user_email" id="email-register" class="" type="text" placeholder="you@example.com"
+            autocomplete="off" value="<%= users_data.length ? users_data[0].user_email : '' %>" />
+          <div style="height: 5px">
+            <% if (regErrors.length) { %>
+
+              <small class="text text-danger text-small">
+                <%= regErrors[0].email %>
+              </small>
+              <% } %>
+          </div>
+        </div>
+
+        <div class="my-1 d-flex flex-direction-column align-items-start">
+          <label for="password-register"><small>Password</small></label>
+          <input name="user_password" id="register-password" class="" type="password" placeholder="Create a password" />
+
+          <div class="d-flex align-items-center check-password-container">
+            <input type="checkbox" id="check-password-register-input" />
+
+            <label for="check-password-register-input" class="pad-x"><small> Show Password</small>
+            </label>
+          </div>
+
+          <div style="height: 8px" class="">
+            <% if (regErrors.length) { %>
+              <small class="text text-danger text-small">
+                <%= regErrors[0].password %>
+              </small>
+              <% } %>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-end py-1">
+          <input type="submit" id="register-button" class="btn btn-md btn-success" value="Submit" />
+
+          <div class="d-flex justify-content-end">
+            <small>
+              <a href="/login_page" class="text text-dark white-hover">
+                Sign in for Quirk?
+              </a>
+            </small>
+            <small>
+              <a href="/" class="text text-dark white-hover">
+                &nbsp; Home &nbsp;
+              </a>
+            </small>
+          </div>
+        </div>
+      </form>
     </div>
-    <%- include('../include/footer') %>
+  </div>
+  <%- include('../include/footer') %>

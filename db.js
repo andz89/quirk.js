@@ -1,7 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-
 var mysql = require("mysql2");
 
 let pool = mysql.createPool({

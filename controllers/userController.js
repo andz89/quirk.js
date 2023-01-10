@@ -2,26 +2,25 @@ const User = require("../models/User");
 
 exports.login = (req, res) => {
   let user = new User(req.body);
-  setTimeout(() => {
-    user
-      .login()
-      .then((data) => {
-        req.session.user = {
-          user_id: data[0].user_id,
-        };
-        req.session.save(function (err) {
-          res.redirect("/");
-        });
-      })
-      .catch((data) => {
-        req.flash("errors", "Invalid username or password");
-        req.flash("users_data", data);
-
-        req.session.save(function () {
-          res.redirect("/login_page");
-        });
+  user
+    .login()
+    .then((data) => {
+      req.session.user = {
+        user_id: data[0].user_id,
+        user_email: data[0].user_email,
+      };
+      req.session.save(function (err) {
+        res.redirect("/");
       });
-  }, 1000);
+    })
+    .catch((data) => {
+      req.flash("errors", "Invalid username or password");
+      req.flash("users_data", data);
+
+      req.session.save(function () {
+        res.redirect("/login_page");
+      });
+    });
 };
 
 exports.logout = function (req, res) {
