@@ -35,5 +35,6 @@ router.get("/admin-templates", adminController.templates);
 
 //user admin action
 router.post("/admin-login-request", adminController.admin_login_post);
+router.post("/add-template", adminController.add_template);
 
 module.exports = router;

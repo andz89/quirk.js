@@ -16,4 +16,17 @@ Page.prototype.getAccount = function () {
     });
   });
 };
+
+Page.prototype.getTemplate = function () {
+  return new Promise((resolve, reject) => {
+    let sql = `SELECT * FROM templates WHERE template_id = "85ed40f4-3d45-4c30-a8f5-444cdbfd7b86"`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      resolve(result);
+    });
+  });
+};
 module.exports = Page;

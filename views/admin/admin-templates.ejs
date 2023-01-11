@@ -1,5 +1,51 @@
 <%- include('../include/admin-header') %>
     <div class="admin-templates-container" style="min-height: 400px;">
-        <div class="btn btn-sm btn-success">+ add Templates</div>
+        <div class="btn btn-sm btn-success" id="display-add-templates-form-btn">+ Add Templates</div>
+        <div class="hide" id="template-form">
+            <div class="d-flex justify-content-center bg-light p-1 m-1">
+                <form action="/add-template" method="POST" class="add-templates-form ">
+
+                    <div
+                        class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1">
+                        <div class="d-flex flex-direction-column align-items-start">
+                            <label for="">Template Name</label>
+                            <input name="template_name" type="text" placeholder="Template Name" autocomplete="off"
+                                value="" id="template-name" />
+                        </div>
+                        <div class="d-flex flex-direction-column align-items-start">
+                            <label for="">Template Description</label>
+
+                            <input name="template_description" type="text" placeholder="Template Description"
+                                id="template-description" autocomplete="off" value="" />
+                        </div>
+                        <input type="hidden" name="json_file" id="json_file">
+
+                        <label class="custom-file-upload">
+                            <input type="file" />
+                            Upload display image
+                        </label>
+                        <label class="custom-file-upload">
+                            <input type="file" />
+                            Upload canvas image
+                        </label>
+                        <label class="custom-file-upload">
+                            <input type="file" id="json-file" />
+                            Upload Json File
+                        </label>
+
+                    </div>
+                    <div class="d-flex justify-content-between align-items-end">
+                        <div>
+                            <button type="submit" id="" class="btn btn-md btn-dark">sumbit
+                                Template</button>
+
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
     <%- include('../include/footer') %>

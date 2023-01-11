@@ -64,8 +64,10 @@ exports.success_registration_page = function (req, res) {
   }
 };
 exports.canvas = (req, res) => {
-  res.render("pages/canvas", {
-    // user_data: data,
-    // session: req.session.user ? true : false,
+  let page = new Page(req.session.user);
+  page.getTemplate().then((data) => {
+    res.render("pages/canvas", {
+      data: data,
+    });
   });
 };

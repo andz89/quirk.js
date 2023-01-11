@@ -56,6 +56,7 @@ exports.register = (req, res) => {
       });
   }, 1000);
 };
+
 exports.update_account = function (req, res) {
   let data = {};
   data.user_name = req.query.user_name;
