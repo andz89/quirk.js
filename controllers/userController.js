@@ -8,6 +8,7 @@ exports.login = (req, res) => {
       req.session.user = {
         user_id: data[0].user_id,
         user_email: data[0].user_email,
+        user_role: "user",
       };
       req.session.save(function (err) {
         res.redirect("/");

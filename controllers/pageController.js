@@ -1,37 +1,28 @@
 const Page = require("../models/Page");
 
 exports.home = (req, res) => {
-  if (req.session.user) {
-    let page = new Page(req.session.user);
-    page.getAccount().then((data) => {
-      res.render("pages/home-dashboard", {
-        user_data: data,
-        session: req.session.user ? true : false,
-      });
-    });
-  } else {
-    res.render("pages/landing_page", {
-      success_message: req.flash("success_message"),
-    });
-  }
+  //session as user
+  res.render("pages/home-dashboard", {
+    user_data: req.session.user,
+    session: req.session.user ? true : false,
+    user_type: req.session.user.user_role,
+  });
 };
 exports.contact_page = (req, res) => {
   res.render("pages/contact_page", {
     session: req.session.user ? true : false,
+    user_type: req.session.user.user_role,
   });
 };
 exports.account_page = (req, res) => {
-  if (req.session.user) {
-    let page = new Page(req.session.user);
-    page.getAccount().then((data) => {
-      res.render("pages/account_page", {
-        user_data: data,
-        session: req.session.user ? true : false,
-      });
+  let page = new Page(req.session.user);
+  page.getAccount().then((data) => {
+    res.render("pages/account_page", {
+      user_data: data,
+      session: req.session.user ? true : false,
+      user_type: req.session.user.user_role,
     });
-  } else {
-    res.redirect("/");
-  }
+  });
 };
 exports.register_page = (req, res) => {
   res.render("users/register_page", {
@@ -73,12 +64,8 @@ exports.success_registration_page = function (req, res) {
   }
 };
 exports.canvas = (req, res) => {
-  if (req.session.user) {
-    res.render("pages/canvas", {
-      // user_data: data,
-      // session: req.session.user ? true : false,
-    });
-  } else {
-    res.redirect("/");
-  }
+  res.render("pages/canvas", {
+    // user_data: data,
+    // session: req.session.user ? true : false,
+  });
 };

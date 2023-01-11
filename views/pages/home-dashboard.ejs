@@ -1,26 +1,22 @@
 <%- include('../include/user-header') %>
 
-
   <!-- header ends here -->
   <div class="d-flex justify-content-center"></div>
 
   <div class="landing p-3">
 
     <div class="landing-inner">
-      <% user_data.forEach((data)=>{%>
 
-        <p class="lead">Hello <%= data.user_name %>, welcome to our Quirk App.</p>
-        <p class="lead">Easy Editable Template and Print!</p>
-        <% }) %>
-          <img
-            src="https://scontent.fmnl4-5.fna.fbcdn.net/v/t39.30808-6/279152074_5468115416554274_467610226593708106_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeFEVadaqHKPtujTwCzZ7tnuoDgG3FVzHkmgOAbcVXMeSenuH4w6-4S2pKYYPLaDel8FmjKE08wf2q0O5PhY-Kn1&_nc_ohc=cqFjqtfV5TIAX8KWBQg&tn=AGSpsFDZ1oUoNjTW&_nc_ht=scontent.fmnl4-5.fna&oh=00_AfAsmprCoi9TjOlnv2DksNrBzITgItkyS2hZjMq-Hxe4xw&oe=639F1AEE"
-            width="300" style="border-radius: 50%" alt="" />
-          <p class="">
-            Your feed displays the latest posts from the people you follow. If you
-            don&rsquo;t have any friends to follow that&rsquo;s okay; you can use the
-            &ldquo;Search&rdquo; feature in the top menu bar to find content written
-            by people with similar interests and then follow them.
-          </p>
+      <p class="lead">Hello <%= user_data.user_name %>, welcome to our Quirk App.</p>
+      <p class="lead">Easy Editable Template and Print!</p>
+
+
+      <p class="">
+        Your feed displays the latest posts from the people you follow. If you
+        don&rsquo;t have any friends to follow that&rsquo;s okay; you can use the
+        &ldquo;Search&rdquo; feature in the top menu bar to find content written
+        by people with similar interests and then follow them.
+      </p>
     </div>
   </div>
 

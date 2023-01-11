@@ -5,7 +5,7 @@ exports.dashboard = (req, res) => {
 };
 const User = require("../models/User");
 
-exports.admin_login = (req, res) => {
+exports.admin_login_post = (req, res) => {
   let user = new User(req.body);
   setTimeout(() => {
     user
@@ -31,19 +31,11 @@ exports.admin_login = (req, res) => {
   }, 1000);
 };
 exports.login_page = (req, res) => {
-  if (req.session.use && req.session.user.user_role == "admin") {
-    // naay session tapos ang role is admin
-    res.redirect("/dashboard");
-  } else if (req.session.user && !req.session.user.user_role) {
-    // naay session pero walay role na admin
-    res.redirect("/");
-  } else if (req.session.user) {
-    res.redirect("/");
-  } else {
-    // walay session
-    res.render("admin/admin-login", {
-      errors: req.flash("errors"),
-      users_data: req.flash("users_data"),
-    });
-  }
+  res.render("admin/admin-login", {
+    errors: req.flash("errors"),
+    users_data: req.flash("users_data"),
+  });
+};
+exports.templates = (req, res) => {
+  res.render("admin/admin-templates", {});
 };

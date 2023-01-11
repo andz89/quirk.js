@@ -46,6 +46,10 @@ app.set("view engine", "ejs"); // ejs
 
 app.use("/", router);
 app.all("*", function (req, res) {
-  res.redirect("/");
+  if (!req.session.user || req.session.user.user_role == "user") {
+    res.redirect("/");
+  } else {
+    res.redirect("/dashboard");
+  }
 });
 module.exports = app;

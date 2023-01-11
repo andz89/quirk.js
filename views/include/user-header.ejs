@@ -11,6 +11,8 @@
         </div>
       </label>
       <label class="text text-white title">Quirktool</label>
+
+
       <ul>
         <li>
           <a href="/" class="">Home</a>
@@ -23,31 +25,35 @@
         </li>
 
         <li>
-          <a href="/contact_page" class="">Contact Us</a>
+          <a href="/contact-page" class="">Contact Us</a>
         </li>
         <% if(locals.session ){ %>
 
           <li>
+
             <a href="" class="">Purchase</a>
           </li>
 
           <li>
-            <a href="/account_page" class="">Account</a>
-          </li>
-          <li>
-            <form action="/logout" method="POST" class="">
-              <input type="submit" class="btn btn-sm btn-light" value="Sign Out" />
-            </form>
+            <a href="/account-page" class="">Account</a>
           </li>
 
-          <% }else{ %>
-
-            <div class="sign-btns">
-              <a href="/login_page" class="btn btn-sm btn-light"> Sign In</a>
-
-              <a href="/register_page" class="btn btn-sm btn-success">Sign Up</a>
-            </div>
-
+          <% if(locals.user_type=='user' ){ %>
+            <li>
+              <form action="/logout" method="POST" class="">
+                <input type="submit" class="btn btn-sm btn-light" value="Sign Out" />
+              </form>
+            </li>
             <% } %>
+
+              <% }else{ %>
+
+                <div class="sign-btns">
+                  <a href="/login-page" class="btn btn-sm btn-light"> Sign In</a>
+
+                  <a href="/register-page" class="btn btn-sm btn-success">Sign Up</a>
+                </div>
+
+                <% } %>
       </ul>
     </nav>
