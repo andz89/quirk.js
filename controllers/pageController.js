@@ -64,10 +64,16 @@ exports.success_registration_page = function (req, res) {
   }
 };
 exports.canvas = (req, res) => {
-  let page = new Page(req.session.user);
+  let page = new Page();
   page.getTemplate().then((data) => {
+    let template_json = data[0].json_file
+    let b = data[0].template_description
+    let template_id = data[0].template_id
+  
     res.render("pages/canvas", {
-      data: data,
+      template_json:template_json,
+      template_id: template_id,
+      saved_json:b
     });
   });
 };

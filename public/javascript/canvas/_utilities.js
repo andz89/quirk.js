@@ -1,5 +1,5 @@
 import { Modification } from "./_modification.js";
-
+import { textbox_property } from "./object_property.js";
 export class Utilities extends Modification {
   deleteObjects() {
     window.addEventListener("keydown", (e) => {
@@ -146,6 +146,7 @@ export class Utilities extends Modification {
       if (activeObj.name === "boxCropper") {
         return false;
       }
+  
       this.updateModifications(true);
     };
 
@@ -167,11 +168,63 @@ export class Utilities extends Modification {
       }
     };
     // font size change when scaling
+    this.canvas.store_objects = []
     const mouseUp_object = (o) => {
       let activeObj = o.target;
-      if (activeObj !== null && activeObj.type === "textbox") {
+      if (activeObj !== null  && activeObj.type === "textbox") {
         document.querySelector("#fontSize").value = activeObj.fontSize;
       }
+      if(activeObj){
+    
+              let data = {}
+              data.id = activeObj.id
+              data.top = activeObj.top;
+              data.left = activeObj.left
+              let index
+        
+              let addonExists = false;
+              for (let i = 0; i < this.canvas.store_objects.length; i++) {
+            
+                const element = this.canvas.store_objects[i];
+                if (element.id === data.id) {
+            
+                  addonExists = true;
+                  data.top = activeObj.top
+                  data.left = activeObj.left
+                  this.canvas.store_objects.push(data);
+                  this.canvas.store_objects.splice(element, 1);
+
+                  break;
+                }
+              }
+              addonExists || this.canvas.store_objects.push(data);
+
+              console.log(this.canvas.store_objects);
+              // if(this.canvas.store_objects.length > 0){
+              
+              //   const checkAdult =(e)=> {
+              //     if(e.id === activeObj.id){
+              //       return false
+              //     }
+                  
+                  
+              //       console.log('wala');
+              //       this.canvas.store_objects.push(data)
+              //       console.log(this.canvas.store_objects);
+                 
+              //   }
+              //   this.canvas.store_objects.some(checkAdult);
+              //     }else{
+              //       this.canvas.store_objects.push(data)
+              //       console.log(this.canvas.store_objects);
+              //     }
+
+     
+     
+      
+      }
+
+     
     };
 
     // set the cropper always active

@@ -16,17 +16,17 @@ class Add_templates {
     }
   }
   submit_template() {
+   
     if (document.querySelector("#json-file")) {
       document.querySelector("#json-file").addEventListener("change", (e) => {
         var reader = new FileReader();
         reader.onload = (event) => {
-          let json_file = event.target.result;
-          document.querySelector("#json_file").value = json_file;
+          let json = event.target.result;
+          
+          document.querySelector("#json_file").value = json;
         };
         reader.readAsText(e.target.files[0]);
       });
-
-      document;
     }
   }
 }

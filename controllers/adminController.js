@@ -13,6 +13,7 @@ exports.admin_login_post = (req, res) => {
     .admin_login()
     .then((data) => {
       req.session.user = {
+        user_id: data[0].id,
         user_name: data[0].admin_user_name,
         user_email: data[0].admin_user_email,
         user_role: data[0].admin_user_role,
@@ -41,12 +42,12 @@ exports.templates = (req, res) => {
 };
 
 exports.add_template = function (req, res) {
-  console.log(req.body);
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database
     .then(function () {
-      res.redirect("/admin-templates");
+      // res.redirect("/admin-templates");
+      res.render("admin/admin-templates");
     })
     .catch((err) => {
       res.send(err);

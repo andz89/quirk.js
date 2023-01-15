@@ -7,6 +7,7 @@ let User = function (data) {
   this.data = data;
   this.errors_data = {};
 };
+
 User.prototype.cleanUp = function () {
   if (typeof this.data.user_name != "string") {
     this.data.user_name = "";
@@ -219,6 +220,7 @@ User.prototype.register = function () {
     }
   });
 };
+// CONCAT('${this.data.user_email} +', old data here)
 
 User.prototype.update_account = function () {
   return new Promise(async (resolve, reject) => {
@@ -237,5 +239,27 @@ User.prototype.update_account = function () {
     }
   });
 };
+User.prototype.saved_template_database = function () {
+  // console.log(this.data);
+  return new Promise( (resolve, reject) => {
+  
+    console.log(this.data);
+      let data = {
+        user_id: this.data.user_id,
+        saved_json: this.data.saved_json,
+        template_id: this.data.template_id,
+ 
+      };
+      let sql = "INSERT INTO saved_template SET ?";
+      db.query(sql, data, (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }
 
+        resolve();
+      });
+   
+  });
+};
 module.exports = User;

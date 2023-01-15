@@ -1,94 +1,21 @@
 import { Canvas } from "./canvas.js";
 
 export class Open_file {
-  get_file_json(json) {
-    console.log(json);
+  get_file_json(json,template_id,user_json) {
+  
+    let a = JSON.parse(json);
+    
+    let canvas_saved = {
+      json: { version: "5.2.0", objects: a.json.objects, background: "#fff" },
+    };
 
-    // {
-    //   json: {
-    //     version: "5.2.0",
-    //     objects: [
-    //       {
-    //         type: "textbox",
-    //         version: "5.2.0",
-    //         originX: "left",
-    //         originY: "top",
-    //         left: 599.82,
-    //         top: 312.44,
-    //         width: 100,
-    //         height: 13.56,
-    //         fill: "rgb(0,0,0)",
-    //         stroke: null,
-    //         strokeWidth: 1,
-    //         strokeDashArray: null,
-    //         strokeLineCap: "butt",
-    //         strokeDashOffset: 0,
-    //         strokeLineJoin: "miter",
-    //         strokeUniform: false,
-    //         strokeMiterLimit: 4,
-    //         scaleX: 4.2,
-    //         scaleY: 4.2,
-    //         angle: 0,
-    //         flipX: false,
-    //         flipY: false,
-    //         opacity: 1,
-    //         shadow: null,
-    //         visible: true,
-    //         backgroundColor: "",
-    //         fillRule: "nonzero",
-    //         paintFirst: "fill",
-    //         globalCompositeOperation: "source-over",
-    //         skewX: 0,
-    //         skewY: 0,
-    //         fontFamily: "Times New Roman",
-    //         fontWeight: "normal",
-    //         fontSize: 12,
-    //         text: "Your Text Here",
-    //         underline: false,
-    //         overline: false,
-    //         linethrough: false,
-    //         textAlign: "center",
-    //         fontStyle: "normal",
-    //         lineHeight: 1.16,
-    //         textBackgroundColor: "",
-    //         charSpacing: 0,
-    //         styles: {},
-    //         direction: "ltr",
-    //         path: null,
-    //         pathStartOffset: 0,
-    //         pathSide: "left",
-    //         pathAlign: "baseline",
-    //         minWidth: 20,
-    //         splitByGrapheme: true,
-    //         editable: false,
-    //         borderColor: "#333",
-    //         cornerColor: "#17a2b8",
-    //         cornerSize: 13,
-    //         cornerStyle: "circle",
-    //         transparentCorners: false,
-    //         _controlsVisibility: { mtr: false },
-    //         lockMovementX: false,
-    //         lockMovementY: false,
-    //         lockScalingX: false,
-    //         lockScalingY: false,
-    //         selectable: true,
-    //         id: "202306153499525523",
-    //         name: "column-1-textbox",
-    //       },
-    //     ],
-    //     background: "#fff",
-    //   },
-    //   size: { w: 1754, h: 1240 },
-    //   fileHandle: { s: {} },
-    // };
-    let canvas_saved = JSON.parse(json);
     let fileName = "project.json";
 
     const run_json_file = (canvas_saved, fileName) => {
       let canvasScale = 1;
       let SCALE_FACTOR = 1.1;
-      let width = canvas_saved.size.w;
-      let height = canvas_saved.size.h;
+      let width = "1754";
+      let height = "1240";
 
       document.querySelector("#file_name").innerHTML = fileName.replace(
         ".json",
@@ -109,6 +36,21 @@ export class Open_file {
       let canvas_created = canvas(width, height);
 
       canvas_created.loadFromJSON(canvas_saved.json);
+     
+      let c = JSON.parse(user_json)
+      canvas_created.template_id = template_id //saving the template id in canvas
+      c.forEach(element => {
+       
+      let a = canvas_created.getObjects().filter((e)=>{
+        return e.id == element.id
+      })
+     
+      a[0].top = element.top;
+      a[0].left = element.left;
+      
+      canvas_created.renderAll()
+    });
+
 
       let canvasInit = new Canvas({
         canvas: canvas_created,

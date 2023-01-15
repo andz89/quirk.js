@@ -10,7 +10,7 @@ router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 router.post("/update_account", userController.update_account);
-
+router.post("/saved-template", userController.saved_template);
 //pages
 router.get("/", middleware.home_role, pageController.home); // home
 router.get("/account-page", middleware.role_user, pageController.account_page);
@@ -36,5 +36,7 @@ router.get("/admin-templates", adminController.templates);
 //user admin action
 router.post("/admin-login-request", adminController.admin_login_post);
 router.post("/add-template", adminController.add_template);
+
+
 
 module.exports = router;

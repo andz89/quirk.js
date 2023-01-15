@@ -72,3 +72,20 @@ exports.update_account = function (req, res) {
       res.json(err);
     });
 };
+
+exports.saved_template = function (req, res) {
+  let data = {};
+  data.saved_json = req.query.saved_json;
+  data.user_id = req.session.user.user_id;
+  data.template_id = req.query.template_id;
+
+  let user = new User(data);
+  user
+    .saved_template_database()
+    .then(function () {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};

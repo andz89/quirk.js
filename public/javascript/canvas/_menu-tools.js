@@ -2,6 +2,9 @@ import { Modification } from "./_modification.js";
 
 export class Menu_tools extends Modification {
   loadPage() {
+    
+
+
     let link = "http://localhost:5000/images/certificate.jpg";
 
     fabric.Image.fromURL(link, (img) => {
@@ -50,7 +53,7 @@ export class Menu_tools extends Modification {
         centeredScaling: true,
       });
       object.name = object.type;
-
+    
       this.adding_object_style(object);
     });
   }
@@ -202,77 +205,25 @@ export class Menu_tools extends Modification {
     };
   }
 
-  async save_file_json() {
-    document.getElementById("save_json").addEventListener("click", async () => {
-      let json = this.canvas.toJSON([
-        "borderColor",
-        "cornerColor",
-        "cornerSize",
-        "cornerStyle",
-        "transparentCorners",
-        "_controlsVisibility",
-        "lockMovementX",
-        "lockMovementY",
-        "lockScalingX",
-        "lockScalingY",
-        "selectable",
-        "textAlign",
-        "fontFamily",
-        "id",
-        "name",
-        "clip_image_src_org",
-        "orig_url",
-      ]);
+ save_file_json() {
+    document.getElementById("save_json").addEventListener("click", () => {
+     let json = JSON.stringify(this.canvas.store_objects);
+     console.log(json);
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = () => {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          // console.log(xhttp.responseText);
+          let data = JSON.parse(xhttp.responseText);
+          console.log(data);
 
-      if (this.fileHandle == undefined) {
-        let suggest_name = document.querySelector("#file_name").innerHTML;
-
-        this.fileHandle = await window.showSaveFilePicker({
-          startIn: "desktop",
-          suggestedName: `${suggest_name}.json`,
-          types: [
-            {
-              description: "Text documents",
-              accept: {
-                "text/plain": [".json"],
-              },
-            },
-          ],
-        });
-        let size = {
-          w: this.width,
-          h: this.height,
-        };
-        let fileHandle = {
-          s: this.fileHandle,
-        };
-        let merge = {
-          json,
-          size,
-          fileHandle,
-        };
-        let stream = await this.fileHandle.createWritable();
-        await stream.write(JSON.stringify(merge));
-        await stream.close();
-        document.querySelector("#file_name").innerHTML =
-          this.fileHandle.name.replace(".json", " ");
-      } else {
-        let size = {
-          w: this.width,
-          h: this.height,
-        };
-        let fileHandle = {
-          s: this.fileHandle,
-        };
-        let merge = {
-          json,
-          size,
-          fileHandle,
-        };
-        let stream = await this.fileHandle.createWritable();
-        await stream.write(JSON.stringify(merge));
-        await stream.close();
-      }
+        }
+      };
+      xhttp.open(
+        "POST",
+        `http://localhost:5000/saved-template?saved_json=${json}&template_id=${this.canvas.template_id}`,
+        true
+      );
+      xhttp.send();
     });
   }
 
