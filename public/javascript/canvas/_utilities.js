@@ -112,16 +112,16 @@ export class Utilities extends Modification {
       activeObj.set("transparentCorners", false);
       activeObj.set("lockUniScaling", true);
 
-      // cropper box style
-      if (activeObj.name == "boxCropper") {
-        activeObj.set("borderColor", "red");
-        activeObj.set(" borderScaleFactor", 2);
-        activeObj.set("borderDashArray", [10]);
-        activeObj.set("cornerStyle", "rectangle");
-        activeObj.setControlsVisibility({ mtr: false });
-        activeObj.set("cornerSize", 12);
-        activeObj.set("cornerColor", "#333");
-      }
+      // // cropper box style
+      // if (activeObj.name == "boxCropper") {
+      //   activeObj.set("borderColor", "red");
+      //   activeObj.set(" borderScaleFactor", 2);
+      //   activeObj.set("borderDashArray", [10]);
+      //   activeObj.set("cornerStyle", "rectangle");
+      //   activeObj.setControlsVisibility({ mtr: false });
+      //   activeObj.set("cornerSize", 12);
+      //   activeObj.set("cornerColor", "#333");
+      // }
 
       // cropper box style
       if (activeObj.name == "boxCropper-clip") {
@@ -154,15 +154,9 @@ export class Utilities extends Modification {
     const scale_object = (o) => {
       let activeObj = o.target;
 
-      if (activeObj.type === "textbox") {
-        this.canvas.textbox_width_init = activeObj.getScaledWidth();
-        let a = activeObj.fontSize * activeObj.scaleX;
-        activeObj.fontSize = a;
-        activeObj.width = this.canvas.textbox_width_init;
-      }
       // resize corner size when scaling
       if (activeObj.getScaledWidth() < 600) {
-        activeObj.set("cornerSize", 6);
+        activeObj.set("cornerSize", 8);
       } else {
         activeObj.set("cornerSize", 12);
       }
@@ -175,7 +169,6 @@ export class Utilities extends Modification {
         document.querySelector("#fontSize").value = activeObj.fontSize;
       }
       if(activeObj){
-    
               let data = {}
               data.id = activeObj.id
               data.top = activeObj.top;
@@ -187,43 +180,16 @@ export class Utilities extends Modification {
             
                 const element = this.canvas.store_objects[i];
                 if (element.id === data.id) {
-            
                   addonExists = true;
                   data.top = activeObj.top
                   data.left = activeObj.left
                   this.canvas.store_objects.push(data);
                   this.canvas.store_objects.splice(element, 1);
-
                   break;
                 }
               }
               addonExists || this.canvas.store_objects.push(data);
-
-              console.log(this.canvas.store_objects);
-              // if(this.canvas.store_objects.length > 0){
-              
-              //   const checkAdult =(e)=> {
-              //     if(e.id === activeObj.id){
-              //       return false
-              //     }
-                  
-                  
-              //       console.log('wala');
-              //       this.canvas.store_objects.push(data)
-              //       console.log(this.canvas.store_objects);
-                 
-              //   }
-              //   this.canvas.store_objects.some(checkAdult);
-              //     }else{
-              //       this.canvas.store_objects.push(data)
-              //       console.log(this.canvas.store_objects);
-              //     }
-
-     
-     
-      
       }
-
      
     };
 

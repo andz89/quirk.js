@@ -208,7 +208,7 @@ export class Menu_tools extends Modification {
  save_file_json() {
     document.getElementById("save_json").addEventListener("click", () => {
      let json = JSON.stringify(this.canvas.store_objects);
-     console.log(json);
+ 
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {

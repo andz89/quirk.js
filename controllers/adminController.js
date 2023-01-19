@@ -47,7 +47,7 @@ exports.add_template = function (req, res) {
     .add_template_into_database() //database
     .then(function () {
       // res.redirect("/admin-templates");
-      res.render("admin/admin-templates");
+      res.redirect("/admin-templates");
     })
     .catch((err) => {
       res.send(err);

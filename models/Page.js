@@ -18,8 +18,56 @@ Page.prototype.getAccount = function () {
 };
 
 Page.prototype.getTemplate = function () {
-  return new Promise((resolve, reject) => {
-    let sql = `SELECT * FROM templates WHERE template_id = "fe7cffdb-fe58-4e7b-a562-c7a3402844c8"`;
+
+  return new Promise( async(resolve, reject) => {
+      //check if save template is exist
+      const check_saved_template = ()=>{
+        return new Promise((resolve, reject) => {
+  
+          let sql = `SELECT * FROM saved_template WHERE template_id = "d7c17c2b-7198-48a2-85ab-4b360b70bd5b"
+           && user_id = "${this.data.user_id}"`;
+        
+          db.query(sql, (err, result) => {
+         
+            if (err) {
+              reject(err);
+              return false;
+            }
+          
+            if(result.length > 0){//kung naa
+              resolve(result)
+            }else{
+       
+              resolve()
+            }
+         
+          });
+        });
+      }
+   await check_saved_template().then((saved_file)=>{
+
+       
+            let sql = `SELECT * FROM templates WHERE template_id = "d7c17c2b-7198-48a2-85ab-4b360b70bd5b"`;
+            db.query(sql, (err, result) => {
+              if (err) {
+                reject(err);
+                return false;
+              }
+              let data = {}
+              data.user_data = saved_file;
+              data.admin_data = result
+            
+              resolve(data);
+            });
+     
+      
+      })
+    })
+};
+
+Page.prototype.saveTemmplate_onload  = function (){
+  return new Promise(async (resolve, reject) => {
+    var sql = `UPDATE saved_template SET user_saved_template_onload = '${this.data.json}'  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
@@ -27,6 +75,7 @@ Page.prototype.getTemplate = function () {
       }
       resolve(result);
     });
-  });
-};
+
+});
+}
 module.exports = Page;

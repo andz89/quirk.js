@@ -25,20 +25,18 @@ exports.account_page = (req, res) => {
   });
 };
 exports.register_page = (req, res) => {
-  res.render("users/register_page", {
+  res.render("users/register-page", {
     regErrors: req.flash("regErrors"),
     users_data: req.flash("users_data"),
   });
 };
 exports.login_page = (req, res) => {
-  if (req.session.user) {
-    res.redirect("/");
-  } else {
-    res.render("users/login_page", {
+
+    res.render("users/login-page", {
       errors: req.flash("errors"),
       users_data: req.flash("users_data"),
     });
-  }
+  
 };
 
 exports.success_registration_page = function (req, res) {
@@ -64,16 +62,53 @@ exports.success_registration_page = function (req, res) {
   }
 };
 exports.canvas = (req, res) => {
-  let page = new Page();
+  let data = {}
+  data.user_id = req.session.user.user_id;
+  let page = new Page(data);
   page.getTemplate().then((data) => {
-    let template_json = data[0].json_file
-    let b = data[0].template_description
-    let template_id = data[0].template_id
-  
-    res.render("pages/canvas", {
-      template_json:template_json,
-      template_id: template_id,
-      saved_json:b
+    
+    var admin_json = JSON.parse(data.admin_data[0].json_file);
+    var user_json = JSON.parse(data.user_data[0].saved_json);
+console.log(user_json);
+    user_json.forEach(element => {
+            
+      let a = admin_json.json.objects.filter((e)=>{
+        return e.id == element.id
+      })
+     
+      a[0].top = element.top;
+      a[0].left = element.left;
+
     });
+//send to user saved template
+let data1 ={}
+data1.user_id = req.session.user.user_id;
+data1.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+data1.json = JSON.stringify(admin_json) ;
+
+
+let page_onload = new Page(data1);
+page_onload.saveTemmplate_onload().then(()=>{
+  if(data.user_data != undefined) {
+
+    res.render("pages/canvas", {
+      template_json:data.admin_data[0].json_file,
+      template_id: data.user_data[0].template_id,
+      saved_json:data.user_data[0].saved_json,
+    
+    });
+  }else{
+
+    res.render("pages/canvas", {
+      template_json:data.admin_data[0].json_file,
+      template_id: data.admin_data[0].template_id,
+    
+    });
+  }
+})
+    
+
+ 
+   
   });
 };

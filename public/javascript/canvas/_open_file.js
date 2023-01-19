@@ -37,19 +37,23 @@ export class Open_file {
 
       canvas_created.loadFromJSON(canvas_saved.json);
      
-      let c = JSON.parse(user_json)
-      canvas_created.template_id = template_id //saving the template id in canvas
-      c.forEach(element => {
-       
-      let a = canvas_created.getObjects().filter((e)=>{
-        return e.id == element.id
-      })
+      if(user_json){
+        let c = JSON.parse(user_json)
+        c.forEach(element => {
+            
+           let a = canvas_created.getObjects().filter((e)=>{
+             return e.id == element.id
+           })
+          
+           a[0].top = element.top;
+           a[0].left = element.left;
+           
+           canvas_created.renderAll()
+         });
+      }
      
-      a[0].top = element.top;
-      a[0].left = element.left;
-      
-      canvas_created.renderAll()
-    });
+      canvas_created.template_id = template_id //saving the template id in canvas
+   
 
 
       let canvasInit = new Canvas({

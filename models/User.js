@@ -9,6 +9,7 @@ let User = function (data) {
 };
 
 User.prototype.cleanUp = function () {
+
   if (typeof this.data.user_name != "string") {
     this.data.user_name = "";
   }
@@ -149,6 +150,7 @@ User.prototype.login = function () {
     let sql = `SELECT * FROM users WHERE user_email = "${this.data.user_email}"`;
 
     db.query(sql, (err, result) => {
+
       if (err) {
         reject(err);
         return false;
@@ -188,11 +190,15 @@ User.prototype.admin_login = function () {
     });
   });
 };
+
 User.prototype.register = function () {
+
   return new Promise(async (resolve, reject) => {
     this.cleanUp();
     await this.validate();
     // uuidv4()
+
+
     if (Object.keys(this.errors_data).length === 0) {
       let salt = bcrypt.genSaltSync(10);
       this.data.user_password = bcrypt.hashSync(this.data.user_password, salt);
@@ -239,27 +245,70 @@ User.prototype.update_account = function () {
     }
   });
 };
-User.prototype.saved_template_database = function () {
-  // console.log(this.data);
-  return new Promise( (resolve, reject) => {
-  
-    console.log(this.data);
-      let data = {
-        user_id: this.data.user_id,
-        saved_json: this.data.saved_json,
-        template_id: this.data.template_id,
- 
-      };
-      let sql = "INSERT INTO saved_template SET ?";
-      db.query(sql, data, (err, result) => {
-        if (err) {
-          reject(err);
-          return false;
-        }
 
-        resolve();
+
+User.prototype.saved_template_database  =function() {
+
+
+  return new Promise( async(resolve, reject) => {
+
+       //check if save template is exist
+    const check_saved_template = ()=>{
+      return new Promise((resolve, reject) => {
+        let sql = `SELECT * FROM saved_template WHERE template_id = "${this.data.template_id}"
+         && user_id = "${this.data.user_id}"`;
+  
+        db.query(sql, (err, result) => {
+     
+          if (err) {
+            reject(err);
+            return false;
+          }
+       
+            resolve(result)
+    
+       
+        });
       });
-   
+    }
+       //check if save template is exist
+        await check_saved_template().then((data)=>{
+          if(data != ''){
+          console.log(this.data.saved_json);
+            return new Promise(async (resolve, reject) => {
+                var sql = `UPDATE saved_template SET saved_json = '${this.data.saved_json}  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
+                db.query(sql, (err, result) => {
+                  if (err) {
+                    reject(err);
+                    return false;
+                  }
+                  resolve(result);
+                });
+            
+            });
+          }else{
+
+
+            let data = {
+              user_id: this.data.user_id,
+              saved_json: this.data.saved_json,
+              template_id: this.data.template_id,
+       
+            };
+            let sql = "INSERT INTO saved_template SET ?";
+            db.query(sql, data, (err, result) => {
+              if (err) {
+                reject(err);
+                return false;
+              }
+             
+              resolve();
+  
+            });
+         
+          }
+        });
+    
   });
 };
 module.exports = User;

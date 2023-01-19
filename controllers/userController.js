@@ -5,6 +5,7 @@ exports.login = (req, res) => {
   user
     .login()
     .then((data) => {
+
       req.session.user = {
         user_id: data[0].user_id,
         user_email: data[0].user_email,
@@ -17,9 +18,9 @@ exports.login = (req, res) => {
     .catch((data) => {
       req.flash("errors", "Invalid username or password");
       req.flash("users_data", data);
-
+     
       req.session.save(function () {
-        res.redirect("/login_page");
+        res.redirect("/login-page");
       });
     });
 };
@@ -47,11 +48,12 @@ exports.register = (req, res) => {
         });
       })
       .catch((data) => {
+    
         req.flash("regErrors", data.error);
 
         req.flash("users_data", data.user);
         req.session.save(function (err) {
-          res.redirect("/register_page");
+          res.redirect("/register-page");
         });
       });
   }, 1000);
@@ -76,6 +78,7 @@ exports.update_account = function (req, res) {
 exports.saved_template = function (req, res) {
   let data = {};
   data.saved_json = req.query.saved_json;
+console.log(req.session.user.user_id);  
   data.user_id = req.session.user.user_id;
   data.template_id = req.query.template_id;
 
