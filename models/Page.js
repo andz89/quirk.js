@@ -46,19 +46,27 @@ Page.prototype.getTemplate = function () {
       }
    await check_saved_template().then((saved_file)=>{
 
+    if(saved_file){
+      let data = {}
+      data.user_data = saved_file
+      resolve(data);
+    }else{
+      let sql = `SELECT * FROM templates WHERE template_id = "d7c17c2b-7198-48a2-85ab-4b360b70bd5b"`;
+      db.query(sql, (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }
+        let data = {}
+        
+        data.admin_data = result
+      
+        resolve(data);
+      });
+    }
+
        
-            let sql = `SELECT * FROM templates WHERE template_id = "d7c17c2b-7198-48a2-85ab-4b360b70bd5b"`;
-            db.query(sql, (err, result) => {
-              if (err) {
-                reject(err);
-                return false;
-              }
-              let data = {}
-              data.user_data = saved_file;
-              data.admin_data = result
-            
-              resolve(data);
-            });
+           
       })
     })
 };

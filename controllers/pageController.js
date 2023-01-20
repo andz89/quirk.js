@@ -63,25 +63,27 @@ exports.success_registration_page = function (req, res) {
 };
 exports.canvas = (req, res) => {
  
-  let data_0 = {}
-  data_0.user_id = req.session.user.user_id;
-  data_0.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+  let data_openTemplate = {}
+  data_openTemplate.user_id = req.session.user.user_id;
+  data_openTemplate.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
 
-  let page = new Page(data_0);
-  page.getTemplate().then((data) => {
+  let page = new Page(data_openTemplate);
+  page.getTemplate().then((data_from_query_after_loadPage) => {
 
-    if(data.user_data){
-      console.log(data.user_data);
-      var copy_json = JSON.parse(data.user_data[0].user_saved_template_onload);
-      var user_json = data.user_data[0].saved_json == '' ? '' : JSON.parse(data.user_data[0].saved_json);
+    if(data_from_query_after_loadPage.user_data){
+      console.log(data_from_query_after_loadPage.user_data);
+      var json_from_created_json_for_user = JSON.parse(data_from_query_after_loadPage.user_data[0].user_saved_template_onload);
+      var user_json = data_from_query_after_loadPage.user_data[0].saved_json == '' ? '' : JSON.parse(data_from_query_after_loadPage.user_data[0].saved_json);
   
   
    
-      let data1 ={}
-      if(data.user_data[0].saved_json != ''){//if naay luon
+      let data_saveModifiedJson ={}
+     
+      //if walay luon ang saved_json mag error cja mag process so need jud na naay luon maong naay if statement
+       //if naay luon ang saved_template na table sa user na save_json mo process sija
+      if(data_from_query_after_loadPage.user_data[0].saved_json != ''){
         user_json.forEach(element => {
-              
-          let a = copy_json.json.objects.filter((e)=>{
+          let a = json_from_created_json_for_user.json.objects.filter((e)=>{
             return e.id == element.id
           })
           a[0].top = element.top;
@@ -90,19 +92,20 @@ exports.canvas = (req, res) => {
         //send to user_saved_template
       }
    
-      data1.user_id = req.session.user.user_id;
-      data1.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
-      data1.json = data.user_data[0].saved_json == '' ? data.user_data[0].user_saved_template_onload : JSON.stringify(copy_json) ;
-      //dri ang problema kay ang orginal maoy na save sa user save template na row
+      data_saveModifiedJson.user_id = req.session.user.user_id;
+      data_saveModifiedJson.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+      data_saveModifiedJson.json = data_from_query_after_loadPage.user_data[0].saved_json == '' ? data_from_query_after_loadPage.user_data[0].user_saved_template_onload :
+      JSON.stringify(json_from_created_json_for_user) ;
+
   
-  let page_onload = new Page(data1);
+  let page_onload = new Page(data_saveModifiedJson);
   page_onload.save_modify_data().then(()=>{
-    console.log('sdfsdfdsfs');
-    let data_2 = {}
-    data_2.user_id = req.session.user.user_id;
-    data_2.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+
+    let data_to_get_saved_data = {}
+    data_to_get_saved_data.user_id = req.session.user.user_id;
+    data_to_get_saved_data.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
   
-    let get_saved_json_load = new Page(data_2);
+    let get_saved_json_load = new Page(data_to_get_saved_data);
   
     get_saved_json_load.get_saved_modified_data().then((data)=>{
         res.render("pages/canvas", {
@@ -114,14 +117,14 @@ exports.canvas = (req, res) => {
     
   })
     }else{
-      //create a copy of original template
-        data_0.user_saved_template_onload = data.admin_data[0].json_file
-      
-      let create_page = new Page(data_0)
+            //create a copy of original template
+        data_openTemplate.user_saved_template_onload = data_from_query_after_loadPage.admin_data[0].json_file 
+ 
+      let create_page = new Page(data_openTemplate)
       create_page.create_template_copy().then(()=>{
         res.render("pages/canvas", {
-          template_json:data.admin_data[0].json_file,
-          template_id:data.template_id,
+          template_json:data_from_query_after_loadPage.admin_data[0].json_file,
+          template_id:data_from_query_after_loadPage.template_id,
         });
       })
  
