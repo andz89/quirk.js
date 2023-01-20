@@ -62,50 +62,72 @@ exports.success_registration_page = function (req, res) {
   }
 };
 exports.canvas = (req, res) => {
-  let data = {}
-  data.user_id = req.session.user.user_id;
-  let page = new Page(data);
+ 
+  let data_0 = {}
+  data_0.user_id = req.session.user.user_id;
+  data_0.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+
+  let page = new Page(data_0);
   page.getTemplate().then((data) => {
+
+    if(data.user_data){
+      console.log(data.user_data);
+      var copy_json = JSON.parse(data.user_data[0].user_saved_template_onload);
+      var user_json = data.user_data[0].saved_json == '' ? '' : JSON.parse(data.user_data[0].saved_json);
+  
+  
+   
+      let data1 ={}
+      if(data.user_data[0].saved_json != ''){//if naay luon
+        user_json.forEach(element => {
+              
+          let a = copy_json.json.objects.filter((e)=>{
+            return e.id == element.id
+          })
+          a[0].top = element.top;
+          a[0].left = element.left;
+        });
+        //send to user_saved_template
+      }
+   
+      data1.user_id = req.session.user.user_id;
+      data1.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+      data1.json = data.user_data[0].saved_json == '' ? data.user_data[0].user_saved_template_onload : JSON.stringify(copy_json) ;
+      //dri ang problema kay ang orginal maoy na save sa user save template na row
+  
+  let page_onload = new Page(data1);
+  page_onload.save_modify_data().then(()=>{
+    console.log('sdfsdfdsfs');
+    let data_2 = {}
+    data_2.user_id = req.session.user.user_id;
+    data_2.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+  
+    let get_saved_json_load = new Page(data_2);
+  
+    get_saved_json_load.get_saved_modified_data().then((data)=>{
+        res.render("pages/canvas", {
+          template_json:data[0].user_saved_template_onload,
+          template_id:'d7c17c2b-7198-48a2-85ab-4b360b70bd5b',
+        });
     
-    var admin_json = JSON.parse(data.admin_data[0].json_file);
-    var user_json = JSON.parse(data.user_data[0].saved_json);
-console.log(user_json);
-    user_json.forEach(element => {
-            
-      let a = admin_json.json.objects.filter((e)=>{
-        return e.id == element.id
+    })
+    
+  })
+    }else{
+      //create a copy of original template
+        data_0.user_saved_template_onload = data.admin_data[0].json_file
+      
+      let create_page = new Page(data_0)
+      create_page.create_template_copy().then(()=>{
+        res.render("pages/canvas", {
+          template_json:data.admin_data[0].json_file,
+          template_id:data.template_id,
+        });
       })
-     
-      a[0].top = element.top;
-      a[0].left = element.left;
-
-    });
-//send to user saved template
-let data1 ={}
-data1.user_id = req.session.user.user_id;
-data1.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
-data1.json = JSON.stringify(admin_json) ;
-
-
-let page_onload = new Page(data1);
-page_onload.saveTemmplate_onload().then(()=>{
-  if(data.user_data != undefined) {
-
-    res.render("pages/canvas", {
-      template_json:data.admin_data[0].json_file,
-      template_id: data.user_data[0].template_id,
-      saved_json:data.user_data[0].saved_json,
+ 
+  
+    }
     
-    });
-  }else{
-
-    res.render("pages/canvas", {
-      template_json:data.admin_data[0].json_file,
-      template_id: data.admin_data[0].template_id,
-    
-    });
-  }
-})
     
 
  

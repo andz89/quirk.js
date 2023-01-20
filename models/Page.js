@@ -59,15 +59,13 @@ Page.prototype.getTemplate = function () {
             
               resolve(data);
             });
-     
-      
       })
     })
 };
 
-Page.prototype.saveTemmplate_onload  = function (){
+Page.prototype.save_modify_data  = function (){
   return new Promise(async (resolve, reject) => {
-    var sql = `UPDATE saved_template SET user_saved_template_onload = '${this.data.json}'  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
+    var sql = `UPDATE saved_template SET user_saved_template_onload = '${this.data.json}',saved_json = ''  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
@@ -75,6 +73,45 @@ Page.prototype.saveTemmplate_onload  = function (){
       }
       resolve(result);
     });
+
+});
+}
+Page.prototype.get_saved_modified_data = function (){
+  return new Promise(async (resolve, reject) => {
+   
+    let sql = `SELECT * FROM saved_template WHERE template_id = "${this.data.template_id}" && user_id = '${this.data.user_id}'`;
+    db.query(sql, (err, result) => {
+    
+      if (err) {
+        reject(err);
+        return false;
+      }
+     
+    
+      resolve(result);
+    });
+
+});
+}
+Page.prototype.create_template_copy = function (){
+  return new Promise(async (resolve, reject) => {
+    let data = {
+      user_id: this.data.user_id,
+      user_saved_template_onload: this.data.user_saved_template_onload,
+      template_id: this.data.template_id,
+
+    };
+    let sql = "INSERT INTO saved_template SET ?";
+    db.query(sql, data, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+     
+      resolve();
+
+    });
+ 
 
 });
 }

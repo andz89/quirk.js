@@ -29,4 +29,4 @@ window.addEventListener("resize", () => {
 
 let file = new Open_file();
 
-file.get_file_json(template_json,template_id,user_json);
+file.get_file_json(template_json,template_id);

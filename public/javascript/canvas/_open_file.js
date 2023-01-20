@@ -1,7 +1,7 @@
 import { Canvas } from "./canvas.js";
 
 export class Open_file {
-  get_file_json(json,template_id,user_json) {
+  get_file_json(json,template_id) {
   
     let a = JSON.parse(json);
     
@@ -37,20 +37,20 @@ export class Open_file {
 
       canvas_created.loadFromJSON(canvas_saved.json);
      
-      if(user_json){
-        let c = JSON.parse(user_json)
-        c.forEach(element => {
+      // if(user_json){
+      //   let c = JSON.parse(user_json)
+      //   c.forEach(element => {
             
-           let a = canvas_created.getObjects().filter((e)=>{
-             return e.id == element.id
-           })
+      //      let a = canvas_created.getObjects().filter((e)=>{
+      //        return e.id == element.id
+      //      })
           
-           a[0].top = element.top;
-           a[0].left = element.left;
+      //      a[0].top = element.top;
+      //      a[0].left = element.left;
            
-           canvas_created.renderAll()
-         });
-      }
+      //      canvas_created.renderAll()
+      //    });
+      // }
      
       canvas_created.template_id = template_id //saving the template id in canvas
    
