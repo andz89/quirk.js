@@ -51,7 +51,7 @@ export class Open_file {
       //      canvas_created.renderAll()
       //    });
       // }
-     
+
       canvas_created.template_id = template_id //saving the template id in canvas
    
 

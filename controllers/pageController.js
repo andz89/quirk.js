@@ -61,17 +61,33 @@ exports.success_registration_page = function (req, res) {
     res.redirect("/");
   }
 };
+
+exports.templates_page = (req, res) => {
+
+let templates = new Page()
+templates.getAllTemplates().then((data)=>{
+;
+  res.render("pages/templates", {
+    data: data,
+    template_id: 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b',
+    template_name: 'Award Certificate',
+    user_type: req.session.user.user_role,
+    session: req.session.user ? true : false,
+  }); 
+})
+  
+}
 exports.canvas = (req, res) => {
- 
+
   let data_openTemplate = {}
   data_openTemplate.user_id = req.session.user.user_id;
-  data_openTemplate.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+  data_openTemplate.template_id = req.query.id;
 
   let page = new Page(data_openTemplate);
   page.getTemplate().then((data_from_query_after_loadPage) => {
-
+ 
     if(data_from_query_after_loadPage.user_data){
-      console.log(data_from_query_after_loadPage.user_data);
+
       var json_from_created_json_for_user = JSON.parse(data_from_query_after_loadPage.user_data[0].user_saved_template_onload);
       var user_json = data_from_query_after_loadPage.user_data[0].saved_json == '' ? '' : JSON.parse(data_from_query_after_loadPage.user_data[0].saved_json);
   
@@ -93,7 +109,7 @@ exports.canvas = (req, res) => {
       }
    
       data_saveModifiedJson.user_id = req.session.user.user_id;
-      data_saveModifiedJson.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+      data_saveModifiedJson.template_id = req.query.id;
       data_saveModifiedJson.json = data_from_query_after_loadPage.user_data[0].saved_json == '' ? data_from_query_after_loadPage.user_data[0].user_saved_template_onload :
       JSON.stringify(json_from_created_json_for_user) ;
 
@@ -103,20 +119,20 @@ exports.canvas = (req, res) => {
 
     let data_to_get_saved_data = {}
     data_to_get_saved_data.user_id = req.session.user.user_id;
-    data_to_get_saved_data.template_id = 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+    data_to_get_saved_data.template_id = req.query.id;
   
     let get_saved_json_load = new Page(data_to_get_saved_data);
   
     get_saved_json_load.get_saved_modified_data().then((data)=>{
         res.render("pages/canvas", {
           template_json:data[0].user_saved_template_onload,
-          template_id:'d7c17c2b-7198-48a2-85ab-4b360b70bd5b',
+          template_id:req.query.id,
         });
     
     })
     
   })
-    }else{
+    }else if(data_from_query_after_loadPage.admin_data[0]){
             //create a copy of original template
         data_openTemplate.user_saved_template_onload = data_from_query_after_loadPage.admin_data[0].json_file 
  
@@ -124,11 +140,14 @@ exports.canvas = (req, res) => {
       create_page.create_template_copy().then(()=>{
         res.render("pages/canvas", {
           template_json:data_from_query_after_loadPage.admin_data[0].json_file,
-          template_id:data_from_query_after_loadPage.template_id,
+          template_id:data_from_query_after_loadPage.admin_data[0].template_id,
         });
       })
  
   
+    }else{
+      //if walay makita
+      res.redirect('/')
     }
     
     

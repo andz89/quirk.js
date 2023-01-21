@@ -10,29 +10,39 @@ $max-width: 1100px;
 
 
 //set text color based on bg
-@function set-text-color($color){
-    @if(lightness($color)> 50){
-        @return #333;
-    }@else {
-        @return #fff;
-    }
+@function set-text-color($color) {
+  @if(lightness($color)> 50) {
+    @return #333;
+  }
+
+  @else {
+    @return #fff;
+  }
 }
 
 
 //set background color and text color
 @mixin set-background($color) {
-    background-color: $color;
-    color:set-text-color($color);
+  background-color: $color;
+  color: set-text-color($color);
 }
 
 // Margin & Padding
-$spaceamounts: (1, 2, 3, 4, 5);
+$spaceamounts: (
+  1,
+  2,
+  3,
+  4,
+  5
+);
 
 @each $space in $spaceamounts {
+
   // All around margin
   .m-#{$space} {
     margin: #{$space}rem;
   }
+
   .mx-#{$space} {
     margin: 0 #{$space}rem;
   }
@@ -51,12 +61,15 @@ $spaceamounts: (1, 2, 3, 4, 5);
   .py-#{$space} {
     padding: #{$space}rem 0;
   }
+
   .px-#{$space} {
     padding: 0 #{$space}rem;
   }
+
   .pr-#{$space} {
     padding: 0 #{$space}rem 0 0;
   }
+
   .pl-#{$space} {
     padding: 0 0 0 #{$space}rem;
   }
@@ -65,12 +78,23 @@ $spaceamounts: (1, 2, 3, 4, 5);
 
 
 // Opacity
-$spaceamounts: (1,2,3,4,5,6,7,8,9);
+$spaceamounts: (
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+);
 
 @each $space in $spaceamounts {
+
   // All around margin
   .opacity-#{$space} {
     opacity: #{'.'}#{$space};
   }
-  
+
 }

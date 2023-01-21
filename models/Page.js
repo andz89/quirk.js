@@ -24,7 +24,7 @@ Page.prototype.getTemplate = function () {
       const check_saved_template = ()=>{
         return new Promise((resolve, reject) => {
   
-          let sql = `SELECT * FROM saved_template WHERE template_id = "d7c17c2b-7198-48a2-85ab-4b360b70bd5b"
+          let sql = `SELECT * FROM saved_template WHERE template_id = "${this.data.template_id}"
            && user_id = "${this.data.user_id}"`;
         
           db.query(sql, (err, result) => {
@@ -47,12 +47,17 @@ Page.prototype.getTemplate = function () {
    await check_saved_template().then((saved_file)=>{
 
     if(saved_file){
+
+
       let data = {}
       data.user_data = saved_file
       resolve(data);
     }else{
-      let sql = `SELECT * FROM templates WHERE template_id = "d7c17c2b-7198-48a2-85ab-4b360b70bd5b"`;
+  
+      let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
       db.query(sql, (err, result) => {
+  
+
         if (err) {
           reject(err);
           return false;
@@ -120,6 +125,24 @@ Page.prototype.create_template_copy = function (){
 
     });
  
+
+});
+}
+
+Page.prototype.getAllTemplates = function() {
+  return new Promise(async (resolve, reject) => {
+   
+    let sql = `SELECT * FROM templates`;
+    db.query(sql, (err, result) => {
+    
+      if (err) {
+        reject(err);
+        return false;
+      }
+     
+    
+      resolve(result);
+    });
 
 });
 }

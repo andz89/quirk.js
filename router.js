@@ -14,6 +14,8 @@ router.post("/saved-template", userController.saved_template);
 //pages
 router.get("/", middleware.home_role, pageController.home); // home
 router.get("/account-page", middleware.role_user, pageController.account_page);
+router.get("/templates", middleware.role_user, pageController.templates_page);
+
 
 router.get(
   "/register-page",

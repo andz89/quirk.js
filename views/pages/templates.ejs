@@ -1,0 +1,27 @@
+<%- include('../include/user-header') %>
+    <div style="min-height: 400px;" class="p-1">
+        <h2>Qurik Templates</h2>
+        <div class="my-2 d-flex  align-items-start" style="width: 100%;">
+            <% data.forEach((data)=>{%>
+
+                <div>
+                    <a href="/canvas?id=<%= data.template_id %> " target="_blank">
+                        <div class="d-flex  justify-content-center flex-direction-column" style="width: 200px;">
+                            <img src="http://localhost:5000/images/certificate.jpg" width="170" alt="">
+                            <h3 class="text text-dark">
+                                <%= data.template_name %>
+                            </h3>
+
+                        </div>
+
+                    </a>
+                </div>
+
+                <% }) %>
+
+
+        </div>
+    </div>
+
+
+    <%- include('../include/footer') %>

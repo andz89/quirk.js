@@ -273,9 +273,7 @@ User.prototype.saved_template_database  =function() {
     }
        //check if save template is exist
         await check_saved_template().then((data)=>{
-          console.log(data);
           if(data != ''){
-            console.log('edit');
             return new Promise(async (resolve, reject) => {
                 var sql = `UPDATE saved_template SET saved_json = '${this.data.saved_json}'  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
                 db.query(sql, (err, result) => {
@@ -290,7 +288,7 @@ User.prototype.saved_template_database  =function() {
             });
           }else{
           
-            console.log('new');
+
 
             let data = {
               user_id: this.data.user_id,
@@ -298,6 +296,7 @@ User.prototype.saved_template_database  =function() {
               template_id: this.data.template_id,
        
             };
+        
             let sql = "INSERT INTO saved_template SET ?";
             db.query(sql, data, (err, result) => {
               if (err) {

@@ -32,7 +32,7 @@ export class Canvas extends Modification {
       SCALE_FACTOR: this.SCALE_FACTOR,
       fileHandle: this.fileHandle,
     });
-    // menu_tools.loadPage();
+    menu_tools.loadPage();
     menu_tools.insertText(".dropbtn-insert-text");
     menu_tools.uploadImageLocalFile("#upload_image");
     menu_tools.save_file_json();

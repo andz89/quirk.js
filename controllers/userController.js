@@ -78,9 +78,9 @@ exports.update_account = function (req, res) {
 exports.saved_template = function (req, res) {
   let data = {};
   data.saved_json = req.query.saved_json;
-console.log(req.session.user.user_id);  
+
   data.user_id = req.session.user.user_id;
-  data.template_id =  'd7c17c2b-7198-48a2-85ab-4b360b70bd5b';
+  data.template_id =  req.query.template_id;
 
   let user = new User(data);
   user
