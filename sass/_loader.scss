@@ -1,55 +1,59 @@
-
-
-.lds-spinner-container{
-    background-color: $dark-color;
-    visibility: hidden;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    opacity: .5;
-    animation-name: modalopen;
-        // animation-duration: 3s;
+.lds-spinner-container {
+  background-color: $dark-color;
+  visibility: hidden;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  opacity: 1;
+  animation-name: modalopen;
+  // animation-duration: 3s;
 }
+
 @keyframes modalopen {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  from {
+    opacity: 0;
   }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .loader {
-    color: #FFF;
-    display: inline-block;
-    position: relative;
-    font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    box-sizing: border-box;
+  color: #FFF;
+  display: inline-block;
+  position: relative;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.loader::after {
+  content: '';
+  width: 3px;
+  height: 3px;
+  background: currentColor;
+  position: absolute;
+  bottom: 5px;
+  right: -5px;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite;
+}
+
+@keyframes animloader {
+  0% {
+    box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
   }
-  .loader::after {
-    content: '';  
-    width: 3px;
-    height: 3px;
-    background: currentColor;
-    position: absolute;
-    bottom: 5px;
-    right: -5px;
-    box-sizing: border-box;
-    animation: animloader 1s linear infinite;
+
+  50% {
+    box-shadow: 10px 0 white, 20px 0 rgba(255, 255, 255, 0);
   }
-  
-  @keyframes animloader {
-    0% {
-      box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
-    }
-    50% {
-      box-shadow: 10px 0 white, 20px 0 rgba(255, 255, 255, 0);
-    }
-    100% {
-      box-shadow: 10px 0 white, 20px 0 white;
-    }
+
+  100% {
+    box-shadow: 10px 0 white, 20px 0 white;
   }
+}

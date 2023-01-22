@@ -69,8 +69,7 @@ templates.getAllTemplates().then((data)=>{
 ;
   res.render("pages/templates", {
     data: data,
-    template_id: 'd7c17c2b-7198-48a2-85ab-4b360b70bd5b',
-    template_name: 'Award Certificate',
+
     user_type: req.session.user.user_role,
     session: req.session.user ? true : false,
   }); 

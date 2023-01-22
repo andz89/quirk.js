@@ -736,7 +736,7 @@ export class Menu_tools extends Modification {
         this.canvas.setHeight(this.canvas.current_height);
         this.canvas.setWidth(this.canvas.current_width);
         this.canvas.setZoom(this.canvas.current_canvasScale);
-        document.querySelector(".modal").style.display = "block";
+        document.querySelector(".modal-canvas").style.display = "block";
 
         this.loading("hidden");
       }, 1000);

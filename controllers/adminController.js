@@ -1,6 +1,6 @@
 const Admin = require("../models/Admin");
 const User = require("../models/User");
-
+const Page = require("../models/Page");
 exports.dashboard = (req, res) => {
   res.render("admin/dashboard", {
     data: "you are logged as admin",
@@ -38,7 +38,18 @@ exports.login_page = (req, res) => {
   });
 };
 exports.templates = (req, res) => {
-  res.render("admin/admin-templates", {});
+
+
+  let templates = new Page()
+templates.getAllTemplates().then((data)=>{
+;
+  res.render("admin/admin-templates", {
+    data: data,
+    user_type: req.session.user.user_role,
+    session: req.session.user ? true : false,
+  }); 
+})
+  
 };
 
 exports.add_template = function (req, res) {
@@ -55,3 +66,17 @@ exports.add_template = function (req, res) {
       res.send(err);
     });
 };
+exports.remove = function (req, res){
+  
+  let admin = new Admin();
+  admin
+    .remove() //database
+    .then(function () {
+      // res.redirect("/admin-templates");
+      res.send('Deleted')
+      
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+}

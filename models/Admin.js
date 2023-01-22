@@ -25,4 +25,19 @@ console.log(this.data);
     });
   });
 };
+
+Admin.prototype.remove = function (req, res) {
+  return new Promise( (resolve, reject) => {
+   
+    let sql = "DELETE FROM saved_template";
+    db.query(sql, (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      resolve();
+    });
+  });
+}
 module.exports = Admin;

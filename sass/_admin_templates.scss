@@ -1,33 +1,36 @@
-.admin-templates-container{
+.admin-templates-container {
     margin: 10px;
-    label{
+
+    label {
         font-size: .9rem;
     }
-  
-    .show{
+
+    .show {
         display: block;
     }
-    .hide{
+
+    .hide {
         display: none;
     }
-    input[type= 'text']{
+
+    input[type='text'] {
         background-color: #fff;
         margin: 0;
- 
+
     }
 
     input[type="file"] {
-        display: none;
+        // display: none;
     }
-    
+
     .custom-file-upload {
         border: 1px solid #ccc;
         background-color: #fff;
-
-        display: inline-block;
+        width: 100%;
+        gap: 5px;
         font-size: .8rem;
-        padding: 4px 12px;
+        padding: 7px 12px;
         cursor: pointer;
-    
+
     }
 }

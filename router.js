@@ -45,11 +45,13 @@ router.get(
 //admin page
 router.get("/dashboard", middleware.role_admin, adminController.dashboard);
 router.get("/admin-login", middleware.role_guest, adminController.login_page);
-router.get("/admin-templates", adminController.templates);
+router.get("/admin-templates", middleware.role_admin, adminController.templates);
 
 //user admin action
 router.post("/admin-login-request", adminController.admin_login_post);
 router.post("/add-template",upload.single('image') ,adminController.add_template);
+router.post("/remove" ,adminController.remove);
+
 
 
 

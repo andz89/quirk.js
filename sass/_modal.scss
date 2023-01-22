@@ -1,4 +1,4 @@
-.modal {
+.modal-canvas {
   display: none;
   position: fixed;
   z-index: 1;
@@ -12,7 +12,7 @@
 
 .modal-content {
 
-  margin: 10% auto;
+  margin: 0 auto;
   width: 360px;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
   animation-name: modalopen;
@@ -30,11 +30,12 @@
   color: #fff;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+  cursor: pointer;
 }
 
 .modal-body {
   padding: 10px 20px;
-  background: #fff;
+  background: rgba(7, 7, 7, 0.37);
 }
 
 .modal-footer {
