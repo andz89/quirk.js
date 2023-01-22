@@ -3,7 +3,7 @@
         <div class="btn btn-sm btn-success" id="display-add-templates-form-btn">+ Add Templates</div>
         <div class="hide" id="template-form">
             <div class="d-flex justify-content-center bg-light p-1 m-1">
-                <form action="/add-template" method="POST" class="add-templates-form ">
+                <form action="/add-template" method="POST" enctype="multipart/form-data" class="add-templates-form ">
 
                     <div
                         class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1">
@@ -20,12 +20,12 @@
                         </div>
                         <input type="hidden" name="json_file" id="json_file">
 
-                        <label class="custom-file-upload">
+                        <!-- <label class="custom-file-upload">
                             <input type="file" />
                             Upload display image
-                        </label>
+                        </label> -->
                         <label class="custom-file-upload">
-                            <input type="file" />
+                            <input type="file" name="image" />
                             Upload canvas image
                         </label>
                         <label class="custom-file-upload">

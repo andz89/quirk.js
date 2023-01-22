@@ -112,6 +112,10 @@ Page.prototype.create_template_copy = function (){
       user_id: this.data.user_id,
       user_saved_template_onload: this.data.user_saved_template_onload,
       template_id: this.data.template_id,
+      canvas_image: this.data.canvas_image,
+      template_name: this.data.template_name,
+
+
 
     };
     let sql = "INSERT INTO saved_template SET ?";

@@ -4,7 +4,19 @@ const userController = require("./controllers/userController");
 const pageController = require("./controllers/pageController");
 const adminController = require("./controllers/adminController");
 const middleware = require("./middleware/role");
-
+const { v4: uuidv4 } = require("uuid");
+const multer = require("multer");
+const path = require('path')
+const storage = multer.diskStorage({
+  destination: (req, file, cb)=>{
+    cb(null, 'public/images/ci')
+  },
+  filename: (req, file, cb)=>{
+    let a = file.originalname.replace(/\.[^/.]+$/, "")
+    cb(null,a + '-'+ uuidv4()+ path.extname(file.originalname))
+  }
+})
+const upload = multer({storage: storage})
 //user action
 router.post("/register", userController.register);
 router.post("/login", userController.login);
@@ -37,7 +49,7 @@ router.get("/admin-templates", adminController.templates);
 
 //user admin action
 router.post("/admin-login-request", adminController.admin_login_post);
-router.post("/add-template", adminController.add_template);
+router.post("/add-template",upload.single('image') ,adminController.add_template);
 
 
 

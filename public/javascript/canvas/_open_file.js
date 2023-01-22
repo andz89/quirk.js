@@ -1,7 +1,7 @@
 import { Canvas } from "./canvas.js";
 
 export class Open_file {
-  get_file_json(json,template_id) {
+  get_file_json(json,template_id,template_name) {
   
     let a = JSON.parse(json);
     
@@ -9,18 +9,15 @@ export class Open_file {
       json: { version: "5.2.0", objects: a.json.objects, background: "#fff" },
     };
 
-    let fileName = "project.json";
 
-    const run_json_file = (canvas_saved, fileName) => {
+
+    const run_json_file = (canvas_saved) => {
       let canvasScale = 1;
       let SCALE_FACTOR = 1.1;
       let width = "1754";
       let height = "1240";
 
-      document.querySelector("#file_name").innerHTML = fileName.replace(
-        ".json",
-        ""
-      ); // file name
+      document.querySelector("#file_name").innerHTML = template_name
 
       const canvas = (width, height) => {
         let c = document.createElement("canvas");
@@ -37,21 +34,6 @@ export class Open_file {
 
       canvas_created.loadFromJSON(canvas_saved.json);
      
-      // if(user_json){
-      //   let c = JSON.parse(user_json)
-      //   c.forEach(element => {
-            
-      //      let a = canvas_created.getObjects().filter((e)=>{
-      //        return e.id == element.id
-      //      })
-          
-      //      a[0].top = element.top;
-      //      a[0].left = element.left;
-           
-      //      canvas_created.renderAll()
-      //    });
-      // }
-
       canvas_created.template_id = template_id //saving the template id in canvas
    
 
@@ -137,6 +119,6 @@ export class Open_file {
         object.lockScalingY = bollean;
       }
     };
-    run_json_file(canvas_saved, fileName);
+    run_json_file(canvas_saved);
   }
 }

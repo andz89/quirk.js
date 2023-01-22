@@ -42,6 +42,8 @@ exports.templates = (req, res) => {
 };
 
 exports.add_template = function (req, res) {
+
+  let a = req.body.file = req.file.filename
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database

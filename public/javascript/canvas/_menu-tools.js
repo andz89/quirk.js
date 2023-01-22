@@ -5,7 +5,7 @@ export class Menu_tools extends Modification {
     
 
 
-    let link = "http://localhost:5000/images/certificate.jpg";
+    let link = canvas_image;
 
     fabric.Image.fromURL(link, (img) => {
       img.name = "background-image";
