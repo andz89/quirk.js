@@ -155,7 +155,7 @@
 
 
         <div class="modal-content ">
-            <div class="p-1 d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center justify-content-between">
 
                 <div>
                     <h2> Data 1</h2>
@@ -194,13 +194,20 @@
 
 
 
-            <div class="d-flex justify-content-end gap-10">
-                <div class="btn btn-sm btn-success text text-center generate-certificate-button ">
-                    <h3>Loop name</h3>
+            <div class="d-flex justify-content-between   bg-dark modal-footer">
+                <div>
+                    <img src="./images/canvas/case.png" class="" id="sentence-case" width="23" alt="">
+
                 </div>
-                <div class="btn btn-sm btn-dark text text-center close">
-                    <h3>Close</h3>
+                <div>
+                    <div class="btn btn-sm btn-success text text-center generate-certificate-button ">
+                        <h3>Generate</h3>
+                    </div>
+                    <div class="btn btn-sm btn-light text text-center close">
+                        <h3>Close</h3>
+                    </div>
                 </div>
+
 
             </div>
 
@@ -274,9 +281,7 @@
                                             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1LjIgOC43NiI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNjY2M7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5pdGFsaWM8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl80IiBkYXRhLW5hbWU9IkxheWVyIDQiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTUuMjEsMi43NEM0LjA4LDIuODMsNCwyLjkxLDMuNzksMy44OUwyLjcxLDkuNTRjLS4yLDEtLjA4LDEuMTIsMSwxLjJsLS4wNy4zOEguMDlsLjA5LS4zOGMxLjA5LS4xLDEuMjEtLjE5LDEuNDEtMS4yTDIuNjgsMy44OWMuMTktMSwuMDgtMS4wNi0xLjA1LTEuMTVsLjA4LS4zOEg1LjNaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC4wOSAtMi4zNikiLz48L2c+PC9nPjwvc3ZnPg=="
                                             width="8" alt="" />
                                     </label>
-                                    <label id="sentence-case">
-                                        <img class=" " src="images/canvas/case.png" width="18" alt="" />
-                                    </label>
+
                                     <!-- alignLeftText -->
                                     <label id="alignLeftText">
                                         <img class=" "
@@ -385,16 +390,16 @@
 
     <div id="modal-container" class="modal-canvas">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header d-flex justify-content-end">
 
-                <h2>Preview</h2>
-                <div class="close-container">
-                    <div id="download_as_Zip">
+
+                <div class="close-container bg-light p-1">
+                    <div id="download_as_Zip" class="btn btn-sm btn-primary">
                         Download
                     </div>
-                    <a id="printCanvas">Print</a>
+                    <!-- <a id="printCanvas" class="btn btn-sm btn-light">Print</a> -->
                     <div>
-                        <span class="close">Close</span>
+                        <div class="btn btn-sm btn-dark close">Close</div>
 
                     </div>
 

@@ -5,21 +5,13 @@ export class Right_tools extends Modification {
     document.querySelector("#sentence-case").addEventListener("click", () => {
       let active = this.canvas.getActiveObject();
       if (active.name === "column-1-textbox") {
-        //to change the selected textbox to sentence case
-        let a = active.text.replace(/,(?=[^\s])/g, ", ");
-
-        let b = a.replace(/\w\S*/g, function (txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-        active.set({ text: b });
-        this.canvas.renderAll();
+      
         //to change the column text to sentence case
         let names = document.querySelectorAll(
-          ".list-name-container .list-names .input-container"
+          ".insert-textbox-container .list-names .input-container"
         );
-        let element = document.querySelector(".same-as-selected");
+     
 
-        if (element.innerText === "Column 1") {
           names.forEach((element) => {
             let b = element.children[0].value.replace(/,(?=[^\s])/g, ", ");
             let c = b.replace(/\w\S*/g, function (txt) {
@@ -27,25 +19,9 @@ export class Right_tools extends Modification {
             });
             element.children[0].value = c;
           });
-        }
-        if (element.innerText === "Column 2") {
-          names.forEach((element) => {
-            let b = element.children[1].value.replace(/,(?=[^\s])/g, ", ");
-            let c = b.replace(/\w\S*/g, function (txt) {
-              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            });
-            element.children[0].value = c;
-          });
-        }
-      } else {
-        let a = active.text.replace(/,(?=[^\s])/g, ", ");
-
-        let b = a.replace(/\w\S*/g, function (txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-        active.set({ text: b });
-        this.canvas.renderAll();
-      }
+        
+   
+      } 
     });
   }
 

@@ -53,7 +53,7 @@ export class Canvas extends Modification {
     // menu_tools.paste_image();
     menu_tools.preview_image();
     menu_tools.download_as_Zip();
-    menu_tools.print();
+    // menu_tools.print();
     menu_tools.insertData();
     menu_tools.trim();
 

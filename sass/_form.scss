@@ -1,52 +1,52 @@
-.form-container{
+.form-container {
 
     width: 360px;
-     margin: auto ;
+    margin: auto;
 
 
 }
 
 .form {
-  
 
-input[type='text'],
-input[type='email'],
-input[type='password'],
-input[type='date'],
-select,
-textarea{
 
-    padding: 0 .3rem;
-    font-size: .9rem;
-    border: 1px solid #ccc;
-    background-color: #f0eded;
-    height: 36px;
-    color: #333;
-    width: 300px;
+    input[type='text'],
+    input[type='email'],
+    input[type='password'],
+    input[type='date'],
+    select {
 
-}
+        padding: 0 .3rem;
+        font-size: .9rem;
+        border: 1px solid #ccc;
+        background-color: #f0eded;
+        height: 36px;
+        color: #333;
+        width: 300px;
 
-    input:focus{
+    }
+
+    input:focus {
         border: 1px solid #048a9e;
         outline: none;
         transition: all 0.2s ease-in;
         border-radius: 5px;
-    
+
 
     }
+
     input[type='submit'] {
         font: inherit;
     }
-    
+
 
 }
 
 //login-input
-.login-form{
+.login-form {
 
-  
 
-    .check-password-container{
+
+    .check-password-container {
         margin-top: -20px;
         padding: 0;
     }

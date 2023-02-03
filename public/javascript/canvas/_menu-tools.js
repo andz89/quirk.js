@@ -634,7 +634,7 @@ export class Menu_tools extends Modification {
     const modal = document.querySelector("#modal-container");
     const closeBtn = document.querySelector(".modal-canvas .close");
     closeBtn.addEventListener("click", closeModal);
-    window.addEventListener("click", outsideClick);
+  
 
     // Close
     function closeModal() {
@@ -646,17 +646,7 @@ export class Menu_tools extends Modification {
       });
     }
 
-    // Close If Outside Click
-    function outsideClick(e) {
-      if (e.target.className == "modal-body") {
-        modal.style.display = "none";
-
-        let printImageView = document.querySelectorAll(".print-view-img");
-        printImageView.forEach((item) => {
-          item.remove();
-        });
-      }
-    }
+   
 
     preview_image.addEventListener("click", () => {
       this.loading("visible");
@@ -753,8 +743,7 @@ export class Menu_tools extends Modification {
         if (activeObject && activeObject.name === "column-1-textbox") {
           document.querySelector(".insert-textbox-container").style.display =
             "block";
-          this.canvas.discardActiveObject(activeObject);
-          this.canvas.renderAll();
+       
         }
         //paste area
      
@@ -869,7 +858,7 @@ export class Menu_tools extends Modification {
                   let a = this.canvas.getObjects().filter((e) => {
                     return e.name === "column-1-textbox";
                   });
-            
+                
                   a[0].set({ text: names[i] });
         
                  
@@ -893,9 +882,12 @@ export class Menu_tools extends Modification {
                 this.canvas.setHeight(this.canvas.current_height);
                 this.canvas.setWidth(this.canvas.current_width);
                 this.canvas.setZoom(this.canvas.current_canvasScale);
-                document.querySelector(".modal-canvas").style.display = "block";
+                setTimeout( () => {
+                  document.querySelector(".modal-canvas").style.display = "block";
+                  this.loading("hidden");
+                },2000)
         
-                this.loading("hidden");
+             
               }, 1000);
             });
     };
@@ -907,8 +899,20 @@ export class Menu_tools extends Modification {
     document
       .querySelector(".insert-textbox-container .close")
       .addEventListener("click", () => {
+        let activeObject = this.canvas.getActiveObject();
+        let a = document.querySelector(
+          ".insert-textbox-container .list-names .input-container input"
+        );
+        if(a){
+          activeObject.text = a.value
+        }
+       
+        this.canvas.discardActiveObject(activeObject);
+        this.canvas.renderAll();
         document.querySelector(".insert-textbox-container").style.display =
           "none";
+
+     
       });
 
   
