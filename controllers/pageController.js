@@ -93,16 +93,32 @@ exports.canvas = (req, res) => {
   
    
       let data_saveModifiedJson ={}
-     
       //if walay luon ang saved_json mag error cja mag process so need jud na naay luon maong naay if statement
        //if naay luon ang saved_template na table sa user na save_json mo process sija
       if(data_from_query_after_loadPage.user_data[0].saved_json != ''){
+
+
+
         user_json.forEach(element => {
+          
           let a = json_from_created_json_for_user.json.objects.filter((e)=>{
             return e.id == element.id
           })
           a[0].top = element.top;
           a[0].left = element.left;
+          a[0].text = element.text
+          a[0].scaleY = element.scaleY;     
+          a[0].scaleX = element.scaleX;     
+          a[0].height = element.height
+          a[0].width = element.width
+          a[0].fontSize = element.fontSize
+          a[0].fontStyle = element.fontStyle
+          a[0].styles = element.styles
+
+
+
+    
+
         });
         //send to user_saved_template
       }

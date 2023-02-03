@@ -33,7 +33,29 @@ export class Open_file {
       let canvas_created = canvas(width, height);
 
       canvas_created.loadFromJSON(canvas_saved.json);
+            function change_br_text_to_line(valueToEscape) {
+        if (valueToEscape != null && valueToEscape != "") {
+       
+           return valueToEscape.replaceAll('<-br->','\n');
+        } else {
+           return valueToEscape;
+        } 
+     }
+
+     let a = canvas_created.getObjects()
+     a.forEach((e)=>{
+      if(e.type === 'textbox'){
+      
+        e.text = change_br_text_to_line(e.text) 
+        canvas_created.renderAll()
+        console.log(e.text);
+      }
      
+
+   
+     })
+
+
       canvas_created.template_id = template_id //saving the template id in canvas
    
 

@@ -77,6 +77,7 @@ Page.prototype.getTemplate = function () {
 };
 
 Page.prototype.save_modify_data  = function (){
+;
   return new Promise(async (resolve, reject) => {
     var sql = `UPDATE saved_template SET user_saved_template_onload = '${this.data.json}',saved_json = ''  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
     db.query(sql, (err, result) => {

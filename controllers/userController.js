@@ -1,16 +1,5 @@
 const User = require("../models/User");
-const multer = require("multer");
-const path = require('path')
-const storage = multer.diskStorage({
-  destination: (req, file, cb)=>{
-    cb(null, 'template-images')
-  },
-  filename: (req, file, cb)=>{
-    console.log(file)
-    cb(null, Date.now() + path.extname(file.originalname))
-  }
-})
-const upload = multer({storage: storage})
+
 exports.login = (req, res) => {
   let user = new User(req.body);
   user
@@ -93,6 +82,7 @@ exports.saved_template = function (req, res) {
   data.user_id = req.session.user.user_id;
   data.template_id =  req.query.template_id;
 
+  console.log(data);
   let user = new User(data);
   user
     .saved_template_database()

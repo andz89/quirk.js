@@ -44,7 +44,7 @@ export class Menu_tools extends Modification {
         textAlign: "center",
 
         fontSize: 100, // this.canvas.getWidth() * .17,
-        id: this.uniqueId(),
+        id: this.uniqueId()+ 211,
         dirty: true,
         // width: 400,//this.canvas.getWidth() * .80
         width: 500,
@@ -207,8 +207,13 @@ export class Menu_tools extends Modification {
 
  save_file_json() {
     document.getElementById("save_json").addEventListener("click", () => {
-     let json = JSON.stringify(this.canvas.store_objects);
+
+      let json = JSON.stringify(this.canvas.store_objects);
+
+    console.log(json)
  
+    
+   
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -485,8 +490,8 @@ export class Menu_tools extends Modification {
   //insert data
   insertData() {
     //  insert-data
-    let element = document.querySelector(".excel-html");
-    let list_names = document.querySelector(".list-names");
+    let element = document.querySelector(".excel-html-view-data");
+    let list_names = document.querySelector(".list-name-container .list-names");
     let parent = document.querySelector(".list-name-container");
     let add_name_btn = document.querySelector("#add_name_btn");
     add_name_btn.addEventListener("click", () => {
@@ -500,58 +505,60 @@ export class Menu_tools extends Modification {
     });
 
     window.addEventListener("paste", function (e) {
-      e.preventDefault();
 
-      let parent = document.querySelector(".list-name-container");
-      parent.style.display = "block";
 
-      element.innerHTML = e.clipboardData.getData("text/html");
 
-      let aa = document.querySelectorAll("table tr");
 
-      aa.forEach((element) => {
-        if (element.children.length > 1) {
-          let a = element.children[0].innerText;
-          let b = element.children[1].innerText;
+        element.innerHTML = e.clipboardData.getData("text/html");
 
-          let div = document.createElement("div");
-          div.classList.add("input-container");
-          div.innerHTML = `
+        let aa = element.querySelectorAll("table tr");
+  
+        aa.forEach((element) => {
+          if (element.children.length > 1) {
+            let a = element.children[0].innerText;
+            let b = element.children[1].innerText;
+  
+            let div = document.createElement("div");
+            div.classList.add("input-container");
+            div.innerHTML = `
+                  
+            <input type="text" value="${a}">
+            <input type="text" value="${b}">
+  
+            <div>
+            <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+            </div>
+  
+                  `;
+            list_names.appendChild(div);
+            div.scrollIntoView();
+          } else {
+            let a = element.children[0].innerText;
+            let b = " ";
+  
+            let div = document.createElement("div");
+            div.classList.add("input-container");
+            div.innerHTML = `
+                  
+        <input type="text" value="${a}">
+        <input type="text" value="${b}">
+  
+        <div>
+        <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+        </div>
+  
+  
                 
-          <input type="text" value="${a}">
-          <input type="text" value="${b}">
+  
+              `;
+  
+            list_names.appendChild(div);
+            div.scrollIntoView();
+          }
+        });
+      
 
-          <div>
-          <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-          </div>
-
-                `;
-          list_names.appendChild(div);
-          div.scrollIntoView();
-        } else {
-          let a = element.children[0].innerText;
-          let b = " ";
-
-          let div = document.createElement("div");
-          div.classList.add("input-container");
-          div.innerHTML = `
-                
-      <input type="text" value="${a}">
-      <input type="text" value="${b}">
-
-      <div>
-      <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-      </div>
-
-
-              
-
-            `;
-
-          list_names.appendChild(div);
-          div.scrollIntoView();
-        }
-      });
+  
     });
 
     //insert name tools
@@ -621,7 +628,7 @@ export class Menu_tools extends Modification {
       });
   }
 
-  //loop name
+  // generate certifacate
   preview_image() {
     const preview_image = document.querySelector("#preview-image");
     const modal = document.querySelector("#modal-container");
@@ -688,16 +695,7 @@ export class Menu_tools extends Modification {
         //get selected column from choose column modal
         let text = document.querySelector(".same-as-selected");
         let arrayName = [];
-        if (text.innerText === "Column 2") {
-          let a = document.querySelectorAll(
-            ".list-name-container .list-names .input-container"
-          );
-
-          a.forEach((element) => {
-            arrayName.push(element.children[1].value);
-          });
-        }
-        if (text.innerText === "Column 1") {
+    
           let a = document.querySelectorAll(
             ".list-name-container .list-names .input-container"
           );
@@ -705,7 +703,8 @@ export class Menu_tools extends Modification {
           a.forEach((element) => {
             arrayName.push(element.children[0].value);
           });
-        }
+      
+       
         let names = arrayName;
 
         for (let i = 0; i < names.length; i++) {
@@ -743,18 +742,162 @@ export class Menu_tools extends Modification {
     });
   }
 
-  //choose column
-  chooseColumn() {
+  //insert name on textbox
+  insert_textbox() {
     const doubleClick = (e) => {
+      let list_names = document.querySelector(".insert-textbox-container .list-names");
+
+      let element = document.querySelector(".excel-html-view-data");
       if (e.target && e.target.name == "column-1-textbox") {
         let activeObject = this.canvas.getActiveObject();
         if (activeObject && activeObject.name === "column-1-textbox") {
-          document.querySelector(".choose-columm-container").style.display =
+          document.querySelector(".insert-textbox-container").style.display =
             "block";
           this.canvas.discardActiveObject(activeObject);
           this.canvas.renderAll();
         }
+        //paste area
+     
+        window.addEventListener("paste", function (e){
+          setTimeout(()=>{e.target.value = ''})
+            element.innerHTML = e.clipboardData.getData("text/html");
+            let aa = element.querySelectorAll("table tr");
+            aa.forEach((element) => {
+                let a = element.innerText.trim();
+                let div = document.createElement("div");
+                div.classList.add("input-container");
+                div.innerHTML = `     
+                <input type="text" value="${a}">
+                <div>
+                <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+                </div>
+      
+                      `;
+                list_names.appendChild(div);
+                div.scrollIntoView();
+          
+            });
+        })
+     
       }
+            //remove row
+            document.querySelector(".insert-textbox-container").addEventListener("click",(e)=>{
+              if (e.target.classList.contains("delete")) {
+                e.target.parentElement.parentElement.remove();
+              }
+              if (e.target.classList.contains("add-rows")) {
+          
+                let div = document.createElement("div");
+                div.classList.add("input-container");
+      
+                div.innerHTML = `
+                    
+              <input type="text" value="" placeholder="click to type">
+         
+              <div>
+              <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+              </div>
+      
+                    `;
+                list_names.appendChild(div);
+                div.scrollIntoView();
+              }
+               //clear all rows
+        if (e.target.classList.contains("clear-all")) {
+          let names = document.querySelectorAll(
+            ".input-container"
+          );
+          names.forEach((element) => {
+            element.remove();
+          });
+        }
+            })
+          
+            let generateCertificate = document.querySelector(".generate-certificate-button");
+            generateCertificate.addEventListener("click", () => {
+              this.loading("visible");
+        
+              var scaleFactor = 1;
+              this.canvas.setWidth(this.width * scaleFactor);
+              this.canvas.setHeight(this.height * scaleFactor);
+              this.canvas.setZoom(scaleFactor);
+              this.canvas.renderAll();
+        
+              setTimeout(() => {
+                const b64toBlob = (b64Data, contentType = "", sliceSize = 512) => {
+                  const byteCharacters = atob(b64Data);
+                  const byteArrays = [];
+        
+                  for (
+                    let offset = 0;
+                    offset < byteCharacters.length;
+                    offset += sliceSize
+                  ) {
+                    const slice = byteCharacters.slice(offset, offset + sliceSize);
+        
+                    const byteNumbers = new Array(slice.length);
+                    for (let i = 0; i < slice.length; i++) {
+                      byteNumbers[i] = slice.charCodeAt(i);
+                    }
+        
+                    const byteArray = new Uint8Array(byteNumbers);
+                    byteArrays.push(byteArray);
+                  }
+        
+                  const blob = new Blob(byteArrays, { type: contentType });
+                  return blob;
+                };
+        
+                //get selected column from choose column modal
+             
+                let arrayName = [];
+              
+                  let a = document.querySelectorAll(
+                    ".insert-textbox-container .list-names .input-container input"
+                  );
+        
+                  a.forEach((element) => {
+            
+                    arrayName.push(element.value);
+                  });
+                
+              
+                let names = arrayName;
+        
+                for (let i = 0; i < names.length; i++) {
+          
+                  let a = this.canvas.getObjects().filter((e) => {
+                    return e.name === "column-1-textbox";
+                  });
+            
+                  a[0].set({ text: names[i] });
+        
+                 
+                  let imgSrc = this.canvas
+                    .toDataURL("image/jpeg", [0.0, 1.0])
+                    .split(",")[1];
+                  this.canvas.renderAll();
+                  const blob = b64toBlob(imgSrc, "image/jpeg");
+                  const blobUrl = URL.createObjectURL(blob);
+        
+                  const img = document.createElement("img");
+                  img.src = blobUrl;
+                  img.width = "600";
+                  img.className = "print-view-img";
+        
+    
+                  document.querySelector(".modal-body").appendChild(img);
+             
+                }
+        
+                this.canvas.setHeight(this.canvas.current_height);
+                this.canvas.setWidth(this.canvas.current_width);
+                this.canvas.setZoom(this.canvas.current_canvasScale);
+                document.querySelector(".modal-canvas").style.display = "block";
+        
+                this.loading("hidden");
+              }, 1000);
+            });
     };
     this.canvas.on({
       "mouse:dblclick": doubleClick,
@@ -762,122 +905,13 @@ export class Menu_tools extends Modification {
 
     //close button
     document
-      .querySelector(".choose-columm-container .close")
+      .querySelector(".insert-textbox-container .close")
       .addEventListener("click", () => {
-        document.querySelector(".choose-columm-container").style.display =
+        document.querySelector(".insert-textbox-container").style.display =
           "none";
-        let element = document.querySelector(".same-as-selected");
-
-        if (element.innerText === "Column 2") {
-          let a = document.querySelectorAll(
-            ".list-name-container .list-names .input-container"
-          );
-
-          let b = this.canvas.getObjects().filter((e) => {
-            return e.name === "column-1-textbox";
-          });
-          b[0].set({ text: a[a.length - 1].children[1].value });
-          this.canvas.renderAll();
-        }
-
-        if (element.innerText === "Column 1") {
-          let a = document.querySelectorAll(
-            ".list-name-container .list-names .input-container"
-          );
-
-          let b = this.canvas.getObjects().filter((e) => {
-            return e.name === "column-1-textbox";
-          });
-          b[0].set({ text: a[a.length - 1].children[0].value });
-          this.canvas.renderAll();
-        }
       });
 
-    // for select columms
-    var x, i, j, l, ll, selElmnt, a, b, c;
-    /*look for any elements with the class "custom-select":*/
-    x = document.getElementsByClassName("custom-select");
-    l = x.length;
-    for (i = 0; i < l; i++) {
-      selElmnt = x[i].getElementsByTagName("select")[0];
-      ll = selElmnt.length;
-      /*for each element, create a new DIV that will act as the selected item:*/
-      a = document.createElement("DIV");
-      a.setAttribute("class", "select-selected");
-      a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-      x[i].appendChild(a);
-      /*for each element, create a new DIV that will contain the option list:*/
-      b = document.createElement("DIV");
-      b.setAttribute("class", "select-items select-hide");
-      for (j = 1; j < ll; j++) {
-        /*for each option in the original select element,
-    create a new DIV that will act as an option item:*/
-        c = document.createElement("DIV");
-        c.innerHTML = selElmnt.options[j].innerHTML;
-        c.addEventListener("click", function (e) {
-          /*when an item is clicked, update the original select box,
-        and the selected item:*/
-          var y, i, k, s, h, sl, yl;
-          s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-          sl = s.length;
-          h = this.parentNode.previousSibling;
-          for (i = 0; i < sl; i++) {
-            if (s.options[i].innerHTML == this.innerHTML) {
-              s.selectedIndex = i;
-              h.innerHTML = this.innerHTML;
-              y = this.parentNode.getElementsByClassName("same-as-selected");
-              yl = y.length;
-              for (k = 0; k < yl; k++) {
-                y[k].removeAttribute("class");
-              }
-              this.setAttribute("class", "same-as-selected");
-              break;
-            }
-          }
-          h.click();
-        });
-
-        b.appendChild(c);
-      }
-      x[i].appendChild(b);
-      a.addEventListener("click", function (e) {
-        /*when the select box is clicked, close any other select boxes,
-      and open/close the current select box:*/
-        e.stopPropagation();
-        closeAllSelect(this);
-        this.nextSibling.classList.toggle("select-hide");
-        this.classList.toggle("select-arrow-active");
-      });
-    }
-    function closeAllSelect(elmnt) {
-      /*a function that will close all select boxes in the document,
-  except the current select box:*/
-      var x,
-        y,
-        i,
-        xl,
-        yl,
-        arrNo = [];
-      x = document.getElementsByClassName("select-items");
-      y = document.getElementsByClassName("select-selected");
-      xl = x.length;
-      yl = y.length;
-      for (i = 0; i < yl; i++) {
-        if (elmnt == y[i]) {
-          arrNo.push(i);
-        } else {
-          y[i].classList.remove("select-arrow-active");
-        }
-      }
-      for (i = 0; i < xl; i++) {
-        if (arrNo.indexOf(i)) {
-          x[i].classList.add("select-hide");
-        }
-      }
-    }
-    /*if the user clicks anywhere outside the select box,
-then close all select boxes:*/
-    document.addEventListener("click", closeAllSelect);
+  
   }
 
   download_as_Zip() {

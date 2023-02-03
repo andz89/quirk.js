@@ -168,11 +168,33 @@ export class Utilities extends Modification {
       if (activeObj !== null  && activeObj.type === "textbox") {
         document.querySelector("#fontSize").value = activeObj.fontSize;
       }
-      if(activeObj){
+      function escapeNewLineChars(valueToEscape) {
+        if (valueToEscape != null && valueToEscape != "") {
+           return valueToEscape.replace(/\n/g,"<-br->");
+        } else {
+           return valueToEscape;
+        } 
+     }
+   
+
+      if(activeObj !== undefined && activeObj.type !== "image"){
+        let new_text = escapeNewLineChars(activeObj.text)
+
               let data = {}
               data.id = activeObj.id
               data.top = activeObj.top;
               data.left = activeObj.left
+              data.text =  new_text
+              data.scaleY = activeObj.scaleY
+              data.scaleX = activeObj.scaleX
+              data.height = activeObj.height
+              data.width = activeObj.width
+              data.fontSize = activeObj.fontSize
+              data.fontStyle = activeObj.fontStyle
+              data.styles = activeObj.styles
+
+
+        
               let index
         
               let addonExists = false;
@@ -181,14 +203,27 @@ export class Utilities extends Modification {
                 const element = this.canvas.store_objects[i];
                 if (element.id === data.id) {
                   addonExists = true;
+            
                   data.top = activeObj.top
                   data.left = activeObj.left
+                  data.text = new_text
+                  data.scaleY = activeObj.scaleY
+                  data.scaleX = activeObj.scaleX
+                  data.height = activeObj.height
+                  data.width = activeObj.width
+                  data.fontSize = activeObj.fontSize
+                  data.fontStyle = activeObj.fontStyle
+                  data.styles = activeObj.styles
+
+
+
                   this.canvas.store_objects.push(data);
                   this.canvas.store_objects.splice(element, 1);
                   break;
                 }
               }
               addonExists || this.canvas.store_objects.push(data);
+        
       }
      
     };
@@ -205,6 +240,7 @@ export class Utilities extends Modification {
         this.canvas.current_cropper_height = activeObj.getScaledHeight();
         this.canvas.current_cropper_top = activeObj.top;
         this.canvas.current_cropper_left = activeObj.left;
+        
       }
 
       if (activeObj.name == "gray_background") {
