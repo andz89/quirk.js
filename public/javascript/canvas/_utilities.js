@@ -170,7 +170,7 @@ export class Utilities extends Modification {
       }
       function escapeNewLineChars(valueToEscape) {
         if (valueToEscape != null && valueToEscape != "") {
-           return valueToEscape.replace(/\n/g,"<-br->");
+           return valueToEscape.replace(/\\n|\n/g,"<-br->");
         } else {
            return valueToEscape;
         } 
@@ -214,7 +214,6 @@ export class Utilities extends Modification {
                   element.fontSize = activeObj.fontSize
                   element.fontStyle = activeObj.fontStyle
                   element.styles = activeObj.styles
-                  console.log('existing')
                   // this.canvas.store_objects.push(data);
                   // this.canvas.store_objects.splice(element,1);
                   

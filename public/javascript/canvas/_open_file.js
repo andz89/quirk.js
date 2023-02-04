@@ -2,7 +2,7 @@ import { Canvas } from "./canvas.js";
 
 export class Open_file {
   get_file_json(json,template_id,template_name) {
-  
+  console.log(json);
     let a = JSON.parse(json);
     
     let canvas_saved = {
