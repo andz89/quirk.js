@@ -203,26 +203,32 @@ export class Utilities extends Modification {
                 const element = this.canvas.store_objects[i];
                 if (element.id === data.id) {
                   addonExists = true;
-            
-                  data.top = activeObj.top
-                  data.left = activeObj.left
-                  data.text = new_text
-                  data.scaleY = activeObj.scaleY
-                  data.scaleX = activeObj.scaleX
-                  data.height = activeObj.height
-                  data.width = activeObj.width
-                  data.fontSize = activeObj.fontSize
-                  data.fontStyle = activeObj.fontStyle
-                  data.styles = activeObj.styles
-
-
-
-                  this.canvas.store_objects.push(data);
-                  this.canvas.store_objects.splice(element, 1);
+                  element.id = activeObj.id
+                  element.top = activeObj.top
+                  element.left = activeObj.left
+                  element.text = new_text
+                  element.scaleY = activeObj.scaleY
+                  element.scaleX = activeObj.scaleX
+                  element.height = activeObj.height
+                  element.width = activeObj.width
+                  element.fontSize = activeObj.fontSize
+                  element.fontStyle = activeObj.fontStyle
+                  element.styles = activeObj.styles
+                  console.log('existing')
+                  // this.canvas.store_objects.push(data);
+                  // this.canvas.store_objects.splice(element,1);
+                  
                   break;
-                }
+                } 
+        
+
               }
-              addonExists || this.canvas.store_objects.push(data);
+              if(addonExists == false){
+                this.canvas.store_objects.push(data);
+          
+              }
+     
+              console.log(this.canvas.store_objects);
         
       }
      

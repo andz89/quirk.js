@@ -210,9 +210,8 @@ export class Menu_tools extends Modification {
 
       let json = JSON.stringify(this.canvas.store_objects);
 
-    console.log(json)
- 
-    
+
+   
    
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = () => {
