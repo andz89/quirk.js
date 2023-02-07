@@ -3,13 +3,9 @@ import { Canvas } from "./canvas.js";
 export class Open_file {
   get_file_json(json,template_id,template_name) {
 
-    let a = JSON.parse(json);
+    let json_parsed = JSON.parse(json);
+console.log(json_parsed);
     
-    let canvas_saved = {
-      json: { version: "5.2.0", objects: a.json.objects, background: "#fff" },
-    };
-
-
 
     const run_json_file = (canvas_saved) => {
       let canvasScale = 1;
@@ -54,14 +50,11 @@ export class Open_file {
      let a = canvas_created.getObjects()
      a.forEach((e)=>{
       if(e.type === 'textbox'){
-      
+   
         e.text = replaceQoute(replaceBreakLine(e.text) ) 
         canvas_created.renderAll()
      
       }
-     
-
-   
      })
 
 
@@ -150,6 +143,6 @@ export class Open_file {
         object.lockScalingY = bollean;
       }
     };
-    run_json_file(canvas_saved);
+    run_json_file(json_parsed);
   }
 }

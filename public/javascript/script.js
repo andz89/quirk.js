@@ -7,6 +7,8 @@ import Templates from "./templates.js";
 
 let templates = new Templates();
 templates.modal_template_details()
+templates.sumbit_code()
+
 
 let add_templates = new Add_templates();
 add_templates.show_templates_form();

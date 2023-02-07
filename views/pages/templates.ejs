@@ -1,12 +1,18 @@
 <%- include('../include/user-header') %>
     <div style="min-height: 400px;" class="p-1">
-        <h2>Qurik Templates</h2>
+        <div class="d-flex justify-content-center">
+            <h2>Qurik Templates</h2>
+
+        </div>
         <div class="templates my-2 d-flex  align-items-start" style="width: 100%;">
             <% data.forEach((data)=>{%>
 
 
                 <!-- <a href="/canvas?id=<%= data.template_id %> " target="_blank"> -->
                 <div class="hover-opactiy d-flex  justify-content-center flex-direction-column" style="width: 200px;">
+                    <input type="hidden" id="display-template-id" value="<%= data.template_id %>">
+
+
                     <img src="images/ci/<%= data.canvas_image %>" width="170" class="show-template-details" alt="">
                     <h3 class="text text-dark show-template-details">
                         <%= data.template_name %>
@@ -44,26 +50,16 @@
                                 </div>
 
                                 <div>
-
-                                    <span class="modal-description">Lorem, ipsum dolor sit amet consectetur
-                                        adipisicing
-                                        elit. Id quaerat nisi
-                                        reprehenderit error
-                                        voluptas dicta tenetur repellendus fugiat ut quae exercitationem amet sed
-                                        optio,
-                                        dolorem
-                                        nemo eos esse magni quas.</span>
+                                    <input type="hidden" id="template-id">
+                                    <span class="modal-description"></span>
                                     <span>
 
                                     </span>
-                                    <h3>Enter activation code</h3>
-                                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio officia,
-                                        pariatur
-                                        nobis
-                                        excepturi impedit dolor.</p>
+                                    <h3></h3>
+                                    <p></p>
                                     <div class="d-flex gap-10  form">
-                                        <input type="text">
-                                        <div class="btn btn-sm btn-success">Submit</div>
+                                        <input type="text" id="code">
+                                        <div class="btn btn-sm btn-success" id="sumbit-code-btn">Submit</div>
                                     </div>
 
                                 </div>

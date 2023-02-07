@@ -249,69 +249,17 @@ User.prototype.update_account = function () {
 
 User.prototype.saved_template_database  =function() {
 
-
   return new Promise( async(resolve, reject) => {
+    var sql = `UPDATE purchased_template SET template_json = '${this.data.saved_json}'  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
+    db.query(sql, (err, result) => {
 
-       //check if save template is exist
-    const check_saved_template = ()=>{
-      return new Promise((resolve, reject) => {
-        let sql = `SELECT * FROM saved_template WHERE template_id = "${this.data.template_id}"
-         && user_id = "${this.data.user_id}"`;
-  
-        db.query(sql, (err, result) => {
-     
-          if (err) {
-            reject(err);
-            return false;
-          }
-       
-            resolve(result)
-    
-       
-        });
-      });
+    if (err) {
+    reject(err);
+    return false;
     }
-       //check if save template is exist
-        await check_saved_template().then((data)=>{
-          if(data != ''){
-            return new Promise(async (resolve, reject) => {
-                var sql = `UPDATE saved_template SET saved_json = '${this.data.saved_json}'  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
-                db.query(sql, (err, result) => {
-           
-                  if (err) {
-                    reject(err);
-                    return false;
-                  }
-                  resolve(result);
-                });
+    resolve(result);
+    });
             
-            });
-          }
-          // else{
-          
-
-
-          //   let data = {
-          //     user_id: this.data.user_id,
-          //     saved_json: this.data.saved_json,
-          //     template_id: this.data.template_id,
-       
-          //   };
-        
-          //   let sql = "INSERT INTO saved_template SET ?";
-          //   db.query(sql, data, (err, result) => {
-          //     if (err) {
-          //       reject(err);
-          //       return false;
-          //     }
-             
-          //     resolve();
-  
-          //   });
-         
-          // }
-        });
-    
   });
 };
 

@@ -76,6 +76,20 @@ templates.getAllTemplates().then((data)=>{
 })
   
 }
+
+exports.purchased_templates = function(req,res){
+  let purchased_templates = new Page()
+  purchased_templates.getUserTemplates().then((data)=>{
+  ;
+    res.render("pages/purchased-templates", {
+      data: data,
+  
+      user_type: req.session.user.user_role,
+      session: req.session.user ? true : false,
+    }); 
+  })
+    
+}
 // exports.canvas = (req, res) => {
 
 //   let data_openTemplate = {}
@@ -186,15 +200,21 @@ templates.getAllTemplates().then((data)=>{
 // };
 
 
-exports.getPurchasedTemplates =(req, res) =>{
-  let data_openTemplate = {}
-  data_openTemplate.user_id = req.session.user.user_id;
-  data_openTemplate.template_id = req.query.id;
+exports.canvas =(req, res) =>{
+  let data = {}
+  data.user_id = req.session.user.user_id;
+  data.template_id = req.query.template_id;
 
-  let page = new Page(data_openTemplate);
-  page.getPuchaseCanvas().then((data) => {
+  let page = new Page(data);
+  page.getCanvas().then((data) => {
        
-          console.log('merong laman');
-     
-  })
+    res.render("pages/canvas", {
+                template_json:data[0].template_json,
+                template_id:data[0].template_id,
+                template_name:data[0].template_name,
+                canvas_image:'http://localhost:5000/images/ci/'+ data[0].canvas_image,
+      
+              });
+          
+          })
 }

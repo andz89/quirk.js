@@ -25,12 +25,16 @@ router.post("/update_account", userController.update_account);
 router.post("/saved-template", userController.saved_template);
 
 router.post("/activateCanvas", middleware.role_user, userController.activateCanvas);
-router.get("/success-activation", userController.success_activation);
+
 
 //pages
+router.get("/success-activation", userController.success_activation);
+router.get("/canvas",  middleware.role_user, pageController.canvas);
 router.get("/", middleware.home_role, pageController.home); // home
 router.get("/account-page", middleware.role_user, pageController.account_page);
 router.get("/templates", middleware.role_user, pageController.templates_page);
+router.get("/purchased-templates", middleware.role_user, pageController.purchased_templates);
+
 
 
 router.get(

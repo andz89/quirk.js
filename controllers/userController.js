@@ -78,11 +78,8 @@ exports.update_account = function (req, res) {
 exports.saved_template = function (req, res) {
   let data = {};
   data.saved_json = req.query.saved_json;
-
   data.user_id = req.session.user.user_id;
   data.template_id =  req.query.template_id;
-
-  console.log(data);
   let user = new User(data);
   user
     .saved_template_database()
@@ -97,7 +94,10 @@ exports.activateCanvas = (req,res) => {
 
   let template = {}
   template.user_id = req.session.user.user_id;
-  template.template_id = req.query.id;
+  template.template_id = req.query.template_id;
+  template.template_name = req.query.template_name;
+  template.image = req.query.image;
+  template.code = req.query.code;
 
   let user = new User(template);
   user.create_template().then((data) => {

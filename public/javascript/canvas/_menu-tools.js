@@ -5,35 +5,43 @@ export class Menu_tools extends Modification {
     
  
     let link = canvas_image;
+   let a = this.canvas.getObjects().forEach((e)=>{
+      return e.name === "background-image";
+    })
 
-    fabric.Image.fromURL(link, (img) => {
-      img.name = "background-image";
-      this.canvas.add(img);
-      img.scaleToWidth(this.canvas.getWidth());
-      this.canvas.viewportCenterObject(img);
-      this.canvas.sendToBack(img);
-      img.selectable = false;
-      img.hoverCursor = "default";
-      img.set("lockMovementX", true);
-      img.set("lockMovementY", true);
-      // img.set("lockScalingX", true)
-      img.set("lockScalingY", true);
-      img.set("lockRotation", true);
-      this.canvas.discardActiveObject();
-      this.canvas.renderAll();
-      img.setControlsVisibility({
-        mt: false,
-        mb: false,
-        ml: false,
-        mr: false,
-        tr: false,
-        tl: false,
-        br: false,
-        bl: false,
-        mtr: false,
-      });
-      this.canvas.renderAll();
+if(a ==  undefined){
+  fabric.Image.fromURL(link, (img) => {
+    img.excludeFromExport = true;
+    img.name = "background-image";
+    this.canvas.add(img);
+    img.scaleToWidth(this.canvas.getWidth());
+    this.canvas.viewportCenterObject(img);
+    this.canvas.sendToBack(img);
+    img.selectable = false;
+    img.hoverCursor = "default";
+
+    img.set("lockMovementX", true);
+    img.set("lockMovementY", true);
+    // img.set("lockScalingX", true)
+    img.set("lockScalingY", true);
+    img.set("lockRotation", true);
+    this.canvas.discardActiveObject();
+    this.canvas.renderAll();
+    img.setControlsVisibility({
+      mt: false,
+      mb: false,
+      ml: false,
+      mr: false,
+      tr: false,
+      tl: false,
+      br: false,
+      bl: false,
+      mtr: false,
     });
+    this.canvas.renderAll();
+  });
+}
+ 
   }
   // textbox
   insertText(selector) {
@@ -205,8 +213,8 @@ export class Menu_tools extends Modification {
   }
 
  save_file_json() {
-  //limit maximum 1300 words 
-  //target limit 1000 words
+  //limit maximum 10,500 characters
+  //target limit 10,000 characters
     document.getElementById("save_json").addEventListener("click", () => {
  
     function replaceBreakLine(valueToEscape) {
@@ -231,10 +239,15 @@ export class Menu_tools extends Modification {
         e.text =  replaceQoute(replaceBreakLine(e.text)) 
         this.canvas.renderAll()
         }
+      
     })
 
   
       let textbox_property = [
+        "filters",
+        "originX",
+        "originY",
+        "version",
         "stroke",
         "strokeWidth",
        "strokeDashArray",
@@ -274,25 +287,48 @@ export class Menu_tools extends Modification {
         "cornerStyle",
         "transparentCorners",
         "_controlsVisibility",
-        "lockMovementX",
-        "lockMovementY",
+    
         "lockScalingX",
         "lockScalingY",
         "selectable",
         
     ];
-
-    let json_file = this.canvas.toJSON([
+    // "lockMovementX",
+        // "lockMovementY",
+    let json = this.canvas.toJSON([
       "id",
       "name",
     ]);
-json_file.objects.forEach((e)=>{
-  console.log(e);
+json.objects.forEach((e)=>{
+ 
   textbox_property.forEach((c)=>{
      delete e[c];
+    if(e.cropY === 0 || e.cropX === 0){
+      delete e['cropY'];
+      delete e['cropX'];
+
+    }
+   
+    if(e.fill ==="rgb(0,0,0)"){
+      delete e["fill"];
+    }
+ 
      })
 })
-      let json = JSON.stringify(json_file );
+
+  
+ 
+
+let size = {
+  w: this.width,
+  h: this.height,
+};
+
+let merge = {
+  json,
+  size,
+};
+let json_file = JSON.stringify(merge);
 
       
    
@@ -308,7 +344,7 @@ json_file.objects.forEach((e)=>{
       };
       xhttp.open(
         "POST",
-        `http://localhost:5000/saved-template?saved_json=  `+ encodeURIComponent(json) + `&template_id=${this.canvas.template_id}`,
+        `http://localhost:5000/saved-template?saved_json=  `+ encodeURIComponent(json_file) + `&template_id=${this.canvas.template_id}`,
         true
       );
       xhttp.send();
