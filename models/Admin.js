@@ -11,7 +11,7 @@ console.log(this.data);
       template_id: uuidv4(),
       template_name: this.data.template_name,
       template_description: this.data.template_description,
-      json_file: this.data.json_file,
+      template_json: this.data.json_file,
       canvas_image: this.data.file
     };
     let sql = "INSERT INTO templates SET ?";

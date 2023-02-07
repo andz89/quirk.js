@@ -23,6 +23,10 @@ router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 router.post("/update_account", userController.update_account);
 router.post("/saved-template", userController.saved_template);
+
+router.post("/activateCanvas", middleware.role_user, userController.activateCanvas);
+router.get("/success-activation", userController.success_activation);
+
 //pages
 router.get("/", middleware.home_role, pageController.home); // home
 router.get("/account-page", middleware.role_user, pageController.account_page);
@@ -36,7 +40,7 @@ router.get(
 );
 router.get("/contact-page", pageController.contact_page);
 router.get("/login-page", middleware.role_guest, pageController.login_page);
-router.get("/canvas", middleware.role_user, pageController.canvas);
+
 router.get(
   "/success_registration_page",
   pageController.success_registration_page

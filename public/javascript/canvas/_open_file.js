@@ -2,7 +2,7 @@ import { Canvas } from "./canvas.js";
 
 export class Open_file {
   get_file_json(json,template_id,template_name) {
-  console.log(json);
+
     let a = JSON.parse(json);
     
     let canvas_saved = {
@@ -33,7 +33,7 @@ export class Open_file {
       let canvas_created = canvas(width, height);
 
       canvas_created.loadFromJSON(canvas_saved.json);
-            function change_br_text_to_line(valueToEscape) {
+            function replaceBreakLine(valueToEscape) {
         if (valueToEscape != null && valueToEscape != "") {
        
            return valueToEscape.replaceAll('<-br->','\n');
@@ -42,13 +42,22 @@ export class Open_file {
         } 
      }
 
+     function replaceQoute(valueToEscape){
+      if (valueToEscape != null && valueToEscape != "") {
+      
+        return valueToEscape.replaceAll('<-q->',"'");
+     } else {
+        return valueToEscape;
+     } 
+     }
+
      let a = canvas_created.getObjects()
      a.forEach((e)=>{
       if(e.type === 'textbox'){
       
-        e.text = change_br_text_to_line(e.text) 
+        e.text = replaceQoute(replaceBreakLine(e.text) ) 
         canvas_created.renderAll()
-        console.log(e.text);
+     
       }
      
 

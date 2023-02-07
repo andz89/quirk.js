@@ -46,6 +46,6 @@ export let textbox_property = [
     "lockScalingX",
     "lockScalingY",
     "selectable",
-    "name"
+    
 ];
  

@@ -17,64 +17,140 @@ Page.prototype.getAccount = function () {
   });
 };
 
-Page.prototype.getTemplate = function () {
+// Page.prototype.getTemplate = function () {
 
-  return new Promise( async(resolve, reject) => {
-      //check if save template is exist
-      const check_saved_template = ()=>{
-        return new Promise((resolve, reject) => {
-  
-          let sql = `SELECT * FROM saved_template WHERE template_id = "${this.data.template_id}"
-           && user_id = "${this.data.user_id}"`;
+//   return new Promise( async(resolve, reject) => {
+//       //check if save template is exist
+   
+
+//           let sql = `SELECT * FROM saved_template WHERE template_id = "${this.data.template_id}"
+//            && user_id = "${this.data.user_id}"`;
         
-          db.query(sql, (err, result) => {
+//           db.query(sql, (err, result) => {
          
-            if (err) {
-              reject(err);
-              return false;
-            }
+//             if (err) {
+//               reject(err);
+//               return false;
+//             }
           
-            if(result.length > 0){//kung naa
-              resolve(result)
-            }else{
+//             if(result.length > 0){//kung naa
+//               resolve(result)
+//             }else{
        
-              resolve()
-            }
+//               resolve()
+//             }
          
-          });
-        });
+//           });
+   
+ 
+//     })
+// };
+
+Page.prototype.create_template = function(){
+  return new Promise(async (resolve, reject) => {
+    let data = {
+      user_id: this.data.user_id,
+      template_id: this.data.template_id,
+      canvas_image: this.data.canvas_image,
+      template_name: this.data.template_name,
+    };
+   
+    let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
+    db.query(sql, data, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
       }
-   await check_saved_template().then((saved_file)=>{
 
-    if(saved_file){
+      console.log();
+      let data_2 = {
+        user_id: this.data.user_id,
+        template_id: result[0].template_id,
+        template_name: result[0].template_name,
+        template_description: result[0].template_description,
+        template_json: result[0].template_json,
+        template_category: result[0].template_category,
+        canvas_image: result[0].canvas_image,
 
 
-      let data = {}
-      data.user_data = saved_file
-      resolve(data);
-    }else{
+      }
+
+      let sql_2 = "INSERT INTO purchased_template SET ?";
+    db.query(sql_2, data_2, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+     
+      resolve();
+
+    });
+       
+
+    });
+ 
+
+});
+}
+
+// Page.prototype.getTemplate = function () {
+
+//   return new Promise( async(resolve, reject) => {
+//       //check if save template is exist
+//       const check_saved_template = ()=>{
+//         return new Promise((resolve, reject) => {
   
-      let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
-      db.query(sql, (err, result) => {
-  
-
-        if (err) {
-          reject(err);
-          return false;
-        }
-        let data = {}
+//           let sql = `SELECT * FROM saved_template WHERE template_id = "${this.data.template_id}"
+//            && user_id = "${this.data.user_id}"`;
         
-        data.admin_data = result
+//           db.query(sql, (err, result) => {
+         
+//             if (err) {
+//               reject(err);
+//               return false;
+//             }
+          
+//             if(result.length > 0){//kung naa
+//               resolve(result)
+//             }else{
+       
+//               resolve()
+//             }
+         
+//           });
+//         });
+//       }
+//    await check_saved_template().then((saved_file)=>{
+
+//     if(saved_file){
+
+
+//       let data = {}
+//       data.user_data = saved_file
+//       resolve(data);
+//     }else{
+  
+//       let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
+//       db.query(sql, (err, result) => {
+  
+
+//         if (err) {
+//           reject(err);
+//           return false;
+//         }
+//         let data = {}
+        
+//         data.admin_data = result
       
-        resolve(data);
-      });
-    }
+//         resolve(data);
+//       });
+//     }
 
        
            
-      })
-    })
-};
+//       })
+//     })
+// };
 
 Page.prototype.save_modify_data  = function (){
 ;

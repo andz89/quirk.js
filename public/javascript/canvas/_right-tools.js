@@ -125,7 +125,7 @@ export class Right_tools extends Modification {
       if (object != undefined) {
         if (window.getSelection().toString() != "") {
           object.setSelectionStyles({ fill: e.target.value });
-          canvas.renderAll();
+          this.canvas.renderAll();
         } else if (window.getSelection().toString() == "") {
           object.removeStyle("fill");
           object.set("fill", e.target.value);

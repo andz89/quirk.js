@@ -3,8 +3,7 @@ import { Modification } from "./_modification.js";
 export class Menu_tools extends Modification {
   loadPage() {
     
-
-
+ 
     let link = canvas_image;
 
     fabric.Image.fromURL(link, (img) => {
@@ -206,11 +205,96 @@ export class Menu_tools extends Modification {
   }
 
  save_file_json() {
+  //limit maximum 1300 words 
+  //target limit 1000 words
     document.getElementById("save_json").addEventListener("click", () => {
+ 
+    function replaceBreakLine(valueToEscape) {
+      if (valueToEscape != null && valueToEscape != "") {
+         return valueToEscape.replaceAll(/\\n|\n/g,"<-br->");
+      } else {
+         return valueToEscape;
+      } 
+   }
+   function replaceQoute(valueToEscape){
+    if (valueToEscape != null && valueToEscape != "") {
+      return valueToEscape.replaceAll(/'/g,"<-q->");
+   } else {
+      return valueToEscape;
+   } 
+   }
+ 
+   let objects =  this.canvas.getObjects()
+    objects.forEach((e)=>{
+        if(e.type === 'textbox'){
 
-      let json = JSON.stringify(this.canvas.store_objects);
+        e.text =  replaceQoute(replaceBreakLine(e.text)) 
+        this.canvas.renderAll()
+        }
+    })
 
+  
+      let textbox_property = [
+        "stroke",
+        "strokeWidth",
+       "strokeDashArray",
+        "strokeLineCap",
+        "strokeDashOffset",
+        "strokeLineJoin",
+        "strokeUniform",
+        "strokeMiterLimit",
+        "angle",
+        "flipX",
+        "flipY",
+        "opacity",
+        "shadow",
+        "visible",
+        "fillRule",
+        "paintFirst",
+        "globalCompositeOperation",
+        "skewX",
+        "skewY",
+        "underline",
+        "overline",
+        "linethrough",
+        "fontStyle",
+        "lineHeight",
+        "charSpacing",
+        "styles",
+        "direction",
+        "path",
+        "pathStartOffset",
+        "pathSide",
+        "pathAlign",
+        "splitByGrapheme",
+        "editable",
+        "borderColor",
+        "cornerColor",
+        "cornerSize",
+        "cornerStyle",
+        "transparentCorners",
+        "_controlsVisibility",
+        "lockMovementX",
+        "lockMovementY",
+        "lockScalingX",
+        "lockScalingY",
+        "selectable",
+        
+    ];
 
+    let json_file = this.canvas.toJSON([
+      "id",
+      "name",
+    ]);
+json_file.objects.forEach((e)=>{
+  console.log(e);
+  textbox_property.forEach((c)=>{
+     delete e[c];
+     })
+})
+      let json = JSON.stringify(json_file );
+
+      
    
    
       var xhttp = new XMLHttpRequest();
@@ -218,13 +302,13 @@ export class Menu_tools extends Modification {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
           // console.log(xhttp.responseText);
           let data = JSON.parse(xhttp.responseText);
-          console.log(data);
+    
 
         }
       };
       xhttp.open(
         "POST",
-        `http://localhost:5000/saved-template?saved_json=${json}&template_id=${this.canvas.template_id}`,
+        `http://localhost:5000/saved-template?saved_json=  `+ encodeURIComponent(json) + `&template_id=${this.canvas.template_id}`,
         true
       );
       xhttp.send();

@@ -93,3 +93,21 @@ exports.saved_template = function (req, res) {
       res.json(err);
     });
 };
+exports.activateCanvas = (req,res) => {
+
+  let template = {}
+  template.user_id = req.session.user.user_id;
+  template.template_id = req.query.id;
+
+  let user = new User(template);
+  user.create_template().then((data) => {
+   
+    res.redirect("/success-activation"); 
+  })
+}
+exports.success_activation = (req, res)=>{
+ 
+  res.render("pages/success-activation", {
+ 
+  }); 
+}
