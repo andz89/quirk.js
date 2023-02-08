@@ -634,10 +634,31 @@ let json_file = JSON.stringify(merge);
     let saveCloseBtn = document.querySelector(".list-name-container .save");
     // Close
     saveCloseBtn.addEventListener("click", () => {
+      let textbox_1 = this.canvas.getObjects().filter((el) => el.name === 'column-1-textbox');
+      let textbox_2 = this.canvas.getObjects().filter((el) => el.name === 'column-2-textbox');
+      if(document.querySelector(".list-name-container .list-names .input-container input")){
+        let aa = document.querySelector(
+          ".list-name-container .list-names .input-container"
+        ).children[0];
+        let bb = document.querySelector(
+          ".list-name-container .list-names .input-container"
+        ).children[1];
+     
+        if(aa){
+          textbox_1[0].set({text: aa.value}) 
+        }
+   
+        if(textbox_2 && bb){
+          textbox_2[0].set({text: bb.value}) 
+        }
+        this.canvas.renderAll()
+        
+      }
+    
       parent.style.display = "none";
     });
 
-    window.addEventListener("paste", function (e) {
+    window.addEventListener("paste",   (e) =>{
 
 
 
@@ -665,6 +686,8 @@ let json_file = JSON.stringify(merge);
                   `;
             list_names.appendChild(div);
             div.scrollIntoView();
+      
+          
           } else {
             let a = element.children[0].innerText;
             let b = " ";
@@ -687,6 +710,8 @@ let json_file = JSON.stringify(merge);
   
             list_names.appendChild(div);
             div.scrollIntoView();
+
+        
           }
         });
       
@@ -744,8 +769,13 @@ let json_file = JSON.stringify(merge);
               this.canvas.renderAll();
             });
             column_B.forEach((text) => {
-              //column A input
-              element.children[0].value = text;
+             //column A input
+             element.children[0].value = text;
+             let a = this.canvas.getObjects().filter((e) => {
+               return e.name === "column-2-textbox";
+             });
+             a[0].set({ text: text });
+             this.canvas.renderAll();
             });
           });
         }
@@ -824,18 +854,27 @@ let json_file = JSON.stringify(merge);
           );
 
           a.forEach((element) => {
-            arrayName.push(element.children[0].value);
+            let data = {
+              dataOne: element.children[0].value,
+              dataTwo: element.children[1].value,
+            }
+            arrayName.push(data);
           });
       
        
         let names = arrayName;
-
+          console.log(names[0].dataOne);
         for (let i = 0; i < names.length; i++) {
           // let display_name = document.querySelector("#file_name").innerHTML;
           let a = this.canvas.getObjects().filter((e) => {
             return e.name === "column-1-textbox";
           });
-          a[0].set({ text: names[i] });
+          a[0].set({ text: names[i].dataOne });
+
+          let b = this.canvas.getObjects().filter((e) => {
+            return e.name === "column-2-textbox";
+          });
+          b[0].set({ text: names[i].dataTwo });
 
           // let imgSrc = document.querySelector(".try").src;
           let imgSrc = this.canvas
@@ -1032,18 +1071,18 @@ let json_file = JSON.stringify(merge);
     document
       .querySelector(".insert-textbox-container .close")
       .addEventListener("click", () => {
-        let activeObject = this.canvas.getActiveObject();
-        let a = document.querySelector(
-          ".insert-textbox-container .list-names .input-container input"
-        );
-        if(a){
-          activeObject.text = a.value
-        }
+        // let activeObject = this.canvas.getActiveObject();
+        // let a = document.querySelector(
+        //   ".insert-textbox-container .list-names .input-container input"
+        // );
+        // if(a){
+        //   activeObject.text = a.value
+        // }
        
-        this.canvas.discardActiveObject(activeObject);
-        this.canvas.renderAll();
-        document.querySelector(".insert-textbox-container").style.display =
-          "none";
+        // this.canvas.discardActiveObject(activeObject);
+        // this.canvas.renderAll();
+        // document.querySelector(".insert-textbox-container").style.display =
+        //   "none";
 
      
       });

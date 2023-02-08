@@ -1,4 +1,10 @@
 .purchased-templates {
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+
+    h4 {
+        text-align: center;
+    }
 }
