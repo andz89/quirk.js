@@ -18,7 +18,7 @@ class Templates{
                     document.querySelector('.modal-activation').style.display = 'flex';
                 let parent = e.target.parentElement
               
-                let title =  parent.querySelector('h3').innerText
+                let title =  parent.querySelector('h4').innerText
                 let description = parent.querySelector('p').innerText
                 let img =  parent.querySelector('img').src
                 let id =  parent.querySelector('#display-template-id').value

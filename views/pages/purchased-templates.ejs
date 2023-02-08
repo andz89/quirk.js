@@ -3,28 +3,28 @@
         <div class="d-flex justify-content-center ">
             <h4>Your Purchased Templates</h4>
         </div>
-        <div class="purchased-templates   d-flex  align-items-start bg-light py-1" style="width: 100%;">
+        <div class="purchased-templates   bg-light py-1" style="width: 100%;">
             <% data.forEach((data)=>{%>
 
 
-                <a href="/canvas?template_id=<%= data.template_id %> " target="_blank">
-                    <div class="hover-opactiy d-flex  justify-content-center flex-direction-column"
-                        style="width: 200px;">
+
+                <div class="hover-opactiy d-flex  justify-content-center flex-direction-column" style="width: 200px;">
+                    <a href="/canvas?template_id=<%= data.template_id %> " target="_blank">
                         <input type="hidden" id="display-template-id" value="<%= data.template_id %>">
 
 
                         <img src="images/ci/<%= data.canvas_image %>" width="170" class="show-template-details" alt="">
-                        <h3 class="text text-dark show-template-details">
+                        <h4 class="text text-dark show-template-details">
                             <%= data.template_name %>
-                        </h3>
+                        </h4>
                         <p style="display:none">
                             <%= data.template_description %>
                         </p>
 
 
+                    </a>
+                </div>
 
-                    </div>
-                </a>
                 <% }) %>
         </div>
 

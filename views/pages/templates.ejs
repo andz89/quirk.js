@@ -4,7 +4,7 @@
             <h2>Qurik Templates</h2>
 
         </div>
-        <div class="templates my-2 d-flex  align-items-start" style="width: 100%;">
+        <div class="templates my-2 " style="width: 100%;">
             <% data.forEach((data)=>{%>
 
 
@@ -14,9 +14,9 @@
 
 
                     <img src="images/ci/<%= data.canvas_image %>" width="170" class="show-template-details" alt="">
-                    <h3 class="text text-dark show-template-details">
+                    <h4 class="text text-dark show-template-details">
                         <%= data.template_name %>
-                    </h3>
+                    </h4>
                     <p style="display:none">
                         <%= data.template_description %>
                     </p>
@@ -42,14 +42,14 @@
                         <hr>
                         <div class="modal-content">
 
-                            <div class="d-flex justify-content-start align-items-start  ">
+                            <div class="content">
 
-                                <div class="d-flex justify-content-center ">
-                                    <img class="modal-image" width="90%" src="" alt="">
+                                <div class="img-container">
+                                    <img class="modal-image" width="100%" src="" alt="">
 
                                 </div>
 
-                                <div>
+                                <div class="details-container">
                                     <input type="hidden" id="template-id">
                                     <span class="modal-description"></span>
                                     <span>

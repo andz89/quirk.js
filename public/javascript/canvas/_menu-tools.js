@@ -232,17 +232,8 @@ if(a ==  undefined){
    } 
    }
  
-   let objects =  this.canvas.getObjects()
-    objects.forEach((e)=>{
-        if(e.type === 'textbox'){
+ 
 
-        e.text =  replaceQoute(replaceBreakLine(e.text)) 
-        this.canvas.renderAll()
-        }
-      
-    })
-
-  
       let textbox_property = [
         "filters",
         "originX",
@@ -287,34 +278,57 @@ if(a ==  undefined){
         "cornerStyle",
         "transparentCorners",
         "_controlsVisibility",
-    
+       "lockMovementX",
+        "lockMovementY",
         "lockScalingX",
         "lockScalingY",
         "selectable",
         
     ];
-    // "lockMovementX",
-        // "lockMovementY",
+ 
     let json = this.canvas.toJSON([
       "id",
       "name",
     ]);
+ 
 json.objects.forEach((e)=>{
  
+        if(e.type === 'textbox'){
+        e.text =  replaceQoute(replaceBreakLine(e.text)) 
+        
+        }
+ 
+
+
   textbox_property.forEach((c)=>{
      delete e[c];
     if(e.cropY === 0 || e.cropX === 0){
       delete e['cropY'];
       delete e['cropX'];
-
     }
    
-    if(e.fill ==="rgb(0,0,0)"){
+    if(e.fill ==="rgb(0,0,0)" || e.fill === "#000000"){
       delete e["fill"];
     }
- 
+    if(e.backgroundColor === "")
+    delete e["backgroundColor"];
      })
+     if(e.textBackgroundColor === ""){
+    delete e["textBackgroundColor"];
+     }
+     if(e.fontWeight === "normal"){
+      delete e["fontWeight"];
+     }
+ 
+     if(e.fontFamily === "Times New Roman"){
+      delete e["fontFamily"];
+     }
+     if(e.minWidth === 20){
+      delete e["minWidth"];
+     }
+    
 })
+
 
   
  

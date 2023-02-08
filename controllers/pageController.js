@@ -83,12 +83,11 @@ exports.purchased_templates = function(req,res){
   ;
     res.render("pages/purchased-templates", {
       data: data,
-  
+
       user_type: req.session.user.user_role,
       session: req.session.user ? true : false,
     }); 
   })
-    
 }
 // exports.canvas = (req, res) => {
 
