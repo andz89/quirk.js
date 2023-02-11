@@ -50,7 +50,7 @@ if(a ==  undefined){
       let object = new fabric.Textbox("Your Text Here", {
         textAlign: "center",
 
-        fontSize: 100, // this.canvas.getWidth() * .17,
+        fontSize: Math.floor(this.canvas.getWidth() / 15)  ,
         id: this.uniqueId()+ 211,
         dirty: true,
         // width: 400,//this.canvas.getWidth() * .80
@@ -59,6 +59,7 @@ if(a ==  undefined){
         // height: 1900,
         centeredScaling: true,
       });
+    
       object.name = object.type;
     
       this.adding_object_style(object);
@@ -128,52 +129,12 @@ if(a ==  undefined){
 
   paste_image() {
     window.addEventListener("paste", (e) => {
-      let items = e.clipboardData.items;
+      let obj = this.canvas.getActiveObject()
+      obj.fontSize = 9
+ 
+      console.log(obj.fontSize);
 
-      if (items.length === 0) {
-        return false;
-      }
-
-      if (items.length === 1) {
-        let local_image = items[0].getAsFile();
-
-        if (
-          local_image.type === "image/png" ||
-          local_image.type === "image/jpeg"
-        ) {
-          let reader = new FileReader();
-          reader.readAsDataURL(local_image);
-
-          reader.onload = () => {
-            fabric.Image.fromURL(reader.result, (img) => {
-              img.name = img.type;
-              img.id = this.uniqueId();
-              this.adding_object_style(img);
-            });
-          };
-        }
-      }
-
-      // if gikan sa web brower ang file
-      if (items.length > 1) {
-        let imageData = items[1].getAsFile();
-
-        if (imageData.type === "image/png" || imageData.type === "image/jpeg") {
-          let reader = new FileReader();
-
-          reader.readAsDataURL(imageData);
-
-          reader.onload = () => {
-            fabric.Image.fromURL(reader.result, (img) => {
-              img.name = img.type;
-              img.id = this.uniqueId();
-              this.adding_object_style(img);
-            });
-          };
-        } else {
-          return false;
-        }
-      }
+      this.canvas.renderAll();
     });
   }
 
@@ -863,7 +824,7 @@ let json_file = JSON.stringify(merge);
       
        
         let names = arrayName;
-          console.log(names[0].dataOne);
+       
         for (let i = 0; i < names.length; i++) {
           // let display_name = document.querySelector("#file_name").innerHTML;
           let a = this.canvas.getObjects().filter((e) => {
@@ -1154,281 +1115,7 @@ let json_file = JSON.stringify(merge);
     };
   }
 
-  trim() {
-    let trim_btn = document.querySelector("#trim-image");
-    trim_btn.onclick = () => {
-      let object = this.canvas.getActiveObject();
-
-      if (!object) {
-        return false;
-      }
-
-      if (object.type == "activeSelection") {
-        return false;
-      }
-      if (object.name === "boxCropper") {
-        return false;
-      }
-      this.canvas.discardActiveObject(object);
-      object.hoverCursor = "crosshair";
-      this.canvas.renderAll();
-
-      const lock = (bollean) => {
-        this.canvas.getObjects().forEach((obj) => {
-          if (obj.name === "trimmer") {
-            return false;
-          }
-          // if(obj.name === 'bg_trim'){
-          // return false
-          // }
-          this.lock_image(obj, bollean);
-          if (bollean === true) {
-            // obj.hoverCursor = 'crosshair'
-            this.canvas.hoverCursor = "crosshair";
-            this.canvas.defaultCursor = "crosshair";
-          } else {
-            this.canvas.defaultCursor = "default";
-            this.canvas.hoverCursor = "all-scroll";
-          }
-        });
-      };
-
-      lock(true);
-
-      // create dark background
-      let background = new fabric.Rect({
-        width: this.width,
-        height: this.height,
-        fill: "gray",
-        opacity: 0.9,
-        name: "bg_trim",
-      });
-
-      this.canvas.add(background);
-      this.canvas.viewportCenterObject(background);
-      this.lock_image(background, true);
-
-      // dark_background.moveTo(this.canvas.getObjects().indexOf(image_object))
-
-      this.canvas.selection = false;
-      let trimmer_box;
-      let mouseDown = false;
-      let stopDrawing = false;
-      let origX;
-      let origY;
-
-      let current_index = this.canvas.getObjects().indexOf(object);
-      this.canvas.bringToFront(object);
-      background.moveTo(this.canvas.getObjects().indexOf(object) - 1);
-
-      const start_add = (o) => {
-        if (stopDrawing === false) {
-          let pointer = this.canvas.getPointer(o.e);
-          origX = pointer.x;
-          origY = pointer.y;
-
-          mouseDown = true;
-
-          trimmer_box = new fabric.Rect({
-            fill: "gray",
-            left: pointer.x,
-            top: pointer.y,
-            stroke: "#F51720",
-            strokeWidth: 3,
-            name: "trimmer",
-            objectCaching: false,
-            excludeFromExport: true,
-            opacity: 0.5,
-          });
-          // trimmer_box.setControlsVisibility({
-          // mt: false,mb: false,ml: false, mr: false,tr: false,tl: false,br: false,bl: false, mtr: false
-          // });
-
-          this.canvas.add(trimmer_box);
-
-          this.canvas.renderAll();
-        }
-      };
-      let delete_trimmer;
-      const start_draw = (o) => {
-        let pointer = this.canvas.getPointer(o.e);
-
-        if (mouseDown === true && pointer.x > origX && pointer.y > origY) {
-          trimmer_box.width = pointer.x - origX;
-          trimmer_box.height = pointer.y - origY;
-
-          this.canvas.renderAll();
-          delete_trimmer = true;
-        }
-      };
-      let cut_out = true;
-      const stop_draw = () => {
-        if (cut_out === true) {
-          let scaleFactor = 1;
-          this.canvas.setWidth(this.width * scaleFactor);
-          this.canvas.setHeight(this.height * scaleFactor);
-          this.canvas.setZoom(scaleFactor);
-          mouseDown = false;
-          trimmer_box.setCoords();
-          stopDrawing = true;
-          this.canvas.selection = true;
-          // kung nagsugod  ang trimmer sa gawas ng object sa bottom//bottom
-          let trimmer_height_onObject =
-            trimmer_box.getBoundingRect().top - object.getBoundingRect().top;
-          if (trimmer_height_onObject > object.getScaledHeight()) {
-            this.returnToOriginalSize();
-            lock(false);
-            this.canvas.remove(trimmer_box);
-            object.hoverCursor = "all-scroll";
-            cut_out = false;
-            this.canvas.remove(background);
-            this.canvas.renderAll();
-            return false;
-          }
-          // kung nagsugod  ang trimmer sa gawas ng object sa right//width
-          let trimmer_width_onObject =
-            trimmer_box.getBoundingRect().left - object.getBoundingRect().left;
-          if (trimmer_width_onObject > object.getScaledWidth()) {
-            this.returnToOriginalSize();
-
-            lock(false);
-            this.canvas.remove(trimmer_box);
-            object.hoverCursor = "all-scroll";
-            cut_out = false;
-            this.canvas.remove(background);
-            this.canvas.renderAll();
-            return false;
-          }
-
-          // kung ang tumoy mo sa trimmer box ing abot ba sa sugdanan ng object sa left//hint start
-          let width_of_trimmer =
-            trimmer_box.getBoundingRect().left + trimmer_box.getScaledWidth();
-          if (width_of_trimmer < object.getBoundingRect().left) {
-            this.returnToOriginalSize();
-            lock(false);
-            this.canvas.remove(background);
-            this.canvas.remove(trimmer_box);
-            object.hoverCursor = "all-scroll";
-            cut_out = false;
-
-            this.canvas.renderAll();
-            return false;
-          }
-
-          // kung ang tumoy mo sa trimmer box ing abot ba sa sugdanan ng object sa top//top
-          let height_of_trimmer =
-            trimmer_box.getBoundingRect().top + trimmer_box.getScaledHeight();
-          if (height_of_trimmer < object.getBoundingRect().top) {
-            this.returnToOriginalSize();
-            lock(false);
-            this.canvas.remove(background);
-            this.canvas.remove(trimmer_box);
-            object.hoverCursor = "all-scroll";
-            cut_out = false;
-            this.canvas.renderAll();
-            return false;
-          }
-
-          // asa ng start ang left
-          let start_of_trimmer_onObject_left =
-            trimmer_box.getBoundingRect().left - object.getBoundingRect().left;
-          let width_ng_trimmer_sa_left =
-            trimmer_box.getBoundingRect().left + trimmer_box.getScaledWidth();
-          let sobra_sa_left = 0;
-          let ang_nabilin =
-            width_ng_trimmer_sa_left - start_of_trimmer_onObject_left;
-
-          if (ang_nabilin > width_ng_trimmer_sa_left) {
-            sobra_sa_left = ang_nabilin - width_ng_trimmer_sa_left;
-          } else {
-            start_of_trimmer_onObject_left = 0;
-          }
-
-          let start_of_trimmer_onObject_right =
-            trimmer_box.getBoundingRect().left - object.getBoundingRect().left;
-          let get_entire_width_viaTrimmer =
-            start_of_trimmer_onObject_right + trimmer_box.getScaledWidth();
-          let labaw;
-          if (get_entire_width_viaTrimmer > object.getScaledWidth()) {
-            labaw = get_entire_width_viaTrimmer - object.getScaledWidth();
-          } else {
-            labaw = 0;
-          }
-          // top
-          let start_of_trimmer_onObject_top =
-            trimmer_box.getBoundingRect().top - object.getBoundingRect().top;
-          let width_ng_trimmer_sa_top =
-            trimmer_box.getBoundingRect().top + trimmer_box.getScaledHeight();
-          let sobra_sa_top = 0;
-          let ang_nabilin_top =
-            width_ng_trimmer_sa_top - start_of_trimmer_onObject_top;
-
-          if (ang_nabilin_top > width_ng_trimmer_sa_top) {
-            sobra_sa_top = ang_nabilin_top - width_ng_trimmer_sa_top;
-          } else {
-            start_of_trimmer_onObject_top = 0;
-          }
-
-          // bottom
-          let start_of_trimmer_onObject_bottom =
-            trimmer_box.getBoundingRect().top - object.getBoundingRect().top;
-          let get_entire_width_viaTrimmer_bottom =
-            start_of_trimmer_onObject_bottom + trimmer_box.getScaledHeight();
-          let labaw_bottom;
-          if (get_entire_width_viaTrimmer_bottom > object.getScaledHeight()) {
-            labaw_bottom =
-              get_entire_width_viaTrimmer_bottom - object.getScaledHeight();
-          } else {
-            labaw_bottom = 0;
-          }
-
-          let b = object.toDataURL({
-            left:
-              trimmer_box.getBoundingRect().left -
-              object.getBoundingRect().left -
-              start_of_trimmer_onObject_left,
-            top:
-              trimmer_box.getBoundingRect().top -
-              object.getBoundingRect().top -
-              start_of_trimmer_onObject_top,
-            width: trimmer_box.getScaledWidth() - sobra_sa_left - labaw,
-            height: trimmer_box.getScaledHeight() - sobra_sa_top - labaw_bottom,
-            format: "png",
-          });
-
-          fabric.Image.fromURL(b, (img) => {
-            if (sobra_sa_left > 0 || sobra_sa_top > 0) {
-              img.left = trimmer_box.left + sobra_sa_left;
-              img.top = trimmer_box.top + sobra_sa_top;
-            } else {
-              img.left = trimmer_box.left;
-              img.top = trimmer_box.top;
-            }
-
-            img.objectCaching = false;
-            this.canvas.setActiveObject(img);
-
-            if (delete_trimmer == true) {
-              this.canvas.add(img);
-            }
-          });
-
-          cut_out = false;
-          lock(false);
-
-          this.canvas.remove(trimmer_box);
-          this.canvas.remove(background);
-          object.moveTo(current_index);
-        }
-        this.returnToOriginalSize();
-        object.hoverCursor = "all-scroll";
-        this.canvas.renderAll();
-      };
-      this.canvas.on("mouse:down", start_add);
-      this.canvas.on("mouse:move", start_draw);
-      this.canvas.on("mouse:up", stop_draw);
-    };
-  }
+ 
 
   sample_crop() {
     let sample = document.querySelector("#sample-crop");

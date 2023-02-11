@@ -22,7 +22,8 @@ export class Canvas extends Modification {
 
     utils.alignCanvasBtn();
     utils.filesBtn();
-    utils.files_modal_button(".insert-shape");
+    utils.shape_options();
+ 
 
     let menu_tools = new Menu_tools({
       canvas: this.canvas,
@@ -34,20 +35,20 @@ export class Canvas extends Modification {
     });
     menu_tools.loadPage();
     menu_tools.insertText(".dropbtn-insert-text");
-    menu_tools.uploadImageLocalFile("#upload_image");
+    // menu_tools.uploadImageLocalFile("#upload_image");
     menu_tools.save_file_json();
-    menu_tools.canvasBackgroundColor();
-    menu_tools.bringToFront_object();
-    menu_tools.bringToBack_object();
+    // menu_tools.canvasBackgroundColor();
+    // menu_tools.bringToFront_object();
+    // menu_tools.bringToBack_object();
     menu_tools.horizontal_object();
     menu_tools.vertical_object();
     menu_tools.center_object();
-    menu_tools.align_left();
-    menu_tools.align_center();
-    menu_tools.align_right();
-    menu_tools.align_top();
-    menu_tools.align_middle();
-    menu_tools.align_bottom();
+    // menu_tools.align_left();
+    // menu_tools.align_center();
+    // menu_tools.align_right();
+    // menu_tools.align_top();
+    // menu_tools.align_middle();
+    // menu_tools.align_bottom();
     menu_tools.dragAndDrop_image();
     menu_tools.insert_textbox();
     // menu_tools.paste_image();
@@ -55,8 +56,7 @@ export class Canvas extends Modification {
     menu_tools.download_as_Zip();
     // menu_tools.print();
     menu_tools.insertData();
-    menu_tools.trim();
-
+ 
     menu_tools.upload_and_clip();
 
     // shapes
@@ -77,13 +77,13 @@ export class Canvas extends Modification {
     right_tools.fontColor("#color");
     right_tools.bold_text();
     right_tools.italic_text();
-    right_tools.stroke_color();
-    right_tools.stroke_width();
+    // right_tools.stroke_color();
+    // right_tools.stroke_width();
     // right_tools.opacity()
-    right_tools.duplicate();
+    // right_tools.duplicate();
     right_tools.sentenceCase();
-    right_tools.group_objects();
-    right_tools.ungroup_objects();
+    // right_tools.group_objects();
+    // right_tools.ungroup_objects();
     right_tools.textAlign_left();
     right_tools.textAlign_center();
     right_tools.textAlign_right();

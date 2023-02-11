@@ -88,7 +88,7 @@ export class Utilities extends Modification {
       // -------------------------------------//
 
       // stroke_width
-      document.querySelector("#strokeWidth").value = activeObj.strokeWidth;
+      // document.querySelector("#strokeWidth").value = activeObj.strokeWidth;
       // -------------------------------------//
 
       // -------------------------------------//
@@ -168,79 +168,7 @@ export class Utilities extends Modification {
       if (activeObj !== null  && activeObj.type === "textbox") {
         document.querySelector("#fontSize").value = activeObj.fontSize;
       }
-    //   function replaceBreakLine(valueToEscape) {
-    //     if (valueToEscape != null && valueToEscape != "") {
-    //        return valueToEscape.replaceAll(/\\n|\n/g,"<-br->");
-    //     } else {
-    //        return valueToEscape;
-    //     } 
-    //  }
-    //  function replaceQoute(valueToEscape){
-    //   if (valueToEscape != null && valueToEscape != "") {
-    //     return valueToEscape.replaceAll(/'/g,"<-q->");
-    //  } else {
-    //     return valueToEscape;
-    //  } 
-    //  }
-   
-
-    //   if(activeObj !== undefined && activeObj.type !== "image"){
-        
-    //     let new_text = replaceQoute(replaceBreakLine(activeObj.text)) 
-       
-    //           let data = {}
-    //           data.id = activeObj.id
-    //           data.top = activeObj.top;
-    //           data.left = activeObj.left
-    //           data.text =  new_text
-    //           data.scaleY = activeObj.scaleY
-    //           data.scaleX = activeObj.scaleX
-    //           data.height = activeObj.height
-    //           data.width = activeObj.width
-    //           data.fontSize = activeObj.fontSize
-    //           data.fontStyle = activeObj.fontStyle
-    //           data.styles = activeObj.styles
-    //           data.fill = activeObj.fill
-
-
-        
-    //           let index
-        
-    //           let addonExists = false;
-    //           for (let i = 0; i < this.canvas.store_objects.length; i++) {
-            
-    //             const element = this.canvas.store_objects[i];
-    //             if (element.id === data.id) {
-    //               addonExists = true;
-    //           element.id = activeObj.id
-    //           element.top = activeObj.top
-    //           element.left = activeObj.left
-    //           element.text = new_text
-    //           element.scaleY = activeObj.scaleY
-    //           element.scaleX = activeObj.scaleX
-    //           element.height = activeObj.height
-    //           element.width = activeObj.width
-    //           element.fontSize = activeObj.fontSize
-    //           element.fontStyle = activeObj.fontStyle
-    //           element.styles = activeObj.styles
-    //           element.fill = activeObj.fill
-                  
-    //               // this.canvas.store_objects.push(data);
-    //               // this.canvas.store_objects.splice(element,1);
-                  
-    //               break;
-    //             } 
-        
-    //             console.log(element);
-    //           }
-    //           if(addonExists == false){
-    //             this.canvas.store_objects.push(data);
-                
-    //           }
-     
-       
-        
-    //   }
+    
      
     };
 
@@ -337,22 +265,22 @@ export class Utilities extends Modification {
     };
   }
   // drop menu
-  files_modal_button(element) {
-    document.body.onclick = (e) => {
-      if (!e.target.matches(".dropbtn")) {
+  shape_options( ) {
+    document.querySelector('.insert-shape-btn').onclick = (e) => {
+      
+        console.log("drop")
         var dropdown_insert = document.querySelector(
           `.insert-shape .dropdown-content`
         );
+ 
         if (dropdown_insert.style.display == "block") {
           dropdown_insert.style.display = "none";
+        }else{
+          dropdown_insert.style.display = "block";
+
         }
-        let dropdown_subHeader = document.querySelector(
-          `header .dropdown-content`
-        );
-        if (dropdown_subHeader.style.display == "block") {
-          dropdown_subHeader.style.display = "none";
-        }
-      }
+      
+    
     };
 
     // let a = false;
