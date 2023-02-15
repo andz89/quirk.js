@@ -43,12 +43,12 @@ export class Canvas extends Modification {
     menu_tools.horizontal_object();
     menu_tools.vertical_object();
     menu_tools.center_object();
-    // menu_tools.align_left();
-    // menu_tools.align_center();
-    // menu_tools.align_right();
-    // menu_tools.align_top();
-    // menu_tools.align_middle();
-    // menu_tools.align_bottom();
+    menu_tools.align_left();
+    menu_tools.align_center();
+    menu_tools.align_right();
+    menu_tools.align_top();
+    menu_tools.align_middle();
+    menu_tools.align_bottom();
     menu_tools.dragAndDrop_image();
     menu_tools.insert_textbox();
     // menu_tools.paste_image();
@@ -88,5 +88,7 @@ export class Canvas extends Modification {
     right_tools.textAlign_center();
     right_tools.textAlign_right();
     right_tools.fontStyle();
+
+ 
   };
 }

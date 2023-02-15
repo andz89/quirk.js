@@ -3,12 +3,11 @@ import { Modification } from "./_modification.js";
 export class Right_tools extends Modification {
   sentenceCase() {
     document.querySelector("#sentence-case").addEventListener("click", () => {
-      let active = this.canvas.getActiveObject();
-      if (active.name === "column-1-textbox") {
-      
+     
+      console.log('ss');
         //to change the column text to sentence case
         let names = document.querySelectorAll(
-          ".insert-textbox-container .list-names .input-container"
+          ".list-name-container .list-names .input-container"
         );
      
 
@@ -21,7 +20,7 @@ export class Right_tools extends Modification {
           });
         
    
-      } 
+
     });
   }
 

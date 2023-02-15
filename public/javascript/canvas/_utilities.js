@@ -81,7 +81,9 @@ export class Utilities extends Modification {
 
       // fontSize
       if (activeObj.type == "textbox") {
-        document.querySelector("#fontSize").value = activeObj.fontSize;
+        document.querySelector("#fontSize").value = activeObj.fontSize
+ 
+
       } else {
         document.querySelector("#fontSize").value = "";
       }
@@ -152,8 +154,35 @@ export class Utilities extends Modification {
 
     // font size change when scaling
     const scale_object = (o) => {
+ 
       let activeObj = o.target;
+      scaleListener(o)
+      function scaleListener(e) {
+        // get the object being rescaled
+        var targ = e.target;
+        // check if we the scale was bigger than the new one
+        if (targ.scaleX > (targ.lastScaleX || 1) || targ.scaleY > (targ.lastScaleY || 1)) {
+          // it was
+          bigger();
+        } else {
+          // it wasn't
+          smaller();
+        }
+        // save the current scale as the last one in the object itself
+        targ.lastScaleX = targ.scaleX;
+        targ.lastScaleY = targ.scaleY;
+      };
+      function bigger() {
+      
+    document.querySelector("#fontSize").value = activeObj.fontSize++ + 1
+      }
+      
+      function smaller() {
+        document.querySelector("#fontSize").value = activeObj.fontSize-- - 1
 
+        }
+
+   
       // resize corner size when scaling
       if (activeObj.getScaledWidth() < 600) {
         activeObj.set("cornerSize", 8);
@@ -166,7 +195,7 @@ export class Utilities extends Modification {
     const mouseUp_object = (o) => {
       let activeObj = o.target;
       if (activeObj !== null  && activeObj.type === "textbox") {
-        document.querySelector("#fontSize").value = activeObj.fontSize;
+        document.querySelector("#fontSize").value = activeObj.fontSize
       }
     
      
@@ -206,7 +235,7 @@ export class Utilities extends Modification {
       "object:modified": modify_object,
       "object:scaling": scale_object,
       "mouse:up": mouseUp_object,
-
+       
       "mouse:down": mouseDown_object,
     });
   }
@@ -219,29 +248,52 @@ export class Utilities extends Modification {
       RIGHT: 2,
       DOWN: 3,
     };
+    document.body.addEventListener('keydown', function(e){
+      if(e.code == 'ArrowUp' || e.code == 'ArrowDown'){
+        e.preventDefault();
 
+        // return false;
+      };
+    })
     fabric.util.addListener(document.body, "keydown", (options) => {
       if (options.repeat) {
         return;
       }
       let object = this.canvas.getActiveObject();
       if (object) {
-        if (object.lockMovementX !== true) {
+
+        // if (object.lockMovementX !== true) {
+       
+         
           var key = options.which || options.keyCode; // key detection
           if (key === 37) {
             // handle Left key
+            
+   
             this.moveSelected(Direction.LEFT);
+
           } else if (key === 38) {
+           
+            
             // handle Up key
             this.moveSelected(Direction.UP);
+            
+
           } else if (key === 39) {
+            
             // handle Right key
             this.moveSelected(Direction.RIGHT);
+       
+
           } else if (key === 40) {
+            
+        
+           
             // handle Down key
             this.moveSelected(Direction.DOWN);
-          }
-        }
+            
+          } 
+        // }
       }
     });
   }

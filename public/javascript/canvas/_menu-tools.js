@@ -50,18 +50,21 @@ if(a ==  undefined){
       let object = new fabric.Textbox("Your Text Here", {
         textAlign: "center",
 
-        fontSize: Math.floor(this.canvas.getWidth() / 15)  ,
-        id: this.uniqueId()+ 211,
+        // fontSize: Math.floor(this.canvas.getWidth() / 15)  ,
+        
+        
+        id: this.uniqueId() ,
         dirty: true,
         // width: 400,//this.canvas.getWidth() * .80
-        width: 500,
+       width: 100,
         splitByGrapheme: true,
         // height: 1900,
         centeredScaling: true,
       });
-    
+      
+      object.fontSize = 12
+      object.scaleToWidth(400)
       object.name = object.type;
-    
       this.adding_object_style(object);
     });
   }
@@ -239,10 +242,10 @@ if(a ==  undefined){
         "cornerStyle",
         "transparentCorners",
         "_controlsVisibility",
-       "lockMovementX",
-        "lockMovementY",
-        "lockScalingX",
-        "lockScalingY",
+      //  "lockMovementX",
+        // "lockMovementY",
+        // "lockScalingX",
+        // "lockScalingY",
         "selectable",
         
     ];
@@ -250,6 +253,9 @@ if(a ==  undefined){
     let json = this.canvas.toJSON([
       "id",
       "name",
+      "lockMovementX",
+      "lockMovementY",
+ 
     ]);
  
 json.objects.forEach((e)=>{

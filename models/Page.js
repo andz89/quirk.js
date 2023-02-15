@@ -115,7 +115,7 @@ Page.prototype.getCanvas = function(){
             });
           
 }
-// Page.prototype.getTemplate = function () {
+ 
 
 //   return new Promise( async(resolve, reject) => {
 //       //check if save template is exist
