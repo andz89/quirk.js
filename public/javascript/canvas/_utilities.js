@@ -37,11 +37,14 @@ export class Utilities extends Modification {
         if (a.classList.toggle("show")) {
           a.classList.toggle("show");
         }
+
+        document.querySelector(".files-container .dropdown-content").style.display = "none";
       }
       if (e.target.id === "canvas-background") {
         if (a.classList.toggle("show")) {
           a.classList.toggle("show");
         }
+        document.querySelector(".files-container .dropdown-content").style.display = "none";
 
         this.canvas.discardActiveObject();
         this.canvas.renderAll();
@@ -156,31 +159,31 @@ export class Utilities extends Modification {
     const scale_object = (o) => {
  
       let activeObj = o.target;
-      scaleListener(o)
-      function scaleListener(e) {
-        // get the object being rescaled
-        var targ = e.target;
-        // check if we the scale was bigger than the new one
-        if (targ.scaleX > (targ.lastScaleX || 1) || targ.scaleY > (targ.lastScaleY || 1)) {
-          // it was
-          bigger();
-        } else {
-          // it wasn't
-          smaller();
-        }
-        // save the current scale as the last one in the object itself
-        targ.lastScaleX = targ.scaleX;
-        targ.lastScaleY = targ.scaleY;
-      };
-      function bigger() {
+    //   scaleListener(o)
+    //   function scaleListener(e) {
+    //     // get the object being rescaled
+    //     var targ = e.target;
+    //     // check if we the scale was bigger than the new one
+    //     if (targ.scaleX > (targ.lastScaleX || 1) || targ.scaleY > (targ.lastScaleY || 1)) {
+    //       // it was
+    //       bigger();
+    //     } else {
+    //       // it wasn't
+    //       smaller();
+    //     }
+    //     // save the current scale as the last one in the object itself
+    //     targ.lastScaleX = targ.scaleX;
+    //     targ.lastScaleY = targ.scaleY;
+    //   };
+    //   function bigger() {
       
-    document.querySelector("#fontSize").value = activeObj.fontSize++ + 1
-      }
+    // document.querySelector("#fontSize").value = activeObj.fontSize++ + 1
+    //   }
       
-      function smaller() {
-        document.querySelector("#fontSize").value = activeObj.fontSize-- - 1
+    //   function smaller() {
+    //     document.querySelector("#fontSize").value = activeObj.fontSize-- - 1
 
-        }
+    //     }
 
    
       // resize corner size when scaling
@@ -205,9 +208,15 @@ export class Utilities extends Modification {
     const mouseDown_object = (o) => {
       let activeObj = o.target;
 
-      if (activeObj == null) {
-        return false;
+         
+    if(activeObj == undefined){
+    
+        return false
       }
+     
+
+ 
+      this.canvas.renderAll()
       if (activeObj.name == "boxCropper-clip") {
         this.canvas.current_cropper_width = activeObj.getScaledWidth();
         this.canvas.current_cropper_height = activeObj.getScaledHeight();
@@ -228,6 +237,31 @@ export class Utilities extends Modification {
         this.canvas.setActiveObject(cropper_object[cropper_object.length - 1]);
       }
     };
+    const moving_object =(o)=>{
+      if(o){
+        let activeObj = o.target;
+        this.canvas.getObjects().forEach((e)=>{
+
+          if(activeObj.name == 'footer-name' ){
+            if(e.name == 'footer-name'){
+               
+              e.top = activeObj.top;
+              this.canvas.renderAll()
+            }
+          }
+         
+          if(activeObj.name == 'footer-position' ){
+            if(e.name == 'footer-position'){
+         
+              e.top = activeObj.top;
+              this.canvas.renderAll()
+            }
+          }
+         
+        })
+      }
+   
+    }
 
     this.canvas.on({
       "selection:updated": select_object,
@@ -235,7 +269,7 @@ export class Utilities extends Modification {
       "object:modified": modify_object,
       "object:scaling": scale_object,
       "mouse:up": mouseUp_object,
-       
+      'object:moving': moving_object,
       "mouse:down": mouseDown_object,
     });
   }

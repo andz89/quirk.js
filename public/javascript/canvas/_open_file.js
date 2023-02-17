@@ -25,6 +25,7 @@ export class Open_file {
           height: height,
           backgroundColor: "#fff",
           preserveObjectStacking: true,
+     
         });
       };
       let canvas_created = canvas(width, height);
@@ -55,11 +56,9 @@ export class Open_file {
              a.forEach((e)=>{
               if(e.type === 'textbox'){
              
-      
-                
                 e.text = replaceQoute(replaceBreakLine(e.text) ) 
                 e.centeredScaling = true
-              
+                e.setControlsVisibility({mt: false,mb: false,tr: false,tl: false,br: false,bl: false, mtr: false})
       
                 canvas_created.renderAll()
 
@@ -153,20 +152,45 @@ export class Open_file {
   
     
     };
-       //      var fonts = [
-    //       "Roboto",
-    //       "Scope One",
-    //       "Zen Kurenaido",
-    //       "Rubik Mono One",
-    //       "Annie Use Your Telescope",
-    //       "Dancing Script",
-    //       "Work Sans",
-    //     ];
-    // for(let i=0; i< fonts.length; i++) {
-    //   loadAndUse(fonts)
-    // }
 
-  run_json_file(json_parsed);
+    var fonts = [
+      "Roboto",
+      "Scope One",
+      "Zen Kurenaido",
+      "Rubik Mono One",
+      "Annie Use Your Telescope",
+      "Dancing Script",
+      "Work Sans",
+    ];
+    const loadAndUse = (font) => {
+       return new Promise((resolve, reject) => {
+        for(let i=0; i< font.length; i++) {
+          var myfont = new FontFaceObserver(font[i]);
+          myfont
+            .load()
+            .then(() => {
+              // when font is loaded, use it.
+    
+             
+              resolve()
+            })
+            .catch((e) => {
+              // this.alert("unstable internet connection. cannot load google fonts");
+            });
+        }
+
+       })
+   
+     
+    };
+         
+   
+      loadAndUse(fonts).then(()=>{
+        run_json_file(json_parsed);
+
+      })
+
+  
  
 
 

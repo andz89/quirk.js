@@ -601,8 +601,8 @@ let json_file = JSON.stringify(merge);
     let saveCloseBtn = document.querySelector(".list-name-container .save");
     // Close
     saveCloseBtn.addEventListener("click", () => {
-      let textbox_1 = this.canvas.getObjects().filter((el) => el.name === 'column-1-textbox');
-      let textbox_2 = this.canvas.getObjects().filter((el) => el.name === 'column-2-textbox');
+      let textbox_1 = this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox');
+      let textbox_2 = this.canvas.getObjects().filter((el) => el.name === 'Column-2-textbox');
       if(document.querySelector(".list-name-container .list-names .input-container input")){
         let aa = document.querySelector(
           ".list-name-container .list-names .input-container"
@@ -729,7 +729,7 @@ let json_file = JSON.stringify(merge);
               //column B input
               element.children[1].value = text;
               let a = this.canvas.getObjects().filter((e) => {
-                return e.name === "column-1-textbox";
+                return e.name === "Column-1-textbox";
               });
 
               a[0].set({ text: text });
@@ -739,7 +739,7 @@ let json_file = JSON.stringify(merge);
              //column A input
              element.children[0].value = text;
              let a = this.canvas.getObjects().filter((e) => {
-               return e.name === "column-2-textbox";
+               return e.name === "Column-2-textbox";
              });
              a[0].set({ text: text });
              this.canvas.renderAll();
@@ -834,12 +834,12 @@ let json_file = JSON.stringify(merge);
         for (let i = 0; i < names.length; i++) {
           // let display_name = document.querySelector("#file_name").innerHTML;
           let a = this.canvas.getObjects().filter((e) => {
-            return e.name === "column-1-textbox";
+            return e.name === "Column-1-textbox";
           });
           a[0].set({ text: names[i].dataOne });
 
           let b = this.canvas.getObjects().filter((e) => {
-            return e.name === "column-2-textbox";
+            return e.name === "Column-2-textbox";
           });
           b[0].set({ text: names[i].dataTwo });
 
@@ -877,9 +877,9 @@ let json_file = JSON.stringify(merge);
       let list_names = document.querySelector(".insert-textbox-container .list-names");
 
       let element = document.querySelector(".excel-html-view-data");
-      if (e.target && e.target.name == "column-1-textbox") {
+      if (e.target && e.target.name == "Column-1-textbox") {
         let activeObject = this.canvas.getActiveObject();
-        if (activeObject && activeObject.name === "column-1-textbox") {
+        if (activeObject && activeObject.name === "Column-1-textbox") {
           document.querySelector(".insert-textbox-container").style.display =
             "block";
        
@@ -995,7 +995,7 @@ let json_file = JSON.stringify(merge);
                 for (let i = 0; i < names.length; i++) {
           
                   let a = this.canvas.getObjects().filter((e) => {
-                    return e.name === "column-1-textbox";
+                    return e.name === "Column-1-textbox";
                   });
                 
                   a[0].set({ text: names[i] });

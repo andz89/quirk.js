@@ -1,13 +1,15 @@
 .header {
 
   @include set-background($dark-color);
-  position: sticky;
-  top: 0;
+  position: fixed;
+
   width: 100%;
 
   color: #f1f1f1;
   z-index: 1;
+
   padding-bottom: 10px;
+
 
   .file_name_container {
     display: flex;
@@ -31,6 +33,8 @@
         font-size: .8rem;
       }
     }
+
+
   }
 
 
@@ -124,36 +128,7 @@
       background-color: rgba(160, 158, 158, 0.712)
     }
 
-    .align-canvas-container {
-      position: relative;
 
-      .align-canvas-buttons-container {
-        position: absolute;
-        background-color: rgb(219, 217, 217);
-        z-index: 4;
-        width: 140px;
-        margin-top: 120px;
-        padding: 2px;
-        display: none;
-        color: #333;
-
-        div {
-          padding: 1px 10px;
-        }
-
-        div:hover {
-          background-color: rgb(107, 168, 168)
-        }
-      }
-
-      .show {
-        display: block;
-      }
-
-      .hide {
-        display: none;
-      }
-    }
 
 
 
@@ -161,6 +136,37 @@
 
   }
 
+  .align-canvas-container {
+
+    position: relative;
+
+    .align-canvas-buttons-container {
+      position: absolute;
+      background-color: rgb(219, 217, 217);
+      z-index: 4;
+      width: 140px;
+      cursor: pointer;
+      padding: 2px;
+      display: none;
+      color: #333;
+
+      div {
+        padding: 1px 10px;
+      }
+
+      div:hover {
+        background-color: rgb(107, 168, 168)
+      }
+    }
+
+    .show {
+      display: block;
+    }
+
+    .hide {
+      display: none;
+    }
+  }
 
 
   .zoom_and_undo_container {
@@ -200,20 +206,21 @@
   }
 
   .tools {
+    margin: 0 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 10px;
+    align-items: center;
+
 
     .text {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+
 
       .fonts-Select-size {
 
-
+        //select style font
         select {
           height: 25px;
 
@@ -223,6 +230,7 @@
         #fontSize {
 
           height: 25px;
+          width: 50px;
           font-size: .7rem;
         }
 
@@ -248,7 +256,7 @@
 
 
         input {
-          width: 70px
+          width: 40px
         }
 
         div {

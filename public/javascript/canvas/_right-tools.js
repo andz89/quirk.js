@@ -538,12 +538,9 @@ export class Right_tools extends Modification {
     // fonts
     var fonts = [
       "Roboto",
-      "Scope One",
-      "Zen Kurenaido",
-      "Rubik Mono One",
-      "Annie Use Your Telescope",
       "Dancing Script",
       "Work Sans",
+      "Open Sans"
     ];
 
     fonts.unshift("Times New Roman");
