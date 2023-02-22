@@ -66,6 +66,8 @@ class Templates{
           });
         }
       }
+    
+    
 }
 
 export default Templates;

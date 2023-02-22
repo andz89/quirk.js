@@ -3,16 +3,16 @@ nav {
   height: 50px;
   width: 100%;
 
+  .title {
+    color: white;
+    font-size: 20px;
+    line-height: 50px;
+    padding: 0 20px;
 
+  }
 }
 
-.title {
-  color: white;
-  font-size: 20px;
-  line-height: 50px;
-  padding: 0 20px;
 
-}
 
 nav ul {
   float: right;
@@ -25,11 +25,11 @@ nav ul li {
   margin: 0 5px;
 
   a.active,
-a:hover {
-  background: #fcfcfc;
-  transition: .5s;
-  color: #333;
-}
+  a:hover {
+    background: #fcfcfc;
+    transition: .5s;
+    color: #333;
+  }
 }
 
 nav ul li a {

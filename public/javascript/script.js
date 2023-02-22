@@ -2,7 +2,7 @@ import Check from "./check.js";
  
 import Update from "./update.js";
 import Loader from "./loader.js";
-import Add_templates from "./add-templates.js";
+import Crud_templates from "./Crud-templates.js";
 import Templates from "./templates.js";
 
 let templates = new Templates();
@@ -10,10 +10,10 @@ templates.modal_template_details()
 templates.sumbit_code()
 
 
-let add_templates = new Add_templates();
-add_templates.show_templates_form();
-add_templates.submit_template();
-
+let crud_templates = new Crud_templates();
+crud_templates.show_templates_form();
+crud_templates.convert_file_to_json();
+crud_templates.edit_template()
 let check_password = new Check();
 check_password.check_password();
 

@@ -16,10 +16,12 @@ class Loader {
  
 
  
-      button.addEventListener("click", () => {
-        document.querySelector(".lds-spinner-container-generate").style.visibility =
-          " visible";
-      });
+     if(document.querySelector(".lds-spinner-container-generate")){
+      document.querySelector(".lds-spinner-container-generate").style.visibility =
+      " visible";
+     }
+      
+     
   
   }
 }

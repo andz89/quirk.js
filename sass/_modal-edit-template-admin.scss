@@ -1,0 +1,96 @@
+.modal-edit-admin {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    user-select: none;
+    background-color: #100f24c9;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .modal-header {
+
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px;
+        margin: 5px 0;
+
+
+
+        span {
+            font-size: 24px;
+
+        }
+
+        .close {
+            border: 1px solid #ccc;
+            padding: 2px 4px;
+            background-color: #cfe5fd;
+            transition: all 0.2s ease-in;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            background-color: #e6e7e9;
+
+        }
+    }
+
+    .modal-content {
+        margin: auto;
+        background-color: #fff;
+        width: 800px;
+        height: 500px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+
+
+        input[type='text'],
+        textarea {
+
+            padding: 0 .3rem;
+            font-size: .9rem;
+            border: 1px solid #ccc;
+            background-color: #f0eded;
+
+            color: #333;
+            width: 100%;
+
+        }
+
+        input[type='text'] {
+            height: 40px;
+        }
+
+        textarea {
+            height: 300px;
+        }
+
+        textarea,
+        input:focus {
+            border: 1px solid #048a9e;
+            outline: none;
+            transition: all 0.2s ease-in;
+            border-radius: 5px;
+
+
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: end;
+        }
+
+    }
+
+
+}

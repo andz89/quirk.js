@@ -1,88 +1,117 @@
 <%- include('../include/admin-header') %>
-    <div class="admin-templates-container" style="min-height: 400px;">
 
-        <div class="d-flex justify-content-end">
+    <div class="bg-white">
+        <div class="admin-templates-container" style="min-height: 400px;">
 
-            <input id="admin-remove" type="submit" class="btn btn-sm btn-danger text text-white"
-                value="removed saved Templates">
+            <div class="d-flex justify-content-end">
 
-            <div class="btn btn-sm btn-success" id="display-add-templates-form-btn">+ Add Templates</div>
+                <input id="admin-remove" type="submit" class="btn btn-sm btn-danger text text-white"
+                    value="removed saved Templates">
 
-        </div>
-        <div class="admin-message btn btn-md btn-success" style="display: none;width: 300px;"></div>
-        <div class="hide" id="template-form">
-            <div class=" d-flex justify-content-center bg-light p-1 m-1">
-                <form action="/add-template" method="POST" enctype="multipart/form-data" class="add-templates-form ">
+                <div class="btn btn-sm btn-success" id="display-add-templates-form-btn">+ Add Templates</div>
 
-                    <div
-                        class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1">
-                        <div class="d-flex flex-direction-column align-items-start">
-                            <label for="">Template Name</label>
-                            <input required name="template_name" type="text" placeholder="Template Name"
-                                autocomplete="off" value="" id="template-name" />
-                        </div>
-                        <div class="d-flex flex-direction-column align-items-start">
-                            <label for="">Template Description</label>
+            </div>
+            <div class="admin-message btn btn-md btn-success" style="display: none;width: 300px;"></div>
+            <div class="hide" id="template-form">
+                <div class=" d-flex justify-content-center bg-light p-1 m-1">
+                    <form action="/add-template" method="POST" enctype="multipart/form-data"
+                        class="add-templates-form ">
 
-                            <input required name="template_description" type="text" placeholder="Template Description"
-                                id="template-description" autocomplete="off" value="" />
-                        </div>
-                        <input type="hidden" name="json_file" id="json_file">
+                        <div
+                            class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1">
+                            <div class="d-flex flex-direction-column align-items-start">
+                                <label for="">Template Name</label>
+                                <input required name="template_name" type="text" placeholder="Template Name"
+                                    autocomplete="off" value="" id="template-name" />
+                            </div>
+                            <div class="d-flex flex-direction-column align-items-start">
+                                <label for="">Template Description</label>
 
-                        <!-- <label class="custom-file-upload">
+                                <input required name="template_description" type="text"
+                                    placeholder="Template Description" id="template-description" autocomplete="off"
+                                    value="" />
+                            </div>
+                            <input type="hidden" name="json_file" id="json_file">
+
+                            <!-- <label class="custom-file-upload">
                             <input type="file" />
                             Upload display image
                         </label> -->
-                        <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
-                            <label for=""> Upload canvas image</label>
+                            <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
+                                <label for=""> Upload canvas image</label>
 
-                            <input required type="file" name="image" accept='image/*' />
+                                <input required type="file" name="image" accept='image/*' />
+
+                            </div>
+                            <div class="d-flex flex-direction-column align-items-start custom-file-upload">
+                                <label for=""> Upload Json File</label>
+
+                                <input required type="file" id="json-file" accept='application/JSON' />
+
+                            </div>
 
                         </div>
-                        <div class="d-flex flex-direction-column align-items-start custom-file-upload">
-                            <label for=""> Upload Json File</label>
+                        <div class="d-flex justify-content-between align-items-end">
+                            <div>
+                                <button type="submit" id="" class="btn btn-md btn-dark template-btn">sumbit
+                                    Template</button>
 
-                            <input required type="file" id="json-file" accept='application/JSON' />
+                            </div>
+
 
                         </div>
+                    </form>
+                </div>
+            </div>
 
+
+            <div class="my-2 d-flex  align-items-start templates" style="width: 100%;">
+                <% data.forEach((data)=>{%>
+
+
+
+                    <div class=" d-flex  justify-content-center flex-direction-column" style="width: 200px;">
+                        <img src="images/ci/<%= data.canvas_image %>" width="170" alt="">
+                        <h3 class="title text text-dark">
+                            <%= data.template_name %>
+                        </h3>
+                        <span style="display:none" class="description">
+                            <%= data.template_description %>
+                        </span>
+                        <input type="hidden" class="template-id" value="<%= data.template_id %>">
+                        <div class="btn btn-sm btn-success edit-template select-none" style="margin:0; padding:2px 5px">
+                            Edit
+                            Template</div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-end">
-                        <div>
-                            <button type="submit" id="" class="btn btn-md btn-dark template-btn">sumbit
-                                Template</button>
-
-                        </div>
 
 
-                    </div>
-                </form>
+
+
+                    <% }) %>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="modal-edit-admin">
+        <div class="modal-content">
+            <input type="hidden" class="template-id">
+            <input type="text" class="title" value="hello world">
+
+
+            <textarea class="description">
+
+            </textarea>
+            <input type="file" class="json-file">
+            <input type="hidden" class="json-text">
+
+            <div class="button-container">
+                <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel Changes</div>
+                <div class="btn btn-sm btn-success update-template-btn">Save Changes</div>
+
             </div>
         </div>
-
-
-        <div class="my-2 d-flex  align-items-start templates" style="width: 100%;">
-            <% data.forEach((data)=>{%>
-
-                <div>
-                    <a href="/canvas?id=<%= data.template_id %> " target="_blank">
-                        <div class="hover-opactiy d-flex  justify-content-center flex-direction-column"
-                            style="width: 200px;">
-                            <img src="images/ci/<%= data.canvas_image %>" width="170" alt="">
-                            <h3 class="text text-dark">
-                                <%= data.template_name %>
-                            </h3>
-
-                        </div>
-
-                    </a>
-                </div>
-
-                <% }) %>
-
-
-        </div>
-
     </div>
     <script>
         document.getElementById("admin-remove").addEventListener("click", () => {

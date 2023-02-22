@@ -450,31 +450,14 @@ let json_file = JSON.stringify(merge);
           let names = document.querySelectorAll(
             ".list-name-container .list-names .input-container"
           );
-          let column_A = [];
-          let column_B = [];
+       
           names.forEach((element) => {
-            column_A.push(element.children[0].value);
-            column_B.push(element.children[1].value);
-
-            column_A.forEach((text) => {
-              //column B input
-              element.children[1].value = text;
-              let a = this.canvas.getObjects().filter((e) => {
-                return e.name === "Column-1-textbox";
-              });
-
-              a[0].set({ text: text });
-              this.canvas.renderAll();
-            });
-            column_B.forEach((text) => {
-             //column A input
-             element.children[0].value = text;
-             let a = this.canvas.getObjects().filter((e) => {
-               return e.name === "Column-2-textbox";
-             });
-             a[0].set({ text: text });
-             this.canvas.renderAll();
-            });
+            let a = element.children[0].value 
+            let b = element.children[1].value;
+         
+            element.children[0].value = b
+            element.children[1].value = a
+        
           });
         }
         //clear all rows

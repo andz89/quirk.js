@@ -59,6 +59,8 @@ router.get("/admin-templates", middleware.role_admin, adminController.templates)
 router.post("/admin-login-request", adminController.admin_login_post);
 router.post("/add-template",upload.single('image') ,adminController.add_template);
 router.post("/remove" ,adminController.remove);
+router.post("/updateTemplate" ,adminController.updateTemplate);
+
 
 
 

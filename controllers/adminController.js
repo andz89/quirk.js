@@ -80,3 +80,25 @@ exports.remove = function (req, res){
       res.send(err);
     });
 }
+
+exports.updateTemplate = function (req, res){
+  let data = {};
+ 
+    data.template_json = req.query.template_json;
+  
+  data.template_name = req.query.template_title;
+  data.template_description = req.query.template_description;
+  data.template_id = req.query.template_id;
+
+  console.log(data);
+  
+  let admin = new Admin(data);
+  admin
+    .update_template()
+    .then(function () {
+      res.json(data);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+}

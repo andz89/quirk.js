@@ -29,7 +29,7 @@ console.log(this.data);
 Admin.prototype.remove = function (req, res) {
   return new Promise( (resolve, reject) => {
    
-    let sql = "DELETE FROM saved_template";
+    let sql = "DELETE FROM purchased_template";
     db.query(sql, (err) => {
       if (err) {
         reject(err);
@@ -40,4 +40,30 @@ Admin.prototype.remove = function (req, res) {
     });
   });
 }
+
+Admin.prototype.update_template = function () {
+  return new Promise(async (resolve, reject) => {
+  if(this.data.template_json){
+    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',template_json ='${this.data.template_json}' WHERE template_id = '${this.data.template_id}'`;
+      db.query(sql, (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }
+        resolve(result);
+      });
+  }else{
+    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}'  WHERE template_id ='${this.data.template_id}'`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      resolve(result);
+    });
+  }
+  
+   
+  });
+};
 module.exports = Admin;
