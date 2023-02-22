@@ -11,6 +11,17 @@ class Loader {
       });
     }
   }
+ 
+  loading_generate() {
+ 
+
+ 
+      button.addEventListener("click", () => {
+        document.querySelector(".lds-spinner-container-generate").style.visibility =
+          " visible";
+      });
+  
+  }
 }
 
 export default Loader;

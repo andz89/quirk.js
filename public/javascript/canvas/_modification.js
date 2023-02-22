@@ -265,7 +265,26 @@ export class Modification {
     });
   }
 
-  loading(display) {
-    document.querySelector(".lds-spinner-container").style.visibility = display;
+  loading(display,message) {
+    document.querySelector(".lds-spinner-container-generate").style.visibility = display;
+    if(message){
+      document.querySelector(".lds-spinner-container-generate .loader").innerHTML = message;
+    }
+    
+    if(message === null){
+      message = document.querySelector(".lds-spinner-container-generate .loader").innerHTML = 'Loading Please Wait...'
+    }
+   
+  }
+  loading_save(display,message) {
+    document.querySelector(".lds-spinner-container-saving-json").style.visibility = display;
+    if(message){
+      document.querySelector(".lds-spinner-container-saving-json .loader").innerHTML = message;
+    }
+    
+    if(message === null){
+      message = document.querySelector(".lds-spinner-container-saving-json .loader").innerHTML = 'Saving. . Please Wait...'
+    }
+   
   }
 }

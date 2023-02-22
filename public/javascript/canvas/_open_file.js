@@ -7,13 +7,14 @@ export class Open_file {
   let json_parsed = JSON.parse(json);
  
     
-
+ 
     const run_json_file = (canvas_saved) => {
       let canvasScale = 1;
       let SCALE_FACTOR = 1.1;
-      let width = "1754";
-      let height = "1240";
-
+      // let width = "1754";
+      // let height = "1240";
+       let width = json_parsed.size.w;
+       let height = json_parsed.size.h;
       document.querySelector("#file_name").innerHTML = template_name
 
       const canvas = (width, height) => {
@@ -25,7 +26,7 @@ export class Open_file {
           height: height,
           backgroundColor: "#fff",
           preserveObjectStacking: true,
-     
+          centeredScaling:true
         });
       };
       let canvas_created = canvas(width, height);
@@ -55,11 +56,14 @@ export class Open_file {
              let a = canvas_created.getObjects()
              a.forEach((e)=>{
               if(e.type === 'textbox'){
-             
+                
                 e.text = replaceQoute(replaceBreakLine(e.text) ) 
                 e.centeredScaling = true
                 e.setControlsVisibility({mt: false,mb: false,tr: false,tl: false,br: false,bl: false, mtr: false})
-      
+                if(e.name === 'Column-1-textbox' || e.name === 'Column-2-textbox'){
+                  e.editable = false
+                }
+                e.lockMovementX = true
                 canvas_created.renderAll()
 
               }
@@ -175,7 +179,8 @@ export class Open_file {
               resolve()
             })
             .catch((e) => {
-              // this.alert("unstable internet connection. cannot load google fonts");
+              let log = 'error loading font';
+              reject(log)
             });
         }
 
@@ -186,11 +191,13 @@ export class Open_file {
          
    
       loadAndUse(fonts).then(()=>{
-        run_json_file(json_parsed);
-
-      })
-
-  
+       
+      }).catch((e)=>{
+        console.log(e)
+      }); 
+    
+      run_json_file(json_parsed);
+      
  
 
 

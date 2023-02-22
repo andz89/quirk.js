@@ -29,7 +29,7 @@
                     <li class="dropbtn dropbtn-files files-btn">Files</li>
                     <div id="myDropdown" class="dropdown-content">
                         <a id="save_json">Save</a>
-                        <a id="preview-image">loop Name</a>
+                        <a id="preview-image">Generate Certificate</a>
 
 
                         <a href="index.html" target="_blank">New Tab</a>
@@ -41,21 +41,8 @@
 
                 |
 
-                <!-- <div class="align-canvas-container">
-                    <button class="btn btn-sm btn-primary  align-canvas">
-                        Align to canvas
-
-                    </button>
-                    <div class="align-canvas-buttons-container ">
-                        <div id="horizontal">Horizontal</div>
-                        <div id="vertical">Vertical</div>
-                        <div id="center">Center</div>
-
-                    </div>
-
-                </div> -->
                 <div>
-                    <div id="add_name_btn">View Data</div>
+                    <div id="insert-names">Insert Data</div>
                 </div>
             </div>
             <div class="zoom_and_undo_container">
@@ -83,9 +70,7 @@
                 </div>
 
                 <div class="text-style-align">
-                    <!-- color -->
-                    <label for="color"> <img id="" width="15" alt="">
-                    </label>
+
                     <input type="color" id="color" class="color  " value="#008080">
 
                     <!-- color -->
@@ -126,17 +111,6 @@
 
 
 
-                    <div class="fill-icon" for="shapeFill">
-                        <input type="color" id="shapeFill" value="#d6d6d6" class="shape-color  ">
-
-                        <div>
-                            <img src="images/canvas/transparent.png" id="removeColor" class="remove-color"
-                                title="transparent" draggable="false" alt="">
-
-                        </div>
-
-                    </div>
-
 
 
 
@@ -145,48 +119,9 @@
 
                 </div>
             </div>
-            <div class="align-canvas-container">
-                <button class="btn btn-sm btn-primary  align-canvas">
-                    Align to canvas
-
-                </button>
-                <div class="align-canvas-buttons-container ">
-                    <div id="horizontal">Horizontal</div>
-                    <div id="vertical">Vertical</div>
-                    <div id="center">Center</div>
-
-                </div>
-
-            </div>
-            <div>
 
 
-                <img id="align_left" src="images/canvas/align_left.png" title="align-left" width="25" draggable="false"
-                    alt="">
-                <img id="align_center" src="images/canvas/align_center.png" title="align-center" width="25"
-                    draggable="false" alt="">
-                <img id="align-right" src="images/canvas/align_right.png" title="align-right" width="25"
-                    draggable="false" alt="">
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <img id="align-bottom" src="images/canvas/align_bottom.png" title="align-bottom" width="25"
-                    draggable="false" alt="">
-                <img id="align-middle" src="images/canvas/align_mid.png" title="align-middle" width="25"
-                    draggable="false" alt="">
-                <img id="align-top" src="images/canvas/align_top.png" title="align-top" width="25" draggable="false"
-                    alt="">
-            </div>
-            <div class="insert-shape">
-                <div class="dropdown dropdown-files insert-shape-div">
-                    <li class="dropbtn dropbtn-files insert-shape-btn">Shape</li>
-                    <div id="myDropdown" class="dropdown-content">
-                        <a id="square"> Square</a>
-                        <a id="circle">Circle</a>
-                        <a>Rectangle</a>
 
-                    </div>
-                </div>
-
-            </div>
             <li id="insert-text-btn" class="dropbtn-insert-text ">Insert Text</li>
         </div>
 
@@ -249,75 +184,6 @@
     </div>
 
 
-    <!-- choose colum -->
-
-    <div class="insert-textbox-container">
-
-
-        <div class="modal-content ">
-            <div class="d-flex align-items-center justify-content-between">
-
-                <div>
-                    <h2> Data 1</h2>
-                </div>
-                <div class="d-flex justify-content-end">
-                    <div>
-                        <div class="btn btn-sm btn-primary add-rows">+ Add Rows</div>
-                    </div>
-
-
-                    <div>
-                        <div class="btn btn-sm btn-primary clear-all">Clear rows</div>
-                    </div>
-                </div>
-
-
-
-            </div>
-
-            <div class="textarea-container">
-                <textarea class=""
-                    placeholder="paste here the copied column data from excel or google spreadsheet"></textarea>
-
-            </div>
-
-
-
-            <div class="list-names">
-
-            </div>
-
-
-
-
-
-
-
-
-            <div class="d-flex justify-content-between   bg-dark modal-footer">
-                <div>
-                    <img src="./images/canvas/case.png" class="" id="sentence-case" width="23" alt="">
-
-                </div>
-                <div>
-                    <div class="btn btn-sm btn-success text text-center generate-certificate-button ">
-                        <h3>Generate</h3>
-                    </div>
-                    <div class="btn btn-sm btn-light text text-center close">
-                        <h3>Close</h3>
-                    </div>
-                </div>
-
-
-            </div>
-
-
-
-        </div>
-
-
-
-    </div>
 
 
 
@@ -382,10 +248,22 @@
         </div>
     </div>
     <!-- loader -->
-    <div class="lds-spinner-container d-flex justify-content-center align-items-center ">
-        <span class="loader">Loading Please wait</span>
-    </div>
+    <div class="lds-spinner-container-generate d-flex justify-content-center align-items-center ">
+        <div class="text-container">
+            <span class="loader">Loading Please wait</span>
 
+        </div>
+    </div>
+    <div class="lds-spinner-container-saving-json d-flex justify-content-center align-items-center ">
+        <div class="text-container">
+            <span class="loader"> </span>
+            <div class="error" style="display:none">
+                <span>Something went wrong!</span><br>
+                <div class="btn btn-sm btn-danger text text-white">Close</div>
+
+            </div>
+        </div>
+    </div>
 
     <script src="javascript/canvas/library/jszip-utils.min.js"></script>
 
@@ -405,7 +283,7 @@
 
     </script>
 
-    <script src="javascript/canvas/test.js"></script>
+
 </body>
 
 </html>

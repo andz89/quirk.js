@@ -84,10 +84,10 @@ exports.saved_template = function (req, res) {
   user
     .saved_template_database()
     .then(function () {
-      res.json(data);
+      res.json('ok');
     })
     .catch((err) => {
-      res.json(err);
+      res.json('error');
     });
 };
 exports.activateCanvas = (req,res) => {

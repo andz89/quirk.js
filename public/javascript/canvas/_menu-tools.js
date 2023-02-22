@@ -56,15 +56,16 @@ if(a ==  undefined){
         id: this.uniqueId() ,
         dirty: true,
         // width: 400,//this.canvas.getWidth() * .80
-       width: 100,
+         width: 100,
         splitByGrapheme: true,
         // height: 1900,
         centeredScaling: true,
       });
       
-      object.fontSize = 12
+ 
       object.scaleToWidth(400)
-      object.name = object.type;
+      object.name = 'user-custom';
+      object.lockMovementX = true
       this.adding_object_style(object);
     });
   }
@@ -101,86 +102,46 @@ if(a ==  undefined){
     });
   }
 
-  dragAndDrop_image() {
-    const dropZoneElement = document
-      .querySelector(".drop-zone__input")
-      .closest(".canvas-container");
+ 
 
-    dropZoneElement.addEventListener("drop", (e) => {
-      e.preventDefault();
-      let file = e.dataTransfer.files;
-      if (file[0].type == "image/jpeg" || file[0].type == "image/png") {
-        Array.from(file).forEach((e) => {
-          let reader = new FileReader();
-          reader.readAsDataURL(e);
-
-          reader.onload = () => {
-            fabric.Image.fromURL(reader.result, (img) => {
-              img.name = img.type;
-              img.id = this.uniqueId();
-              // img.originX ='center',
-              // img.originY ='center'
-              this.adding_object_style(img);
-            });
-          };
-        });
-      } else {
-        return false;
-      }
-    });
-  }
-
-  paste_image() {
+  paste_text() {
     window.addEventListener("paste", (e) => {
       let obj = this.canvas.getActiveObject()
-      obj.fontSize = 9
+      this.canvas.text = obj.text
+      setTimeout(()=>{
+       
+        let obj = this.canvas.getActiveObject()
+        obj.removeStyle('styles')
+        obj.removeStyle('fontStyle')
+        obj.removeStyle('stroke')
+        obj.removeStyle('strokeWidth')
+        obj.removeStyle('fontWeight')
  
-      console.log(obj.fontSize);
-
-      this.canvas.renderAll();
+        if( obj.name === 'footer-position') {
+          if(obj.text.length > 120){
+            obj.text = this.canvas.text
+           
+          }
+        }
+        if(obj.name === 'footer-name'){
+          if(obj.text.length > 80){
+            obj.text = this.canvas.text
+          }
+        }
+      
+        this.canvas.renderAll();
+      })
+   
     });
   }
 
-  insert_square() {
-    let element = document.querySelector("#square");
-    element.onclick = () => {
-      let object = new fabric.Rect({
-        width: 238.10051968360946,
-        height: 228.71676505318098,
-
-        fill: "gray",
-        originX: "center",
-        originY: "center",
-      });
-      object.dirty = true;
-      object.name = "aa";
-      object.id = this.uniqueId();
-      // object.opacity = .5
-
-      this.adding_object_style(object);
-    };
-  }
-  insert_circle() {
-    let element = document.querySelector("#circle");
-    element.onclick = () => {
-      let object = new fabric.Circle({
-        radius: 200,
-        originX: "center",
-        originY: "center",
-      });
-      object.dirty = true;
-
-      object.name = "circle";
-      object.id = this.uniqueId();
-      this.adding_object_style(object);
-    };
-  }
+ 
 
  save_file_json() {
   //limit maximum 10,500 characters
   //target limit 10,000 characters
     document.getElementById("save_json").addEventListener("click", () => {
- 
+ this.loading_save('visible','Saving . .  Please wait...');
     function replaceBreakLine(valueToEscape) {
       if (valueToEscape != null && valueToEscape != "") {
          return valueToEscape.replaceAll(/\\n|\n/g,"<-br->");
@@ -242,21 +203,26 @@ if(a ==  undefined){
         "cornerStyle",
         "transparentCorners",
         "_controlsVisibility",
-      //  "lockMovementX",
-        // "lockMovementY",
+       "lockMovementX",
+        "lockMovementY",
         // "lockScalingX",
         // "lockScalingY",
+        "underline",
         "selectable",
+        "overline",
+"linethrough",
+"deltaY",
+"selectionStyle",
         
     ];
  
     let json = this.canvas.toJSON([
       "id",
       "name",
-      "lockMovementX",
-      "lockMovementY",
- 
+    
+      
     ]);
+
  
 json.objects.forEach((e)=>{
  
@@ -277,7 +243,7 @@ json.objects.forEach((e)=>{
     if(e.fill ==="rgb(0,0,0)" || e.fill === "#000000"){
       delete e["fill"];
     }
-    if(e.backgroundColor === "")
+    if(e.backgroundColor === ""||e.backgroundColor === "transparent" )
     delete e["backgroundColor"];
      })
      if(e.textBackgroundColor === ""){
@@ -311,15 +277,32 @@ let merge = {
 };
 let json_file = JSON.stringify(merge);
 
-      
+ 
    
    
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-          // console.log(xhttp.responseText);
+       
           let data = JSON.parse(xhttp.responseText);
-    
+          if(data === 'ok'){
+            this.loading_save('visible','Saved successfuly.');
+            setTimeout((e)=>{
+              document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
+            },500)
+       
+          }
+          if(data === 'error'){
+            document.querySelector('.lds-spinner-container-saving-json .text-container .loader').style.display = 'none'; 
+
+            document.querySelector('.lds-spinner-container-saving-json ').style.display = 'flex';
+            document.querySelector('.lds-spinner-container-saving-json .text-container .error').style.display = 'block';
+
+            document.querySelector('.lds-spinner-container-saving-json .text-container .error .btn').addEventListener('click', function(){
+              document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
+            })
+
+          }
 
         }
       };
@@ -332,260 +315,8 @@ let json_file = JSON.stringify(merge);
     });
   }
 
-  canvasBackgroundColor() {
-    let canvasBackground = document.querySelector("#canvas_background");
-    canvasBackground.oninput = (e) => {
-      this.canvas.setBackgroundColor(e.target.value);
-      this.canvas.renderAll();
-    };
-    let transparent = document.querySelector("#transparent");
-    transparent.onclick = () => {
-      this.canvas.setBackgroundColor(null);
-      this.canvas.renderAll();
-    };
-  }
-
-  bringToFront_object() {
-    let bringToFront = document.querySelector("#bringToFront_object");
-    bringToFront.onclick = (e) => {
-      let object = this.canvas.getActiveObject();
-      if (object.name === "boxCropper") {
-        return false;
-      }
-      this.canvas.bringForward(object);
-    };
-  }
-
-  bringToBack_object() {
-    let bringToBack = document.querySelector("#bringToBack_object");
-    bringToBack.onclick = (e) => {
-      let object = this.canvas.getActiveObject();
-
-      if (object.name === "boxCropper") {
-        return false;
-      }
-      this.canvas.sendBackwards(object);
-    };
-  }
-
-  horizontal_object() {
-    document.querySelector("#horizontal").onclick = () => {
-      if (this.canvas.getActiveObject().name === "boxCropper") {
-        return false;
-      }
-      if (this.canvas.getActiveObject().type === "activeSelection") {
-        let obj = this.canvas.getActiveObject().toGroup();
-        this.canvas.viewportCenterObjectH(obj);
-
-        let selected_objects = this.canvas
-          .getActiveObject()
-          .toActiveSelection();
-        selected_objects.set("borderColor", "#333");
-        selected_objects.set("cornerColor", "#17a2b8");
-        selected_objects.set("cornerSize", 15);
-        selected_objects.set("cornerStyle", "circle");
-        selected_objects.set("transparentCorners", false);
-        selected_objects.set("lockUniScaling", true);
-
-        this.canvas.renderAll();
-      } else {
-        let object = this.canvas.getActiveObject();
-        this.canvas.viewportCenterObjectH(object);
-        this.canvas.setActiveObject(object);
-      }
-    };
-  }
-
-  vertical_object() {
-    document.querySelector("#vertical").onclick = () => {
-      if (this.canvas.getActiveObject().name === "boxCropper") {
-        return false;
-      }
-      if (this.canvas.getActiveObject().type === "activeSelection") {
-        let obj = this.canvas.getActiveObject().toGroup();
-        this.canvas.viewportCenterObjectV(obj);
-        let selected_objects = this.canvas
-          .getActiveObject()
-          .toActiveSelection();
-        selected_objects.set("borderColor", "#333");
-        selected_objects.set("cornerColor", "#17a2b8");
-        selected_objects.set("cornerSize", 15);
-        selected_objects.set("cornerStyle", "circle");
-        selected_objects.set("transparentCorners", false);
-        selected_objects.set("lockUniScaling", true);
-
-        this.canvas.renderAll();
-      } else {
-        let object = this.canvas.getActiveObject();
-        this.canvas.viewportCenterObjectV(object);
-        this.canvas.setActiveObject(object);
-      }
-    };
-  }
-
-  center_object() {
-    document.querySelector("#center").onclick = () => {
-      if (this.canvas.getActiveObject().name === "boxCropper") {
-        return false;
-      }
-      if (this.canvas.getActiveObject().type === "activeSelection") {
-        let obj = this.canvas.getActiveObject().toGroup();
-        this.canvas.viewportCenterObject(obj);
-        let selected_objects = this.canvas
-          .getActiveObject()
-          .toActiveSelection();
-        this.groupObjectStyle(selected_objects);
-
-        this.canvas.renderAll();
-      } else {
-        let object = this.canvas.getActiveObject();
-        this.canvas.viewportCenterObject(object);
-
-        this.canvas.setActiveObject(object);
-      }
-    };
-  }
-
-  align_left() {
-    let align_left = document.querySelector("#align_left");
-    align_left.onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
-      }
-
-      let group_objects = this.canvas.getActiveObject().toGroup();
-
-      var groupWidth = group_objects.width;
-
-      object.forEach((obj) => {
-        obj.set({
-          left: -(groupWidth / 2),
-          originX: "left",
-        });
-      });
-      let each_object = this.canvas.getActiveObject().toActiveSelection();
-      this.groupObjectStyle(each_object);
-      this.canvas.renderAll();
-    };
-  }
-
-  align_center() {
-    let align_center = document.querySelector("#align_center");
-    align_center.onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
-      }
-
-      let group_objects = this.canvas.getActiveObject().toGroup();
-
-      var groupWidth = group_objects.width;
-
-      object.forEach((obj) => {
-        var itemWidth = obj.getBoundingRect().width;
-        obj.set({
-          left: 0 - itemWidth / 2,
-          originX: "left",
-        });
-      });
-      let each_object = this.canvas.getActiveObject().toActiveSelection();
-      this.groupObjectStyle(each_object);
-      this.canvas.renderAll();
-    };
-  }
-
-  align_right() {
-    let align_right = document.querySelector("#align-right");
-    align_right.onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
-      }
-
-      let group_objects = this.canvas.getActiveObject().toGroup();
-
-      var groupWidth = group_objects.width;
-
-      object.forEach((obj) => {
-        var itemWidth = obj.getBoundingRect().width;
-        obj.set({
-          left: groupWidth / 2 - itemWidth / 2,
-          originX: "center",
-        });
-      });
-
-      let each_object = this.canvas.getActiveObject().toActiveSelection();
-      this.groupObjectStyle(each_object);
-      this.canvas.renderAll();
-    };
-  }
-
-  align_top() {
-    document.querySelector("#align-top").onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
-      }
-
-      let group_objects = this.canvas.getActiveObject().toGroup();
-      var groupHeight = group_objects.height;
-
-      object.forEach((obj) => {
-        obj.set({
-          top: 0 - groupHeight / 2,
-          originY: "top",
-        });
-      });
-
-      let each_object = this.canvas.getActiveObject().toActiveSelection();
-      this.groupObjectStyle(each_object);
-      this.canvas.renderAll();
-    };
-  }
-
-  align_middle() {
-    document.querySelector("#align-middle").onclick = () => {
-      let object = this.canvas.getActiveObjects();
-
-      if (object.length < 2) {
-        return false;
-      }
-      object.forEach((obj) => {
-        let itemHeight = obj.getBoundingRect().height;
-
-        obj.set({
-          top: 0 - itemHeight / 2,
-          originY: "top",
-        });
-      });
-
-      this.canvas.renderAll();
-    };
-  }
-
-  align_bottom() {
-    document.querySelector("#align-bottom").onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
-      }
-
-      let group_objects = this.canvas.getActiveObject().toGroup();
-      var groupHeight = group_objects.height;
-
-      object.forEach((obj) => {
-        var itemHeight = obj.getBoundingRect().height;
-        obj.set({
-          top: groupHeight / 2 - itemHeight / 2,
-          originY: "center",
-        });
-      });
-      let each_object = this.canvas.getActiveObject().toActiveSelection();
-      this.groupObjectStyle(each_object);
-      this.canvas.renderAll();
-    };
-  }
+  
+ 
 
   //insert data
   insertData() {
@@ -593,7 +324,7 @@ let json_file = JSON.stringify(merge);
     let element = document.querySelector(".excel-html-view-data");
     let list_names = document.querySelector(".list-name-container .list-names");
     let parent = document.querySelector(".list-name-container");
-    let add_name_btn = document.querySelector("#add_name_btn");
+    let add_name_btn = document.querySelector("#insert-names");
     add_name_btn.addEventListener("click", () => {
       parent.style.display = "block";
     });
@@ -627,7 +358,7 @@ let json_file = JSON.stringify(merge);
 
     window.addEventListener("paste",   (e) =>{
 
-
+      // setTimeout(()=>{e.target.value = ''})
 
 
         element.innerHTML = e.clipboardData.getData("text/html");
@@ -691,7 +422,7 @@ let json_file = JSON.stringify(merge);
       .querySelector(".list-name-container")
       .addEventListener("click", (e) => {
         if (e.target.classList.contains("add-rows")) {
-          console.log("sdf");
+  
           let div = document.createElement("div");
           div.classList.add("input-container");
 
@@ -758,8 +489,8 @@ let json_file = JSON.stringify(merge);
       });
   }
 
-  // generate certifacate
-  preview_image() {
+  // generate certificate
+  generate_certificate() {
     const preview_image = document.querySelector("#preview-image");
     const modal = document.querySelector("#modal-container");
     const closeBtn = document.querySelector(".modal-canvas .close");
@@ -779,281 +510,108 @@ let json_file = JSON.stringify(merge);
    
 
     preview_image.addEventListener("click", () => {
-      this.loading("visible");
-
-      var scaleFactor = 1;
-      this.canvas.setWidth(this.width * scaleFactor);
-      this.canvas.setHeight(this.height * scaleFactor);
-      this.canvas.setZoom(scaleFactor);
-      this.canvas.renderAll();
-
-      setTimeout(() => {
-        const b64toBlob = (b64Data, contentType = "", sliceSize = 512) => {
-          const byteCharacters = atob(b64Data);
-          const byteArrays = [];
-
-          for (
-            let offset = 0;
-            offset < byteCharacters.length;
-            offset += sliceSize
-          ) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-              byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-            byteArrays.push(byteArray);
-          }
-
-          const blob = new Blob(byteArrays, { type: contentType });
-          return blob;
-        };
-
-        //get selected column from choose column modal
-        let text = document.querySelector(".same-as-selected");
+ 
+      this.loading("visible",null);
+      
+      setTimeout(()=>{
         let arrayName = [];
     
-          let a = document.querySelectorAll(
-            ".list-name-container .list-names .input-container"
-          );
+        let a = document.querySelectorAll(
+          ".list-name-container .list-names .input-container"
+        );
 
-          a.forEach((element) => {
-            let data = {
-              dataOne: element.children[0].value,
-              dataTwo: element.children[1].value,
-            }
-            arrayName.push(data);
-          });
-      
-       
-        let names = arrayName;
-       
-        for (let i = 0; i < names.length; i++) {
-          // let display_name = document.querySelector("#file_name").innerHTML;
-          let a = this.canvas.getObjects().filter((e) => {
-            return e.name === "Column-1-textbox";
-          });
-          a[0].set({ text: names[i].dataOne });
+        a.forEach((element) => {
+          let data = {
+            dataOne: element.children[0].value,
+            dataTwo: element.children[1].value,
+          }
+          arrayName.push(data);
+        });
+    
+     
+      let names = arrayName;
+        let i = 0
+    
+     const again =()=>{
+      let a = this.canvas.getObjects().filter((e) => {
+        return e.name === "Column-1-textbox";
+      });
+      a[0].set({ text: names[i].dataOne });
 
-          let b = this.canvas.getObjects().filter((e) => {
-            return e.name === "Column-2-textbox";
-          });
-          b[0].set({ text: names[i].dataTwo });
-
-          // let imgSrc = document.querySelector(".try").src;
-          let imgSrc = this.canvas
+      let b = this.canvas.getObjects().filter((e) => {
+        return e.name === "Column-2-textbox";
+      });
+      b[0].set({ text: names[i].dataTwo });
+      var scaleFactor = 1;
+      this.canvas.setWidth(this.width  );
+      this.canvas.setHeight(this.height );
+      this.canvas.setZoom(scaleFactor);
+      this.canvas.renderAll();
+            let imgSrc = this.canvas
             .toDataURL("image/jpeg", [0.0, 1.0])
-            .split(",")[1];
-          this.canvas.renderAll();
-          const blob = b64toBlob(imgSrc, "image/jpeg");
-          const blobUrl = URL.createObjectURL(blob);
-
-          const img = document.createElement("img");
-          img.src = blobUrl;
-          img.width = "600";
-          img.className = "print-view-img";
-
-          // setTimeout(() => {
-          document.querySelector(".modal-body").appendChild(img);
-          // }, 1000);
-        }
-
-        this.canvas.setHeight(this.canvas.current_height);
+  
+            const img = document.createElement("img");
+            
+            img.src = imgSrc
+            img.width = "600";
+            img.className = "print-view-img";
+            document.querySelector(".modal-body").appendChild(img);
+              this.canvas.setHeight(this.canvas.current_height);
         this.canvas.setWidth(this.canvas.current_width);
         this.canvas.setZoom(this.canvas.current_canvasScale);
+        this.canvas.renderAll();
+  
+        i++
+        let x = i + 1
+       if(i < names.length){
+        this.loading("visible",`Generating ${names.length}  certifcates:<br> ${x} completed`);
+          setTimeout(()=>{
+            
+            again()
+          })
+     
+       
+       }else{
         document.querySelector(".modal-canvas").style.display = "block";
+      this.loading("hidden",null);
+      
+       }
+    
+    }
+    again()
 
-        this.loading("hidden");
-      }, 1000);
+   
+
+
+      
+      },1000)
+ 
+     
+   
     });
   }
 
   //insert name on textbox
   insert_textbox() {
     const doubleClick = (e) => {
-      let list_names = document.querySelector(".insert-textbox-container .list-names");
-
-      let element = document.querySelector(".excel-html-view-data");
+ 
       if (e.target && e.target.name == "Column-1-textbox") {
-        let activeObject = this.canvas.getActiveObject();
-        if (activeObject && activeObject.name === "Column-1-textbox") {
-          document.querySelector(".insert-textbox-container").style.display =
-            "block";
        
-        }
-        //paste area
-     
-        window.addEventListener("paste", function (e){
-          setTimeout(()=>{e.target.value = ''})
-            element.innerHTML = e.clipboardData.getData("text/html");
-            let aa = element.querySelectorAll("table tr");
-            aa.forEach((element) => {
-                let a = element.innerText.trim();
-                let div = document.createElement("div");
-                div.classList.add("input-container");
-                div.innerHTML = `     
-                <input type="text" value="${a}">
-                <div>
-                <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-                </div>
-      
-                      `;
-                list_names.appendChild(div);
-                div.scrollIntoView();
-          
-            });
-        })
-     
+       document.querySelector(".list-name-container").style.display = "block"    
+  
       }
-            //remove row
-            document.querySelector(".insert-textbox-container").addEventListener("click",(e)=>{
-              if (e.target.classList.contains("delete")) {
-                e.target.parentElement.parentElement.remove();
-              }
-              if (e.target.classList.contains("add-rows")) {
-          
-                let div = document.createElement("div");
-                div.classList.add("input-container");
-      
-                div.innerHTML = `
-                    
-              <input type="text" value="" placeholder="click to type">
-         
-              <div>
-              <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-              </div>
-      
-                    `;
-                list_names.appendChild(div);
-                div.scrollIntoView();
-              }
-               //clear all rows
-        if (e.target.classList.contains("clear-all")) {
-          let names = document.querySelectorAll(
-            ".input-container"
-          );
-          names.forEach((element) => {
-            element.remove();
-          });
-        }
-            })
-          
-            let generateCertificate = document.querySelector(".generate-certificate-button");
-            generateCertificate.addEventListener("click", () => {
-              this.loading("visible");
-        
-              var scaleFactor = 1;
-              this.canvas.setWidth(this.width * scaleFactor);
-              this.canvas.setHeight(this.height * scaleFactor);
-              this.canvas.setZoom(scaleFactor);
-              this.canvas.renderAll();
-        
-              setTimeout(() => {
-                const b64toBlob = (b64Data, contentType = "", sliceSize = 512) => {
-                  const byteCharacters = atob(b64Data);
-                  const byteArrays = [];
-        
-                  for (
-                    let offset = 0;
-                    offset < byteCharacters.length;
-                    offset += sliceSize
-                  ) {
-                    const slice = byteCharacters.slice(offset, offset + sliceSize);
-        
-                    const byteNumbers = new Array(slice.length);
-                    for (let i = 0; i < slice.length; i++) {
-                      byteNumbers[i] = slice.charCodeAt(i);
-                    }
-        
-                    const byteArray = new Uint8Array(byteNumbers);
-                    byteArrays.push(byteArray);
-                  }
-        
-                  const blob = new Blob(byteArrays, { type: contentType });
-                  return blob;
-                };
-        
-                //get selected column from choose column modal
-             
-                let arrayName = [];
-              
-                  let a = document.querySelectorAll(
-                    ".insert-textbox-container .list-names .input-container input"
-                  );
-        
-                  a.forEach((element) => {
-            
-                    arrayName.push(element.value);
-                  });
-                
-              
-                let names = arrayName;
-        
-                for (let i = 0; i < names.length; i++) {
-          
-                  let a = this.canvas.getObjects().filter((e) => {
-                    return e.name === "Column-1-textbox";
-                  });
-                
-                  a[0].set({ text: names[i] });
-        
-                 
-                  let imgSrc = this.canvas
-                    .toDataURL("image/jpeg", [0.0, 1.0])
-                    .split(",")[1];
-                  this.canvas.renderAll();
-                  const blob = b64toBlob(imgSrc, "image/jpeg");
-                  const blobUrl = URL.createObjectURL(blob);
-        
-                  const img = document.createElement("img");
-                  img.src = blobUrl;
-                  img.width = "600";
-                  img.className = "print-view-img";
-        
-    
-                  document.querySelector(".modal-body").appendChild(img);
-             
-                }
-        
-                this.canvas.setHeight(this.canvas.current_height);
-                this.canvas.setWidth(this.canvas.current_width);
-                this.canvas.setZoom(this.canvas.current_canvasScale);
-                setTimeout( () => {
-                  document.querySelector(".modal-canvas").style.display = "block";
-                  this.loading("hidden");
-                },2000)
-        
-             
-              }, 1000);
-            });
+      if (e.target && e.target.name == "Column-2-textbox") {
+       
+        document.querySelector(".list-name-container").style.display = "block"    
+   
+       }
+ 
     };
     this.canvas.on({
       "mouse:dblclick": doubleClick,
     });
 
-    //close button
-    document
-      .querySelector(".insert-textbox-container .close")
-      .addEventListener("click", () => {
-        // let activeObject = this.canvas.getActiveObject();
-        // let a = document.querySelector(
-        //   ".insert-textbox-container .list-names .input-container input"
-        // );
-        // if(a){
-        //   activeObject.text = a.value
-        // }
-       
-        // this.canvas.discardActiveObject(activeObject);
-        // this.canvas.renderAll();
-        // document.querySelector(".insert-textbox-container").style.display =
-        //   "none";
-
-     
-      });
-
+  
   
   }
 
@@ -1105,137 +663,8 @@ let json_file = JSON.stringify(merge);
       // });
     };
   }
-  print() {
-    let printCanvas = document.querySelector("#printCanvas");
-    printCanvas.onclick = () => {
-      let printImageView = document.querySelectorAll(".print-view-img");
-      let new_array_images = [];
-      printImageView.forEach((e) => {
-        new_array_images.push(e.src);
-      });
-
-      printJS({
-        printable: new_array_images,
-        type: "image",
-      });
-    };
-  }
-
  
 
-  sample_crop() {
-    let sample = document.querySelector("#sample-crop");
-    let cropper_box = new fabric.Rect({
-      width: 600,
-      height: 600,
-      shape: "square",
-      fill: "gray",
-
-      objectCaching: false,
-      excludeFromExport: true,
-      left: 600,
-      top: 600,
-      opacity: 0.6,
-    });
-    this.canvas.add(cropper_box);
-    sample.onclick = () => {
-      let object = this.canvas.getActiveObject();
-      let canvas = new fabric.Canvas("canvas-3", {
-        width: object.getScaledWidth(),
-        height: object.getScaledHeight(),
-      });
-
-      fabric.Image.fromURL(object._originalElement.currentSrc, (img) => {
-        img.scaleToWidth(object.getScaledWidth());
-        canvas.viewportCenterObject(img);
-        canvas.add(img);
-        canvas.renderAll();
-        let a = img.toDataURL();
-
-        fabric.Image.fromURL(a, (img) => {
-          // img.left = cropper_box.left
-          // img.top = cropper_box.top
-
-          // exist in left
-          if (object.left > cropper_box.left) {
-            this.canvas.exist_left = object.left - cropper_box.left;
-          } else {
-            this.canvas.exist_left = 0;
-          }
-
-          // exist in right
-          var a = object.left + object.getScaledWidth();
-          var b = cropper_box.left + cropper_box.getScaledWidth();
-
-          if (b > a) {
-            this.canvas.exist_right = b - a;
-          } else {
-            this.canvas.exist_right = 0;
-          }
-
-          img.cropX = cropper_box.left - object.left;
-
-          // img.cropY =object.top
-          img.width =
-            cropper_box.getScaledWidth() -
-            this.canvas.exist_right -
-            this.canvas.exist_left;
-
-          // exist in top
-          if (object.top > cropper_box.top) {
-            this.canvas.exist_top = object.top - cropper_box.top;
-          } else {
-            this.canvas.exist_top = 0;
-          }
-
-          // exist in bottom
-          var a = object.top + object.getScaledHeight();
-          var b = cropper_box.top + cropper_box.getScaledHeight();
-          if (b > a) {
-            this.canvas.exist_bottom = b - a;
-          } else {
-            this.canvas.exist_bottom = 0;
-          }
-
-          img.cropY = cropper_box.top - object.top;
-          img.height =
-            cropper_box.getScaledHeight() -
-            this.canvas.exist_top -
-            this.canvas.exist_bottom;
-          this.canvas.add(img);
-          this.canvas.renderAll();
-        });
-
-        canvas.dispose();
-      });
-    };
-  }
-
-  upload_and_clip() {
-    // const  handleImage = async ()=>{
-    // const [fileHandle] = await window.showOpenFilePicker({
-    //     types: [{
-    //     description: 'Images',
-    //     accept: {
-    //     "image/jpeg": [".jpg", ".jpeg"],
-    //     "image/png": [".png"],
-    //     "image/svg+xml": [".svg"],
-    //     }
-    //     }],
-    //     })
-    //     this.loaderShow()
-    //     const file = await fileHandle.getFile();
-    //     let reader = new FileReader();
-    //     reader.readAsDataURL(file)
-    //     reader.onload = () => {
-    //     fabric.Image.fromURL(reader.result, (img)=>{
-    //     img.name = img.type
-    //     img.id = this.uniqueId()
-    //     this.adding_object_style(img)
-    //     this.loaderHide()
-    //     })
-    //     };
-    // }
-    // document.querySelector('.upload').addEventListener('click',handleImage)
-  }
+ 
+  
 }

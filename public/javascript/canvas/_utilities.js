@@ -1,51 +1,34 @@
 import { Modification } from "./_modification.js";
-import { textbox_property } from "./object_property.js";
+ 
 export class Utilities extends Modification {
   deleteObjects() {
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {
-        let objects = this.canvas.getActiveObjects();
-
-        if (objects.length > 1) {
-          objects.forEach((obj) => {
-            this.canvas.remove(obj);
-            this.canvas.discardActiveObject();
-          });
-        } else {
-          if (this.canvas.getActiveObject().name === "boxCropper") {
+    
+    
+          if (this.canvas.getActiveObject().name === "textbox") {
             return false;
           }
-          if (this.canvas.getActiveObject().name === "uploader") {
-            return false;
-          }
-          if (this.canvas.getActiveObject().name === "content") {
-            return false;
-          }
-          if (this.canvas.getActiveObject().name === "text-content") {
-            return false;
-          }
+         
           this.canvas.remove(this.canvas.getActiveObject());
-        }
+     
       }
     });
   }
 
   discardActiveObject() {
-    let a = document.querySelector(".align-canvas-buttons-container");
+ 
     window.onclick = (e) => {
       if (e.target.classList.contains("upper-canvas")) {
-        if (a.classList.toggle("show")) {
-          a.classList.toggle("show");
-        }
-
+        document.querySelector(".files-container .dropdown-content").style.display = "none";
+      }
+ 
+      if(e.target.parentElement.classList.contains('dropdown-content')){
+ 
         document.querySelector(".files-container .dropdown-content").style.display = "none";
       }
       if (e.target.id === "canvas-background") {
-        if (a.classList.toggle("show")) {
-          a.classList.toggle("show");
-        }
         document.querySelector(".files-container .dropdown-content").style.display = "none";
-
         this.canvas.discardActiveObject();
         this.canvas.renderAll();
       }
@@ -102,13 +85,13 @@ export class Utilities extends Modification {
         let group = activeObj.group;
         group.set("borderColor", "#333");
         group.set("cornerColor", "#17a2b8");
-        group.set("cornerSize", 12);
+        group.set("cornerSize", 8);
         group.set("cornerStyle", "circle");
         group.set("transparentCorners", false);
         group.set("lockUniScaling", true);
         group.setControlsVisibility({ mtr: false });
       }
-
+      activeObj.set("cornerSize", 8);
       activeObj.setControlsVisibility({ mtr: false });
       activeObj.set("borderColor", "#333");
       activeObj.set("cornerColor", "#17a2b8");
@@ -116,83 +99,16 @@ export class Utilities extends Modification {
       activeObj.set("cornerStyle", "circle");
       activeObj.set("transparentCorners", false);
       activeObj.set("lockUniScaling", true);
-
-      // // cropper box style
-      // if (activeObj.name == "boxCropper") {
-      //   activeObj.set("borderColor", "red");
-      //   activeObj.set(" borderScaleFactor", 2);
-      //   activeObj.set("borderDashArray", [10]);
-      //   activeObj.set("cornerStyle", "rectangle");
-      //   activeObj.setControlsVisibility({ mtr: false });
-      //   activeObj.set("cornerSize", 12);
-      //   activeObj.set("cornerColor", "#333");
-      // }
-
-      // cropper box style
-      if (activeObj.name == "boxCropper-clip") {
-        activeObj.set("borderColor", "red");
-        activeObj.set(" borderScaleFactor", 2);
-        activeObj.set("borderDashArray", [10]);
-        activeObj.set("cornerStyle", "rectangle");
-        activeObj.setControlsVisibility({
-          mt: false,
-          mb: false,
-          ml: false,
-          mr: false,
-          mtr: false,
-        });
-        activeObj.set("cornerSize", 12);
-        activeObj.set("cornerColor", "#333");
-      }
-    };
-
-    const modify_object = (o) => {
-      var activeObj = o.target;
-      if (activeObj.name === "boxCropper") {
-        return false;
-      }
-  
-      this.updateModifications(true);
-    };
-
-    // font size change when scaling
-    const scale_object = (o) => {
  
-      let activeObj = o.target;
-    //   scaleListener(o)
-    //   function scaleListener(e) {
-    //     // get the object being rescaled
-    //     var targ = e.target;
-    //     // check if we the scale was bigger than the new one
-    //     if (targ.scaleX > (targ.lastScaleX || 1) || targ.scaleY > (targ.lastScaleY || 1)) {
-    //       // it was
-    //       bigger();
-    //     } else {
-    //       // it wasn't
-    //       smaller();
-    //     }
-    //     // save the current scale as the last one in the object itself
-    //     targ.lastScaleX = targ.scaleX;
-    //     targ.lastScaleY = targ.scaleY;
-    //   };
-    //   function bigger() {
-      
-    // document.querySelector("#fontSize").value = activeObj.fontSize++ + 1
-    //   }
-      
-    //   function smaller() {
-    //     document.querySelector("#fontSize").value = activeObj.fontSize-- - 1
-
-    //     }
 
    
-      // resize corner size when scaling
-      if (activeObj.getScaledWidth() < 600) {
-        activeObj.set("cornerSize", 8);
-      } else {
-        activeObj.set("cornerSize", 12);
-      }
     };
+
+  
+
+ 
+
+
     // font size change when scaling
     this.canvas.store_objects = []
     const mouseUp_object = (o) => {
@@ -204,61 +120,40 @@ export class Utilities extends Modification {
      
     };
 
-    // set the cropper always active
-    const mouseDown_object = (o) => {
-      let activeObj = o.target;
-
-         
-    if(activeObj == undefined){
-    
-        return false
-      }
-     
-
  
-      this.canvas.renderAll()
-      if (activeObj.name == "boxCropper-clip") {
-        this.canvas.current_cropper_width = activeObj.getScaledWidth();
-        this.canvas.current_cropper_height = activeObj.getScaledHeight();
-        this.canvas.current_cropper_top = activeObj.top;
-        this.canvas.current_cropper_left = activeObj.left;
-        
-      }
 
-      if (activeObj.name == "gray_background") {
-        let cropper_object = this.canvas.getObjects();
-        this.canvas.setActiveObject(cropper_object[cropper_object.length - 1]);
-      }
-      if (
-        activeObj.name == "image_selected_for_crop" ||
-        activeObj.name == "image_selected_for_clip"
-      ) {
-        let cropper_object = this.canvas.getObjects();
-        this.canvas.setActiveObject(cropper_object[cropper_object.length - 1]);
-      }
-    };
+
     const moving_object =(o)=>{
+   
       if(o){
         let activeObj = o.target;
-        this.canvas.getObjects().forEach((e)=>{
+         this.canvas.getObjects().forEach((e)=>{
 
           if(activeObj.name == 'footer-name' ){
             if(e.name == 'footer-name'){
-               
+         
               e.top = activeObj.top;
-              this.canvas.renderAll()
+
+       
+                this.canvas.setActiveObject(e);
+                 this.canvas.renderAll()
             }
           }
-         
           if(activeObj.name == 'footer-position' ){
             if(e.name == 'footer-position'){
-         
               e.top = activeObj.top;
-              this.canvas.renderAll()
+                this.canvas.setActiveObject(e)
+               
+                this.canvas.renderAll()
+ 
             }
           }
+          this.canvas.discardActiveObject(e)
          
         })
+
+        
+    
       }
    
     }
@@ -266,11 +161,10 @@ export class Utilities extends Modification {
     this.canvas.on({
       "selection:updated": select_object,
       "selection:created": select_object,
-      "object:modified": modify_object,
-      "object:scaling": scale_object,
+ 
       "mouse:up": mouseUp_object,
       'object:moving': moving_object,
-      "mouse:down": mouseDown_object,
+    
     });
   }
 
@@ -290,29 +184,71 @@ export class Utilities extends Modification {
       };
     })
     fabric.util.addListener(document.body, "keydown", (options) => {
+
       if (options.repeat) {
         return;
       }
       let object = this.canvas.getActiveObject();
+
+   
+      const mirror =()=>{
+        if(object){
+          let activeObj = object
+           this.canvas.getObjects().forEach((e)=>{
+  
+            if(activeObj.name == 'footer-name' ){
+              if(e.name == 'footer-name'){
+           
+                e.top = activeObj.top;
+                if(e !== object){
+                  this.canvas.setActiveObject(e);
+                  e.set('borderColor', 'transparent')
+                  e.set('cornerColor', 'transparent')
+            
+                }
+        
+                   this.canvas.renderAll()
+              }
+            }
+            if(activeObj.name == 'footer-position' ){
+              if(e.name == 'footer-position'){
+                e.top = activeObj.top;
+                if(e !== object){
+                  this.canvas.setActiveObject(e);
+                  e.set('borderColor', 'transparent')
+                  e.set('cornerColor', 'transparent')
+            
+                }
+                  this.canvas.renderAll()
+   
+              }
+            }
+   
+          })
+  
+          
+      
+        }
+      }
       if (object) {
 
-        // if (object.lockMovementX !== true) {
+
        
          
           var key = options.which || options.keyCode; // key detection
           if (key === 37) {
             // handle Left key
             
-   
+ 
             this.moveSelected(Direction.LEFT);
-
+           
           } else if (key === 38) {
            
             
             // handle Up key
             this.moveSelected(Direction.UP);
-            
-
+            mirror()
+          
           } else if (key === 39) {
             
             // handle Right key
@@ -321,24 +257,19 @@ export class Utilities extends Modification {
 
           } else if (key === 40) {
             
-        
-           
             // handle Down key
             this.moveSelected(Direction.DOWN);
-            
+            mirror()
+  
+
           } 
-        // }
       }
+      
+     
     });
   }
 
-  alignCanvasBtn() {
-    document.querySelector(".align-canvas").addEventListener("click", () => {
-      let a = document.querySelector(".align-canvas-buttons-container");
-
-      a.classList.toggle("show");
-    });
-  }
+ 
   filesBtn() {
     document.querySelector(".files-btn").onclick = (e) => {
       let el = document.querySelector(".files-container .dropdown-content");
@@ -350,27 +281,5 @@ export class Utilities extends Modification {
       }
     };
   }
-  // drop menu
-  shape_options( ) {
-    document.querySelector('.insert-shape-btn').onclick = (e) => {
-      
-        console.log("drop")
-        var dropdown_insert = document.querySelector(
-          `.insert-shape .dropdown-content`
-        );
- 
-        if (dropdown_insert.style.display == "block") {
-          dropdown_insert.style.display = "none";
-        }else{
-          dropdown_insert.style.display = "block";
-
-        }
-      
-    
-    };
-
-    // let a = false;
-
-    // align-to-canvas
-  }
+  
 }

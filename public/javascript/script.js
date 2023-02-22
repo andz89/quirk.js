@@ -24,3 +24,4 @@ update.update_account();
 update.modal_update_account()
 let loader = new Loader();
 loader.loading();
+loader.loading_generate()
