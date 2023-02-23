@@ -7,4 +7,27 @@
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     }
 
+
+
+    input[type='text'] {
+
+        padding: 0 .3rem;
+        font-size: .9rem;
+        border: 1px solid #ccc;
+        background-color: #f0eded;
+        height: 36px;
+        color: #333;
+        width: 300px;
+
+    }
+
+    input:focus {
+        border: 1px solid #048a9e;
+        outline: none;
+        transition: all 0.2s ease-in;
+        border-radius: 5px;
+
+
+    }
+
 }

@@ -4,7 +4,7 @@ let Admin = function (data) {
   this.data = data;
 };
 Admin.prototype.add_template_into_database = function () {
-console.log(this.data);
+ 
 
   return new Promise(async (resolve, reject) => {
     let data = {

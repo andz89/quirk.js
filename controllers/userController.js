@@ -100,14 +100,16 @@ exports.activateCanvas = (req,res) => {
   template.code = req.query.code;
 
   let user = new User(template);
-  user.create_template().then((data) => {
+  user.create_template().then(function (data)   {
+    if(data === 'SUCCESS'){
+      req.flash("success_message", `You have successfully added a new template named ${req.query.template_name}`);
+      res.json(data);
+
+    }
+    if(data === 'NOT FOUND'){
+      res.json(data);
+    }
+ 
    
-    res.redirect("/success-activation"); 
   })
-}
-exports.success_activation = (req, res)=>{
- 
-  res.render("pages/success-activation", {
- 
-  }); 
 }

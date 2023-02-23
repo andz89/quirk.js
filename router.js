@@ -28,7 +28,7 @@ router.post("/activateCanvas", middleware.role_user, userController.activateCanv
 
 
 //pages
-router.get("/success-activation", userController.success_activation);
+ 
 router.get("/canvas",  middleware.role_user, pageController.canvas);
 router.get("/", middleware.home_role, pageController.home); // home
 router.get("/account-page", middleware.role_user, pageController.account_page);
@@ -59,7 +59,7 @@ router.get("/admin-templates", middleware.role_admin, adminController.templates)
 router.post("/admin-login-request", adminController.admin_login_post);
 router.post("/add-template",upload.single('image') ,adminController.add_template);
 router.post("/remove" ,adminController.remove);
-router.post("/updateTemplate" ,adminController.updateTemplate);
+router.post("/updateTemplate" ,upload.single('thumbnail-image'),adminController.updateTemplate);
 
 
 

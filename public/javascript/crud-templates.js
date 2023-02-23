@@ -40,6 +40,8 @@ class Crud_templates {
             let modal_title = modal_parent.querySelector('.title') 
             let modal_description = modal_parent.querySelector('.description')
             let modal_id = modal_parent.querySelector('.template-id') 
+            let modal_thumbnail = modal_parent.querySelector('.thumbnail') 
+
 
 
             let parent = e.target.parentElement
@@ -48,11 +50,13 @@ class Crud_templates {
      
             let template_description = parent.querySelector('.description').innerText;
             let template_id = parent.querySelector('.template-id').value
+            let template_thumbnail = parent.querySelector('.thumbnail').src
+
 
 
             modal_title.value = template_title;
-            modal_description.value = template_description
-            console.log(modal_id);
+            modal_description.value = template_description.trim()
+            modal_thumbnail.src = template_thumbnail
             modal_id.value = template_id
 
             //json file
@@ -66,10 +70,42 @@ class Crud_templates {
               reader.readAsText(e.target.files[0]);
             });
             
+
             modal_parent.querySelector('.cancel-btn').addEventListener('click', ()=>{
               modal_parent.style.display = 'none';
             });
 
+
+            modal_parent.querySelector(".json-file").addEventListener("change", (e) => {
+    
+              const imageFiles = e.target.files;
+              /**
+               * Count the number of files selected.
+               */
+              const imageFilesLength = imageFiles.length;
+              /**
+               * If at least one image is selected, then proceed to display the preview.
+               */
+              if (imageFilesLength > 0) {
+                  /**
+                   * Get the image path.
+                   */
+                  const imageSrc = URL.createObjectURL(imageFiles[0]);
+                  /**
+                   * Select the image preview element.
+                   */
+                 
+                  /**
+                   * Assign the path to the image preview element.
+                   */
+                  modal_thumbnail.src = imageSrc;
+           
+              }
+      
+            
+      
+              
+            });
 
 
             document.querySelector(".modal-edit-admin .update-template-btn").addEventListener("click", () => {

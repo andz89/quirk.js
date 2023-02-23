@@ -71,7 +71,7 @@
 
 
                     <div class=" d-flex  justify-content-center flex-direction-column" style="width: 200px;">
-                        <img src="images/ci/<%= data.canvas_image %>" width="170" alt="">
+                        <img class="thumbnail" src="images/ci/<%= data.canvas_image %>" width="170" alt="">
                         <h3 class="title text text-dark">
                             <%= data.template_name %>
                         </h3>
@@ -100,10 +100,23 @@
             <input type="text" class="title" value="hello world">
 
 
-            <textarea class="description">
+            <textarea class="description"></textarea>
 
-            </textarea>
-            <input type="file" class="json-file">
+            <div class="d-flex  justify-content-start align-items-start gap-10">
+                <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                    <label for="">Thumbnail</label>
+                    <input type="file" class="thumbnail-image p-1">
+                    <img class="thumbnail" width="200" src="" alt="">
+
+                </div>
+
+                <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                    <label for="">Json File</label>
+                    <input type="file" class="json-file p-1">
+                </div>
+
+            </div>
+
             <input type="hidden" class="json-text">
 
             <div class="button-container">

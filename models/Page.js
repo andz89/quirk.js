@@ -93,8 +93,7 @@ Page.prototype.create_template = function(){
 });
 }
 Page.prototype.getCanvas = function(){
-      console.log('template id' + ' ' +this.data.template_id);
-      console.log('user id' + ' ' +this.data.user_id);
+   
 
             return new Promise((resolve, reject) => {
       

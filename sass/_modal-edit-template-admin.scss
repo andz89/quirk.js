@@ -53,6 +53,10 @@
         gap: 20px;
 
 
+        input[type='file'] {
+            width: 210px;
+            background-color: #e0dddd;
+        }
 
         input[type='text'],
         textarea {
@@ -68,11 +72,11 @@
         }
 
         input[type='text'] {
-            height: 40px;
+            height: 78px;
         }
 
         textarea {
-            height: 300px;
+            height: 200px;
         }
 
         textarea,

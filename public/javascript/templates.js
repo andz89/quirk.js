@@ -54,7 +54,24 @@ class Templates{
     
             xhttp.onreadystatechange = () => {
               if (xhttp.readyState == 4 && xhttp.status == 200) {
-             
+               let response = xhttp.responseText
+           
+
+               if(response == '"SUCCESS"'){
+            
+                  window.location.href = 'http://localhost:5000/purchased-templates'
+               }
+               if(response == '"NOT FOUND"'){
+               
+                  let message = document.querySelector('.modal-activation .message')
+                  
+                  message.innerText = "Not Found"
+                  setTimeout(()=>{
+                  message.innerText = ''
+
+                  },2000)
+               }
+
               }
             };
             xhttp.open(
