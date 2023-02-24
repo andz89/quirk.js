@@ -103,12 +103,12 @@ exports.activateCanvas = (req,res) => {
   user.create_template().then(function (data)   {
     if(data === 'SUCCESS'){
       req.flash("success_message", `You have successfully added a new template named ${req.query.template_name}`);
-      res.json(data);
+      res.send(data);
 
+    }else{
+      res.send(data);
     }
-    if(data === 'NOT FOUND'){
-      res.json(data);
-    }
+  
  
    
   })

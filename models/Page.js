@@ -252,8 +252,8 @@ Page.prototype.getAllTemplates = function() {
 }
 Page.prototype.getUserTemplates = function() {
   return new Promise(async (resolve, reject) => {
-   
-    let sql = `SELECT * FROM purchased_template`;
+   console.log(this.data.user_id)
+    let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'` ;
     db.query(sql, (err, result) => {
     
       if (err) {

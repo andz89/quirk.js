@@ -57,20 +57,19 @@ class Templates{
                let response = xhttp.responseText
            
 
-               if(response == '"SUCCESS"'){
+               if(response == 'SUCCESS'){
             
                   window.location.href = 'http://localhost:5000/purchased-templates'
-               }
-               if(response == '"NOT FOUND"'){
-               
-                  let message = document.querySelector('.modal-activation .message')
+               }else{
+                let message = document.querySelector('.modal-activation .message')
                   
-                  message.innerText = "Not Found"
-                  setTimeout(()=>{
-                  message.innerText = ''
+                message.innerText = response
+                setTimeout(()=>{
+                message.innerText = ''
 
-                  },2000)
+                },8000)
                }
+            
 
               }
             };

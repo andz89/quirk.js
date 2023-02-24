@@ -266,26 +266,35 @@ User.prototype.saved_template_database  =function() {
 
 User.prototype.check_code = function(){
   return new Promise(async (resolve, reject) => {
-    let data = {
-      user_id: this.data.user_id,
-      template_id: this.data.template_id,
-      canvas_image: this.data.canvas_image,
-      template_name: this.data.template_name,
-      template_code: this.data.code,
-
-    };
+ 
 
 
     let sql = `SELECT * FROM activation_code WHERE code = "${this.data.code}" `;
-    db.query(sql, data, (err, result) => {
+    db.query(sql,  (err, result) => {
       if (err) {
         reject(err);
         return false;
       }
+      if(result.length > 0){
 
-      if(result[0].user_id == ''){
-        resolve(result)
+          if(result[0].count < result[0].templates_limit){
+          if( result[0].user_id == ''){
+          resolve(result)
+          }
+          else if(result[0].user_id && result[0].user_id == this.data.user_id){
+
+          resolve(result)
+          }  else{
+          this.data.message ='code is already taken by other user'
+          resolve()
+          }
+          }else{
+          this.data.message ='you already used your 5 powers'
+          resolve()
+          }
+       
       }else{
+        this.data.message ='not found'
         resolve()
       }
     
@@ -298,9 +307,10 @@ User.prototype.check_code = function(){
 });
 }
 
-User.prototype.update_code = function (){
+User.prototype.update_code = function (count){
+  
   return new Promise( (resolve, reject)=> {
-    var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}'WHERE code = '${this.data.code}'`;
+    var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}', count = ${count} WHERE code = '${this.data.code}'`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
@@ -315,23 +325,14 @@ User.prototype.create_template =  function(){
   return new Promise( async (resolve, reject) => {
 
    await  this.check_code().then( async (res)=>{
-     if(res ){
- 
-    await this.update_code()
+     if(res){
+ let x = res[0].count + 1
+    await this.update_code(x)
 
 
-        let data = {
-          user_id: this.data.user_id,
-          template_id: this.data.template_id,
-          canvas_image: this.data.canvas_image,
-          template_name: this.data.template_name,
-          template_code: this.data.code,
-    
-        };
-    
     
         let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
-        db.query(sql, data, (err, result) => {
+        db.query(sql, (err, result) => {
           if (err) {
             reject(err);
             return false;
@@ -366,8 +367,8 @@ User.prototype.create_template =  function(){
 
   
      }else{
-      let data = 'NOT FOUND';
-      resolve(data)
+    
+      resolve(this.data.message)
      }
     });
      })

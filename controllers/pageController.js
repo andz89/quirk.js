@@ -78,7 +78,10 @@ templates.getAllTemplates().then((data)=>{
 }
 
 exports.purchased_templates = function(req,res){
-  let purchased_templates = new Page()
+  let data = {}
+  data.user_id = req.session.user.user_id;
+ 
+  let purchased_templates = new Page(data)
   purchased_templates.getUserTemplates().then((data)=>{
   
  

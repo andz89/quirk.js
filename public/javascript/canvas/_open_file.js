@@ -191,12 +191,12 @@ export class Open_file {
          
    
       loadAndUse(fonts).then(()=>{
-       
+        run_json_file(json_parsed);
       }).catch((e)=>{
         console.log(e)
       }); 
     
-      run_json_file(json_parsed);
+     
       
  
 
