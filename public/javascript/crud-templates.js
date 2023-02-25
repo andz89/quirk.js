@@ -30,30 +30,29 @@ class Crud_templates {
         reader.readAsText(e.target.files[0]);
       });
     }
+ 
   }
+ 
   edit_template(){
  
         window.addEventListener('click', (e)=>{
+       
           if(e.target.classList.contains('edit-template')){
+       
             let modal_parent =  document.querySelector('.modal-edit-admin')
             modal_parent.style.display = 'flex';
             let modal_title = modal_parent.querySelector('.title') 
             let modal_description = modal_parent.querySelector('.description')
             let modal_id = modal_parent.querySelector('.template-id') 
             let modal_thumbnail = modal_parent.querySelector('.thumbnail') 
-
-
-
-            let parent = e.target.parentElement
+            let parent = e.target.parentElement.parentElement 
           
             let template_title = parent.querySelector('.title').innerText;
      
             let template_description = parent.querySelector('.description').innerText;
             let template_id = parent.querySelector('.template-id').value
             let template_thumbnail = parent.querySelector('.thumbnail').src
-
-
-
+       
             modal_title.value = template_title;
             modal_description.value = template_description.trim()
             modal_thumbnail.src = template_thumbnail
@@ -72,12 +71,20 @@ class Crud_templates {
             
 
             modal_parent.querySelector('.cancel-btn').addEventListener('click', ()=>{
+
+              modal_title.value = '';
+              modal_description.value = ''
+              modal_thumbnail.src = ''
+              modal_id.value = ''
+              modal_parent.querySelector(".json-text").value = ''
+              modal_parent.querySelector(".json-file").value = ''
+              modal_parent.querySelector(".thumbnail-image").value = ''
               modal_parent.style.display = 'none';
             });
 
 
-            modal_parent.querySelector(".json-file").addEventListener("change", (e) => {
-    
+            modal_parent.querySelector(".thumbnail-image").addEventListener("change", (e) => {
+          
               const imageFiles = e.target.files;
               /**
                * Count the number of files selected.
@@ -108,30 +115,30 @@ class Crud_templates {
             });
 
 
-            document.querySelector(".modal-edit-admin .update-template-btn").addEventListener("click", () => {
-              let modal_parent =  document.querySelector('.modal-edit-admin')
-              let template_title = modal_parent.querySelector('.title').value
-              let template_description = modal_parent.querySelector('.description').value
-              let template_id = modal_parent.querySelector('.template-id').value
-              let template_json = modal_parent.querySelector('.json-text').value
+        //     document.querySelector(".modal-edit-admin .update-template-btn").addEventListener("click", () => {
+        //       let modal_parent =  document.querySelector('.modal-edit-admin')
+        //       let template_title = modal_parent.querySelector('.title').value
+        //       let template_description = modal_parent.querySelector('.description').value
+        //       let template_id = modal_parent.querySelector('.template-id').value
+        //       let template_json = modal_parent.querySelector('.json-text').value
 
               
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    modal_parent.style.display = 'none';
-                    parent.querySelector('.title').innerText = template_title 
-                     parent.querySelector('.description').innerText =template_description
+        //     var xhttp = new XMLHttpRequest();
+        //     xhttp.onreadystatechange = () => {
+        //         if (xhttp.readyState == 4 && xhttp.status == 200) {
+        //             modal_parent.style.display = 'none';
+        //             parent.querySelector('.title').innerText = template_title 
+        //              parent.querySelector('.description').innerText =template_description
               
-                }
-            };
-            xhttp.open(
-                "POST",
-                `http://localhost:5000/updateTemplate?template_title=${template_title}&template_description=${template_description}&template_id=${template_id}&template_json=${encodeURIComponent(template_json)}`,
-                true
-            );
-            xhttp.send();
-        });
+        //         }
+        //     };
+        //     xhttp.open(
+        //         "POST",
+        //         `http://localhost:5000/updateTemplate?template_title=${template_title}&template_description=${template_description}&template_id=${template_id}&template_json=${encodeURIComponent(template_json)}`,
+        //         true
+        //     );
+        //     xhttp.send();
+        // });
           }
         })
     

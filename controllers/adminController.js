@@ -51,10 +51,23 @@ templates.getAllTemplates().then((data)=>{
 })
   
 };
+exports.background = (req, res) => {
 
+
+  let templates = new Page()
+// templates.getAllBackgrounds().then((data)=>{
+;
+  res.render("admin/admin-background", {
+ 
+    user_type: req.session.user.user_role,
+    session: req.session.user ? true : false,
+  }); 
+// })
+  
+};
 exports.add_template = function (req, res) {
 
-  let a = req.body.file = req.file.filename
+  req.body.file = req.file.filename
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database
@@ -82,23 +95,26 @@ exports.remove = function (req, res){
 }
 
 exports.updateTemplate = function (req, res){
-  let data = {};
- 
-    data.template_json = req.query.template_json;
-  
-  data.template_name = req.query.template_title;
-  data.template_description = req.query.template_description;
-  data.template_id = req.query.template_id;
 
-  console.log(data);
+
+  // let data = {};
+ 
+  //   data.template_json = req.query.template_json;
   
-  let admin = new Admin(data);
+  // data.template_name = req.query.template_title;
+  // data.template_description = req.query.template_description;
+  // data.template_id = req.query.template_id;
+
+  // console.log(data);
+  req.body.file = req.file.filename
+  let admin = new Admin(req.body);
+ 
   admin
     .update_template()
     .then(function () {
-      res.json(data);
+      res.redirect('/admin-templates')
     })
     .catch((err) => {
-      res.json(err);
+      // res.json(err);
     });
 }

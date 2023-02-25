@@ -43,8 +43,9 @@ Admin.prototype.remove = function (req, res) {
 
 Admin.prototype.update_template = function () {
   return new Promise(async (resolve, reject) => {
+ 
   if(this.data.template_json){
-    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',template_json ='${this.data.template_json}' WHERE template_id = '${this.data.template_id}'`;
+    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',template_json ='${this.data.template_json}',canvas_image = '${this.data.file}' WHERE template_id = '${this.data.template_id}'`;
       db.query(sql, (err, result) => {
         if (err) {
           reject(err);
@@ -53,7 +54,7 @@ Admin.prototype.update_template = function () {
         resolve(result);
       });
   }else{
-    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}'  WHERE template_id ='${this.data.template_id}'`;
+    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',canvas_image = '${this.data.file}' WHERE template_id ='${this.data.template_id}'`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);

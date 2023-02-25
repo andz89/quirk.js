@@ -37,8 +37,7 @@ export class Canvas extends Modification {
     menu_tools.insertText(".dropbtn-insert-text");
  
     menu_tools.save_file_json();
- 
- 
+    menu_tools.resetCanvas();
     menu_tools.insert_textbox();
     menu_tools.paste_text();
     menu_tools.generate_certificate();

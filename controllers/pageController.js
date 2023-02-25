@@ -96,19 +96,23 @@ exports.purchased_templates = function(req,res){
  
 
 exports.canvas =(req, res) =>{
+   
   let data = {}
+  data.user_role = req.session.user.user_role
   data.user_id = req.session.user.user_id;
   data.template_id = req.query.template_id;
 
   let page = new Page(data);
   page.getCanvas().then((data) => {
        
+
     res.render("pages/canvas", {
-                template_json:data[0].template_json,
-                template_id:data[0].template_id,
-                template_name:data[0].template_name,
-                canvas_image:'http://localhost:5000/images/ci/'+ data[0].canvas_image,
-      
+                template_json:data.template_json,
+                template_id:data.template_id,
+                template_name:data.template_name,
+                canvas_image:'http://localhost:5000/images/ci/'+ data.canvas_image,
+                list: data.list,
+                user_role: req.session.user.user_role,
               });
           
           })

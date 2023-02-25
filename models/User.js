@@ -250,20 +250,36 @@ User.prototype.update_account = function () {
 User.prototype.saved_template_database  =function() {
 
   return new Promise( async(resolve, reject) => {
-    var sql = `UPDATE purchased_template SET template_json = '${this.data.saved_json}'  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
-    db.query(sql, (err, result) => {
 
-    if (err) {
-    reject(err);
-    return false;
+    if(this.data.user_role === 'user'){
+      var sql = `UPDATE purchased_template SET template_json = '${this.data.saved_json}'  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
+      db.query(sql, (err, result) => {
+  
+      if (err) {
+      reject(err);
+      return false;
+      }
+      resolve(result);
+      });
     }
-    resolve(result);
-    });
+
+    if(this.data.user_role === 'admin'){
+      var sql = `UPDATE  templates SET template_json = '${this.data.saved_json}'  WHERE template_id = '${this.data.template_id}'`;
+      db.query(sql, (err, result) => {
+  
+      if (err) {
+      reject(err);
+      return false;
+      }
+      resolve(result);
+      });
+    }
+
             
   });
 };
 
-
+//check code and validate
 User.prototype.check_code = function(){
   return new Promise(async (resolve, reject) => {
  
@@ -278,23 +294,31 @@ User.prototype.check_code = function(){
       if(result.length > 0){
 
           if(result[0].count < result[0].templates_limit){
-          if( result[0].user_id == ''){
-          resolve(result)
-          }
-          else if(result[0].user_id && result[0].user_id == this.data.user_id){
-
-          resolve(result)
-          }  else{
-          this.data.message ='code is already taken by other user'
-          resolve()
-          }
+              if( result[0].user_id == ''){
+                this.data.count  = result[0].count + 1
+                this.data.limit = result[0].templates_limit
+              resolve(result)
+              }
+              else if(result[0].user_id && result[0].user_id == this.data.user_id){
+                this.data.count  = result[0].count + 1
+                this.data.limit = result[0].templates_limit
+              resolve(result)
+              }  else{
+              this.data.taken_message ='code is already taken by other user'
+              resolve()
+              }
+          }else if(result[0].user_id && result[0].user_id == this.data.user_id){
+          //kung over na sa limit ang user nagpalit
+            this.data.taken_message =`you already used your ${result[0].templates_limit} powers`
+            resolve()
           }else{
-          this.data.message ='you already used your 5 powers'
-          resolve()
+            //kung ang nag gamit sa code lain user tapos over na sa limit
+            this.data.taken_message ='code is already taken by other user'
+            resolve()
           }
        
       }else{
-        this.data.message ='not found'
+        this.data.taken_message ='not found'
         resolve()
       }
     
@@ -306,7 +330,7 @@ User.prototype.check_code = function(){
 
 });
 }
-
+//update activation code details
 User.prototype.update_code = function (count){
   
   return new Promise( (resolve, reject)=> {
@@ -321,61 +345,112 @@ User.prototype.update_code = function (count){
   })
 
 }
-User.prototype.create_template =  function(){
-  return new Promise( async (resolve, reject) => {
-
-   await  this.check_code().then( async (res)=>{
-     if(res){
- let x = res[0].count + 1
-    await this.update_code(x)
-
-
-    
-        let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
-        db.query(sql, (err, result) => {
-          if (err) {
-            reject(err);
-            return false;
-          }
-    
-    
-          let data_2 = {
-            user_id: this.data.user_id,
-            template_id: result[0].template_id,
-            template_name: result[0].template_name,
-            template_description: result[0].template_description,
-            template_json: result[0].template_json,
-            template_category: result[0].template_category,
-            canvas_image: result[0].canvas_image,
-    
-    
-          }
-    
-          let sql_2 = "INSERT INTO purchased_template SET ?";
-        db.query(sql_2, data_2, (err, result) => {
-          if (err) {
-            reject(err);
-            return false;
-          }
-         
-          resolve('SUCCESS');
-    
-        });
-           
-    
-        });
-
+//update activation code details
+User.prototype.create_template_copy = function (){
   
-     }else{
-    
-      resolve(this.data.message)
-     }
+  return new Promise( (resolve, reject)=> {
+   
+    let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+
+      this.data.copied_template  = {
+        user_id: this.data.user_id,
+        template_id: result[0].template_id,
+        template_name: result[0].template_name,
+        template_description: result[0].template_description,
+        template_json: result[0].template_json,
+        template_category: result[0].template_category,
+        canvas_image: result[0].canvas_image,
+
+
+      }
+      resolve()
     });
+  })
+
+}
+
+User.prototype.new_template =  function(){
+  return new Promise( async (resolve, reject) => {
+  
+   
+    await  this.check_code()
+    if(!this.data.taken_message){
+
+    await this.update_code(this.data.count)
+    await this.create_template_copy()
+
+    let sql_2 = "INSERT INTO purchased_template SET ?";
+    db.query(sql_2, this.data.copied_template, (err, result) => {
+    if (err) {
+    reject(err);
+    return false;
+    }
+    let  remaining = this.data.limit - this.data.count
+    let data = ["SUCCESS",remaining,this.data.limit]
+
+
+    resolve(data);
+
+    });
+    }else{
+
+    resolve(this.data.taken_message)
+    }
+     
      })
 
  
 
 
 }
+User.prototype.update_list = function (count){
+  console.log(this.data.user_role);
+  return new Promise( (resolve, reject)=> {
+    if(this.data.user_role == 'user'){
+      var sql = `UPDATE users SET  list = '${this.data.list}' WHERE user_id = '${this.data.user_id}'`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      resolve()
+    });
+    }
+    if(this.data.user_role == 'admin'){
+      var sql = `UPDATE admin_user SET  list = '${this.data.list}' WHERE  id = '${this.data.user_id}'`;
+      db.query(sql, (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }
+        resolve()
+      });
+    }
+  
+  })
 
+}
+
+User.prototype.reset_canvas = function () {
+  return new Promise( async (resolve, reject)=> {
+
+    await this.create_template_copy()
+
+   var sql = `UPDATE purchased_template SET template_json = '${this.data.copied_template.template_json}'  WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
+      db.query(sql, (err, result) => {
+  
+      if (err) {
+      reject(err);
+      return false;
+      }
+      resolve(result);
+      });
+  })
+}
 module.exports = User;

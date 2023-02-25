@@ -92,25 +92,96 @@ Page.prototype.create_template = function(){
 
 });
 }
-Page.prototype.getCanvas = function(){
+Page.prototype.getList = function(){
    
 
-            return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
+    if(this.data.user_role === 'admin'){
+      let sql = `SELECT * FROM admin_user WHERE id = "${this.data.user_id}"`;
+     
+     db.query(sql, (err, result) => {
+    
+       if (err) {
+         reject(err);
+         return false;
+       }
+         this.data.list = result[0].list
+         resolve()
+       
+    
+     });
+    }
+    if(this.data.user_role === 'user'){
+      let sql = `SELECT * FROM users WHERE user_id = "${this.data.user_id}"`;
+     
+     db.query(sql, (err, result) => {
+    
+       if (err) {
+         reject(err);
+         return false;
+       }
+         this.data.list = result[0].list
+         resolve()
+       
+    
+     });
+    }
+   
+  });
+
+}
+Page.prototype.getCanvas = function(){
+   
       
-              let sql = `SELECT * FROM purchased_template WHERE template_id = "${this.data.template_id}"
-               && user_id = "${this.data.user_id}"`;
+            return new Promise(async (resolve, reject) => {
+              await this.getList()
+
+              if(this.data.user_role === 'admin'){
+                let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
+               
+               db.query(sql, (err, result) => {
               
-              db.query(sql, (err, result) => {
+                 if (err) {
+                   reject(err);
+                   return false;
+                 }
+                   let data = []
+                   data.list = this.data.list;
+                   data.template_id = result[0].template_id;
+                   data.template_json = result[0].template_json;
+                   data.template_name = result[0].template_name;
+                   data.canvas_image = result[0].canvas_image;
+ 
              
-                if (err) {
-                  reject(err);
-                  return false;
-                }
+                   resolve(data)
+                 
               
-                  resolve(result)
-                
+               });
+              }
+              if(this.data.user_role === 'user'){
+                let sql = `SELECT * FROM purchased_template WHERE template_id = "${this.data.template_id}"
+                && user_id = "${this.data.user_id}"`;
+               
+               db.query(sql, (err, result) => {
+              
+                 if (err) {
+                   reject(err);
+                   return false;
+                 }
+                   let data = []
+                   data.list = this.data.list;
+                   data.template_id = result[0].template_id;
+                   data.template_json = result[0].template_json;
+                   data.template_name = result[0].template_name;
+                   data.canvas_image = result[0].canvas_image;
+ 
              
-              });
+                   resolve(data)
+                 
+              
+               });
+              }
+           
             });
           
 }
@@ -252,7 +323,7 @@ Page.prototype.getAllTemplates = function() {
 }
 Page.prototype.getUserTemplates = function() {
   return new Promise(async (resolve, reject) => {
-   console.log(this.data.user_id)
+   
     let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'` ;
     db.query(sql, (err, result) => {
     

@@ -1,10 +1,32 @@
+.purchased-templates-container {
+    .success-message-container {
+        font-weight: 100;
+        width: 380px;
+        margin: 10px auto;
+
+        font-size: 14px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+
+        .message {
+            padding: 5px;
+        }
+
+    }
+}
+
 .purchased-templates {
+
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    font-family: 'Poppins', sans-serif;
+
+
 
     h4 {
         text-align: center;
+
     }
 }

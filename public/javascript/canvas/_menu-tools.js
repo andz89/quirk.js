@@ -43,6 +43,34 @@ if(a ==  undefined){
 }
  
   }
+resetCanvas(){
+  if(role == 'user'){
+    document.querySelector('#reset').addEventListener('click', ()=>{
+        
+  
+      let a = template_id 
+   
+      var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+         
+            window.location.reload();
+          }
+        };
+        xhttp.open(
+          "POST",
+          `http://localhost:5000/resetCanvas?template_id=${a}`,
+          true
+        );
+        xhttp.send();
+    })
+  }else{
+    document.querySelector('#reset').style.display = 'none';
+  }
+ 
+}
+
+
   // textbox
   insertText(selector) {
     let insert_text = document.querySelector(selector);
@@ -320,9 +348,49 @@ let json_file = JSON.stringify(merge);
 
   //insert data
   insertData() {
+
+    //load names from database
+    let list_names = document.querySelector(".list-name-container .list-names");
+ 
+    if(list){
+      let aa =  JSON.parse(list);
+       aa.forEach((element) => {
+  
+        let a = element.data_1
+        let b = element.data_2
+
+        let div = document.createElement("div");
+        div.classList.add("input-container");
+        div.innerHTML = `
+              
+        <input type="text" value="${a}">
+        <input type="text" value="${b}">
+
+        <div>
+        <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+        </div>
+
+              `;
+        list_names.appendChild(div);
+        div.scrollIntoView();
+  
+      
+    
+    });
+    }
+    
+ 
+
+  
+
+
+
+
+
+
     //  insert-data
     let element = document.querySelector(".excel-html-view-data");
-    let list_names = document.querySelector(".list-name-container .list-names");
+  
     let parent = document.querySelector(".list-name-container");
     let add_name_btn = document.querySelector("#insert-names");
     add_name_btn.addEventListener("click", () => {
@@ -332,6 +400,8 @@ let json_file = JSON.stringify(merge);
     let saveCloseBtn = document.querySelector(".list-name-container .save");
     // Close
     saveCloseBtn.addEventListener("click", () => {
+      this.loading_save('visible','Saving . .  Please wait...');
+
       let textbox_1 = this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox');
       let textbox_2 = this.canvas.getObjects().filter((el) => el.name === 'Column-2-textbox');
       if(document.querySelector(".list-name-container .list-names .input-container input")){
@@ -352,15 +422,45 @@ let json_file = JSON.stringify(merge);
         this.canvas.renderAll()
         
       }
-    
-      parent.style.display = "none";
+      let names = document.querySelectorAll(
+        ".list-name-container .list-names .input-container"
+      );
+        let data = []
+      names.forEach((element) => {
+     
+        let x = {}
+     
+        x.data_1 = element.children[0].value 
+        x.data_2 = element.children[1].value 
+
+      data.push(x)
+      });
+      let json_file = JSON.stringify(data);
+      //ajax request send
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = () => {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          // console.log(xhttp.responseText);
+          let data = JSON.parse(xhttp.responseText);
+          parent.style.display = "none";
+          this.loading_save('visible','Saved successfuly.');
+           document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
+        }
+      };
+      xhttp.open(
+        "POST",
+        `http://localhost:5000/saveList?list_data=${json_file} `,
+        true
+      );
+      xhttp.send();
+ 
+
     });
 
     window.addEventListener("paste",   (e) =>{
 
-      // setTimeout(()=>{e.target.value = ''})
-
-
+   
         element.innerHTML = e.clipboardData.getData("text/html");
 
         let aa = element.querySelectorAll("table tr");

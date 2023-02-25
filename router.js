@@ -23,8 +23,9 @@ router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 router.post("/update_account", userController.update_account);
 router.post("/saved-template", userController.saved_template);
-
 router.post("/activateCanvas", middleware.role_user, userController.activateCanvas);
+router.post("/saveList", middleware.role_user, userController.saveList);
+router.post("/resetCanvas", middleware.role_user, userController.resetCanvas)
 
 
 //pages
@@ -54,6 +55,7 @@ router.get(
 router.get("/dashboard", middleware.role_admin, adminController.dashboard);
 router.get("/admin-login", middleware.role_guest, adminController.login_page);
 router.get("/admin-templates", middleware.role_admin, adminController.templates);
+router.get("/admin-background", middleware.role_admin, adminController.background);
 
 //user admin action
 router.post("/admin-login-request", adminController.admin_login_post);

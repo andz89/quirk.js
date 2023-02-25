@@ -80,6 +80,8 @@ exports.saved_template = function (req, res) {
   data.saved_json = req.query.saved_json;
   data.user_id = req.session.user.user_id;
   data.template_id =  req.query.template_id;
+  data.user_role =  req.session.user.user_role;
+
   let user = new User(data);
   user
     .saved_template_database()
@@ -100,10 +102,17 @@ exports.activateCanvas = (req,res) => {
   template.code = req.query.code;
 
   let user = new User(template);
-  user.create_template().then(function (data)   {
-    if(data === 'SUCCESS'){
-      req.flash("success_message", `You have successfully added a new template named ${req.query.template_name}`);
-      res.send(data);
+  user.new_template().then(function (data)   {
+   
+    if(data[0] === 'SUCCESS'){
+      let count_msg;
+      if(data[1] === 0){
+        count_msg = `You already activated ${data[2]} templates`
+      }else{
+        count_msg = `You have ${data[1]} template/s to add.`
+      }
+      req.flash("success_message", ` ${req.query.template_name}. <br> ${count_msg}`);
+      res.send(data[0]);
 
     }else{
       res.send(data);
@@ -112,4 +121,25 @@ exports.activateCanvas = (req,res) => {
  
    
   })
+}
+exports.resetCanvas = (req,res) => {
+  let data = {}
+  data.user_id = req.session.user.user_id;
+  data.template_id = req.query.template_id;
+ 
+  let user = new User(data);
+  user.reset_canvas().then(()=>{
+    res.json('success');
+  })
+}
+exports.saveList = (req, res)=>{
+  let data = {};
+  data.list = req.query.list_data
+  data.user_id = req.session.user.user_id;
+  data.user_role = req.session.user.user_role;
+
+  let user = new User(data);
+user.update_list().then(()=>{
+  res.json('ok');
+})
 }
