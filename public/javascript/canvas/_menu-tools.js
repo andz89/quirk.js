@@ -351,32 +351,64 @@ let json_file = JSON.stringify(merge);
 
     //load names from database
     let list_names = document.querySelector(".list-name-container .list-names");
+ let count = 20
+ for(let i = 1; i < count; i++) {
+  let div = document.createElement("tr");
  
+            div.className = i;
+  div.innerHTML = `
+  
+  <td class="xl65 column-1" style="border-right:.5pt solid black;
+height:38.1pt " contenteditable="true"> </td>
+  <td class="xl65 column-2" style="border-right:.5pt solid black;
+border-left:none; " contenteditable="true"> </td>
+<span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+</tr>      
+
+
+        `;
+        document.querySelector(".list-name-container table tbody ").appendChild(div)
+        
+     
+  div.scrollIntoView();
+
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     if(list){
       let aa =  JSON.parse(list);
-       aa.forEach((element) => {
   
-        let a = element.data_1
-        let b = element.data_2
+ 
+      
+        let inputs = document.querySelectorAll(".list-name-container table tbody tr");
 
-        let div = document.createElement("div");
-        div.classList.add("input-container");
-        div.innerHTML = `
-              
-        <input type="text" value="${a}">
-        <input type="text" value="${b}">
-
-        <div>
-        <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-        </div>
-
-              `;
-        list_names.appendChild(div);
-        div.scrollIntoView();
+        for(let i = 0; i < aa.length; ) {
+      console.log(aa[i]);
+          for(let x = 0; x < inputs.length; x++) {
+    
+            inputs[x].children[0].innerText = aa[i].data_1 
+            inputs[x].children[1].innerText = aa[i].data_2 
+            i++
+        
+    
+          }
+          }
   
       
     
-    });
+  
     }
     
  
@@ -404,34 +436,34 @@ let json_file = JSON.stringify(merge);
 
       let textbox_1 = this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox');
       let textbox_2 = this.canvas.getObjects().filter((el) => el.name === 'Column-2-textbox');
-      if(document.querySelector(".list-name-container .list-names .input-container input")){
+      if(document.querySelector(".list-name-container .list-names table tr")){
         let aa = document.querySelector(
-          ".list-name-container .list-names .input-container"
-        ).children[0];
+          ".list-name-container .list-names table tr"
+        );
         let bb = document.querySelector(
-          ".list-name-container .list-names .input-container"
-        ).children[1];
+          ".list-name-container .list-names  table tr"
+        ) 
      
         if(aa){
-          textbox_1[0].set({text: aa.value}) 
+          textbox_1[0].set({text: aa.children[0].innerText}) 
         }
    
         if(textbox_2 && bb){
-          textbox_2[0].set({text: bb.value}) 
+          textbox_2[0].set({text: bb.children[1].innerText}) 
         }
         this.canvas.renderAll()
         
       }
       let names = document.querySelectorAll(
-        ".list-name-container .list-names .input-container"
+        ".list-name-container .list-names table tr"
       );
         let data = []
       names.forEach((element) => {
      
         let x = {}
      
-        x.data_1 = element.children[0].value 
-        x.data_2 = element.children[1].value 
+        x.data_1 = element.children[0].innerText 
+        x.data_2 = element.children[1].innerText 
 
       data.push(x)
       });
@@ -462,108 +494,197 @@ let json_file = JSON.stringify(merge);
 
    
         element.innerHTML = e.clipboardData.getData("text/html");
-
+  
         let aa = element.querySelectorAll("table tr");
+    
+ 
+      let inputs = document.querySelectorAll(".list-name-container table tbody tr");
+
+   
+
+
+ // if copied data is 1 column only
+     if(aa[0].children.length < 2){
+      setTimeout(()=>{
+      if(e.target.classList.contains('column-1')){
+        for(let i = 0; i < aa.length; ) {
+
+          for(let x = 0; x < inputs.length; x++) {
+    
+            if(parseInt(inputs[x].className)  >= parseInt(e.target.parentElement.className) ){
+            inputs[x].children[0].innerText = aa[i].children[0].innerText
+            i++
+            } 
+    
+          }
+          }
+      }
+      if(e.target.classList.contains('column-2')){
+        for(let i = 0; i < aa.length; ) {
+
+          for(let x = 0; x < inputs.length; x++) {
+    
+            if(parseInt(inputs[x].className)  >= parseInt(e.target.parentElement.className) ){
+             
+            inputs[x].children[1].innerText = aa[i].children[0].innerText
+            i++
+            } 
+    
+          }
+          }
+      }
+
+ 
   
-        aa.forEach((element) => {
-          if (element.children.length > 1) {
-            let a = element.children[0].innerText;
-            let b = element.children[1].innerText;
-  
-            let div = document.createElement("div");
-            div.classList.add("input-container");
-            div.innerHTML = `
-                  
-            <input type="text" value="${a}">
-            <input type="text" value="${b}">
-  
-            <div>
-            <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-            </div>
-  
-                  `;
-            list_names.appendChild(div);
-            div.scrollIntoView();
+      })
+ 
+     }
+      // if copied data is 2 column 
+     if( aa[0].children.length > 1){
+      setTimeout(()=>{
+        for(let i = 0; i < aa.length; ) {
+          for(let x = 0; x < inputs.length; x++) {
+                if(parseInt(inputs[x].className)  >= parseInt(e.target.parentElement.className) ){
+                  inputs[x].children[0].innerText = aa[i].children[0].innerText
+                  inputs[x].children[1].innerText = aa[i].children[1].innerText
+                  i++
+                    } 
+         
+          }
+      }
+      })
+ 
+     }
       
+      // aa.forEach((element)=>{
+ 
+  
+      //       Array.from(inputs).forEach((ev)=>{
+
+      //         if(parseInt(ev.className)  >= parseInt(e.target.parentElement.className) ){
+      //             ev.children[0].innerText= element.children[0].innerText;;
+      //             ev.children[1].innerText=  element.children[1].innerText;
+               
+      //         } 
+      //         element.children[0].remove()
+      //         element.children[1].remove()
+      //       })
+        
+         
+      //   })
+      
+        
+      //   aa.forEach((element) => {
+      //     if (element.children.length > 1) {
+      //       let a = element.children[0].innerText;
+      //       let b = element.children[1].innerText;
+  
+      //       let div = document.createElement("tr");
           
-          } else {
-            let a = element.children[0].innerText;
-            let b = " ";
-  
-            let div = document.createElement("div");
-            div.classList.add("input-container");
-            div.innerHTML = `
+      //       div.innerHTML = `
+            
+      //       <td class="xl65" style="border-right:.5pt solid black;
+      // height:38.1pt " contenteditable="true">${a}</td>
+      //       <td class="xl65" style="border-right:.5pt solid black;
+      // border-left:none; " contenteditable="true">${b}</td>
+      // <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+      //   </tr>      
+
+ 
+      //             `;
+      //             // document.querySelector(".list-name-container table tbody ").appendChild(div)
                   
-        <input type="text" value="${a}">
-        <input type="text" value="${b}">
+      //             // e.target.parentElement.parentNode.insertAfter(div, e.target.parentElement.nextSibling);
+      //             function insertAfter(referenceNode, newNode) {
+      //               referenceNode.parentNode.insertBefore(newNode, referenceNode );
+      //             }
+      //             insertAfter(e.target.parentElement, div);
+      //       div.scrollIntoView();
+         
+          
+      //     } else {
+      //       let a = element.children[0].innerText;
+      //       let b = " ";
   
-        <div>
-        <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-        </div>
+      //       let div = document.createElement("tr");
+       
+      //       div.innerHTML = `
+                  
+      //       <td class="xl65" style="border-right:.5pt solid black;
+      //       height:38.1pt " contenteditable="true">${a}</td>
+      //             <td class="xl65" style="border-right:.5pt solid black;
+      //       border-left:none; " contenteditable="true"></td>
+      //       <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+      //         </tr>  
   
   
                 
   
-              `;
+      //         `;
   
-            list_names.appendChild(div);
-            div.scrollIntoView();
+       
+      //         function insertAfter(referenceNode, newNode) {
+      //           referenceNode.parentNode.insertBefore(newNode, referenceNode );
+      //         }
+      //         insertAfter(e.target.parentElement, div);
+      //   div.scrollIntoView();
 
         
-          }
-        });
+      //     }
+        
+      //   });
       
 
-  
+        // e.target.parentElement.remove()
     });
 
-    //insert name tools
+    //add rows
     document
       .querySelector(".list-name-container")
       .addEventListener("click", (e) => {
         if (e.target.classList.contains("add-rows")) {
   
-          let div = document.createElement("div");
-          div.classList.add("input-container");
-
+          let div = document.createElement("tr");
+         
           div.innerHTML = `
-              
-        <input type="text" value="" placeholder="click to type">
-        <input type="text" value="" placeholder="click to type">
+          
+          <td class="xl65" style="border-right:.5pt solid black;
+    height:38.1pt " contenteditable="true"> </td>
+          <td class="xl65" style="border-right:.5pt solid black;
+    border-left:none; " contenteditable="true"> </td>
+    <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+      </tr>      
 
 
-        <div>
-        <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-        </div>
-
-              `;
-          list_names.appendChild(div);
+                `;
+                document.querySelector(".list-name-container table tbody").appendChild(div)
           div.scrollIntoView();
         }
 
         //remove row
         if (e.target.classList.contains("delete")) {
-          e.target.parentElement.parentElement.remove();
+          e.target.parentElement.remove();
         }
         //swap column
         if (e.target.classList.contains("swap-column")) {
           let names = document.querySelectorAll(
-            ".list-name-container .list-names .input-container"
+            ".list-name-container .list-names table tr"
           );
        
           names.forEach((element) => {
-            let a = element.children[0].value 
-            let b = element.children[1].value;
+            let a = element.children[0].innerText 
+            let b = element.children[1].innerText;
          
-            element.children[0].value = b
-            element.children[1].value = a
+            element.children[0].innerText = b
+            element.children[1].innerText = a
         
           });
         }
         //clear all rows
         if (e.target.classList.contains("clear-all")) {
+        
           let names = document.querySelectorAll(
-            ".list-name-container .list-names .input-container"
+            ".list-name-container .list-names  table tbody tr"
           );
           names.forEach((element) => {
             element.remove();
@@ -600,13 +721,14 @@ let json_file = JSON.stringify(merge);
         let arrayName = [];
     
         let a = document.querySelectorAll(
-          ".list-name-container .list-names .input-container"
+          ".list-name-container .list-names table tr"
         );
-
+ 
         a.forEach((element) => {
+         
           let data = {
-            dataOne: element.children[0].value,
-            dataTwo: element.children[1].value,
+            dataOne: element.children[0].innerText,
+            dataTwo: element.children[1].innerText,
           }
           arrayName.push(data);
         });

@@ -7,16 +7,16 @@ export class Right_tools extends Modification {
       console.log('ss');
         //to change the column text to sentence case
         let names = document.querySelectorAll(
-          ".list-name-container .list-names .input-container"
+          ".list-name-container .list-names table tr"
         );
      
 
           names.forEach((element) => {
-            let b = element.children[0].value.replace(/,(?=[^\s])/g, ", ");
+            let b = element.children[0].innerText.replace(/,(?=[^\s])/g, ", ");
             let c = b.replace(/\w\S*/g, function (txt) {
               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
-            element.children[0].value = c;
+            element.children[0].innerText = c;
           });
         
    
