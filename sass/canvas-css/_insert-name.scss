@@ -22,11 +22,11 @@
 
   td {
     padding-top: 1px;
-    padding-right: 1px;
-    padding-left: 1px;
-    min-width: 290px;
-    max-width: 290px;
-    font-size: 18px;
+    padding-right: 5px;
+    padding-left: 5px;
+    min-width: 280px;
+    max-width: 280px;
+
 
     font-style: normal;
     text-decoration: none;
@@ -43,7 +43,7 @@
 
   .xl65 {
     color: black;
-    font-size: 18px;
+    font-size: 14px;
 
     text-align: left;
     vertical-align: middle;
@@ -56,7 +56,7 @@
 
   .xl66 {
     color: black;
-    font-size: 18px;
+    font-size: 14px;
 
 
     text-align: left;
@@ -64,7 +64,7 @@
     border-top: .5pt solid black;
     border-right: .5pt solid black;
     border-bottom: .5pt solid black;
-    border-left: none;
+
     white-space: normal;
   }
 
@@ -78,8 +78,15 @@
     border-top: .5pt solid black;
     border-right: none;
     border-bottom: .5pt solid black;
-    border-left: none;
+
     white-space: normal;
+  }
+
+  td:focus {
+
+
+    outline: none;
+
   }
 
   .modal-header {
@@ -117,13 +124,7 @@
       min-height: 300px;
 
 
-      // .input-container {
-      //   // display: flex;
-      //   // margin-top: 1px;
-      //   // padding: 0 15px;
-      //   // align-items: center;
-      //   ;
-      // }
+
 
       input {
         padding: 0 10px;

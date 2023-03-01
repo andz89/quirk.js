@@ -68,8 +68,9 @@ export class Utilities extends Modification {
       // fontSize
       if (activeObj.type == "textbox") {
         document.querySelector("#fontSize").value = activeObj.fontSize
- 
-
+       
+      let a =  document.getElementById("fontFamilySelect").selectedIndex = activeObj.fontFamily;
+      document.getElementById("fontFamilySelect").value= a
       } else {
         document.querySelector("#fontSize").value = "";
       }
@@ -137,6 +138,7 @@ export class Utilities extends Modification {
        
                 this.canvas.setActiveObject(e);
                  this.canvas.renderAll()
+                 this.canvas.discardActiveObject(e)
             }
           }
           if(activeObj.name == 'footer-position' ){
@@ -145,10 +147,10 @@ export class Utilities extends Modification {
                 this.canvas.setActiveObject(e)
                
                 this.canvas.renderAll()
- 
+                this.canvas.discardActiveObject(e)
             }
           }
-          this.canvas.discardActiveObject(e)
+        
          
         })
 

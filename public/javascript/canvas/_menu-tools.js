@@ -135,30 +135,33 @@ resetCanvas(){
   paste_text() {
     window.addEventListener("paste", (e) => {
       let obj = this.canvas.getActiveObject()
-      this.canvas.text = obj.text
-      setTimeout(()=>{
-       
-        let obj = this.canvas.getActiveObject()
-        obj.removeStyle('styles')
-        obj.removeStyle('fontStyle')
-        obj.removeStyle('stroke')
-        obj.removeStyle('strokeWidth')
-        obj.removeStyle('fontWeight')
- 
-        if( obj.name === 'footer-position') {
-          if(obj.text.length > 120){
-            obj.text = this.canvas.text
-           
+      if(obj){
+        this.canvas.text = obj.text
+        setTimeout(()=>{
+         
+          let obj = this.canvas.getActiveObject()
+          obj.removeStyle('styles')
+          obj.removeStyle('fontStyle')
+          obj.removeStyle('stroke')
+          obj.removeStyle('strokeWidth')
+          obj.removeStyle('fontWeight')
+   
+          if( obj.name === 'footer-position') {
+            if(obj.text.length > 120){
+              obj.text = this.canvas.text
+             
+            }
           }
-        }
-        if(obj.name === 'footer-name'){
-          if(obj.text.length > 80){
-            obj.text = this.canvas.text
+          if(obj.name === 'footer-name'){
+            if(obj.text.length > 80){
+              obj.text = this.canvas.text
+            }
           }
-        }
-      
-        this.canvas.renderAll();
-      })
+        
+          this.canvas.renderAll();
+        })
+      }
+    
    
     });
   }
@@ -350,20 +353,22 @@ let json_file = JSON.stringify(merge);
   insertData() {
 
     //load names from database
-    let list_names = document.querySelector(".list-name-container .list-names");
- let count = 20
- for(let i = 1; i < count; i++) {
+ const createTable = ()=>{
+  return new Promise((resolve, reject)=>{
+    let count = 101
+    
+ for(let i = 1;i < count; i++) {
   let div = document.createElement("tr");
+ div.setAttribute('data',`${i}`)
  
-            div.className = i;
   div.innerHTML = `
-  
+  <small>${i}</small>
   <td class="xl65 column-1" style="border-right:.5pt solid black;
 height:38.1pt " contenteditable="true"> </td>
   <td class="xl65 column-2" style="border-right:.5pt solid black;
 border-left:none; " contenteditable="true"> </td>
-<span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-</tr>      
+<span class="btn btn-sm btn-danger delete text text-white" style="font-size:12px; padding:3px 5px">Remove</span>
+     
 
 
         `;
@@ -371,36 +376,46 @@ border-left:none; " contenteditable="true"> </td>
         
      
   div.scrollIntoView();
-
- }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    if(list){
-      let aa =  JSON.parse(list);
-  
  
+ 
+  
+  if(i + 2 > count ){
+    resolve()
+  
+   }
+ } 
+
+
+  })
+ }
+ 
+
+
+
+
+createTable().then(()=>{
+    if(list){
+      let excel_data =  JSON.parse(list);
+  
+  
       
         let inputs = document.querySelectorAll(".list-name-container table tbody tr");
-
-        for(let i = 0; i < aa.length; ) {
-      console.log(aa[i]);
+  
+        for(let i = 0; i < excel_data.length; ) {
+      
           for(let x = 0; x < inputs.length; x++) {
-    
-            inputs[x].children[0].innerText = aa[i].data_1 
-            inputs[x].children[1].innerText = aa[i].data_2 
-            i++
+            
+           
+        
+              inputs[x].children[1].innerText = excel_data[i].data_1 
+              inputs[x].children[2].innerText = excel_data[i].data_2 
+              i++
+              if(i > excel_data.length - 1){
+
+                console.log('break');
+                break;
+              }
+         
         
     
           }
@@ -410,12 +425,9 @@ border-left:none; " contenteditable="true"> </td>
     
   
     }
-    
  
 
-  
-
-
+})
 
 
 
@@ -437,19 +449,19 @@ border-left:none; " contenteditable="true"> </td>
       let textbox_1 = this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox');
       let textbox_2 = this.canvas.getObjects().filter((el) => el.name === 'Column-2-textbox');
       if(document.querySelector(".list-name-container .list-names table tr")){
-        let aa = document.querySelector(
+        let excel_data = document.querySelector(
           ".list-name-container .list-names table tr"
         );
         let bb = document.querySelector(
           ".list-name-container .list-names  table tr"
         ) 
      
-        if(aa){
-          textbox_1[0].set({text: aa.children[0].innerText}) 
+        if(excel_data){
+          textbox_1[0].set({text: excel_data.children[1].innerText}) 
         }
    
         if(textbox_2 && bb){
-          textbox_2[0].set({text: bb.children[1].innerText}) 
+          textbox_2[0].set({text: bb.children[2].innerText}) 
         }
         this.canvas.renderAll()
         
@@ -458,14 +470,19 @@ border-left:none; " contenteditable="true"> </td>
         ".list-name-container .list-names table tr"
       );
         let data = []
+
       names.forEach((element) => {
      
         let x = {}
-     
-        x.data_1 = element.children[0].innerText 
-        x.data_2 = element.children[1].innerText 
+        if(element.children[1].innerText != '' && element.children[2].innerText != '') {
+          console.log(element.children[1].innerText);
+          x.data_1 = element.children[1].innerText;
+          x.data_2 = element.children[2].innerText ;
+          data.push(x)
+        }
+      
 
-      data.push(x)
+
       });
       let json_file = JSON.stringify(data);
       //ajax request send
@@ -473,7 +490,7 @@ border-left:none; " contenteditable="true"> </td>
 
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-          // console.log(xhttp.responseText);
+ 
           let data = JSON.parse(xhttp.responseText);
           parent.style.display = "none";
           this.loading_save('visible','Saved successfuly.');
@@ -491,203 +508,165 @@ border-left:none; " contenteditable="true"> </td>
     });
 
     window.addEventListener("paste",   (e) =>{
-
-   
+     e.preventDefault()
+      if(e.target.parentElement.parentElement.parentElement.parentElement.classList.contains('list-names')){
+  
+       
         element.innerHTML = e.clipboardData.getData("text/html");
   
-        let aa = element.querySelectorAll("table tr");
+
+        let excel_data = element.querySelectorAll("table tr");
     
  
       let inputs = document.querySelectorAll(".list-name-container table tbody tr");
+      let a = inputs.length - parseInt(e.target.parentElement.getAttribute('data')) 
+   
+  
+     if(excel_data.length  > a + 1){
+          return false
+      }else{
+ 
+          // if copied data is 1 column only
+          if(excel_data[0].children.length < 2){
+         
+           if(e.target.classList.contains('column-1')){
+             for(let i = 0; i < excel_data.length; ) {
+         
+               for(let x = 0; x < inputs.length; x++) {
+                 if(!excel_data[i].children[0]){
+                 
+                   break;
+                 }
+                if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                 inputs[x].children[1].innerText = excel_data[i].children[0].innerText
+                 i++
+                 if(i > excel_data.length - 1){
+                   break;
+                 }
+                 } 
+         
+               }
+               }
+           }
+           if(e.target.classList.contains('column-2')){
+             for(let i = 0; i < excel_data.length; ) {
+         
+               for(let x = 0; x < inputs.length; x++) {
+              
+                  if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                  
+                 inputs[x].children[2].innerText = excel_data[i].children[0].innerText
+                 i++
+                  if(i > excel_data.length - 1){
+                    break;
+                  }
+                 } 
+         
+               }
+               }
+           }
+         
+         
+          }
 
+
+           // if copied data is 2 column 
+          if( excel_data[0].children.length > 1){
+          
+             for(let i = 0; i < excel_data.length; ) {
+               for(let x = 0; x < inputs.length; x++) {
+                
+                     if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                       inputs[x].children[1].innerText = excel_data[i].children[0].innerText
+                       inputs[x].children[2].innerText = excel_data[i].children[1].innerText
+
+                       i++
+                       if(i > excel_data.length - 1){
+                        break;
+                      }
+                         } 
+                       
+                       
+                    
+               }
+              
+               
+           }
+           
+         
+          }
+ 
+      }
+
+
+      }
    
 
-
- // if copied data is 1 column only
-     if(aa[0].children.length < 2){
-      setTimeout(()=>{
-      if(e.target.classList.contains('column-1')){
-        for(let i = 0; i < aa.length; ) {
-
-          for(let x = 0; x < inputs.length; x++) {
-    
-            if(parseInt(inputs[x].className)  >= parseInt(e.target.parentElement.className) ){
-            inputs[x].children[0].innerText = aa[i].children[0].innerText
-            i++
-            } 
-    
-          }
-          }
-      }
-      if(e.target.classList.contains('column-2')){
-        for(let i = 0; i < aa.length; ) {
-
-          for(let x = 0; x < inputs.length; x++) {
-    
-            if(parseInt(inputs[x].className)  >= parseInt(e.target.parentElement.className) ){
-             
-            inputs[x].children[1].innerText = aa[i].children[0].innerText
-            i++
-            } 
-    
-          }
-          }
-      }
-
- 
-  
-      })
- 
-     }
-      // if copied data is 2 column 
-     if( aa[0].children.length > 1){
-      setTimeout(()=>{
-        for(let i = 0; i < aa.length; ) {
-          for(let x = 0; x < inputs.length; x++) {
-                if(parseInt(inputs[x].className)  >= parseInt(e.target.parentElement.className) ){
-                  inputs[x].children[0].innerText = aa[i].children[0].innerText
-                  inputs[x].children[1].innerText = aa[i].children[1].innerText
-                  i++
-                    } 
-         
-          }
-      }
-      })
- 
-     }
-      
-      // aa.forEach((element)=>{
- 
-  
-      //       Array.from(inputs).forEach((ev)=>{
-
-      //         if(parseInt(ev.className)  >= parseInt(e.target.parentElement.className) ){
-      //             ev.children[0].innerText= element.children[0].innerText;;
-      //             ev.children[1].innerText=  element.children[1].innerText;
-               
-      //         } 
-      //         element.children[0].remove()
-      //         element.children[1].remove()
-      //       })
-        
-         
-      //   })
-      
-        
-      //   aa.forEach((element) => {
-      //     if (element.children.length > 1) {
-      //       let a = element.children[0].innerText;
-      //       let b = element.children[1].innerText;
-  
-      //       let div = document.createElement("tr");
-          
-      //       div.innerHTML = `
-            
-      //       <td class="xl65" style="border-right:.5pt solid black;
-      // height:38.1pt " contenteditable="true">${a}</td>
-      //       <td class="xl65" style="border-right:.5pt solid black;
-      // border-left:none; " contenteditable="true">${b}</td>
-      // <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-      //   </tr>      
-
- 
-      //             `;
-      //             // document.querySelector(".list-name-container table tbody ").appendChild(div)
-                  
-      //             // e.target.parentElement.parentNode.insertAfter(div, e.target.parentElement.nextSibling);
-      //             function insertAfter(referenceNode, newNode) {
-      //               referenceNode.parentNode.insertBefore(newNode, referenceNode );
-      //             }
-      //             insertAfter(e.target.parentElement, div);
-      //       div.scrollIntoView();
-         
-          
-      //     } else {
-      //       let a = element.children[0].innerText;
-      //       let b = " ";
-  
-      //       let div = document.createElement("tr");
-       
-      //       div.innerHTML = `
-                  
-      //       <td class="xl65" style="border-right:.5pt solid black;
-      //       height:38.1pt " contenteditable="true">${a}</td>
-      //             <td class="xl65" style="border-right:.5pt solid black;
-      //       border-left:none; " contenteditable="true"></td>
-      //       <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-      //         </tr>  
-  
-  
-                
-  
-      //         `;
-  
-       
-      //         function insertAfter(referenceNode, newNode) {
-      //           referenceNode.parentNode.insertBefore(newNode, referenceNode );
-      //         }
-      //         insertAfter(e.target.parentElement, div);
-      //   div.scrollIntoView();
-
-        
-      //     }
-        
-      //   });
-      
-
-        // e.target.parentElement.remove()
     });
 
-    //add rows
-    document
-      .querySelector(".list-name-container")
-      .addEventListener("click", (e) => {
-        if (e.target.classList.contains("add-rows")) {
-  
-          let div = document.createElement("tr");
-         
-          div.innerHTML = `
-          
-          <td class="xl65" style="border-right:.5pt solid black;
-    height:38.1pt " contenteditable="true"> </td>
-          <td class="xl65" style="border-right:.5pt solid black;
-    border-left:none; " contenteditable="true"> </td>
-    <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
+      function addRow(){
+      let div = document.createElement("tr");
+
+      div.innerHTML = `
+      <small></small>
+      <td class="xl65" style="border-right:.5pt solid black;
+      height:38.1pt " contenteditable="true"> </td>
+      <td class="xl65" style="border-right:.5pt solid black;
+      border-left:none; " contenteditable="true"> </td>
+      <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
       </tr>      
 
 
-                `;
-                document.querySelector(".list-name-container table tbody").appendChild(div)
-          div.scrollIntoView();
-        }
+      `;
+      document.querySelector(".list-name-container table tbody").appendChild(div)
+   
+      }
+
+    document
+      .querySelector(".list-name-container")
+      .addEventListener("click", (e) => {
+      
 
         //remove row
         if (e.target.classList.contains("delete")) {
           e.target.parentElement.remove();
+          addRow()
+          let names = document.querySelectorAll(
+            ".list-name-container .list-names table tr"
+          );
+          let i = 1
+            names.forEach((e)=>{
+              e.setAttribute("data", i++)
+              e.children[0].innerText = i - 1
+            })
+          
         }
         //swap column
         if (e.target.classList.contains("swap-column")) {
           let names = document.querySelectorAll(
             ".list-name-container .list-names table tr"
           );
-       
           names.forEach((element) => {
-            let a = element.children[0].innerText 
-            let b = element.children[1].innerText;
+            let a = element.children[1].innerText 
+            let b = element.children[2].innerText;
          
-            element.children[0].innerText = b
-            element.children[1].innerText = a
+            element.children[1].innerText = b
+            element.children[2].innerText = a
         
           });
         }
         //clear all rows
         if (e.target.classList.contains("clear-all")) {
         
-          let names = document.querySelectorAll(
-            ".list-name-container .list-names  table tbody tr"
+            let names = document.querySelectorAll(
+            ".list-name-container .list-names table tr"
           );
           names.forEach((element) => {
-            element.remove();
+       
+         
+            element.children[1].innerText = ''
+            element.children[2].innerText = ''
+        
           });
         }
       });
@@ -725,12 +704,15 @@ border-left:none; " contenteditable="true"> </td>
         );
  
         a.forEach((element) => {
-         
-          let data = {
-            dataOne: element.children[0].innerText,
-            dataTwo: element.children[1].innerText,
+          if(element.children[1].innerText && element.children[2].innerText){
+            let data = {
+              dataOne: element.children[1].innerText,
+              dataTwo: element.children[2].innerText,
+            }
+            arrayName.push(data);
           }
-          arrayName.push(data);
+        
+        
         });
     
      
