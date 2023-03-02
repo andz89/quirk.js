@@ -411,12 +411,11 @@ createTable().then(()=>{
               inputs[x].children[2].innerText = excel_data[i].data_2 
               i++
               if(i > excel_data.length - 1){
-
-                console.log('break');
+ 
                 break;
               }
          
-        
+            
     
           }
           }
@@ -572,26 +571,48 @@ createTable().then(()=>{
 
            // if copied data is 2 column 
           if( excel_data[0].children.length > 1){
-          
-             for(let i = 0; i < excel_data.length; ) {
-               for(let x = 0; x < inputs.length; x++) {
-                
-                     if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                       inputs[x].children[1].innerText = excel_data[i].children[0].innerText
-                       inputs[x].children[2].innerText = excel_data[i].children[1].innerText
-
-                       i++
-                       if(i > excel_data.length - 1){
-                        break;
-                      }
-                         } 
-                       
-                       
-                    
-               }
-              
+            if(e.target.classList.contains('column-1')){
+              for(let i = 0; i < excel_data.length; ) {
+                for(let x = 0; x < inputs.length; x++) {
+                 
+                      if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                        inputs[x].children[1].innerText = excel_data[i].children[0].innerText
+                        inputs[x].children[2].innerText = excel_data[i].children[1].innerText
+ 
+                        i++
+                        if(i > excel_data.length - 1){
+                         break;
+                       }
+                          } 
+                        
+                        
+                     
+                }
                
-           }
+                
+            }
+            }
+            if(e.target.classList.contains('column-2')){
+              for(let i = 0; i < excel_data.length; ) {
+                for(let x = 0; x < inputs.length; x++) {
+                 
+                      if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                        
+                        inputs[x].children[2].innerText = excel_data[i].children[0].innerText
+ 
+                        i++
+                        if(i > excel_data.length - 1){
+                         break;
+                       }
+                          } 
+                        
+                        
+                     
+                }
+               
+                
+            }
+            }
            
          
           }
@@ -647,11 +668,15 @@ createTable().then(()=>{
             ".list-name-container .list-names table tr"
           );
           names.forEach((element) => {
-            let a = element.children[1].innerText 
-            let b = element.children[2].innerText;
+        
          
-            element.children[1].innerText = b
-            element.children[2].innerText = a
+            if(element.children[1].innerText !== '' && element.children[2].innerText !== '') {
+              let a = element.children[1].innerText 
+              let b = element.children[2].innerText;
+              element.children[1].innerText = b
+              element.children[2].innerText = a
+            }
+         
         
           });
         }
@@ -703,12 +728,16 @@ createTable().then(()=>{
           ".list-name-container .list-names table tr"
         );
  
+      
         a.forEach((element) => {
-          if(element.children[1].innerText && element.children[2].innerText){
+          if(element.children[1].innerText !== ' ' && element.children[2].innerText !== ' ') {
             let data = {
               dataOne: element.children[1].innerText,
               dataTwo: element.children[2].innerText,
             }
+
+            console.log('gg');
+
             arrayName.push(data);
           }
         

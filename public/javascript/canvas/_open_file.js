@@ -82,7 +82,7 @@ export class Open_file {
                 SCALE_FACTOR: SCALE_FACTOR,
               });
               canvasInit.create_main_canvas();
-         
+              canvas_created.renderAll();
               function fitCanvasToScreen() {
                 // this.canvasScale = 1;
                 if (width >= 3000) {
@@ -165,6 +165,8 @@ export class Open_file {
       "Annie Use Your Telescope",
       "Dancing Script",
       "Work Sans",
+      "Open Sans",
+
     ];
     const loadAndUse = (font) => {
        return new Promise((resolve, reject) => {
@@ -189,10 +191,11 @@ export class Open_file {
      
     };   
       loadAndUse(fonts).then(()=>{
-      
+        run_json_file(json_parsed);
+ 
       }).catch((e)=>{
-        console.log(e)
+      
       }); 
-      run_json_file(json_parsed);
+
   }
 }
