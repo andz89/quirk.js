@@ -1,6 +1,37 @@
 import { Modification } from "./_modification.js";
 
 export class Menu_tools extends Modification {
+  add_background(){
+    let add_bg_image =  document.querySelector("#modal-container-add-background")
+    document.querySelector("#canvas-image-background").addEventListener("click",()=>{
+
+
+
+   
+      var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+         
+            add_bg_image.style.display ="flex"
+          }
+        };
+        xhttp.open(
+          "POST",
+          `http://localhost:5000/get-all-background-image`,
+          true
+        );
+        xhttp.send();
+
+
+ 
+
+      
+
+    })  
+    add_bg_image.querySelector('.close').addEventListener("click",()=>{
+      add_bg_image.style.display ="none"
+    })
+  }
   loadPage() {
     
  
@@ -362,11 +393,11 @@ let json_file = JSON.stringify(merge);
  div.setAttribute('data',`${i}`)
  
   div.innerHTML = `
-  <small>${i}</small>
+  <td class="sequence ">${i}.</td>
   <td class="xl65 column-1" style="border-right:.5pt solid black;
-height:38.1pt " contenteditable="true"> </td>
+ " contenteditable="true"></td>
   <td class="xl65 column-2" style="border-right:.5pt solid black;
-border-left:none; " contenteditable="true"> </td>
+border-left:none; " contenteditable="true"></td>
 <span class="btn btn-sm btn-danger delete text text-white" style="font-size:12px; padding:3px 5px">Remove</span>
      
 
@@ -397,10 +428,8 @@ createTable().then(()=>{
     if(list){
       let excel_data =  JSON.parse(list);
   
-  
-      
-        let inputs = document.querySelectorAll(".list-name-container table tbody tr");
-  
+        let inputs = document.querySelectorAll(".list-name-container table tbody tr ");
+ 
         for(let i = 0; i < excel_data.length; ) {
       
           for(let x = 0; x < inputs.length; x++) {
@@ -449,10 +478,10 @@ createTable().then(()=>{
       let textbox_2 = this.canvas.getObjects().filter((el) => el.name === 'Column-2-textbox');
       if(document.querySelector(".list-name-container .list-names table tr")){
         let excel_data = document.querySelector(
-          ".list-name-container .list-names table tr"
+          ".list-name-container .list-names table tbody tr"
         );
         let bb = document.querySelector(
-          ".list-name-container .list-names  table tr"
+          ".list-name-container .list-names  table tbody tr"
         ) 
      
         if(excel_data){
@@ -466,20 +495,24 @@ createTable().then(()=>{
         
       }
       let names = document.querySelectorAll(
-        ".list-name-container .list-names table tr"
+        ".list-name-container .list-names table tbody tr"
       );
         let data = []
 
       names.forEach((element) => {
-     
+       let a = element.children[1].innerText.trim()
+     let b =   element.children[2].innerText.trim()
+     element.children[1].innerText = a
+     element.children[2].innerText = b
         let x = {}
-        if(element.children[1].innerText != '' && element.children[2].innerText != '') {
-          console.log(element.children[1].innerText);
-          x.data_1 = element.children[1].innerText;
-          x.data_2 = element.children[2].innerText ;
+        if(element.children[1].innerText.length && element.children[2].innerText.length || element.children[1].innerText.length|| element.children[2].innerText.length) {
+      
+          x.data_1 = a;
+          x.data_2 = b ;
           data.push(x)
         }
-      
+       
+
 
 
       });
@@ -490,7 +523,7 @@ createTable().then(()=>{
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
  
-          let data = JSON.parse(xhttp.responseText);
+      
           parent.style.display = "none";
           this.loading_save('visible','Saved successfuly.');
            document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
@@ -507,117 +540,121 @@ createTable().then(()=>{
     });
 
     window.addEventListener("paste",   (e) =>{
-     e.preventDefault()
+
       if(e.target.parentElement.parentElement.parentElement.parentElement.classList.contains('list-names')){
-  
+ 
        
         element.innerHTML = e.clipboardData.getData("text/html");
   
-
+     
+     
         let excel_data = element.querySelectorAll("table tr");
     
  
       let inputs = document.querySelectorAll(".list-name-container table tbody tr");
       let a = inputs.length - parseInt(e.target.parentElement.getAttribute('data')) 
    
-  
-     if(excel_data.length  > a + 1){
-          return false
-      }else{
- 
-          // if copied data is 1 column only
-          if(excel_data[0].children.length < 2){
-         
-           if(e.target.classList.contains('column-1')){
-             for(let i = 0; i < excel_data.length; ) {
-         
-               for(let x = 0; x < inputs.length; x++) {
-                 if(!excel_data[i].children[0]){
-                 
-                   break;
-                 }
-                if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                 inputs[x].children[1].innerText = excel_data[i].children[0].innerText
-                 i++
-                 if(i > excel_data.length - 1){
-                   break;
-                 }
-                 } 
-         
-               }
-               }
-           }
-           if(e.target.classList.contains('column-2')){
-             for(let i = 0; i < excel_data.length; ) {
-         
-               for(let x = 0; x < inputs.length; x++) {
-              
-                  if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                  
-                 inputs[x].children[2].innerText = excel_data[i].children[0].innerText
-                 i++
-                  if(i > excel_data.length - 1){
-                    break;
-                  }
-                 } 
-         
-               }
-               }
-           }
-         
-         
-          }
-
-
-           // if copied data is 2 column 
-          if( excel_data[0].children.length > 1){
-            if(e.target.classList.contains('column-1')){
-              for(let i = 0; i < excel_data.length; ) {
-                for(let x = 0; x < inputs.length; x++) {
-                 
-                      if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                        inputs[x].children[1].innerText = excel_data[i].children[0].innerText
-                        inputs[x].children[2].innerText = excel_data[i].children[1].innerText
- 
-                        i++
-                        if(i > excel_data.length - 1){
-                         break;
-                       }
-                          } 
-                        
-                        
-                     
-                }
-               
-                
-            }
-            }
-            if(e.target.classList.contains('column-2')){
-              for(let i = 0; i < excel_data.length; ) {
-                for(let x = 0; x < inputs.length; x++) {
-                 
-                      if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                        
-                        inputs[x].children[2].innerText = excel_data[i].children[0].innerText
- 
-                        i++
-                        if(i > excel_data.length - 1){
-                         break;
-                       }
-                          } 
-                        
-                        
-                     
-                }
-               
-                
-            }
-            }
+        if(element.querySelector("table tr")){
+          e.preventDefault()
+          if(excel_data.length  > a + 1){
+            return false
+        }else{
+   
+            // if copied data is 1 column only
+            if(excel_data[0].children.length < 2){
            
-         
-          }
- 
-      }
+             if(e.target.classList.contains('column-1')){
+               for(let i = 0; i < excel_data.length; ) {
+           
+                 for(let x = 0; x < inputs.length; x++) {
+                   if(!excel_data[i].children[0]){
+                   
+                     break;
+                   }
+                  if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                   inputs[x].children[1].innerText = excel_data[i].children[0].innerText
+                   i++
+                   if(i > excel_data.length - 1){
+                     break;
+                   }
+                   } 
+           
+                 }
+                 }
+             }
+             if(e.target.classList.contains('column-2')){
+               for(let i = 0; i < excel_data.length; ) {
+           
+                 for(let x = 0; x < inputs.length; x++) {
+                
+                    if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                    
+                   inputs[x].children[2].innerText = excel_data[i].children[0].innerText
+                   i++
+                    if(i > excel_data.length - 1){
+                      break;
+                    }
+                   } 
+           
+                 }
+                 }
+             }
+           
+           
+            }
+  
+  
+             // if copied data is 2 column 
+            if( excel_data[0].children.length > 1){
+              if(e.target.classList.contains('column-1')){
+                for(let i = 0; i < excel_data.length; ) {
+                  for(let x = 0; x < inputs.length; x++) {
+                   
+                        if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                          inputs[x].children[1].innerText = excel_data[i].children[0].innerText
+                          inputs[x].children[2].innerText = excel_data[i].children[1].innerText
+   
+                          i++
+                          if(i > excel_data.length - 1){
+                           break;
+                         }
+                            } 
+                          
+                          
+                       
+                  }
+                 
+                  
+              }
+              }
+              if(e.target.classList.contains('column-2')){
+                for(let i = 0; i < excel_data.length; ) {
+                  for(let x = 0; x < inputs.length; x++) {
+                   
+                        if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                          
+                          inputs[x].children[2].innerText = excel_data[i].children[0].innerText
+   
+                          i++
+                          if(i > excel_data.length - 1){
+                           break;
+                         }
+                            } 
+                          
+                          
+                       
+                  }
+                 
+                  
+              }
+              }
+             
+           
+            }
+   
+        }
+        }
+  
 
 
       }
@@ -629,13 +666,13 @@ createTable().then(()=>{
       let div = document.createElement("tr");
 
       div.innerHTML = `
-      <small></small>
+      <td class="sequence"> </td>
       <td class="xl65" style="border-right:.5pt solid black;
-      height:38.1pt " contenteditable="true"> </td>
+      height:38.1pt " contenteditable="true"></td>
       <td class="xl65" style="border-right:.5pt solid black;
-      border-left:none; " contenteditable="true"> </td>
-      <span class="btn btn-sm btn-danger delete text text-white">Remove</span>
-      </tr>      
+      border-left:none; " contenteditable="true"></td>
+      <span class="btn btn-sm btn-danger delete text text-white" style="font-size:12px; padding:3px 5px">Remove</span>
+       
 
 
       `;
@@ -653,24 +690,24 @@ createTable().then(()=>{
           e.target.parentElement.remove();
           addRow()
           let names = document.querySelectorAll(
-            ".list-name-container .list-names table tr"
+            ".list-name-container .list-names table tbody tr"
           );
           let i = 1
             names.forEach((e)=>{
               e.setAttribute("data", i++)
-              e.children[0].innerText = i - 1
+              e.children[0].innerText = i - 1 + "."
             })
           
         }
         //swap column
         if (e.target.classList.contains("swap-column")) {
           let names = document.querySelectorAll(
-            ".list-name-container .list-names table tr"
+            ".list-name-container .list-names table tbody tr"
           );
           names.forEach((element) => {
         
          
-            if(element.children[1].innerText !== '' && element.children[2].innerText !== '') {
+            if(element.children[1].innerText.length && element.children[2].innerText.length || element.children[1].innerText.length || element.children[2].innerText.length) {
               let a = element.children[1].innerText 
               let b = element.children[2].innerText;
               element.children[1].innerText = b
@@ -684,7 +721,7 @@ createTable().then(()=>{
         if (e.target.classList.contains("clear-all")) {
         
             let names = document.querySelectorAll(
-            ".list-name-container .list-names table tr"
+            ".list-name-container .list-names table tbody tr"
           );
           names.forEach((element) => {
        
@@ -700,8 +737,8 @@ createTable().then(()=>{
   // generate certificate
   generate_certificate() {
     const preview_image = document.querySelector("#preview-image");
-    const modal = document.querySelector("#modal-container");
-    const closeBtn = document.querySelector(".modal-canvas .close");
+    const modal = document.querySelector("#modal-container-generate-certificate");
+    const closeBtn = document.querySelector("#modal-container-generate-certificate .close");
     closeBtn.addEventListener("click", closeModal);
   
 
@@ -725,19 +762,19 @@ createTable().then(()=>{
         let arrayName = [];
     
         let a = document.querySelectorAll(
-          ".list-name-container .list-names table tr"
+          ".list-name-container .list-names table tbody tr"
         );
  
       
         a.forEach((element) => {
-          if(element.children[1].innerText !== ' ' && element.children[2].innerText !== ' ') {
+          if(element.children[1].innerText.length && element.children[2].innerText.length
+          || element.children[1].innerText.length || element.children[2].innerText.length) {
             let data = {
               dataOne: element.children[1].innerText,
               dataTwo: element.children[2].innerText,
             }
 
-            console.log('gg');
-
+        
             arrayName.push(data);
           }
         
@@ -788,7 +825,7 @@ createTable().then(()=>{
      
        
        }else{
-        document.querySelector(".modal-canvas").style.display = "block";
+        document.querySelector("#modal-container-generate-certificate .modal-canvas").style.display = "block";
       this.loading("hidden",null);
       
        }

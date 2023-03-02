@@ -14,7 +14,9 @@
 @import 'modal-activation';
 @import 'purchased_templates';
 @import 'templates';
-@import '_modal-edit-template-admin';
+@import 'modal-edit-template-admin';
+@import 'background';
+
 
 
 
@@ -32,7 +34,7 @@
 @import 'canvas-css/insert-name';
 @import 'canvas-css/display_certificates';
 @import 'canvas-css/insert-textbox';
-
+@import 'canvas-css/add_background';
 @import 'canvas-css/canvas';
 @import 'canvas-css/header';
 

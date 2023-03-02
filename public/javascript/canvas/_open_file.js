@@ -166,6 +166,7 @@ export class Open_file {
       "Dancing Script",
       "Work Sans",
       "Open Sans",
+      "Arial",
 
     ];
     const loadAndUse = (font) => {

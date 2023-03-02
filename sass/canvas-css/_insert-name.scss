@@ -20,67 +20,50 @@
     }
   }
 
-  td {
-    padding-top: 1px;
-    padding-right: 5px;
-    padding-left: 5px;
-    min-width: 280px;
-    max-width: 280px;
+  th {
+    vertical-align: middle;
+    border-top: .5pt solid black;
+    border-right: .5pt solid black;
+    border-bottom: .5pt solid black;
+    border-left: .5pt solid black;
 
-
-    font-style: normal;
-    text-decoration: none;
-    font-family: Arial;
-
-
-    vertical-align: bottom;
-    border: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
+    background-color: rgba(196, 195, 195, 0.37);
+    height: 40px;
   }
 
-  .xl65 {
-    color: black;
-    font-size: 14px;
+  td {
+    padding-top: 1px;
+    text-decoration: none;
+    font-family: Arial;
+    padding-left: 2px;
+  }
 
-    text-align: left;
+  .sequence {
+    font-size: 13px;
+    min-width: 37px;
+    max-width: 37px;
     vertical-align: middle;
     border-top: .5pt solid black;
     border-right: none;
     border-bottom: .5pt solid black;
     border-left: .5pt solid black;
-    white-space: normal;
+    background-color: rgba(196, 195, 195, 0.37);
   }
 
-  .xl66 {
+  .xl65 {
     color: black;
     font-size: 14px;
+    min-width: 280px;
+    max-width: 280px;
 
 
-    text-align: left;
-    vertical-align: middle;
-    border-top: .5pt solid black;
-    border-right: .5pt solid black;
-    border-bottom: .5pt solid black;
-
-    white-space: normal;
-  }
-
-  .xl67 {
-    color: black;
-    font-size: 18px;
-
-
-    text-align: left;
-    vertical-align: middle;
     border-top: .5pt solid black;
     border-right: none;
     border-bottom: .5pt solid black;
+    border-left: .5pt solid black;
 
-    white-space: normal;
   }
+
 
   td:focus {
 
@@ -111,11 +94,6 @@
 
 
 
-    .menu-controller {
-      width: 100%;
-
-
-    }
 
 
     .list-names {

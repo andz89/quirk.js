@@ -143,3 +143,10 @@ user.update_list().then(()=>{
   res.json('ok');
 })
 }
+
+exports.getAllBackgroundImage = (req, res)=>{
+  let user = new User();
+user.get_all_backgrounds_image().then(()=>{
+  res.json('ok');
+})
+}

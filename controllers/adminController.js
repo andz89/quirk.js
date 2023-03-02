@@ -65,6 +65,22 @@ exports.background = (req, res) => {
 // })
   
 };
+
+exports.addBackground = (req, res) => {
+ 
+  req.body.file = req.file.filename
+  let bg = new Admin(req.body)
+
+bg.add_background().then((data)=>{
+ 
+  res.render("admin/admin-background", {
+ 
+    user_type: req.session.user.user_role,
+    session: req.session.user ? true : false,
+  }); 
+})
+  
+};
 exports.add_template = function (req, res) {
 
   req.body.file = req.file.filename

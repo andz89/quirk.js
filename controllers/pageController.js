@@ -110,6 +110,7 @@ exports.canvas =(req, res) =>{
                 template_json:data.template_json,
                 template_id:data.template_id,
                 template_name:data.template_name,
+                thumbnail:'http://localhost:5000/images/ci/'+ data.thumbnail,
                 canvas_image:'http://localhost:5000/images/ci/'+ data.canvas_image,
                 list: data.list,
                 user_role: req.session.user.user_role,

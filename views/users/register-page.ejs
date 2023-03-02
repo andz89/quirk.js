@@ -7,8 +7,9 @@
         <div class="d-flex flex-direction-column align-items-start">
           <label for="username-register" class="text-muted"><small>Username</small></label>
 
-          <input name="user_name" id="username-register" class="" type="text" placeholder="Pick a username"
-            autocomplete="off" value="<%= users_data.length ? users_data[0].user_name : '' %>" />
+          <input name="user_name" style="width:300px" id="username-register" class="" type="text"
+            placeholder="Pick a username" autocomplete="off"
+            value="<%= users_data.length ? users_data[0].user_name : '' %>" />
 
           <div style="height: 5px">
             <% if (regErrors.length) { %>
@@ -22,8 +23,9 @@
 
         <div class="my-1 d-flex flex-direction-column align-items-start">
           <label for="email-register"><small>Email</small></label>
-          <input name="user_email" id="email-register" class="" type="text" placeholder="you@example.com"
-            autocomplete="off" value="<%= users_data.length ? users_data[0].user_email : '' %>" />
+          <input style="width:300px" name="user_email" id="email-register" class="" type="text"
+            placeholder="you@example.com" autocomplete="off"
+            value="<%= users_data.length ? users_data[0].user_email : '' %>" />
           <div style="height: 5px">
             <% if (regErrors.length) { %>
 
@@ -36,7 +38,8 @@
 
         <div class="my-1 d-flex flex-direction-column align-items-start">
           <label for="password-register"><small>Password</small></label>
-          <input name="user_password" id="register-password" class="" type="password" placeholder="Create a password" />
+          <input style="width:300px" name="user_password" id="register-password" class="" type="password"
+            placeholder="Create a password" />
 
           <div class="d-flex align-items-center check-password-container">
             <input type="checkbox" id="check-password-register-input" />

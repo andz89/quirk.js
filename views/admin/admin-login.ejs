@@ -20,10 +20,11 @@
         <form action="/admin-login-request" method="POST" class="login-form form">
 
           <div class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1">
-            <input name="user_email" type="text" placeholder="Email" autocomplete="off"
+            <input style="width:300px" name="user_email" type="text" placeholder="Email" autocomplete="off"
               value="<%= locals.users_data && users_data.length ? users_data[0].user_email : '' %>" />
 
-            <input name="user_password" type="password" placeholder="Password" id="login-password" />
+            <input style="width:300px" name="user_password" type="password" placeholder="Password"
+              id="login-password" />
             <div class="d-flex align-items-center check-password-container">
               <input type="checkbox" id="check-password-login-input" />
 

@@ -453,4 +453,11 @@ User.prototype.reset_canvas = function () {
       });
   })
 }
+
+User.prototype.get_all_backgrounds_image = function(){
+  return new Promise( async (resolve, reject)=> {
+
+    resolve()
+  })
+}
 module.exports = User;

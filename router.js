@@ -26,6 +26,7 @@ router.post("/saved-template", userController.saved_template);
 router.post("/activateCanvas", middleware.role_user, userController.activateCanvas);
 router.post("/saveList", middleware.role_user, userController.saveList);
 router.post("/resetCanvas", middleware.role_user, userController.resetCanvas)
+router.post("/get-all-background-image", middleware.role_user, userController.getAllBackgroundImage);
 
 
 //pages
@@ -35,6 +36,7 @@ router.get("/", middleware.home_role, pageController.home); // home
 router.get("/account-page", middleware.role_user, pageController.account_page);
 router.get("/templates", middleware.role_user, pageController.templates_page);
 router.get("/purchased-templates", middleware.role_user, pageController.purchased_templates);
+
 
 
 
@@ -62,7 +64,7 @@ router.post("/admin-login-request", adminController.admin_login_post);
 router.post("/add-template",upload.single('image') ,adminController.add_template);
 router.post("/remove" ,adminController.remove);
 router.post("/updateTemplate" ,upload.single('thumbnail-image'),adminController.updateTemplate);
-
+router.post("/add-background" ,upload.single('background_image'),adminController.addBackground);
 
 
 

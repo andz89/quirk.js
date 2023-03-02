@@ -12,11 +12,14 @@
 <body>
 
 
-    <div class="modal-loader"></div>
+    <!-- <div class="modal-loader"></div> -->
 
 
-    <div id="createCanvasModal"></div> <!-- create modal form to create canvas -->
+    <!-- <div id="createCanvasModal"></div>  -->
+    <!-- create modal form to create canvas -->
 
+
+    <!-- header and tools -->
     <div class="header" id="myHeader">
         <div class="d-flex">
             <div class="file_name_container">
@@ -47,6 +50,10 @@
                 |
                 <div>
                     <div id="reset">Reset Canvas</div>
+
+                </div>
+                <div>
+                    <div id="canvas-image-background">Background</div>
 
                 </div>
             </div>
@@ -130,10 +137,6 @@
             <li id="insert-text-btn" class="dropbtn-insert-text ">Insert Text</li>
         </div>
 
-
-
-
-
     </div>
     <!-- insert name -->
     <span class="excel-html-view-data" style="display:none"></span>
@@ -156,15 +159,25 @@
         <div class="modal-content">
 
 
-            <div class="menu-controller d-flex justify-content-start">
-                <div style="width: 300px;">Column 1</div>
-                <div>Column 2</div>
-            </div>
 
             <div class="list-names">
 
                 <table style="border-collapse:
                      collapse; padding: 5px;margin: 5px;">
+                    <thead>
+                        <th>
+
+                        </th>
+
+                        <th>
+                            Column 1
+                        </th>
+
+                        <th>
+                            Column 2
+                        </th>
+
+                    </thead>
 
                     <tbody>
 
@@ -191,61 +204,68 @@
     </div>
 
 
-
-
-
-
+    <!-- alert for fonts not loading -->
     <div id="alert-header"></div>
 
+    <!-- canvas -->
     <main>
 
         <div id="canvas-background" class="canvas-container">
-
-
-            <input type="file" name="myFile" class="drop-zone__input" style="display: none">
-
-
         </div>
-
-
-
 
     </main>
 
-
-
-
-    <div id="modal-container" class="modal-canvas">
-        <div class="modal-content">
+    <!-- modal for adding background -->
+    <div id="modal-container-add-background">
+        <div class="modal-content ">
             <div class="modal-header d-flex justify-content-end">
+                <span class="btn btn-sm btn-danger text text-white close">Close</span>
 
-
-                <div class="close-container bg-light p-1">
-                    <div id="download_as_Zip" class="btn btn-sm btn-primary">
-                        Download
-                    </div>
-                    <!-- <a id="printCanvas" class="btn btn-sm btn-light">Print</a> -->
-                    <div>
-                        <div class="btn btn-sm btn-dark close">Close</div>
-
-                    </div>
-
-                </div>
             </div>
+            <hr>
             <div class="modal-body">
 
             </div>
-
-
         </div>
     </div>
-    <!-- loader -->
+
+    <!-- display image after generate certificate -->
+    <div id="modal-container-generate-certificate">
+        <div class="modal-canvas">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-end">
+
+
+                    <div class="close-container bg-light p-1">
+                        <div id="download_as_Zip" class="btn btn-sm btn-primary">
+                            Download
+                        </div>
+                        <!-- <a id="printCanvas" class="btn btn-sm btn-light">Print</a> -->
+                        <div>
+                            <div class="btn btn-sm btn-dark close">Close</div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- loader for generating certificate-->
     <div class="lds-spinner-container-generate d-flex justify-content-center align-items-center ">
         <div class="text-container">
             <span class="loader">Loading Please wait</span>
 
         </div>
     </div>
+    <!-- loader for saving json to database-->
     <div class="lds-spinner-container-saving-json d-flex justify-content-center align-items-center ">
         <div class="text-container">
             <span class="loader"> </span>
@@ -256,6 +276,8 @@
             </div>
         </div>
     </div>
+
+
 
     <script src="javascript/canvas/library/jszip-utils.min.js"></script>
 
@@ -273,10 +295,6 @@
         let template_name = '<%-template_name%>';
         let list = '<%-list%>';
         let role = '<%-user_role%>';
-
-
-
-
     </script>
 
 

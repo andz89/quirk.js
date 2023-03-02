@@ -5,12 +5,17 @@ export class Utilities extends Modification {
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {
     
-    
+        if(role == 'admin'){
+          this.canvas.remove(this.canvas.getActiveObject());
+        }
+        if(role == 'user'){
           if (this.canvas.getActiveObject().name === "textbox") {
             return false;
           }
-         
-          this.canvas.remove(this.canvas.getActiveObject());
+           
+            this.canvas.remove(this.canvas.getActiveObject());
+        }
+
      
       }
     });

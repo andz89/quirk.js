@@ -150,7 +150,9 @@ Page.prototype.getCanvas = function(){
                    data.template_id = result[0].template_id;
                    data.template_json = result[0].template_json;
                    data.template_name = result[0].template_name;
+                   data.thumbnail = result[0].thumbnail;
                    data.canvas_image = result[0].canvas_image;
+
  
              
                    resolve(data)
@@ -173,8 +175,8 @@ Page.prototype.getCanvas = function(){
                    data.template_id = result[0].template_id;
                    data.template_json = result[0].template_json;
                    data.template_name = result[0].template_name;
+                   data.thumbnail = result[0].thumbnail;
                    data.canvas_image = result[0].canvas_image;
- 
              
                    resolve(data)
                  

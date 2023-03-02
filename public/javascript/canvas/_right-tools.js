@@ -299,7 +299,8 @@ export class Right_tools extends Modification {
       "Roboto",
       "Dancing Script",
       "Work Sans",
-      "Open Sans"
+      "Open Sans",
+      "Arial"
     ];
 
     fonts.unshift("Times New Roman");

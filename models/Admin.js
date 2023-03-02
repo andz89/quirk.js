@@ -12,7 +12,7 @@ Admin.prototype.add_template_into_database = function () {
       template_name: this.data.template_name,
       template_description: this.data.template_description,
       template_json: this.data.json_file,
-      canvas_image: this.data.file
+      thumbnail: this.data.file
     };
     let sql = "INSERT INTO templates SET ?";
     db.query(sql, data, (err, result) => {
@@ -25,7 +25,27 @@ Admin.prototype.add_template_into_database = function () {
     });
   });
 };
+Admin.prototype.add_background =function(req, res){
+  return new Promise( (resolve, reject) =>{
+    let data = {
+      background_image: this.data.file,
+      background_id: uuidv4(),
+      background_name: this.data.background_name,
+      background_description: this.data.background_description,
+    };
+    let sql = "INSERT INTO background SET ?";
+    db.query(sql, data, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
 
+      resolve();
+    });
+
+  })
+
+}
 Admin.prototype.remove = function (req, res) {
   return new Promise( (resolve, reject) => {
    
@@ -45,7 +65,7 @@ Admin.prototype.update_template = function () {
   return new Promise(async (resolve, reject) => {
  
   if(this.data.template_json){
-    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',template_json ='${this.data.template_json}',canvas_image = '${this.data.file}' WHERE template_id = '${this.data.template_id}'`;
+    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',template_json ='${this.data.template_json}',thumbnail = '${this.data.file}' WHERE template_id = '${this.data.template_id}'`;
       db.query(sql, (err, result) => {
         if (err) {
           reject(err);
@@ -54,7 +74,7 @@ Admin.prototype.update_template = function () {
         resolve(result);
       });
   }else{
-    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',canvas_image = '${this.data.file}' WHERE template_id ='${this.data.template_id}'`;
+    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',thumbnail = '${this.data.file}' WHERE template_id ='${this.data.template_id}'`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
