@@ -2,35 +2,65 @@ import { Modification } from "./_modification.js";
 
 export class Menu_tools extends Modification {
   add_background(){
-    let add_bg_image =  document.querySelector("#modal-container-add-background")
-    document.querySelector("#canvas-image-background").addEventListener("click",()=>{
+    window.addEventListener('DOMContentLoaded',()=>{
 
+      let add_bg_image =  document.querySelector("#modal-container-add-background")
+      let modal_body =   add_bg_image.querySelector('.modal-body')
 
-
-   
-      var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = () => {
-          if (xhttp.readyState == 4 && xhttp.status == 200) {
-         
+    
+        document.querySelector("#canvas-image-background").addEventListener("click", ()=>{
+  
+       
+          if(modal_body.innerHTML.length){
+        
+            console.log('wala ng request');
             add_bg_image.style.display ="flex"
-          }
-        };
-        xhttp.open(
-          "POST",
-          `http://localhost:5000/get-all-background-image`,
-          true
-        );
-        xhttp.send();
+         
+    
+          }else{
+            console.log(' nag request');
+     
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = () => {
+              if (xhttp.readyState == 4 && xhttp.status == 200) {
+                let data = JSON.parse(xhttp.responseText);
+             
+    
+       
+                data.forEach((e)=>{
+                  let div = document.createElement('div')
+                  div.innerHTML = 
+                  ` 
+                  <img src='http://localhost:5000/images/ci/${e.thumbnail_image}' width="150px">
+                  <input type="hidden" name="background_name" value="${e.background_image}">
 
-
- 
-
+                  <span class="btn btn-sm btn-success">Apply</span>`
       
+                  modal_body.appendChild(div)
+                })
+              
+                add_bg_image.style.display ="flex"
+              }
+            };
+            xhttp.open(
+              "POST",
+              `http://localhost:5000/get-all-background-image`,
+              true
+            );
+            xhttp.send();
+    
+          }
+          
+    
+        })  
 
-    })  
-    add_bg_image.querySelector('.close').addEventListener("click",()=>{
-      add_bg_image.style.display ="none"
+     
+      add_bg_image.querySelector('.close').addEventListener("click",()=>{
+ 
+        add_bg_image.style.display ="none"
+      })
     })
+  
   }
   loadPage() {
     
@@ -103,21 +133,20 @@ resetCanvas(){
 
 
   // textbox
-  insertText(selector) {
-    let insert_text = document.querySelector(selector);
+  insertText( ) {
+    let insert_text = document.querySelector(".dropbtn-insert-text");
     insert_text.addEventListener("click", () => {
+        console.log('gg')
       let object = new fabric.Textbox("Your Text Here", {
         textAlign: "center",
 
-        // fontSize: Math.floor(this.canvas.getWidth() / 15)  ,
-        
-        
+      
         id: this.uniqueId() ,
         dirty: true,
-        // width: 400,//this.canvas.getWidth() * .80
+   
          width: 100,
         splitByGrapheme: true,
-        // height: 1900,
+    
         centeredScaling: true,
       });
       
@@ -466,6 +495,7 @@ createTable().then(()=>{
     let parent = document.querySelector(".list-name-container");
     let add_name_btn = document.querySelector("#insert-names");
     add_name_btn.addEventListener("click", () => {
+     
       parent.style.display = "block";
     });
 
@@ -744,7 +774,7 @@ createTable().then(()=>{
 
     // Close
     function closeModal() {
-      modal.style.display = "none";
+      modal.querySelector('.modal-canvas').style.display = "none";
 
       let printImageView = document.querySelectorAll(".print-view-img");
       printImageView.forEach((item) => {
@@ -755,7 +785,7 @@ createTable().then(()=>{
    
 
     preview_image.addEventListener("click", () => {
- 
+      console.log('ckicj');
       this.loading("visible",null);
       
       setTimeout(()=>{
@@ -808,7 +838,7 @@ createTable().then(()=>{
             img.src = imgSrc
             img.width = "600";
             img.className = "print-view-img";
-            document.querySelector(".modal-body").appendChild(img);
+            document.querySelector("#modal-container-generate-certificate .modal-body").appendChild(img);
               this.canvas.setHeight(this.canvas.current_height);
         this.canvas.setWidth(this.canvas.current_width);
         this.canvas.setZoom(this.canvas.current_canvasScale);
@@ -822,9 +852,10 @@ createTable().then(()=>{
             
             again()
           })
-     
+   
        
        }else{
+   
         document.querySelector("#modal-container-generate-certificate .modal-canvas").style.display = "block";
       this.loading("hidden",null);
       
@@ -847,7 +878,7 @@ createTable().then(()=>{
   //insert name on textbox
   insert_textbox() {
     const doubleClick = (e) => {
- 
+
       if (e.target && e.target.name == "Column-1-textbox") {
        
        document.querySelector(".list-name-container").style.display = "block"    

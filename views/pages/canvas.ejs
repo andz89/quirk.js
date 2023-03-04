@@ -134,7 +134,7 @@
 
 
 
-            <li id="insert-text-btn" class="dropbtn-insert-text ">Insert Text</li>
+            <li class="dropbtn-insert-text ">Insert Text</li>
         </div>
 
     </div>
@@ -210,7 +210,8 @@
     <!-- canvas -->
     <main>
 
-        <div id="canvas-background" class="canvas-container">
+        <div id="canvas-background">
+
         </div>
 
     </main>
@@ -223,9 +224,7 @@
 
             </div>
             <hr>
-            <div class="modal-body">
-
-            </div>
+            <div class="modal-body"></div>
         </div>
     </div>
 
@@ -291,7 +290,9 @@
     <script>
         let template_json = '<%-template_json%>';
         let template_id = '<%-template_id%>';
-        let canvas_image = '<%-canvas_image%>';
+        // let canvas_image = '<%-canvas_image%>';
+        let canvas_image = '<%-thumbnail%>';
+
         let template_name = '<%-template_name%>';
         let list = '<%-list%>';
         let role = '<%-user_role%>';

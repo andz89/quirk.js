@@ -1,6 +1,5 @@
 class Templates{
 
-  
 
     modal_template_details(){
         if(document.querySelector('.templates')){

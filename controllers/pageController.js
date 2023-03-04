@@ -83,9 +83,10 @@ exports.purchased_templates = function(req,res){
  
   let purchased_templates = new Page(data)
   purchased_templates.getUserTemplates().then((data)=>{
-  
+    console.log(data);
  
     res.render("pages/purchased-templates", {
+
       success_message: req.flash("success_message"),
       data: data,
       user_type: req.session.user.user_role,

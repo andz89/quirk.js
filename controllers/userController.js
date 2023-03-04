@@ -144,9 +144,10 @@ user.update_list().then(()=>{
 })
 }
 
+//query to get the link of an image
 exports.getAllBackgroundImage = (req, res)=>{
   let user = new User();
-user.get_all_backgrounds_image().then(()=>{
-  res.json('ok');
+user.get_all_backgrounds_image().then((data)=>{
+  res.json(data);
 })
 }

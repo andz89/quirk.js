@@ -4,7 +4,7 @@
             <h2>Qurik Templates</h2>
 
         </div>
-        <div class="templates my-2 " style="width: 100%;">
+        <div class="templates" style="width: 100%;">
             <% data.forEach((data)=>{%>
 
 
@@ -13,7 +13,7 @@
                     <input type="hidden" id="display-template-id" value="<%= data.template_id %>">
 
 
-                    <img src="images/ci/<%= data.canvas_image %>" width="170" class="show-template-details" alt="">
+                    <img src="images/ci/<%= data.thumbnail%>" width="170" class="show-template-details" alt="">
                     <h4 class="text text-dark show-template-details">
                         <%= data.template_name %>
                     </h4>

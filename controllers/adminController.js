@@ -54,30 +54,39 @@ templates.getAllTemplates().then((data)=>{
 exports.background = (req, res) => {
 
 
-  let templates = new Page()
-// templates.getAllBackgrounds().then((data)=>{
-;
+  let templates = new Admin()
+templates.getAllBackgrounds().then((data)=>{
+
   res.render("admin/admin-background", {
- 
+    data:data,
     user_type: req.session.user.user_role,
     session: req.session.user ? true : false,
   }); 
-// })
+})
   
 };
 
 exports.addBackground = (req, res) => {
+let thumbnail_image
+let background_image
+
+ req.files.thumbnail_image.forEach((e)=>{
+  thumbnail_image = e.filename ;
+ })
+
+ req.files.background_image.forEach((e)=>{
+  background_image = e.filename;
+ })
  
-  req.body.file = req.file.filename
+ 
+  req.body.background_image =  background_image 
+  req.body.thumbnail_image =  thumbnail_image 
+
   let bg = new Admin(req.body)
 
 bg.add_background().then((data)=>{
+  res.redirect("/admin-background");
  
-  res.render("admin/admin-background", {
- 
-    user_type: req.session.user.user_role,
-    session: req.session.user ? true : false,
-  }); 
 })
   
 };

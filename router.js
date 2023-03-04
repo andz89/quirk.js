@@ -12,8 +12,10 @@ const storage = multer.diskStorage({
     cb(null, 'public/images/ci')
   },
   filename: (req, file, cb)=>{
+
     let a = file.originalname.replace(/\.[^/.]+$/, "")
     cb(null,a + '-'+ uuidv4()+ path.extname(file.originalname))
+   
   }
 })
 const upload = multer({storage: storage})
@@ -64,7 +66,11 @@ router.post("/admin-login-request", adminController.admin_login_post);
 router.post("/add-template",upload.single('image') ,adminController.add_template);
 router.post("/remove" ,adminController.remove);
 router.post("/updateTemplate" ,upload.single('thumbnail-image'),adminController.updateTemplate);
-router.post("/add-background" ,upload.single('background_image'),adminController.addBackground);
+router.post("/add-background" ,upload.fields([{
+  name:'background_image', maxCount: 1
+}, {
+  name:'thumbnail_image', maxCount: 1
+}]),adminController.addBackground);
 
 
 

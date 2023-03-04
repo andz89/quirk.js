@@ -366,7 +366,7 @@ User.prototype.create_template_copy = function (){
         template_json: result[0].template_json,
         template_category: result[0].template_category,
         canvas_image: result[0].canvas_image,
-
+        thumbnail: result[0].thumbnail
 
       }
       resolve()
@@ -455,9 +455,18 @@ User.prototype.reset_canvas = function () {
 }
 
 User.prototype.get_all_backgrounds_image = function(){
-  return new Promise( async (resolve, reject)=> {
+  return new Promise( (resolve, reject)=> {
 
-    resolve()
+    let sql = "SELECT * FROM background";
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      console.log(result);  
+      resolve(result)
+    })
+
   })
 }
 module.exports = User;

@@ -27,11 +27,10 @@ export class Modification {
       object.perPixelTargetFind = false;
       this.canvas.setActiveObject(object);
       this.canvas.add(object);
-      // object.scaleToWidth(200)
+ 
       this.canvas.viewportCenterObject(object);
-
-      this.canvas.renderAll();
-      this.updateModifications(true);
+      // this.canvas.renderAll();
+  
     } else {
       (object.perPixelTargetFind = false), this.canvas.setActiveObject(object);
       this.canvas.add(object);
@@ -76,95 +75,7 @@ export class Modification {
     return dateString + random;
   }
 
-  display_lockObjects(object) {
-    if (object.length > 0) {
-      object.forEach((e) => {
-        let li = document.createElement("li");
-        li.className = "list_objects";
-        li.id = e.id;
-        li.innerHTML = `
-  <input spellcheck = false type="text" id="${e.id}" class="object_name_input" value="${e.name}">  <span class="unlock" style="font-style: italic">unlock </span>
-  `;
-
-        let lockContainer = document.querySelector(".lock-object-container");
-
-        lockContainer.prepend(li);
-        document.querySelector(".object_name_input").disabled = true;
-
-        lockContainer.scrollTop = 0;
-      });
-    } else {
-      let li = document.createElement("li");
-      li.className = "list_objects";
-      li.id = object.id;
-      li.innerHTML = `
-  <input spellcheck = false type="text" id="${object.id}" class="object_name_input" value="${object.name}">  <span class="unlock" style="font-style: italic">unlock </span>
-  `;
-      let lockContainer = document.querySelector(".lock-object-container");
-      lockContainer.prepend(li);
-      document.querySelector(".object_name_input").disabled = true;
-      lockContainer.scrollTop = 0;
-    }
-
-    document.querySelector(".lock-object-container").onclick = (e) => {
-      if (e.target.id) {
-        let objects = this.canvas.getObjects();
-        let obj = objects.filter((object) => {
-          return object.id === e.target.id;
-        });
-
-        // if(obj[0]._objects){
-        // let a =  obj.toActiveSelection();
-
-        // }else{
-        // console.log('isa')
-
-        this.canvas.setActiveObject(obj[0]);
-        // a.toActiveSelection();
-
-        // }
-
-        this.canvas.renderAll();
-      }
-      // unlock objects
-      if (e.target.classList.contains("unlock")) {
-        let parent_id = e.target.parentElement.id;
-        let objects = this.canvas.getObjects();
-
-        let obj = objects.filter((object) => {
-          return object.id === parent_id;
-        });
-        this.canvas.discardActiveObject(obj);
-        obj[0].selectable = true;
-        obj[0].set("lockMovementX", false);
-        obj[0].set("lockMovementY", false);
-        obj[0].set("lockScalingX", false);
-        obj[0].set("lockScalingY", false);
-        obj[0].set("lockRotation", false);
-        this.canvas.setActiveObject(obj[0]);
-        this.canvas.renderAll();
-        e.target.parentElement.remove();
-      }
-    };
-
-    document.querySelector(".lock-object-container").ondblclick = (e) => {
-      if (e.target.classList.contains("object_name_input")) {
-        e.target.disabled = false;
-        e.target.focus();
-        e.target.addEventListener("blur", (e) => {
-          e.target.disabled = true;
-
-          let objects = this.canvas.getObjects();
-          let obj = objects.filter((object) => {
-            return object.id === e.target.id;
-          });
-
-          obj[0].name = e.target.value;
-          this.canvas.renderAll();
-        });
-      }
-    };
-  }
+ 
 
   alert(text) {
     let alert_container = document.querySelector("#alert-header");
@@ -211,59 +122,15 @@ export class Modification {
     }
   }
 
-  updateModifications(savehistory) {
-    if (savehistory === true) {
-      let json = this.canvas.toJSON([
-        "borderColor",
-        "cornerColor",
-        "cornerSize",
-        "cornerStyle",
-        "transparentCorners",
-        "lockMovementX",
-        "lockMovementY",
-        "lockScalingX",
-        "lockScalingY",
-        "selectable",
-        "textAlign",
-        "fontFamily",
-        "id",
-        "name",
-      ]);
-
-      let myjson = JSON.stringify(json);
-      this.canvas.state.push(myjson);
-      if (this.canvas.state.length === 20) {
-        this.canvas.state.shift();
-      }
-    }
-  }
-  lock_image(object, bollean) {
-    object.lockMovementX = bollean;
-    object.lockMovementY = bollean;
-    object.lockScalingX = bollean;
-    object.lockScalingY = bollean;
-    if (object.lockScalingY === true) {
-      object.selectable = false;
-    } else {
-      object.selectable = true;
-    }
-  }
-
+  
+  
   returnToOriginalSize() {
     this.canvas.setHeight(this.canvas.current_height);
     this.canvas.setWidth(this.canvas.current_width);
     this.canvas.setZoom(this.canvas.current_canvasScale);
   }
 
-  scaleInCrop(object, element) {
-    document.querySelector(element).value = object.scaleX;
-    document.querySelector(element).addEventListener("input", (e) => {
-      object.scaleX = e.target.value;
-      object.scaleY = e.target.value;
-      this.canvas.renderAll();
-      this.canvas.viewportCenterObject(object);
-    });
-  }
+  
 
   loading(display,message) {
     document.querySelector(".lds-spinner-container-generate").style.visibility = display;

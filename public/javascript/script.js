@@ -4,7 +4,10 @@ import Update from "./update.js";
 import Loader from "./loader.js";
 import Crud_templates from "./Crud-templates.js";
 import Templates from "./templates.js";
+import Canvas_background from "./canvas_background.js";
 
+let bg = new Canvas_background()
+bg.canvas_background()
 let templates = new Templates();
 templates.modal_template_details()
 templates.sumbit_code()

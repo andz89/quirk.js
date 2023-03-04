@@ -28,7 +28,9 @@ Admin.prototype.add_template_into_database = function () {
 Admin.prototype.add_background =function(req, res){
   return new Promise( (resolve, reject) =>{
     let data = {
-      background_image: this.data.file,
+      background_image: this.data.background_image,
+      thumbnail_image: this.data.thumbnail_image,
+
       background_id: uuidv4(),
       background_name: this.data.background_name,
       background_description: this.data.background_description,
@@ -45,6 +47,22 @@ Admin.prototype.add_background =function(req, res){
 
   })
 
+}
+
+Admin.prototype.getAllBackgrounds = function(req, res){
+  return new Promise( (resolve, reject)=> {
+
+    let sql = "SELECT * FROM background";
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+ 
+      resolve(result)
+    })
+
+  })
 }
 Admin.prototype.remove = function (req, res) {
   return new Promise( (resolve, reject) => {

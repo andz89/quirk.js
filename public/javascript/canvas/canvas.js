@@ -35,7 +35,7 @@ export class Canvas extends Modification {
     });
     menu_tools.loadPage();
     menu_tools.insertText(".dropbtn-insert-text");
-     menu_tools.add_background()
+    menu_tools.add_background()
     menu_tools.save_file_json();
     menu_tools.resetCanvas();
     menu_tools.insert_textbox();

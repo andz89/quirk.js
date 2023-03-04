@@ -1,17 +1,40 @@
+//page
 .canvas-background-container {
+    user-select: none;
 
-    form {
-        width: 600px;
+    .form-background {
 
-        input[type='text'] {
+        margin: 10px 0;
+
+        form {
             width: 600px;
-        }
 
-        textarea {
-            width: 100%;
-            resize: none;
-            height: 200px;
+            input[type='text'] {
+                width: 600px;
+            }
+
+            textarea {
+                width: 100%;
+                resize: none;
+                height: 200px;
+            }
         }
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+
+    .background-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-start;
     }
 
 

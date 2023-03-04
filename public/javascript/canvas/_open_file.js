@@ -26,7 +26,8 @@ export class Open_file {
           height: height,
           backgroundColor: "#fff",
           preserveObjectStacking: true,
-          centeredScaling:true
+          centeredScaling:true,
+           selection:false
         });
       };
       let canvas_created = canvas(width, height);
@@ -166,7 +167,6 @@ export class Open_file {
       "Dancing Script",
       "Work Sans",
       "Open Sans",
-      "Arial",
 
     ];
     const loadAndUse = (font) => {
@@ -192,11 +192,11 @@ export class Open_file {
      
     };   
       loadAndUse(fonts).then(()=>{
-        run_json_file(json_parsed);
+   
  
       }).catch((e)=>{
       
       }); 
-
+      run_json_file(json_parsed);
   }
 }

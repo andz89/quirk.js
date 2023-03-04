@@ -6,12 +6,16 @@
                 <div class="btn btn-sm btn-success" id="add-background">+ Add Background</div>
             </div>
 
-            <div class="form-background my-3 d-flex justify-content-center form bg-light p-2">
+            <div class="form-background hide d-flex justify-content-center form bg-light p-2">
                 <form action="/add-background" method="POST" enctype="multipart/form-data">
 
                     <div class="d-flex flex-direction-column align-items-start">
                         <label for="bg-name">Background Name</label>
                         <input type="text" name="background_name">
+                    </div>
+                    <div class="d-flex my-2 flex-direction-column align-items-start">
+                        <label for="thumbnail_image">Thumbnail-image</label>
+                        <input type="file" name="thumbnail_image">
                     </div>
                     <div class="d-flex my-2 flex-direction-column align-items-start">
                         <label for="bg-image">Background Image</label>
@@ -27,14 +31,36 @@
                     </div>
                 </form>
             </div>
-            <div>
-                <div>
-                    <img src="" alt="">
-                    <h4></h4>
-                    <div class="btn btn-sm btn-dark">Edit</div>
-                </div>
+            <div class="background-list my-1">
+
+                <% data.forEach((data)=>{%>
+
+
+                    <!-- <a href="/canvas?id=<%= data.template_id %> " target="_blank"> -->
+                    <div class="hover-opactiy d-flex  justify-content-center flex-direction-column"
+                        style="width: 200px;">
+
+
+
+                        <img src="images/ci/<%= data.thumbnail_image%>" width="170" class="show-template-details"
+                            alt="">
+                        <h4 class="text text-dark show-template-details">
+                            <%= data.background_name %>
+                        </h4>
+                        <p style="display:none">
+                            <%= data.background_description %>
+                        </p>
+
+                        <div class="btn btn-sm btn-dark">Edit</div>
+                        <!-- </a> -->
+                    </div>
+
+                    <% }) %>
+
             </div>
 
         </div>
     </div>
+
+
     <%- include('../include/footer') %>

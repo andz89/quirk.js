@@ -24,6 +24,7 @@ export class Utilities extends Modification {
   discardActiveObject() {
  
     window.onclick = (e) => {
+  
       if (e.target.classList.contains("upper-canvas")) {
         document.querySelector(".files-container .dropdown-content").style.display = "none";
       }
@@ -44,6 +45,11 @@ export class Utilities extends Modification {
     const select_object = (o) => {
       var activeObj = o.selected[0];
 
+      if(activeObj.type === 'activeSelection') {
+        this.canvas.discardActiveObject();
+      } else {
+        //do nothing
+      }
       // bold text
       let bold = document.querySelector("#bold");
       if (activeObj.type == "textbox" && activeObj.fontWeight === "bold") {
@@ -116,15 +122,15 @@ export class Utilities extends Modification {
 
 
     // font size change when scaling
-    this.canvas.store_objects = []
-    const mouseUp_object = (o) => {
-      let activeObj = o.target;
-      if (activeObj !== null  && activeObj.type === "textbox") {
-        document.querySelector("#fontSize").value = activeObj.fontSize
-      }
+    // this.canvas.store_objects = []
+    // const mouseUp_object = (o) => {
+    //   let activeObj = o.target;
+    //   if (activeObj !== null  && activeObj.type === "textbox") {
+    //     document.querySelector("#fontSize").value = activeObj.fontSize
+    //   }
     
      
-    };
+    // };
 
  
 
@@ -169,7 +175,7 @@ export class Utilities extends Modification {
       "selection:updated": select_object,
       "selection:created": select_object,
  
-      "mouse:up": mouseUp_object,
+      // "mouse:up": mouseUp_object,
       'object:moving': moving_object,
     
     });
