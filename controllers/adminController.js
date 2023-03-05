@@ -91,7 +91,8 @@ bg.add_background().then((data)=>{
   
 };
 exports.add_template = function (req, res) {
-
+  
+ 
   req.body.file = req.file.filename
   let admin = new Admin(req.body);
   admin
@@ -122,16 +123,13 @@ exports.remove = function (req, res){
 exports.updateTemplate = function (req, res){
 
 
-  // let data = {};
  
-  //   data.template_json = req.query.template_json;
-  
-  // data.template_name = req.query.template_title;
-  // data.template_description = req.query.template_description;
-  // data.template_id = req.query.template_id;
-
-  // console.log(data);
-  req.body.file = req.file.filename
+ 
+  if(req.file ){//if no photos updloaded
+   
+    req.body.file = req.file.filename
+  }
+ 
   let admin = new Admin(req.body);
  
   admin

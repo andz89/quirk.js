@@ -2,7 +2,7 @@ import { Modification } from "./_modification.js";
 
 export class Menu_tools extends Modification {
   add_background(){
-    window.addEventListener('DOMContentLoaded',()=>{
+ 
 
       let add_bg_image =  document.querySelector("#modal-container-add-background")
       let modal_body =   add_bg_image.querySelector('.modal-body')
@@ -10,7 +10,7 @@ export class Menu_tools extends Modification {
     
         document.querySelector("#canvas-image-background").addEventListener("click", ()=>{
   
-       
+       console.log(modal_body.innerHTML.length)
           if(modal_body.innerHTML.length){
         
             console.log('wala ng request');
@@ -32,15 +32,96 @@ export class Menu_tools extends Modification {
                   div.innerHTML = 
                   ` 
                   <img src='http://localhost:5000/images/ci/${e.thumbnail_image}' width="150px">
-                  <input type="hidden" name="background_name" value="${e.background_image}">
+                  <input type="hidden" name="background_name" class="bg_name" value="${e.background_image}">
 
-                  <span class="btn btn-sm btn-success">Apply</span>`
+                  <span class="btn btn-sm btn-success apply-btn">Apply</span>`
       
                   modal_body.appendChild(div)
                 })
-              
+                
                 add_bg_image.style.display ="flex"
+                let link_save = []
+                let link;
+                modal_body.addEventListener("click", (e)=>{
+
+                  //remove all existing background images
+                    if(e.target.classList.contains("apply-btn")){
+                      let a = this.canvas.getObjects().filter((e)=>{
+                        return e.name == "bg-image";
+                      })
+                      a.forEach((e)=>{
+                        e.opacity = 0
+                        this.canvas.renderAll();
+                      })
+               
+              
+
+                     let image_name =e.target.parentElement.querySelector(".bg_name").value
+
+                    let b = link_save.filter((e)=>{
+                      return  e ==='http://localhost:5000/images/ci/'+ image_name 
+                  
+                     })
+                    
+                   if(b != ''){
+                    //kung naa
+                let a = this.canvas.getObjects().filter((e)=>{
+                        return e.type == 'image';
+                      })
+                    
+                      console.log(a[0]._originalElement);
+                     a.forEach((e)=>{
+
+                        if(e._originalElement.currentSrc == 'http://localhost:5000/images/ci/'+ image_name){
+                        e.opacity = 1;
+                        this.canvas.renderAll()
+                        }
+                     })
+                   }else{
+                    //kung wala
+                    console.log('wala');
+
+                    link ='http://localhost:5000/images/ci/'+ image_name 
+                    link_save.push(link)
+                    console.log(b);
+                   
+                  fabric.Image.fromURL(link, (img) => {
+                   // img.excludeFromExport = true;
+                   img.name = "bg-image";
+                   this.canvas.add(img);
+                   img.scaleToWidth(this.canvas.getWidth());
+                   this.canvas.viewportCenterObject(img);
+                   this.canvas.sendToBack(img);
+                   img.selectable = false;
+                   img.hoverCursor = "default";
+               
+                   img.set("lockMovementX", true);
+                   img.set("lockMovementY", true);
+                   img.set("lockScalingX", true)
+                   img.set("lockScalingY", true);
+                   img.set("lockRotation", true);
+                   this.canvas.discardActiveObject();
+                   this.canvas.renderAll();
+                   img.setControlsVisibility({
+                     mt: false,
+                     mb: false,
+                     ml: false,
+                     mr: false,
+                     tr: false,
+                     tl: false,
+                     br: false,
+                     bl: false,
+                     mtr: false,
+                   });
+                   this.canvas.renderAll();
+                 });
+                   }
+                  
+                    }
+                })
               }
+
+            
             };
             xhttp.open(
               "POST",
@@ -59,21 +140,22 @@ export class Menu_tools extends Modification {
  
         add_bg_image.style.display ="none"
       })
-    })
+ 
   
   }
   loadPage() {
     
  
     let link = canvas_image;
-   let a = this.canvas.getObjects().forEach((e)=>{
-      return e.name === "background-image";
+    let a = this.canvas.getObjects().filter((e)=>{
+      return e.name == "bg-image";
     })
-
-if(a ==  undefined){
+    
+if(a ==  false){
+  console.log('execute');
   fabric.Image.fromURL(link, (img) => {
-    img.excludeFromExport = true;
-    img.name = "background-image";
+    // img.excludeFromExport = true;
+    img.name = "bg-image";
     this.canvas.add(img);
     img.scaleToWidth(this.canvas.getWidth());
     this.canvas.viewportCenterObject(img);
@@ -101,8 +183,7 @@ if(a ==  undefined){
     });
     this.canvas.renderAll();
   });
-}
- 
+} 
   }
 resetCanvas(){
   if(role == 'user'){
@@ -247,8 +328,15 @@ resetCanvas(){
       return valueToEscape;
    } 
    }
+ //delete not used bg
+ this.canvas.getObjects().filter((e)=>{
+  return e.name === 'bg-image' && e.opacity === 0 
+  
+}).forEach((e)=>{
+   e.excludeFromExport = true;
  
- 
+  this.canvas.renderAll()
+})
 
       let textbox_property = [
         "filters",
@@ -306,7 +394,7 @@ resetCanvas(){
 "selectionStyle",
         
     ];
- 
+  
     let json = this.canvas.toJSON([
       "id",
       "name",
@@ -321,8 +409,16 @@ json.objects.forEach((e)=>{
         e.text =  replaceQoute(replaceBreakLine(e.text)) 
         
         }
- 
-
+      
+        if(e.name === 'bg-image'){
+          delete e['left'];
+          delete e['top'];
+          delete e['crossOrigin'];
+          delete e['scaleY'];
+          delete e['scaleX'];
+          delete e['width'];
+          delete e['height'];
+          }
 
   textbox_property.forEach((c)=>{
      delete e[c];

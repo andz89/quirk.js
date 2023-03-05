@@ -38,16 +38,19 @@
                             Upload display image
                         </label> -->
                             <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
-                                <label for=""> Upload canvas image</label>
+                                <label for=""> Thumbnail image</label>
 
                                 <input required type="file" name="image" accept='image/*' />
 
                             </div>
-                            <div>
-                                <div id="canvas-image-background-page-templates-btn" class="btn btn-sm btn-primary">
-                                    Background</div>
 
-                            </div>
+                            <div id="canvas-image-background-page-templates-btn"
+                                class="btn btn-sm btn-primary add-bg-img">
+                                Canvas Background Image</div>
+
+
+                            <input type="hidden" name="canvas_image" id="canvas_image">
+                            <img src="" width="280" id="canvas-image-view" alt="">
                             <div class="d-flex flex-direction-column align-items-start custom-file-upload">
                                 <label for=""> Upload Json File</label>
 
@@ -119,43 +122,51 @@
 
             </div>
 
-        </div>
-    </div>
-    <div class="modal-edit-admin">
-        <form action="/updateTemplate" method="POST" enctype="multipart/form-data">
+            <!-- edit temmplate modal -->
+            <div class="modal-edit-admin">
+                <form action="/updateTemplate" method="POST" enctype="multipart/form-data">
 
-            <div class="modal-content">
-                <input type="hidden" name="template_id" class="template-id">
-                <input type="text" name="template_name" class="title">
+                    <div class="modal-content">
+                        <div>
+                            <input type="text" name="template_name" class="title">
+                        </div>
+                        <div>
+                            <textarea name="template_description" class="description"></textarea>
+                        </div>
+                        <input type="hidden" name="template_id" class="template-id">
 
-                <textarea name="template_description" class="description"></textarea>
 
-                <div class="d-flex  justify-content-start align-items-start gap-10">
-                    <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
-                        <label for="">Thumbnail</label>
-                        <input type="file" name="thumbnail-image" class="thumbnail-image p-1">
-                        <img class="thumbnail" width="200" src="" alt="">
+
+
+                        <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                            <label for="">Thumbnail</label>
+                            <input type="file" name="thumbnail-image" class="thumbnail-image p-1">
+                            <img class="thumbnail" width="200" src="" alt="">
+
+                        </div>
+
+                        <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                            <label for="">Json File</label>
+                            <input type="file" class="json-file p-1">
+                        </div>
+
+                        <input type="hidden" name="template_json" class="json-text">
+
+                        <div class="button-container">
+                            <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel Changes</div>
+                            <input type="submit" class="btn btn-sm btn-success update-template-btn"
+                                value="Save changes">
+
+                        </div>
 
                     </div>
-
-                    <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
-                        <label for="">Json File</label>
-                        <input type="file" class="json-file p-1">
-                    </div>
-
-                </div>
-
-                <input type="hidden" name="template_json" class="json-text">
-
-                <div class="button-container">
-                    <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel Changes</div>
-                    <input type="submit" class="btn btn-sm btn-success update-template-btn" value="Save changes">
-
-                </div>
-
+                </form>
             </div>
-        </form>
+        </div>
+
+
     </div>
+
     <script>
         document.getElementById("admin-remove").addEventListener("click", () => {
 
@@ -183,4 +194,4 @@
             xhttp.send();
         });
     </script>
-    <%- include('../include/footer') %>
+    <%- include('../include/admin-footer') %>

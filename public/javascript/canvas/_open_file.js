@@ -68,6 +68,17 @@ export class Open_file {
                 canvas_created.renderAll()
 
               }
+              if(e.name === 'bg-image'){
+                e.lockMovementX = true
+                e.lockMovementY = true
+                e.lockScalingX = true
+                e.lockScalingX = true
+                e.lockRotation = true
+                e.selectable = false;
+                e.hoverCursor = "default";
+                
+               
+              }
              })
         
         

@@ -32,7 +32,7 @@ class Crud_templates {
     }
  
   }
- 
+ //modal edit template
   edit_template(){
  
         window.addEventListener('click', (e)=>{
@@ -114,31 +114,7 @@ class Crud_templates {
               
             });
 
-
-        //     document.querySelector(".modal-edit-admin .update-template-btn").addEventListener("click", () => {
-        //       let modal_parent =  document.querySelector('.modal-edit-admin')
-        //       let template_title = modal_parent.querySelector('.title').value
-        //       let template_description = modal_parent.querySelector('.description').value
-        //       let template_id = modal_parent.querySelector('.template-id').value
-        //       let template_json = modal_parent.querySelector('.json-text').value
-
-              
-        //     var xhttp = new XMLHttpRequest();
-        //     xhttp.onreadystatechange = () => {
-        //         if (xhttp.readyState == 4 && xhttp.status == 200) {
-        //             modal_parent.style.display = 'none';
-        //             parent.querySelector('.title').innerText = template_title 
-        //              parent.querySelector('.description').innerText =template_description
-              
-        //         }
-        //     };
-        //     xhttp.open(
-        //         "POST",
-        //         `http://localhost:5000/updateTemplate?template_title=${template_title}&template_description=${template_description}&template_id=${template_id}&template_json=${encodeURIComponent(template_json)}`,
-        //         true
-        //     );
-        //     xhttp.send();
-        // });
+ 
           }
         })
     
