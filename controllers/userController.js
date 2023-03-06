@@ -99,20 +99,38 @@ exports.activateCanvas = (req,res) => {
   template.template_id = req.query.template_id;
   template.template_name = req.query.template_name;
   template.image = req.query.image;
-  template.code = req.query.code;
+  
 
   let user = new User(template);
   user.new_template().then(function (data)   {
    
-    if(data[0] === 'SUCCESS'){
-      let count_msg;
-      if(data[1] === 0){
-        count_msg = `You already activated ${data[2]} templates`
-      }else{
-        count_msg = `You have ${data[1]} template/s to add.`
-      }
-      req.flash("success_message", ` ${req.query.template_name}. <br> ${count_msg}`);
-      res.send(data[0]);
+    if(data){
+     
+      req.flash("success_message", ` ${req.query.template_name}. `);
+      res.send(data);
+
+    }else{
+      res.send(data);
+    }
+  
+ 
+   
+  })
+}
+exports.submit_code = (req,res) => {
+  let code = {}
+  code.user_id = req.session.user.user_id;
+  code.code = req.query.code;
+  console.log('controller' + code.code)
+  
+
+  let user = new User(code);
+  user.check_code().then(function (data)   {
+  
+    if(data){
+     
+      req.flash("success_message_subscriber", 'true');
+      res.send(data);
 
     }else{
       res.send(data);

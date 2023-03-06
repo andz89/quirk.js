@@ -69,7 +69,7 @@ templates.getAllTemplates().then((data)=>{
 ;
   res.render("pages/templates", {
     data: data,
-
+    success_message_subscriber: req.flash('success_message_subscriber'),
     user_type: req.session.user.user_role,
     session: req.session.user ? true : false,
   }); 
@@ -83,7 +83,7 @@ exports.purchased_templates = function(req,res){
  
   let purchased_templates = new Page(data)
   purchased_templates.getUserTemplates().then((data)=>{
-    console.log(data);
+ 
  
     res.render("pages/purchased-templates", {
 

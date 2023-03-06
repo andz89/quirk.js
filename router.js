@@ -29,6 +29,7 @@ router.post("/activateCanvas", middleware.role_user, userController.activateCanv
 router.post("/saveList", middleware.role_user, userController.saveList);
 router.post("/resetCanvas", middleware.role_user, userController.resetCanvas)
 router.post("/get-all-background-image", middleware.role_user, userController.getAllBackgroundImage);
+router.post("/submit_code", middleware.role_user, userController.submit_code);
 
 
 //pages

@@ -34,14 +34,15 @@ class Templates{
         }
     
     }   
-    sumbit_code() {
+   create_copy() {
         if (document.querySelector(".modal-activation")) {
          
-          document.querySelector("#sumbit-code-btn").addEventListener("click", () => {
+          document.querySelector("#create-copy-btn").addEventListener("click", () => {
+ 
          let title =   document.querySelector('.modal-activation .modal-title').innerText 
         let image =    document.querySelector('.modal-activation .modal-image').src 
         let template_id =  document.querySelector('.modal-activation #template-id').value
-        let code =  document.querySelector('.modal-activation #code').value;
+  
 
             // let data = {};
             // data.title = title;
@@ -55,18 +56,16 @@ class Templates{
               if (xhttp.readyState == 4 && xhttp.status == 200) {
                let response = xhttp.responseText
            
-
-               if(response == 'SUCCESS'){
+           
+               if(response === 'true'){
             
                   window.location.href = 'http://localhost:5000/purchased-templates'
                }else{
-                let message = document.querySelector('.modal-activation .message')
-                  
-                message.innerText = response
-                setTimeout(()=>{
-                message.innerText = ''
-
-                },8000)
+                let message_container = document.querySelector('.subscribe-message-container')
+               
+                message_container.style.display = 'flex'
+             
+                
                }
             
 
@@ -74,7 +73,7 @@ class Templates{
             };
             xhttp.open(
               "POST",
-              `http://localhost:5000/activateCanvas?template_name=${title}&image=${image}&template_id=${template_id}&code=${code}`,
+              `http://localhost:5000/activateCanvas?template_name=${title}&image=${image}&template_id=${template_id} `,
               true
             );
             xhttp.send();
@@ -82,7 +81,40 @@ class Templates{
         }
       }
     
+      sumbmit_code() {
+        if (document.querySelector(".templates")) {
+           
+          document.querySelector(".subscribe-message-container .sumbit-code-btn").addEventListener("click", () => {
+            console.log('ss');
+        let code =  document.querySelector('.subscribe-message-container #code').value
+  
+
+            var xhttp = new XMLHttpRequest();
     
+            xhttp.onreadystatechange = () => {
+              if (xhttp.readyState == 4 && xhttp.status == 200) {
+               let response = xhttp.responseText
+           
+           
+               if(response === 'true'){
+                  window.location.href = 'http://localhost:5000/templates'
+               }else{
+                let message = document.querySelector('.subscribe-message-container .message') 
+                message.innerText = 'wrong code'
+               }
+            
+
+              }
+            };
+            xhttp.open(
+              "POST",
+              `http://localhost:5000/submit_code?code=${code} `,
+              true
+            );
+            xhttp.send();
+          });
+        }
+      }
 }
 
 export default Templates;

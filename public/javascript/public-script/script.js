@@ -9,8 +9,8 @@ import Templates from "./templates.js";
  
 let templates = new Templates();
 templates.modal_template_details()
-templates.sumbit_code()
-
+templates.create_copy()
+templates.sumbmit_code()
 let update = new Update();
 update.update_account();
 update.modal_update_account()

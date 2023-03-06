@@ -4,74 +4,105 @@
             <h2>Qurik Templates</h2>
 
         </div>
-        <div class="templates" style="width: 100%;">
-            <% data.forEach((data)=>{%>
-
-
-                <!-- <a href="/canvas?id=<%= data.template_id %> " target="_blank"> -->
-                <div class="hover-opactiy d-flex  justify-content-center flex-direction-column" style="width: 200px;">
-                    <input type="hidden" id="display-template-id" value="<%= data.template_id %>">
-
-
-                    <img src="images/ci/<%= data.thumbnail%>" width="170" class="show-template-details" alt="">
-                    <h4 class="text text-dark show-template-details">
-                        <%= data.template_name %>
-                    </h4>
-                    <p style="display:none">
-                        <%= data.template_description %>
-                    </p>
-
-
-                    <!-- </a> -->
+        <% if(success_message_subscriber !='' ){ %>
+            <div class="text text-center my-1" style="font-weight:100px">
+                <div class="bg-success p-1">
+                    You have successfully subscribe!
+                    <br>
+                    Congrats!!
                 </div>
 
-                <% }) %>
 
-                    <!-- modal activation -->
-                    <div class="modal-activation">
-                        <div class="modal-header">
-                            <div>
-                                <span class="modal-title">title</span>
-                            </div>
-                            <div>
-                                <div class="close">Close</div>
-                            </div>
+            </div>
+
+            <% } %>
+                <div class="templates" style="width: 100%;">
+                    <% data.forEach((data)=>{%>
 
 
+                        <!-- <a href="/canvas?id=<%= data.template_id %> " target="_blank"> -->
+                        <div class="hover-opactiy d-flex  justify-content-center flex-direction-column"
+                            style="width: 200px;">
+                            <input type="hidden" id="display-template-id" value="<%= data.template_id %>">
+
+
+                            <img src="images/ci/<%= data.thumbnail%>" width="170" class="show-template-details" alt="">
+                            <h4 class="text text-dark show-template-details">
+                                <%= data.template_name %>
+                            </h4>
+                            <p style="display:none">
+                                <%= data.template_description %>
+                            </p>
+
+
+                            <!-- </a> -->
                         </div>
-                        <hr>
-                        <div class="modal-content">
 
-                            <div class="content">
+                        <% }) %>
 
-                                <div class="img-container">
-                                    <img class="modal-image" width="100%" src="" alt="">
-
-                                </div>
-
-                                <div class="details-container">
-                                    <input type="hidden" id="template-id">
-                                    <span class="modal-description"></span>
-                                    <span></span>
-                                    <h3></h3>
-                                    <p></p>
-                                    <div class="d-flex gap-10 align-items-start ">
-                                        <div
-                                            class="d-flex flex-direction-column justify-content-start align-items-start">
-                                            <input type="text" id="code">
-                                            <span class="message text text-danger"> </span>
-                                        </div>
-
-                                        <div class="btn btn-sm btn-success" id="sumbit-code-btn">Submit</div>
+                            <!-- create a copy modal -->
+                            <div class="modal-activation">
+                                <div class="modal-header">
+                                    <div>
+                                        <span class="modal-title">title</span>
+                                    </div>
+                                    <div>
+                                        <div class="close">Close</div>
                                     </div>
 
+
+                                </div>
+                                <hr>
+                                <div class="modal-content">
+
+                                    <div class="content">
+
+                                        <div class="img-container">
+                                            <img class="modal-image" width="100%" src="" alt="">
+
+                                        </div>
+
+                                        <div class="details-container">
+                                            <div>
+                                                <div class="btn btn-sm btn-primary" id="create-copy-btn">Create a copy
+                                                </div>
+                                            </div>
+
+
+                                            <br>
+                                            <input type="hidden" id="template-id">
+                                            <span class="modal-description"></span>
+                                            <span></span>
+                                            <h3></h3>
+                                            <p></p>
+
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- submit code to subscribe -->
+                            <div class="subscribe-message-container" style="display:none">
+                                <br>
+                                <div class="message-container-content">
+                                    <span>Please subscribe!!</span>
+                                    <div class="form">
+                                        <div class="d-flex gap-10 ">
+                                            <input type="text" id="code">
+                                            <div class="btn btn-sm btn-success sumbit-code-btn">
+                                                Submit
+                                            </div>
+                                        </div>
+                                        <span class="message"></span>
+                                    </div>
                                 </div>
 
 
                             </div>
-                        </div>
-                    </div>
-        </div>
+                </div>
 
     </div>
 
