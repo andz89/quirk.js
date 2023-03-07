@@ -300,7 +300,9 @@ export class Right_tools extends Modification {
       "Dancing Script",
       "Work Sans",
       "Open Sans",
-      "Arial"
+      "Arial",
+      "Titan One",
+      "Fredoka One"
     ];
 
     fonts.unshift("Times New Roman");

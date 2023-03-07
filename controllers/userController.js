@@ -121,13 +121,13 @@ exports.submit_code = (req,res) => {
   let code = {}
   code.user_id = req.session.user.user_id;
   code.code = req.query.code;
-  console.log('controller' + code.code)
+  
   
 
   let user = new User(code);
   user.check_code().then(function (data)   {
   
-    if(data){
+    if(data == 'true'){
      
       req.flash("success_message_subscriber", 'true');
       res.send(data);

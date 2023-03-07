@@ -3,6 +3,12 @@ const db = require("../db");
 const { v4: uuidv4 } = require("uuid");
 const validator = require("validator");
 
+const fs = require('fs')
+const { promisify } = require('util')
+
+const unlinkAsync = promisify(fs.unlink)
+
+
 let User = function (data) {
   this.data = data;
   this.errors_data = {};
@@ -226,8 +232,7 @@ User.prototype.register = function () {
     }
   });
 };
-// CONCAT('${this.data.user_email} +', old data here)
-
+ 
 User.prototype.update_account = function () {
   return new Promise(async (resolve, reject) => {
     await this.validate();
@@ -303,7 +308,7 @@ User.prototype.update_code = function (count){
         reject(err);
         return false;
       }
-    await  this.update_user()
+      await  this.update_user()
       resolve()
     });
   })
@@ -319,7 +324,7 @@ User.prototype.check_code = function(){
         reject(err);
         return false;
       }
- console.log(result);
+ 
       if(result.length > 0){
               if( result[0].user_id == ''){
                 
@@ -327,7 +332,7 @@ User.prototype.check_code = function(){
               resolve('true')
               }else{
               this.data.taken_message ='code is already taken by other user'
-              resolve()
+              resolve(this.data.taken_message )
               }
       }else{
         this.data.taken_message ='not found'

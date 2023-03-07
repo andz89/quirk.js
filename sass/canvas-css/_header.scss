@@ -1,6 +1,7 @@
 .header {
 
-  @include set-background($dark-color);
+  background-color: #0f5c68;
+
   position: fixed;
 
   width: 100%;
@@ -136,8 +137,8 @@
   }
 
   .zoom-container {
-    background-color: rgba(87, 86, 86, 0.431);
-    padding: 3px;
+    background-color: #06343b;
+    padding: 12px 3px;
     border-radius: 3px;
     font-size: .8rem;
     width: 120px;
@@ -211,7 +212,8 @@
 
     .dropbtn-insert-text {
       list-style: none;
-      background-color: #383838;
+      background-color: #06343b;
+
 
       margin: 3px 0px;
       padding: 5px 8px;

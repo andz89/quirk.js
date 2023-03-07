@@ -142,7 +142,63 @@ class Canvas_background{
         }
     
       }
+
+
+     
+      //view and edit
+      modal_background_details(){
+      function  display_upload_image(selector_input,selector_display) {
+         document.querySelector(selector_input).addEventListener("change", (e) => {
+            const imageFiles = e.target.files;
+            const imageFilesLength = imageFiles.length;
+            if (imageFilesLength > 0) {
+                const imageSrc = URL.createObjectURL(imageFiles[0]);
+                document.querySelector(selector_display).src = imageSrc;
+            }
+          });
+        }
+        if(document.querySelector('.canvas-background-container')){
+            document.querySelector('.canvas-background-container').addEventListener('click', function(e){
+                if(e.target.classList.contains('edit-btn')){
+                    document.querySelector('.modal-edit-background .close').addEventListener('click', function(){
+                        document.querySelector('.modal-edit-background').style.display = 'none';
+                        document.querySelector('.modal-edit-background .modal-title').innerText = '';
+                        document.querySelector('.modal-edit-background .modal-description').innerText ='';
+                        document.querySelector('.modal-edit-background #thumbnail-image').src = '';
+                        document.querySelector('.modal-edit-background #background-image').src = '';
+                        document.querySelector('.modal-edit-background #template-id').value = '';
     
+                        
+                    })
+                    document.querySelector('.modal-edit-background').style.display = 'flex';
+                let parent = e.target.parentElement
+              
+                let title =  parent.querySelector('h4').innerText
+           
+                let description = parent.querySelector('p').innerText
+                let thumbnail_image =  parent.querySelector('#thumbnail-image').src
+                let bg_image =  parent.querySelector('#bg-image').src
+
+                let id =  parent.querySelector('#display-bg-id').value
+    
+              
+    
+                document.querySelector('.modal-edit-background .modal-title').value = title;
+                document.querySelector('.modal-edit-background .modal-description').value = description.trim();
+                document.querySelector('.modal-edit-background .modal-image-thumbnail').src = thumbnail_image;
+                document.querySelector('.modal-edit-background .modal-bg-image').src = bg_image;
+                document.querySelector('.modal-edit-background #bg-id').value = id;
+                 display_upload_image('.modal-edit-background #modal-thumbnail-image-input' ,'.modal-edit-background .modal-image-thumbnail', )
+                 display_upload_image('.modal-edit-background #modal-bg-image-input' ,'.modal-edit-background .modal-bg-image', )
+
+                }
+
+
+            })
+    
+        }
+    
+    } 
 }
 
 export default Canvas_background;

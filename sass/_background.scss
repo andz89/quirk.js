@@ -38,4 +38,92 @@
     }
 
 
+    .modal-edit-background {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        user-select: none;
+        background-color: #fff;
+        flex-direction: column;
+
+
+        .modal-header {
+
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 10px;
+            margin: 5px 0;
+
+
+
+            span {
+                font-size: 24px;
+
+            }
+
+            .close {
+                color: #fff;
+                cursor: pointer;
+            }
+
+
+        }
+
+        .modal-content {
+            margin: 10px 10px 0;
+
+            .content {
+                display: flex;
+                justify-content: center;
+                align-items: start;
+
+                margin: 0 10px;
+
+                input {
+                    width: 100%;
+                }
+
+                textarea {
+                    width: 100%;
+                    padding: 0 .3rem;
+                    font-size: .9rem;
+                    border: 1px solid #ccc;
+                    resize: none;
+                    height: 200px;
+                    color: #333;
+
+                }
+
+                textarea:focus {
+                    border: 1px solid #048a9e;
+                    outline: none;
+                    transition: all 0.2s ease-in;
+                    border-radius: 5px;
+
+
+                }
+            }
+
+            .content>.img-container {
+                flex: 6;
+            }
+
+            .content>.details-container {
+                flex: 5;
+            }
+
+            img {
+
+                box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+            }
+        }
+
+
+    }
+
 }

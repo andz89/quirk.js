@@ -231,8 +231,8 @@ resetCanvas(){
         centeredScaling: true,
       });
       
- 
-      object.scaleToWidth(400)
+      object.fontSize = 12
+      object.scaleToWidth(800)
       object.name = 'user-custom';
       object.lockMovementX = true
       this.adding_object_style(object);
@@ -271,37 +271,60 @@ resetCanvas(){
     });
   }
 
- 
+  download_as_image() {
+    const download_image = document.querySelector("#download-image");
+    download_image.onclick = () => {
+      var scaleFactor = 1;
+      this.canvas.setWidth(this.width * scaleFactor);
+      this.canvas.setHeight(this.height * scaleFactor);
+      this.canvas.setZoom(scaleFactor);
+
+      this.canvas.renderAll();
+
+      let display_name = document.querySelector("#file_name").innerHTML;
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+      a.href = this.canvas.toDataURL({
+        format: "png",
+        // quality:  1
+      });
+      a.download = `${display_name}.png`;
+      a.click();
+      document.body.removeChild(a);
+
+      this.canvas.setHeight(this.canvas.current_height);
+      this.canvas.setWidth(this.canvas.current_width);
+      this.canvas.setZoom(this.canvas.current_canvasScale);
+    };
+  }
 
   paste_text() {
     window.addEventListener("paste", (e) => {
+    
+    
       let obj = this.canvas.getActiveObject()
       if(obj){
-        this.canvas.text = obj.text
-        setTimeout(()=>{
-         
-          let obj = this.canvas.getActiveObject()
-          obj.removeStyle('styles')
-          obj.removeStyle('fontStyle')
-          obj.removeStyle('stroke')
-          obj.removeStyle('strokeWidth')
-          obj.removeStyle('fontWeight')
-   
-          if( obj.name === 'footer-position') {
-            if(obj.text.length > 120){
-              obj.text = this.canvas.text
-             
-            }
-          }
-          if(obj.name === 'footer-name'){
-            if(obj.text.length > 80){
-              obj.text = this.canvas.text
-            }
-          }
-        
-          this.canvas.renderAll();
-        })
+        e.preventDefault()
+        let text = e.clipboardData.getData("text");
+        obj.text = text
+        this.canvas.renderAll()
       }
+   
+      // if(obj){
+      //   this.canvas.text = obj.text
+      //   setTimeout(()=>{
+         
+      //     let obj = this.canvas.getActiveObject()
+      //     obj.removeStyle('styles')
+      //     obj.removeStyle('fontStyle')
+      //     obj.removeStyle('stroke')
+      //     obj.removeStyle('strokeWidth')
+      //     obj.removeStyle('fontWeight')
+   
+         
+      //     this.canvas.renderAll();
+      //   })
+      // }
     
    
     });
@@ -591,7 +614,8 @@ createTable().then(()=>{
     let parent = document.querySelector(".list-name-container");
     let add_name_btn = document.querySelector("#insert-names");
     add_name_btn.addEventListener("click", () => {
-     
+      this.canvas.discardActiveObject()
+      this.canvas.renderAll()
       parent.style.display = "block";
     });
 
@@ -666,124 +690,127 @@ createTable().then(()=>{
     });
 
     window.addEventListener("paste",   (e) =>{
-
-      if(e.target.parentElement.parentElement.parentElement.parentElement.classList.contains('list-names')){
  
+        if(e.target.parentElement.parentElement.parentElement){
+          if(e.target.parentElement.parentElement.parentElement.parentElement.classList.contains('list-names')){
+ 
+   
+            element.innerHTML = e.clipboardData.getData("text/html");
+      
+         
+         
+            let excel_data = element.querySelectorAll("table tr");
+        
+     
+          let inputs = document.querySelectorAll(".list-name-container table tbody tr");
+          let a = inputs.length - parseInt(e.target.parentElement.getAttribute('data')) 
        
-        element.innerHTML = e.clipboardData.getData("text/html");
-  
-     
-     
-        let excel_data = element.querySelectorAll("table tr");
-    
- 
-      let inputs = document.querySelectorAll(".list-name-container table tbody tr");
-      let a = inputs.length - parseInt(e.target.parentElement.getAttribute('data')) 
-   
-        if(element.querySelector("table tr")){
-          e.preventDefault()
-          if(excel_data.length  > a + 1){
-            return false
-        }else{
-   
-            // if copied data is 1 column only
-            if(excel_data[0].children.length < 2){
-           
-             if(e.target.classList.contains('column-1')){
-               for(let i = 0; i < excel_data.length; ) {
-           
-                 for(let x = 0; x < inputs.length; x++) {
-                   if(!excel_data[i].children[0]){
-                   
-                     break;
-                   }
-                  if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                   inputs[x].children[1].innerText = excel_data[i].children[0].innerText
-                   i++
-                   if(i > excel_data.length - 1){
-                     break;
-                   }
-                   } 
-           
+            if(element.querySelector("table tr")){
+              e.preventDefault()
+              if(excel_data.length  > a + 1){
+                return false
+            }else{
+       
+                // if copied data is 1 column only
+                if(excel_data[0].children.length < 2){
+               
+                 if(e.target.classList.contains('column-1')){
+                   for(let i = 0; i < excel_data.length; ) {
+               
+                     for(let x = 0; x < inputs.length; x++) {
+                       if(!excel_data[i].children[0]){
+                       
+                         break;
+                       }
+                      if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                       inputs[x].children[1].innerText = excel_data[i].children[0].innerText
+                       i++
+                       if(i > excel_data.length - 1){
+                         break;
+                       }
+                       } 
+               
+                     }
+                     }
                  }
-                 }
-             }
-             if(e.target.classList.contains('column-2')){
-               for(let i = 0; i < excel_data.length; ) {
-           
-                 for(let x = 0; x < inputs.length; x++) {
-                
-                    if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                 if(e.target.classList.contains('column-2')){
+                   for(let i = 0; i < excel_data.length; ) {
+               
+                     for(let x = 0; x < inputs.length; x++) {
                     
-                   inputs[x].children[2].innerText = excel_data[i].children[0].innerText
-                   i++
-                    if(i > excel_data.length - 1){
-                      break;
-                    }
-                   } 
-           
-                 }
-                 }
-             }
-           
-           
-            }
-  
-  
-             // if copied data is 2 column 
-            if( excel_data[0].children.length > 1){
-              if(e.target.classList.contains('column-1')){
-                for(let i = 0; i < excel_data.length; ) {
-                  for(let x = 0; x < inputs.length; x++) {
-                   
                         if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                          inputs[x].children[1].innerText = excel_data[i].children[0].innerText
-                          inputs[x].children[2].innerText = excel_data[i].children[1].innerText
-   
-                          i++
-                          if(i > excel_data.length - 1){
-                           break;
-                         }
-                            } 
-                          
-                          
+                        
+                       inputs[x].children[2].innerText = excel_data[i].children[0].innerText
+                       i++
+                        if(i > excel_data.length - 1){
+                          break;
+                        }
+                       } 
+               
+                     }
+                     }
+                 }
+               
+               
+                }
+      
+      
+                 // if copied data is 2 column 
+                if( excel_data[0].children.length > 1){
+                  if(e.target.classList.contains('column-1')){
+                    for(let i = 0; i < excel_data.length; ) {
+                      for(let x = 0; x < inputs.length; x++) {
                        
+                            if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                              inputs[x].children[1].innerText = excel_data[i].children[0].innerText
+                              inputs[x].children[2].innerText = excel_data[i].children[1].innerText
+       
+                              i++
+                              if(i > excel_data.length - 1){
+                               break;
+                             }
+                                } 
+                              
+                              
+                           
+                      }
+                     
+                      
+                  }
+                  }
+                  if(e.target.classList.contains('column-2')){
+                    for(let i = 0; i < excel_data.length; ) {
+                      for(let x = 0; x < inputs.length; x++) {
+                       
+                            if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
+                              
+                              inputs[x].children[2].innerText = excel_data[i].children[0].innerText
+       
+                              i++
+                              if(i > excel_data.length - 1){
+                               break;
+                             }
+                                } 
+                              
+                              
+                           
+                      }
+                     
+                      
+                  }
                   }
                  
-                  
-              }
-              }
-              if(e.target.classList.contains('column-2')){
-                for(let i = 0; i < excel_data.length; ) {
-                  for(let x = 0; x < inputs.length; x++) {
-                   
-                        if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                          
-                          inputs[x].children[2].innerText = excel_data[i].children[0].innerText
-   
-                          i++
-                          if(i > excel_data.length - 1){
-                           break;
-                         }
-                            } 
-                          
-                          
-                       
-                  }
-                 
-                  
-              }
-              }
-             
-           
+               
+                }
+       
             }
-   
-        }
-        }
-  
-
-
-      }
+            }
+      
+    
+    
+          }
+        } 
+     
    
 
     });
@@ -792,14 +819,13 @@ createTable().then(()=>{
       let div = document.createElement("tr");
 
       div.innerHTML = `
-      <td class="sequence"> </td>
-      <td class="xl65" style="border-right:.5pt solid black;
-      height:38.1pt " contenteditable="true"></td>
-      <td class="xl65" style="border-right:.5pt solid black;
-      border-left:none; " contenteditable="true"></td>
-      <span class="btn btn-sm btn-danger delete text text-white" style="font-size:12px; padding:3px 5px">Remove</span>
-       
-
+      <td class="sequence">.</td>
+      <td class="xl65 column-1" style="border-right:.5pt solid black;
+     " contenteditable="true"></td>
+      <td class="xl65 column-2" style="border-right:.5pt solid black;
+    border-left:none; " contenteditable="true"></td>
+    <span class="btn btn-sm btn-danger delete text text-white" style="font-size:12px; padding:3px 5px">Remove</span>
+      
 
       `;
       document.querySelector(".list-name-container table tbody").appendChild(div)

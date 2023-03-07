@@ -42,23 +42,94 @@
 
 
 
-                        <img src="images/ci/<%= data.thumbnail_image%>" width="170" class="show-template-details"
-                            alt="">
-                        <h4 class="text text-dark show-template-details">
+                        <img src="images/ci/<%= data.thumbnail_image%>" id="thumbnail-image" width="170" alt="">
+                        <img src="images/ci/<%= data.background_image%>" id="bg-image" hidden alt="">
+
+                        <input type="hidden" id="display-bg-id" value="<%= data.background_id %>">
+                        <h4 class="text text-dark  ">
                             <%= data.background_name %>
                         </h4>
                         <p style="display:none">
                             <%= data.background_description %>
                         </p>
 
-                        <div class="btn btn-sm btn-dark">Edit</div>
+                        <div class="btn btn-sm btn-dark edit-btn">View and Edit</div>
                         <!-- </a> -->
                     </div>
 
                     <% }) %>
 
             </div>
+            <div class="modal-edit-background">
+                <form class="form">
+                    <div class="modal-header">
 
+                        <div class="d-flex ">
+                            <div class="btn btn-sm btn-primary" id="create-copy-btn">Save changes
+                            </div>
+
+                            <div>
+                                <div class="close btn btn-sm btn-danger">Cancel changes</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="modal-content">
+
+
+                        <div class="content">
+
+
+                            <div class="img-container d-flex ustify-content-start align-items-start ">
+                                <div class="d-flex flex-direction-column justify-content-start align-items-start ">
+                                    <label for="">Thumbnail Image:</label>
+                                    <input name="thumbnail_image" id="modal-thumbnail-image-input" type="file"
+                                        style="margin: 5px 0;">
+                                    <img class="modal-image-thumbnail" width="200" src="" alt="">
+
+
+                                </div>
+                                <div class="d-flex flex-direction-column justify-content-start align-items-start">
+
+                                    <label for="">Background Image:</label>
+                                    <input type="file" name="background_image" id="modal-bg-image-input"
+                                        style="margin: 5px 0;">
+                                    <img class="modal-bg-image" width="400" src="" alt="">
+
+                                </div>
+
+                            </div>
+
+                            <div class="details-container ">
+                                <div>
+                                    <label for="">Background Name:</label><br>
+
+                                    <input type="text" class="modal-title" value="">
+                                </div>
+
+
+                                <br>
+                                <input type="hidden" id="bg-id">
+                                <div>
+                                    <label for="">Background Description:</label><br>
+                                    <textarea name="" class="modal-description" id="" cols="30" rows="10"></textarea>
+
+
+                                </div>
+
+                                <h3></h3>
+                                <p></p>
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

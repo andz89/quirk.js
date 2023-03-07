@@ -85,7 +85,7 @@ class Templates{
         if (document.querySelector(".templates")) {
            
           document.querySelector(".subscribe-message-container .sumbit-code-btn").addEventListener("click", () => {
-            console.log('ss');
+  
         let code =  document.querySelector('.subscribe-message-container #code').value
   
 
@@ -100,7 +100,7 @@ class Templates{
                   window.location.href = 'http://localhost:5000/templates'
                }else{
                 let message = document.querySelector('.subscribe-message-container .message') 
-                message.innerText = 'wrong code'
+                message.innerText = response
                }
             
 

@@ -178,6 +178,9 @@ export class Open_file {
       "Dancing Script",
       "Work Sans",
       "Open Sans",
+      "Titan One",
+      "Fredoka One"
+      
 
     ];
     const loadAndUse = (font) => {

@@ -16,7 +16,6 @@ crud_templates.edit_template()
 let check_password = new Check();
 check_password.check_password();
 
- 
 
  
 let loader = new Loader();
@@ -25,3 +24,5 @@ loader.loading_generate()
 
 let bg = new Canvas_background()
 bg.canvas_background()
+
+bg.modal_background_details()

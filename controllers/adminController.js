@@ -90,6 +90,34 @@ bg.add_background().then((data)=>{
 })
   
 };
+
+exports.updateBackground = (req, res) => {
+  let thumbnail_image
+  let background_image
+  
+   req.files.thumbnail_image.forEach((e)=>{
+    thumbnail_image = e.filename ;
+   })
+  
+   req.files.background_image.forEach((e)=>{
+    background_image = e.filename;
+   })
+   
+   
+    req.body.background_image =  background_image 
+    req.body.thumbnail_image =  thumbnail_image 
+   let a = req.body;
+   a.forEach((e)=>{
+    console.log(e);
+   })
+  //   let bg = new Admin(req.body)
+  
+  // bg.update_background().then((data)=>{
+  //   res.redirect("/admin-background");
+   
+  // })
+    
+  };
 exports.add_template = function (req, res) {
   
  
