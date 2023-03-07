@@ -43,7 +43,9 @@
 
 
                         <img src="images/ci/<%= data.thumbnail_image%>" id="thumbnail-image" width="170" alt="">
+                        <input type="hidden" id="thumbnail-path" value="<%= data.thumbnail_image%>">
                         <img src="images/ci/<%= data.background_image%>" id="bg-image" hidden alt="">
+                        <input type="hidden" id="bg-path" value="<%= data.background_image%>">
 
                         <input type="hidden" id="display-bg-id" value="<%= data.background_id %>">
                         <h4 class="text text-dark  ">
@@ -61,13 +63,12 @@
 
             </div>
             <div class="modal-edit-background">
-                <form class="form">
+                <form action="/update-background" method="POST" enctype="multipart/form-data" class="form">
                     <div class="modal-header">
 
                         <div class="d-flex ">
-                            <div class="btn btn-sm btn-primary" id="create-copy-btn">Save changes
-                            </div>
-
+                            <input class="btn btn-sm btn-primary" type="submit" id="create-copy-btn"
+                                value="Save changes">
                             <div>
                                 <div class="close btn btn-sm btn-danger">Cancel changes</div>
                             </div>
@@ -86,6 +87,7 @@
                                     <label for="">Thumbnail Image:</label>
                                     <input name="thumbnail_image" id="modal-thumbnail-image-input" type="file"
                                         style="margin: 5px 0;">
+                                    <input type="hidden" id="modal-thumbnail-path" name="thumbnail_image_path">
                                     <img class="modal-image-thumbnail" width="200" src="" alt="">
 
 
@@ -95,6 +97,9 @@
                                     <label for="">Background Image:</label>
                                     <input type="file" name="background_image" id="modal-bg-image-input"
                                         style="margin: 5px 0;">
+                                    <input type="hidden" id="modal-bg-path" name="bg_image_path">
+
+
                                     <img class="modal-bg-image" width="400" src="" alt="">
 
                                 </div>
@@ -105,15 +110,16 @@
                                 <div>
                                     <label for="">Background Name:</label><br>
 
-                                    <input type="text" class="modal-title" value="">
+                                    <input type="text" name="background_name" class="modal-title" value="">
                                 </div>
 
 
                                 <br>
-                                <input type="hidden" id="bg-id">
+                                <input type="hidden" id="bg-id" name="background_id">
                                 <div>
                                     <label for="">Background Description:</label><br>
-                                    <textarea name="" class="modal-description" id="" cols="30" rows="10"></textarea>
+                                    <textarea name="background_description" class="modal-description" id="" cols="30"
+                                        rows="10"></textarea>
 
 
                                 </div>

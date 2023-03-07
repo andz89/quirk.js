@@ -73,7 +73,11 @@ router.post("/add-background" ,upload.fields([{
   name:'thumbnail_image', maxCount: 1
 }]),adminController.addBackground);
 
-
+router.post("/update-background" ,upload.fields([{
+  name:'background_image', maxCount: 1
+}, {
+  name:'thumbnail_image', maxCount: 1
+}]),adminController.updateBackground);
 
 
 module.exports = router;

@@ -92,30 +92,50 @@ bg.add_background().then((data)=>{
 };
 
 exports.updateBackground = (req, res) => {
-  let thumbnail_image
-  let background_image
+  // console.log(req.files);
+// console.log(req.files);
+  // if(req.files){
   
-   req.files.thumbnail_image.forEach((e)=>{
-    thumbnail_image = e.filename ;
-   })
+  //   // console.log(req.file.fieldname);
+ 
+  //    }
+  //    console.log(req.files);
+  if(req.files){//if no photos updloaded
+   
+    let thumbnail_image
+    let background_image
+    
+    if(req.files.thumbnail_image){
+      req.files.thumbnail_image.forEach((e)=>{
+        thumbnail_image = e.filename ;
+       })
+    }else{
+      thumbnail_image = false;
+    }
+
+
+    if(req.files.background_image){
+      req.files.background_image.forEach((e)=>{
+        background_image = e.filename ;
+       })
+    }else{
+      background_image = false;
+    }
+    
+
+ 
+     
+      req.body.background_image =  background_image 
+      req.body.thumbnail_image =  thumbnail_image 
+  }
   
-   req.files.background_image.forEach((e)=>{
-    background_image = e.filename;
-   })
-   
-   
-    req.body.background_image =  background_image 
-    req.body.thumbnail_image =  thumbnail_image 
-   let a = req.body;
-   a.forEach((e)=>{
-    console.log(e);
-   })
-  //   let bg = new Admin(req.body)
+ 
+    let bg = new Admin(req.body)
   
-  // bg.update_background().then((data)=>{
-  //   res.redirect("/admin-background");
+  bg.update_background().then((data)=>{
+    res.redirect("/admin-background");
    
-  // })
+  })
     
   };
 exports.add_template = function (req, res) {

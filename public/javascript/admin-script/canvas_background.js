@@ -160,6 +160,8 @@ class Canvas_background{
         if(document.querySelector('.canvas-background-container')){
             document.querySelector('.canvas-background-container').addEventListener('click', function(e){
                 if(e.target.classList.contains('edit-btn')){
+
+                  //close modal
                     document.querySelector('.modal-edit-background .close').addEventListener('click', function(){
                         document.querySelector('.modal-edit-background').style.display = 'none';
                         document.querySelector('.modal-edit-background .modal-title').innerText = '';
@@ -177,6 +179,12 @@ class Canvas_background{
            
                 let description = parent.querySelector('p').innerText
                 let thumbnail_image =  parent.querySelector('#thumbnail-image').src
+
+                let thumbnail_path =  parent.querySelector('#thumbnail-path').value
+                console.log(thumbnail_path);
+                let bg_path =  parent.querySelector('#bg-path').value
+
+
                 let bg_image =  parent.querySelector('#bg-image').src
 
                 let id =  parent.querySelector('#display-bg-id').value
@@ -186,6 +194,10 @@ class Canvas_background{
                 document.querySelector('.modal-edit-background .modal-title').value = title;
                 document.querySelector('.modal-edit-background .modal-description').value = description.trim();
                 document.querySelector('.modal-edit-background .modal-image-thumbnail').src = thumbnail_image;
+                document.querySelector('.modal-edit-background #modal-thumbnail-path').value = thumbnail_path;
+                document.querySelector('.modal-edit-background #modal-bg-path').value = bg_path;
+
+
                 document.querySelector('.modal-edit-background .modal-bg-image').src = bg_image;
                 document.querySelector('.modal-edit-background #bg-id').value = id;
                  display_upload_image('.modal-edit-background #modal-thumbnail-image-input' ,'.modal-edit-background .modal-image-thumbnail', )

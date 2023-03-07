@@ -44,13 +44,15 @@ Admin.prototype.add_background =function(req, res){
       background_name: this.data.background_name,
       background_description: this.data.background_description,
     };
+
+   
     let sql = "INSERT INTO background SET ?";
-    db.query(sql, data, (err, result) => {
+    db.query(sql, data, async (err, result) => {
       if (err) {
         reject(err);
         return false;
       }
-
+     
       resolve();
     });
 
@@ -75,53 +77,48 @@ Admin.prototype.getAllBackgrounds = function(req, res){
 }
 Admin.prototype.update_background = function () {
   return new Promise(async (resolve, reject) => {
+
  
-  if(this.data.thumbnail_image && this.data.background_image){
- 
-    var sql = `UPDATE background SET background_image = '${this.data.background_image}',thumbnal_image='${this.data.thumbnail_image}', background_description = '${this.data.background_description}',background_name ='${this.data.background_name}' WHERE background_id = '${this.data.background_id}'`;
+
+    let image_to_delete = []
+    let thumbnail;
+    let background;
+
+      if(this.data.thumbnail_image == false ){//no upload thumbnail
+          thumbnail = ''
+      }else{
+        image_to_delete.push(this.data.thumbnail_image_path)
+        thumbnail = `thumbnail_image='${this.data.thumbnail_image}',`
+      }
+
+
+      if(this.data.background_image == false ){//no upload bg
+        background = ''
+     }else{
+      image_to_delete.push(this.data.background_image_path)
+      background = `background_image='${this.data.background_image}',`
+     }
+
+
+    var sql = `UPDATE background SET  ${thumbnail}  ${background} background_description = '${this.data.background_description}',background_name ='${this.data.background_name}' WHERE background_id = '${this.data.background_id}'`;
       db.query(sql, (err, result) => {
         if (err) {
           reject(err);
           return false;
         }
         resolve(result);
-      });
-  }
-  // if(!this.data.template_json && this.data.file){
-  //   await this.deleteImage()
-  //   var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',thumbnail = '${this.data.file}' WHERE template_id = '${this.data.template_id}'`;
-  //     db.query(sql, (err, result) => {
-  //       if (err) {
-  //         reject(err);
-  //         return false;
-  //       }
+
+        
+         
        
-  //       resolve(result);
-  //     });
-  // }
-  // if(this.data.template_json && this.data.file){
-  //   await this.deleteImage()
-  //   var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',template_json ='${this.data.template_json}',thumbnail = '${this.data.file}' WHERE template_id = '${this.data.template_id}'`;
-  //     db.query(sql, (err, result) => {
-  //       if (err) {
-  //         reject(err);
-  //         return false;
-  //       }
-  //       resolve(result);
-  //     });
-  // }
-  else{
-   
-    var sql = `UPDATE templates SET  background_description = '${this.data.background_description}',background_name ='${this.data.background_name}' WHERE background_id = '${this.data.background_id}'`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
-      resolve(result);
-    });
-  }
-  
+        if(image_to_delete === true) {
+          this.deleteImageBackground(image_to_delete)
+        }
+ 
+      });
+ 
+ 
+ 
    
   });
 };
@@ -139,8 +136,17 @@ Admin.prototype.remove = function (req, res) {
     });
   });
 }
+Admin.prototype.deleteImageBackground = async  function (data){
 
-Admin.prototype.deleteImage = function (){
+  for(let i=0; i<data.length; i++){
+   
+    await  unlinkAsync('public/images/ci/'+data[i])
+  }
+ 
+   
+ 
+}
+Admin.prototype.deleteImageTemplates = function (){
   return new Promise((resolve, reject) => {
    
     let sql = `SELECT * FROM templates WHERE template_id = '${this.data.template_id}'` ;
@@ -150,7 +156,8 @@ Admin.prototype.deleteImage = function (){
         reject(err);
         return false;
       }
-   await   unlinkAsync('public/images/ci/' + result[0].thumbnail)
+   await  unlinkAsync('public/images/ci/' + result[0].thumbnail)
+   
    
       resolve();
     });
@@ -173,7 +180,7 @@ Admin.prototype.update_template = function () {
       });
   }
   if(!this.data.template_json && this.data.file){
-    await this.deleteImage()
+    await this.deleteImageTemplates()
     var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',thumbnail = '${this.data.file}' WHERE template_id = '${this.data.template_id}'`;
       db.query(sql, (err, result) => {
         if (err) {
@@ -185,7 +192,7 @@ Admin.prototype.update_template = function () {
       });
   }
   if(this.data.template_json && this.data.file){
-    await this.deleteImage()
+    await this.deleteImageTemplates()
     var sql = `UPDATE templates SET template_name = '${this.data.template_name}',template_description = '${this.data.template_description}',template_json ='${this.data.template_json}',thumbnail = '${this.data.file}' WHERE template_id = '${this.data.template_id}'`;
       db.query(sql, (err, result) => {
         if (err) {
