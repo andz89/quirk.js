@@ -276,30 +276,36 @@ resetCanvas(){
   }
 
   download_as_image() {
-    const download_image = document.querySelector("#download-image");
-    download_image.onclick = () => {
-      var scaleFactor = 1;
-      this.canvas.setWidth(this.width * scaleFactor);
-      this.canvas.setHeight(this.height * scaleFactor);
-      this.canvas.setZoom(scaleFactor);
-
-      this.canvas.renderAll();
-
-      let display_name = document.querySelector("#file_name").innerHTML;
-      const a = document.createElement("a");
-      document.body.appendChild(a);
-      a.href = this.canvas.toDataURL({
-        format: "png",
-        // quality:  1
-      });
-      a.download = `${display_name}.png`;
-      a.click();
-      document.body.removeChild(a);
-
-      this.canvas.setHeight(this.canvas.current_height);
-      this.canvas.setWidth(this.canvas.current_width);
-      this.canvas.setZoom(this.canvas.current_canvasScale);
-    };
+  
+    //  if(e.target){
+    //   const download_image = document.querySelector("#download-image")
+    //   download_image.onclick = () => {
+    //     console.log('ss');
+    //     var scaleFactor = 1;
+    //     this.canvas.setWidth(this.width * scaleFactor);
+    //     this.canvas.setHeight(this.height * scaleFactor);
+    //     this.canvas.setZoom(scaleFactor);
+  
+    //     this.canvas.renderAll();
+  
+    //     let display_name = document.querySelector("#file_name").innerHTML;
+    //     const a = document.createElement("a");
+    //     document.body.appendChild(a);
+    //     a.href = this.canvas.toDataURL({
+    //       format: "png",
+    //       // quality:  1
+    //     });
+    //     a.download = `${display_name}.png`;
+    //     a.click();
+    //     document.body.removeChild(a);
+  
+    //     this.canvas.setHeight(this.canvas.current_height);
+    //     this.canvas.setWidth(this.canvas.current_width);
+    //     this.canvas.setZoom(this.canvas.current_canvasScale);
+    //   };
+    //  }
+  
+   
   }
 
   paste_text() {
@@ -550,7 +556,14 @@ let json_file = JSON.stringify(merge);
  " contenteditable="true"></td>
   <td class="xl65 column-2" style="border-right:.5pt solid black;
 border-left:none; " contenteditable="true"></td>
-  
+<img src="./images/canvas/eye-solid.png" class="eye-show" width="18">
+<img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
+<img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
+<img src="./images/canvas/download-solid.png"   class="able-download " width="18">
+<img src="./images/canvas/download-solid-disable.png"  class="disable-download" width="18">
+
+
+
      
 
 
@@ -590,6 +603,9 @@ createTable().then(()=>{
         
               inputs[x].children[1].innerText = excel_data[i].data_1 
               inputs[x].children[2].innerText = excel_data[i].data_2 
+              inputs[x].querySelector('.eye-show').style.display = 'inline-block'
+              inputs[x].querySelector('.able-download').style.display = 'inline-block'
+
               i++
               if(i > excel_data.length - 1){
  
@@ -627,12 +643,29 @@ createTable().then(()=>{
      " contenteditable="true"></td>
       <td class="xl65 column-2" style="border-right:.5pt solid black;
     border-left:none; " contenteditable="true"></td>
+    <img src="./images/canvas/eye-solid.png" class="eye-show" width="18">
+    <img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
+    <img src="./images/canvas/download-solid.png" id="download-image" class="able-download" width="18">
+    <img src="./images/canvas/download-solid-disable.png"  class="disable-download" width="18">
+    
+    
+
  
       `;
       document.querySelector(".list-name-container table tbody").appendChild(div)
    
       }
-  
+      parent.addEventListener('input',(e)=>{
+ 
+        if(e.target.parentElement.children[1].innerText.length > 0 ||e.target.parentElement.children[2].innerText.length > 0 ){
+          e.target.parentElement.querySelector('.eye-show').style.display = 'inline-block'
+          e.target.parentElement.querySelector('.able-download').style.display = 'inline-block'
+        }else{
+          e.target.parentElement.querySelector('.eye-show').style.display = 'none'
+          e.target.parentElement.querySelector('.able-download').style.display = 'none'
+        }
+
+      })
     parent.addEventListener("click", (e)=>{
       
       //remove row
@@ -658,6 +691,7 @@ createTable().then(()=>{
          
         })
       }
+      //click on the table
         if(e.target.classList.contains('xl65')){
           let tr = document.querySelectorAll(
             ".list-name-container .list-names  table tbody tr"
@@ -675,15 +709,45 @@ createTable().then(()=>{
           textbox[1].set({text: e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'Column-2-textbox'}) 
           this.canvas.renderAll()
         }
+
         if(e.target.classList.contains('select-all')){
           let tr = document.querySelectorAll(
             ".list-name-container .list-names  table tbody tr"
           ) 
       
           Array.from(tr).forEach((ev)=>{
-            ev.classList.add('active')
+      
+            if(ev.children[1].innerText.length > 0 || ev.children[2].innerText.length > 0)
+              if(!ev.classList.contains('disable')){
+                ev.classList.add('active')
+
+              }
            
           })
+        }
+        //eye show
+        if(e.target.classList.contains('eye-show')){
+          e.target.parentElement.classList.remove('active');
+          e.target.parentElement.classList.add('disable');
+          e.target.parentElement.children[1].contentEditable = false;
+          e.target.parentElement.children[2].contentEditable = false;
+          e.target.parentElement.querySelector('.eye-show').style.display = 'none';
+          e.target.parentElement.querySelector('.eye-hide').style.display = 'inline-block';
+          e.target.parentElement.querySelector('.able-download').style.display = 'none';
+          e.target.parentElement.querySelector('.disable-download').style.display = 'inline-block';
+
+
+        }
+        //eye hide
+        if(e.target.classList.contains('eye-hide')){
+           
+          e.target.parentElement.classList.remove('disable');
+          e.target.parentElement.children[1].contentEditable = true;
+          e.target.parentElement.children[2].contentEditable = true;
+          e.target.parentElement.querySelector('.eye-show').style.display = 'inline-block';
+          e.target.parentElement.querySelector('.eye-hide').style.display = 'none';
+          e.target.parentElement.querySelector('.able-download').style.display = 'inline-block';
+          e.target.parentElement.querySelector('.disable-download').style.display = 'none';
         }
           //swap column
           if (e.target.classList.contains("swap-column")) {
@@ -703,19 +767,7 @@ createTable().then(()=>{
              
             })
 
-
-            // names.forEach((element) => {
-          
-           
-            //   if(element.children[1].innerText.length && element.children[2].innerText.length || element.children[1].innerText.length || element.children[2].innerText.length) {
-            //     let a = element.children[1].innerText 
-            //     let b = element.children[2].innerText;
-            //     element.children[1].innerText = b
-            //     element.children[2].innerText = a
-            //   }
-           
-          
-            // });
+ 
           }
           //clear all rows
           if (e.target.classList.contains("clear-all")) {
@@ -728,6 +780,8 @@ createTable().then(()=>{
               if(ev.classList.contains('active') ){
                 ev.children[1].innerText = ''
                 ev.children[2].innerText = ''
+                ev.querySelector('.eye-show').style.display = 'none'
+                ev.querySelector('.able-download').style.display = 'none'
               }
             
              
@@ -735,11 +789,7 @@ createTable().then(()=>{
       
           }
           if(e.target.classList.contains('sentence-case')){
-
-              //to change the column text to sentence case
-              // let names = document.querySelectorAll(
-              //   ".list-name-container .list-names table tr"
-              // );
+ 
            
               let tr = document.querySelectorAll(
                 ".list-name-container .list-names  table tbody tr"
@@ -763,14 +813,51 @@ createTable().then(()=>{
                
               })
 
-
-                // names.forEach((element) => {
-                 
-                // });
+ 
               
  
           }
+        
+     if(e.target.classList.contains('able-download')){
+      let tr = document.querySelectorAll(
+        ".list-name-container .list-names  table tbody tr"
+      ) 
+  
+      Array.from(tr).forEach((ev)=>{
+        ev.classList.remove('active')
+       
+      })
+      e.target.parentElement.classList.add('active');
+      let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
+
+
+      textbox[0].set({text: e.target.parentElement.children[1].innerText ? e.target.parentElement.children[1].innerText:'Column-1-textbox'}) 
+      textbox[1].set({text: e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'Column-2-textbox'}) 
       
+      this.canvas.renderAll()
+        var scaleFactor = 1;
+        this.canvas.setWidth(this.width * scaleFactor);
+        this.canvas.setHeight(this.height * scaleFactor);
+        this.canvas.setZoom(scaleFactor);
+  
+        this.canvas.renderAll();
+  
+        let display_name = document.querySelector("#file_name").innerHTML;
+        const a = document.createElement("a");
+        document.body.appendChild(a);
+        a.href = this.canvas.toDataURL({
+          format: "png",
+          // quality:  1
+        });
+        a.download = `${display_name}.png`;
+        a.click();
+        document.body.removeChild(a);
+  
+        this.canvas.setHeight(this.canvas.current_height);
+        this.canvas.setWidth(this.canvas.current_width);
+        this.canvas.setZoom(this.canvas.current_canvasScale);
+ 
+     }
     })
 
 
@@ -1024,16 +1111,20 @@ createTable().then(()=>{
  
       
         a.forEach((element) => {
-          if(element.children[1].innerText.length && element.children[2].innerText.length
-          || element.children[1].innerText.length || element.children[2].innerText.length) {
-            let data = {
-              dataOne: element.children[1].innerText,
-              dataTwo: element.children[2].innerText,
-            }
-
-        
-            arrayName.push(data);
+          console.log(element.classList.contains('active'));
+          if(element.classList.contains('active')){
+            if(element.children[1].innerText.length && element.children[2].innerText.length
+              || element.children[1].innerText.length || element.children[2].innerText.length) {
+                let data = {
+                  dataOne: element.children[1].innerText,
+                  dataTwo: element.children[2].innerText,
+                }
+    
+            
+                arrayName.push(data);
+              }
           }
+       
         
         
         });

@@ -12,6 +12,8 @@
   right: -550px;
 
 
+
+
   .tools {
     padding: 5px;
     display: flex;
@@ -24,25 +26,43 @@
   }
 
   .active {
-    background-color: rgb(170, 227, 235);
+    background-color: rgba(170, 228, 235, 0.712);
     transition: all .5s;
   }
 
+  .disable {
+    background-color: rgb(204, 204, 204);
+    transition: all .5s;
+
+  }
 
   table {
     margin: 5px 5px 0 5px;
 
   }
 
-  tr {
+  .able-download {
+    display: none;
 
+    margin: 10px 7px;
+  }
 
-    span {
+  .disable-download {
+    display: none;
+    margin: 10px 7px;
 
-      align-items: center;
-      margin-top: 10%;
-      margin-left: 10px;
-    }
+  }
+
+  .eye-hide {
+    display: none;
+
+    margin: 10px 7px;
+  }
+
+  .eye-show {
+    margin: 10px 7px;
+    display: none;
+
   }
 
   th {

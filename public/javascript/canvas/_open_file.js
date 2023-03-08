@@ -126,7 +126,9 @@ export class Open_file {
                 zoomIn.addEventListener("click", () => {
                
               
-  
+                  document.querySelector('#canvas').style.transition = 'none'
+                  document.querySelector('.upper-canvas').style.transition = 'none'
+
                
                  
                   canvasScale = canvasScale * SCALE_FACTOR;
@@ -161,6 +163,9 @@ export class Open_file {
                   canvas_created.current_width = canvas_created.getWidth();
                   canvas_created.current_height = canvas_created.getHeight();
                   canvas_created.renderAll();
+
+                  document.querySelector('#canvas').style.transition = 'none'
+                  document.querySelector('.upper-canvas').style.transition = 'none'
                 });
               }
         
