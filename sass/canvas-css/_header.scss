@@ -212,13 +212,18 @@
 
     .dropbtn-insert-text {
       list-style: none;
-      background-color: #06343b;
+
+      div {
+        background-color: #06343b;
+        border-radius: 3px;
+        padding: 0px 5px;
+
+        img {
+          margin-top: 5px;
+        }
+      }
 
 
-      margin: 3px 0px;
-      padding: 5px 8px;
-      border-radius: 3px;
-      font-size: .8rem;
     }
   }
 

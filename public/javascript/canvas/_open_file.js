@@ -121,9 +121,14 @@ export class Open_file {
         
               function zoomIn(selector) {
                 SCALE_FACTOR = 1.1;
-        
+                let p = 25
                 let zoomIn = document.querySelector(selector);
                 zoomIn.addEventListener("click", () => {
+               
+              
+  
+               
+                 
                   canvasScale = canvasScale * SCALE_FACTOR;
                   canvas_created.setHeight(canvas_created.getHeight() * SCALE_FACTOR);
                   canvas_created.setWidth(canvas_created.getWidth() * SCALE_FACTOR);
@@ -142,6 +147,7 @@ export class Open_file {
                 SCALE_FACTOR = 1.1;
         
                 zoomOut.addEventListener("click", (e) => {
+           
                   canvasScale = canvasScale / SCALE_FACTOR;
                   canvas_created.setHeight(
                     canvas_created.getHeight() * (1 / SCALE_FACTOR)

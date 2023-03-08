@@ -2,32 +2,7 @@ import { Modification } from "./_modification.js";
 
 export class Right_tools extends Modification {
   sentenceCase() {
-    document.querySelector("#sentence-case").addEventListener("click", () => {
-     
- 
-        //to change the column text to sentence case
-        let names = document.querySelectorAll(
-          ".list-name-container .list-names table tr"
-        );
-     
-
-          names.forEach((element) => {
-            let b = element.children[1].innerText.replace(/,(?=[^\s])/g, ", ");
-            let c = b.replace(/\w\S*/g, function (txt) {
-              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            });
-            element.children[1].innerText = c;
-
-            let d = element.children[2].innerText.replace(/,(?=[^\s])/g, ", ");
-            let e= d.replace(/\w\S*/g, function (txt) {
-              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            });
-            element.children[2].innerText = e;
-          });
-        
-   
-
-    });
+  
   }
 
   fontSize(selector) {

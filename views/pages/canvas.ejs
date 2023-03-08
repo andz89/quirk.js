@@ -134,73 +134,90 @@
 
 
 
-            <li class="dropbtn-insert-text ">Insert Text</li>
+            <li class="dropbtn-insert-text ">
+                <div>
+                    <img src="images/canvas/insert-text.png" alt="" width="20">
+                </div>
+
+            </li>
         </div>
 
     </div>
     <!-- insert name -->
     <span class="excel-html-view-data" style="display:none"></span>
     <div class="list-name-container">
-        <div class="modal-header d-flex justify-content-start  bg-dark">
+        <div class="list-name-content">
+            <div class="modal-header d-flex justify-content-between  bg-dark">
 
 
-            <div class=" swap-column d-flex justify-content-center gap-10 align-items-center btn btn-sm btn-primary">
-                <img src="images/canvas/swap.png" width="15" alt="" class="swap-column">
-                Swap Column
+                <div>
+
+                </div>
 
 
-
+                <div class="btn btn-sm btn-success save">
+                    Save and close
+                </div>
             </div>
-            <div>
-                <div class="btn btn-sm btn-primary clear-all">Clear rows</div>
+            <div class="tools">
+                <div class="d-flex">
+                    <div style="height:30px" class="btn btn-sm btn-primary ">
+                        <img src="./images/canvas/case.png" class="sentence-case" width="23" alt="">
+                    </div>
+                    <div style="height:30px" class=" swap-column   btn btn-sm btn-primary">
+                        <img src="images/canvas/swap.png" width="18" alt="" class="swap-column">
+
+                    </div>
+                    <div style="height:30px" class="empty-row btn btn-sm btn-primary clear-all">
+                        Empty row
+                    </div>
+                    <div style="height:30px" class=" btn btn-sm btn-primary">
+                        <img class="delete" src="images/canvas/trash.png" width="18">
+                    </div>
+                </div>
+                <div>
+                    <div class="btn btn-sm btn-dark select-all">Select All</div>
+                </div>
+            </div>
+            <div class="modal-content">
+
+
+
+                <div class="list-names">
+
+                    <table style="border-collapse:
+                         collapse; padding: 0 5px;">
+                        <thead>
+                            <th>
+
+                            </th>
+
+                            <th>
+                                Column 1
+                            </th>
+
+                            <th>
+                                Column 2
+                            </th>
+
+                        </thead>
+
+                        <tbody>
+
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+
             </div>
 
         </div>
-        <div class="modal-content">
 
-
-
-            <div class="list-names">
-
-                <table style="border-collapse:
-                     collapse; padding: 5px;margin: 5px;">
-                    <thead>
-                        <th>
-
-                        </th>
-
-                        <th>
-                            Column 1
-                        </th>
-
-                        <th>
-                            Column 2
-                        </th>
-
-                    </thead>
-
-                    <tbody>
-
-
-
-                    </tbody>
-                </table>
-
-            </div>
-
-
-
-
-        </div>
-        <div class="bg-dark modal-footer d-flex justify-content-end">
-            <div>
-                <img src="./images/canvas/case.png" class="" id="sentence-case" width="23" alt="">
-
-            </div>
-            <div class="btn btn-sm btn-success save">
-                Save and close
-            </div>
-        </div>
     </div>
 
 

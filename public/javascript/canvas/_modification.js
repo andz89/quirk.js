@@ -29,7 +29,7 @@ export class Modification {
       this.canvas.add(object);
  
       this.canvas.viewportCenterObject(object);
-      // this.canvas.renderAll();
+      this.canvas.renderAll();
   
     } else {
       (object.perPixelTargetFind = false), this.canvas.setActiveObject(object);

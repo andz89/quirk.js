@@ -1,13 +1,38 @@
 .list-name-container {
-  display: none;
+
+  display: flex;
+  transition: all .5s;
+
   position: fixed;
   z-index: 1;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
 
-  background-color: rgba(0, 0, 0, 0.349);
+  top: 70px;
+  height: 100%;
+  width: 550px;
+  right: -550px;
+
+
+  .tools {
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e9dddd;
+    width: 100%;
+
+
+  }
+
+  .active {
+    background-color: rgb(170, 227, 235);
+    transition: all .5s;
+  }
+
+
+  table {
+    margin: 5px 5px 0 5px;
+
+  }
 
   tr {
 
@@ -27,7 +52,7 @@
     border-bottom: .5pt solid black;
     border-left: .5pt solid black;
 
-    background-color: rgba(196, 195, 195, 0.37);
+
     height: 40px;
   }
 
@@ -40,29 +65,30 @@
   }
 
   .sequence {
-    font-size: 13px;
-    min-width: 37px;
-    max-width: 37px;
+    font-size: 12px;
+    min-width: 30px;
+    max-width: 30px;
 
     border-top: .5pt solid black;
     border-right: none;
     border-bottom: .5pt solid black;
     border-left: .5pt solid black;
-    background-color: rgba(196, 195, 195, 0.37);
+
 
   }
 
   .xl65 {
+    transition: all .5s;
     color: black;
     font-size: 14px;
-    min-width: 280px;
-    max-width: 280px;
+    min-width: 215px;
+    max-width: 215px;
     text-align: left;
     border-top: .5pt solid black;
     border-right: none;
     border-bottom: .5pt solid black;
     border-left: .5pt solid black;
-
+    height: 40px;
   }
 
 
@@ -75,53 +101,37 @@
 
   .modal-header {
 
-    width: 700px;
+    width: 550px;
     margin: 10px auto 0 auto;
     padding: 10px;
   }
 
+
+
   .modal-content {
 
-    padding: 10px 30px;
+
     display: flex;
     margin: auto;
     flex-direction: column;
-    align-items: center;
-    // justify-content: center;
+
+
     background-color: #fff;
-    width: 700px;
-    height: 450px;
+    width: 550px;
+    height: 470px;
 
-
-
+    padding-bottom: 20px;
 
 
 
     .list-names {
       overflow: auto;
-      width: 700px;
-      min-height: 300px;
+      width: 550px;
+      height: 500px;
 
 
 
 
-      input {
-        padding: 0 10px;
-        width: 400px;
-        margin: 1px 5px;
-        gap: 0;
-        border: 1px solid rgb(216, 213, 213);
-        ;
-        height: 40px;
-
-
-      }
-
-      input:focus {
-        gap: 0;
-        outline-width: .5px;
-        outline-color: rgb(202, 200, 200);
-      }
 
 
     }
@@ -129,16 +139,9 @@
 
   }
 
-  .modal-footer {
-    width: 700px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 10px;
-  }
 
-  .modal-header h2,
-  .modal-footer h3 {
+
+  .modal-header h2 {
     margin: 0;
   }
 

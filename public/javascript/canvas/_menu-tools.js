@@ -69,7 +69,7 @@ export class Menu_tools extends Modification {
                         return e.type == 'image';
                       })
                     
-                      console.log(a[0]._originalElement);
+                   
                      a.forEach((e)=>{
 
                         if(e._originalElement.currentSrc == 'http://localhost:5000/images/ci/'+ image_name){
@@ -77,6 +77,8 @@ export class Menu_tools extends Modification {
                         this.canvas.renderAll()
                         }
                      })
+
+                     add_bg_image.style.display ="none"
                    }else{
                     //kung wala
                     console.log('wala');
@@ -115,6 +117,8 @@ export class Menu_tools extends Modification {
                    });
                    this.canvas.renderAll();
                  });
+
+                 add_bg_image.style.display ="none"
                    }
                   
                     }
@@ -546,7 +550,7 @@ let json_file = JSON.stringify(merge);
  " contenteditable="true"></td>
   <td class="xl65 column-2" style="border-right:.5pt solid black;
 border-left:none; " contenteditable="true"></td>
-<span class="btn btn-sm btn-danger delete text text-white" style="font-size:12px; padding:3px 5px">Remove</span>
+  
      
 
 
@@ -598,7 +602,7 @@ createTable().then(()=>{
           }
   
       
-    
+          document.querySelector('.list-names').scrollTop = 0;
   
     }
  
@@ -613,10 +617,178 @@ createTable().then(()=>{
   
     let parent = document.querySelector(".list-name-container");
     let add_name_btn = document.querySelector("#insert-names");
+
+    function addRow(){
+      let div = document.createElement("tr");
+
+      div.innerHTML = `
+      <td class="sequence">.</td>
+      <td class="xl65 column-1" style="border-right:.5pt solid black;
+     " contenteditable="true"></td>
+      <td class="xl65 column-2" style="border-right:.5pt solid black;
+    border-left:none; " contenteditable="true"></td>
+ 
+      `;
+      document.querySelector(".list-name-container table tbody").appendChild(div)
+   
+      }
+  
+    parent.addEventListener("click", (e)=>{
+      
+      //remove row
+      if(e.target.classList.contains('delete')){
+        let tr = document.querySelectorAll(
+          ".list-name-container .list-names  table tbody tr"
+        ) 
+
+        Array.from(tr).forEach((ev)=>{
+          if(  ev.classList.contains('active') ){
+            ev.remove()
+            addRow()
+            let names = document.querySelectorAll(
+              ".list-name-container .list-names table tbody tr"
+            );
+            let i = 1
+              names.forEach((e)=>{
+                e.setAttribute("data", i++)
+                e.children[0].innerText = i - 1 + "."
+              })
+          }
+        
+         
+        })
+      }
+        if(e.target.classList.contains('xl65')){
+          let tr = document.querySelectorAll(
+            ".list-name-container .list-names  table tbody tr"
+          ) 
+      
+          Array.from(tr).forEach((ev)=>{
+            ev.classList.remove('active')
+           
+          })
+          e.target.parentElement.classList.add('active');
+          let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
+
+
+          textbox[0].set({text: e.target.parentElement.children[1].innerText ? e.target.parentElement.children[1].innerText:'Column-1-textbox'}) 
+          textbox[1].set({text: e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'Column-2-textbox'}) 
+          this.canvas.renderAll()
+        }
+        if(e.target.classList.contains('select-all')){
+          let tr = document.querySelectorAll(
+            ".list-name-container .list-names  table tbody tr"
+          ) 
+      
+          Array.from(tr).forEach((ev)=>{
+            ev.classList.add('active')
+           
+          })
+        }
+          //swap column
+          if (e.target.classList.contains("swap-column")) {
+            let tr = document.querySelectorAll(
+              ".list-name-container .list-names  table tbody tr"
+            ) 
+    
+            Array.from(tr).forEach((ev)=>{
+              if(ev.classList.contains('active') ){
+                let a = ev.children[1].innerText;
+                let b = ev.children[2].innerText;
+                ev.children[1].innerText = b
+                ev.children[2].innerText = a
+          
+              }
+            
+             
+            })
+
+
+            // names.forEach((element) => {
+          
+           
+            //   if(element.children[1].innerText.length && element.children[2].innerText.length || element.children[1].innerText.length || element.children[2].innerText.length) {
+            //     let a = element.children[1].innerText 
+            //     let b = element.children[2].innerText;
+            //     element.children[1].innerText = b
+            //     element.children[2].innerText = a
+            //   }
+           
+          
+            // });
+          }
+          //clear all rows
+          if (e.target.classList.contains("clear-all")) {
+          
+            let tr = document.querySelectorAll(
+              ".list-name-container .list-names  table tbody tr"
+            ) 
+    
+            Array.from(tr).forEach((ev)=>{
+              if(ev.classList.contains('active') ){
+                ev.children[1].innerText = ''
+                ev.children[2].innerText = ''
+              }
+            
+             
+            })
+      
+          }
+          if(e.target.classList.contains('sentence-case')){
+
+              //to change the column text to sentence case
+              // let names = document.querySelectorAll(
+              //   ".list-name-container .list-names table tr"
+              // );
+           
+              let tr = document.querySelectorAll(
+                ".list-name-container .list-names  table tbody tr"
+              ) 
+      
+              Array.from(tr).forEach((ev)=>{
+                if(ev.classList.contains('active') ){
+                  let b = ev.children[1].innerText.replace(/,(?=[^\s])/g, ", ");
+                  let c = b.replace(/\w\S*/g, function (txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                  });
+                  ev.children[1].innerText = c;
+      
+                  let d = ev.children[2].innerText.replace(/,(?=[^\s])/g, ", ");
+                  let e= d.replace(/\w\S*/g, function (txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                  });
+                  ev.children[2].innerText = e;
+                }
+              
+               
+              })
+
+
+                // names.forEach((element) => {
+                 
+                // });
+              
+ 
+          }
+      
+    })
+
+
+
     add_name_btn.addEventListener("click", () => {
       this.canvas.discardActiveObject()
       this.canvas.renderAll()
-      parent.style.display = "block";
+      parent.style.right = 0
+
+ 
+      // document.querySelector('main').style.alignItems = 'flex-start'
+     let a = document.querySelector('.list-name-container').offsetWidth
+      let b = window.innerWidth
+    let c = b -a
+      document.querySelector('main').style.width = c +'px'
+
+ 
+ 
     });
 
     let saveCloseBtn = document.querySelector(".list-name-container .save");
@@ -624,26 +796,7 @@ createTable().then(()=>{
     saveCloseBtn.addEventListener("click", () => {
       this.loading_save('visible','Saving . .  Please wait...');
 
-      let textbox_1 = this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox');
-      let textbox_2 = this.canvas.getObjects().filter((el) => el.name === 'Column-2-textbox');
-      if(document.querySelector(".list-name-container .list-names table tr")){
-        let excel_data = document.querySelector(
-          ".list-name-container .list-names table tbody tr"
-        );
-        let bb = document.querySelector(
-          ".list-name-container .list-names  table tbody tr"
-        ) 
-     
-        if(excel_data){
-          textbox_1[0].set({text: excel_data.children[1].innerText}) 
-        }
-   
-        if(textbox_2 && bb){
-          textbox_2[0].set({text: bb.children[2].innerText}) 
-        }
-        this.canvas.renderAll()
-        
-      }
+    
       let names = document.querySelectorAll(
         ".list-name-container .list-names table tbody tr"
       );
@@ -673,8 +826,14 @@ createTable().then(()=>{
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
  
-      
-          parent.style.display = "none";
+ 
+ 
+           
+          parent.style.right = '-550px'
+         
+
+         document.querySelector('main').style.width = '100%'
+          
           this.loading_save('visible','Saved successfuly.');
            document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
         }
@@ -815,22 +974,7 @@ createTable().then(()=>{
 
     });
 
-      function addRow(){
-      let div = document.createElement("tr");
-
-      div.innerHTML = `
-      <td class="sequence">.</td>
-      <td class="xl65 column-1" style="border-right:.5pt solid black;
-     " contenteditable="true"></td>
-      <td class="xl65 column-2" style="border-right:.5pt solid black;
-    border-left:none; " contenteditable="true"></td>
-    <span class="btn btn-sm btn-danger delete text text-white" style="font-size:12px; padding:3px 5px">Remove</span>
-      
-
-      `;
-      document.querySelector(".list-name-container table tbody").appendChild(div)
-   
-      }
+ 
 
     document
       .querySelector(".list-name-container")
@@ -838,51 +982,12 @@ createTable().then(()=>{
       
 
         //remove row
-        if (e.target.classList.contains("delete")) {
-          e.target.parentElement.remove();
-          addRow()
-          let names = document.querySelectorAll(
-            ".list-name-container .list-names table tbody tr"
-          );
-          let i = 1
-            names.forEach((e)=>{
-              e.setAttribute("data", i++)
-              e.children[0].innerText = i - 1 + "."
-            })
+        // if (e.target.classList.contains("delete")) {
+        //   e.target.parentElement.remove();
+      
           
-        }
-        //swap column
-        if (e.target.classList.contains("swap-column")) {
-          let names = document.querySelectorAll(
-            ".list-name-container .list-names table tbody tr"
-          );
-          names.forEach((element) => {
-        
-         
-            if(element.children[1].innerText.length && element.children[2].innerText.length || element.children[1].innerText.length || element.children[2].innerText.length) {
-              let a = element.children[1].innerText 
-              let b = element.children[2].innerText;
-              element.children[1].innerText = b
-              element.children[2].innerText = a
-            }
-         
-        
-          });
-        }
-        //clear all rows
-        if (e.target.classList.contains("clear-all")) {
-        
-            let names = document.querySelectorAll(
-            ".list-name-container .list-names table tbody tr"
-          );
-          names.forEach((element) => {
-       
-         
-            element.children[1].innerText = ''
-            element.children[2].innerText = ''
-        
-          });
-        }
+        // }
+      
       });
   }
 
@@ -977,11 +1082,62 @@ createTable().then(()=>{
    
        
        }else{
-   
-        document.querySelector("#modal-container-generate-certificate .modal-canvas").style.display = "block";
-      this.loading("hidden",null);
-      
+        let images = document.querySelectorAll(".print-view-img");
+
+        var urls = [];
+        images.forEach((e) => {
+          urls.push(e.src);
+        });
+        downloadZip().then(()=>{
+          this.loading("visible",`<h4> Successfuly Downloaded  ${names.length}  certifcates</h4> <br>  <div class="btn  btn-md btn-success done-download">Close</div>`);
+  
+          document.querySelector('.done-download').addEventListener('click',  ()=>{
+            this.loading("hidden",null);
+           })
+        });
+        function downloadZip() {
+
+          return new Promise((resolve, reject) => {
+            var zip = new JSZip();
+            var count = 0;
+            var zipFilename = "zipFilename.zip";
+    
+            urls.forEach(function (url) {
+              var filename = "filename";
+              // loading a file and add it in a zip file
+              JSZipUtils.getBinaryContent(url, function (err, data) {
+                if (err) {
+                  throw err; // or handle the error
+                }
+                var img = zip.folder("images");
+                img.file(filename + "_" + count + ".png", data, { binary: true });
+                count++;
+                if (count == urls.length) {
+                  zip.generateAsync({ type: "blob" }).then(function (content) {
+                    const a = document.createElement("a");
+                    a.href = URL.createObjectURL(content);
+    
+                    document.body.appendChild(a);
+                    a.download = zipFilename;
+                    a.click();
+                    document.body.removeChild(a);
+    
+                    // saveAs(content, "zipFilename");
+                  });
+                }
+              });
+            });
+        
+            resolve()
+          })
+    
+        }
+  
+ 
+     
        }
+
+      
     
     }
     again()

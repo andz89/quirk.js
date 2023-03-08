@@ -29,16 +29,17 @@ export class Utilities extends Modification {
         document.querySelector(".files-container .dropdown-content").style.display = "none";
       }
  
-      if(e.target.parentElement.classList.contains('dropdown-content')){
- 
-        document.querySelector(".files-container .dropdown-content").style.display = "none";
-      }
       if (e.target.id === "canvas-background") {
         document.querySelector(".files-container .dropdown-content").style.display = "none";
         this.canvas.discardActiveObject();
         this.canvas.renderAll();
       }
     };
+
+    document.querySelector(".files-container .dropdown-content").addEventListener("click", ()=>{
+      document.querySelector(".files-container .dropdown-content").style.display = "none";
+    })
+    
   }
 
   canvasOn() {
