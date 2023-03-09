@@ -645,7 +645,7 @@ createTable().then(()=>{
     border-left:none; " contenteditable="true"></td>
     <img src="./images/canvas/eye-solid.png" class="eye-show" width="18">
     <img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
-    <img src="./images/canvas/download-solid.png" id="download-image" class="able-download" width="18">
+    <img src="./images/canvas/download-solid.png"   class="able-download" width="18">
     <img src="./images/canvas/download-solid-disable.png"  class="disable-download" width="18">
     
     
@@ -701,13 +701,16 @@ createTable().then(()=>{
             ev.classList.remove('active')
            
           })
-          e.target.parentElement.classList.add('active');
-          let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
-
-
-          textbox[0].set({text: e.target.parentElement.children[1].innerText ? e.target.parentElement.children[1].innerText:'Column-1-textbox'}) 
-          textbox[1].set({text: e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'Column-2-textbox'}) 
-          this.canvas.renderAll()
+          if(!e.target.parentElement.classList.contains('disable')){
+            e.target.parentElement.classList.add('active');
+            let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
+  
+  
+            textbox[0].set({text: e.target.parentElement.children[1].innerText ? e.target.parentElement.children[1].innerText:'Column-1-textbox'}) 
+            textbox[1].set({text: e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'Column-2-textbox'}) 
+            this.canvas.renderAll()
+          }
+       
         }
 
         if(e.target.classList.contains('select-all')){
@@ -868,13 +871,13 @@ createTable().then(()=>{
       parent.style.right = 0
 
  
-      // document.querySelector('main').style.alignItems = 'flex-start'
+ 
      let a = document.querySelector('.list-name-container').offsetWidth
       let b = window.innerWidth
     let c = b -a
       document.querySelector('main').style.width = c +'px'
 
- 
+
  
     });
 
@@ -970,6 +973,8 @@ createTable().then(()=>{
                        }
                       if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
                        inputs[x].children[1].innerText = excel_data[i].children[0].innerText
+                       inputs[x].querySelector('.eye-show').style.display = 'inline-block';
+                       inputs[x].querySelector('.able-download').style.display = 'inline-block';
                        i++
                        if(i > excel_data.length - 1){
                          break;
@@ -987,6 +992,8 @@ createTable().then(()=>{
                         if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
                         
                        inputs[x].children[2].innerText = excel_data[i].children[0].innerText
+                       inputs[x].querySelector('.eye-show').style.display = 'inline-block';
+                       inputs[x].querySelector('.able-download').style.display = 'inline-block';
                        i++
                         if(i > excel_data.length - 1){
                           break;
@@ -1010,7 +1017,8 @@ createTable().then(()=>{
                             if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
                               inputs[x].children[1].innerText = excel_data[i].children[0].innerText
                               inputs[x].children[2].innerText = excel_data[i].children[1].innerText
-       
+                              inputs[x].querySelector('.eye-show').style.display = 'inline-block';
+                              inputs[x].querySelector('.able-download').style.display = 'inline-block';
                               i++
                               if(i > excel_data.length - 1){
                                break;
@@ -1031,7 +1039,8 @@ createTable().then(()=>{
                             if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
                               
                               inputs[x].children[2].innerText = excel_data[i].children[0].innerText
-       
+                              inputs[x].querySelector('.eye-show').style.display = 'inline-block';
+                              inputs[x].querySelector('.able-download').style.display = 'inline-block';
                               i++
                               if(i > excel_data.length - 1){
                                break;
@@ -1099,7 +1108,7 @@ createTable().then(()=>{
    
 
     preview_image.addEventListener("click", () => {
-      console.log('ckicj');
+   
       this.loading("visible",null);
       
       setTimeout(()=>{
@@ -1111,8 +1120,8 @@ createTable().then(()=>{
  
       
         a.forEach((element) => {
-          console.log(element.classList.contains('active'));
-          if(element.classList.contains('active')){
+        
+          if(!element.classList.contains('disable')){
             if(element.children[1].innerText.length && element.children[2].innerText.length
               || element.children[1].innerText.length || element.children[2].innerText.length) {
                 let data = {

@@ -13,4 +13,10 @@ let file = new Open_file();
 
 
  
+  // window.addEventListener('resize', ()=>{
  
+  //   let a = document.querySelector('.list-name-container').offsetWidth
+  //   let b = window.innerWidth
+  //   let c = b -a
+  //   document.querySelector('main').style.width = c +'px'
+  //         })
