@@ -28,26 +28,19 @@
 
             <div class="sub_header d-flex align-items-center ">
 
-                <div class="dropdown dropdown-files files-container">
-                    <li class="dropbtn dropbtn-files files-btn">Files</li>
+                <div class="dropdown dropdown-files files-container sub-header-tools">
+                    <li class="dropbtn dropbtn-files files-btn">Canvas</li>
                     <div id="myDropdown" class="dropdown-content">
-                        <a id="save_json">Save</a>
+                        <a id="reset"> Reset Canvas</a>
+
                     </div>
                 </div>
-
-
-
                 |
-
-                <div>
-                    <div id="insert-names">Insert Data</div>
+                <div class="sub-header-tools">
+                    <div id="save_json">Save</div>
                 </div>
                 |
-                <div>
-                    <div id="reset">Reset Canvas</div>
-
-                </div>
-                <div>
+                <div class="sub-header-tools">
                     <div id="canvas-image-background">Background</div>
 
                 </div>
@@ -138,38 +131,36 @@
         </div>
 
     </div>
+    <div class="pen-icon"> <img src="images/canvas/pen-solid.png" id="insert-names" class="btn btn-md btn-success"
+            alt="" width="40">
+    </div>
     <!-- insert name -->
     <span class="excel-html-view-data" style="display:none"></span>
     <div class="list-name-container">
+
+
         <div class="list-name-content">
-            <div class="modal-header d-flex justify-content-between  bg-dark">
+            <div class="modal-header d-flex justify-content-end bg-dark">
 
-
-                <div>
-                    <div id="preview-image" class="btn btn-sm btn-light">Generate Certificate</div>
-
-
-                </div>
-
-
-                <div class="btn btn-sm btn-success save">
+                <div id="preview-image" class="btn btn-xl btn-success">Generate Certificate and Download</div>
+                <div class="btn btn-sm btn-primary save">
                     Save and close
                 </div>
             </div>
             <div class="tools">
                 <div class="d-flex ">
-                    <div style="height:30px" class="btn btn-sm btn-primary ">
+                    <div style="height:30px" class="btn btn-sm   ">
                         <img src="./images/canvas/case.png" style="margin-top: -4px;" class="sentence-case" width="23"
                             alt="">
                     </div>
-                    <div style="height:30px" class=" swap-column   btn btn-sm btn-primary">
+                    <div style="height:30px" class=" swap-column   btn btn-sm  ">
                         <img src="images/canvas/swap.png" width="18" alt="" class="swap-column">
 
                     </div>
-                    <div style="height:30px" class="empty-row btn btn-sm btn-primary clear-all">
+                    <div style="height:30px" class="text text-white btn btn-sm   clear-all">
                         Clear row
                     </div>
-                    <div style="height:30px" class=" btn btn-sm btn-primary delete">
+                    <div style="height:30px" class=" btn btn-sm   delete">
                         <img class="delete" src="images/canvas/trash.png" width="18">
                     </div>
                 </div>

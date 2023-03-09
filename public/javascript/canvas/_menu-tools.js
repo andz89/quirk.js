@@ -540,7 +540,7 @@ let json_file = JSON.stringify(merge);
 
   //insert data
   insertData() {
-
+    let resize_canvas_event;
     //load names from database
  const createTable = ()=>{
   return new Promise((resolve, reject)=>{
@@ -556,12 +556,16 @@ let json_file = JSON.stringify(merge);
  " contenteditable="true"></td>
   <td class="xl65 column-2" style="border-right:.5pt solid black;
 border-left:none; " contenteditable="true"></td>
+<td>
 <img src="./images/canvas/eye-solid.png" class="eye-show" width="18">
 <img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
+</td>
+
+<td style="margin-left:-51px">
 <img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
 <img src="./images/canvas/download-solid.png"   class="able-download " width="18">
 <img src="./images/canvas/download-solid-disable.png"  class="disable-download" width="18">
-
+</td>
 
 
      
@@ -588,7 +592,7 @@ border-left:none; " contenteditable="true"></td>
 
 
 
-
+//insert names from database
 createTable().then(()=>{
     if(list){
       let excel_data =  JSON.parse(list);
@@ -600,11 +604,26 @@ createTable().then(()=>{
           for(let x = 0; x < inputs.length; x++) {
             
            
-        
+      
               inputs[x].children[1].innerText = excel_data[i].data_1 
               inputs[x].children[2].innerText = excel_data[i].data_2 
-              inputs[x].querySelector('.eye-show').style.display = 'inline-block'
-              inputs[x].querySelector('.able-download').style.display = 'inline-block'
+                 
+              inputs[x].className = `${excel_data[i].data_3}` 
+              if(excel_data[i].data_3 == 'disable'){
+              
+                inputs[x].children[1].contentEditable = false;
+                inputs[x].children[2].contentEditable = false;
+                inputs[x].querySelector('.eye-hide').style.display = 'inline-block'
+                inputs[x].querySelector('.disable-download').style.display = 'inline-block'
+                inputs[x].children[3].style.backgroundColor = '#fff';
+                inputs[x].children[4].style.backgroundColor = '#fff';
+              }else{
+                inputs[x].querySelector('.eye-show').style.display = 'inline-block'
+                inputs[x].querySelector('.able-download').style.display = 'inline-block'
+                inputs[x].children[3].style.backgroundColor = '#fff';
+                inputs[x].children[4].style.backgroundColor = '#fff';
+              }
+        
 
               i++
               if(i > excel_data.length - 1){
@@ -643,11 +662,16 @@ createTable().then(()=>{
      " contenteditable="true"></td>
       <td class="xl65 column-2" style="border-right:.5pt solid black;
     border-left:none; " contenteditable="true"></td>
+    <td>
     <img src="./images/canvas/eye-solid.png" class="eye-show" width="18">
     <img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
-    <img src="./images/canvas/download-solid.png"   class="able-download" width="18">
-    <img src="./images/canvas/download-solid-disable.png"  class="disable-download" width="18">
+    </td>
     
+    <td>
+    <img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
+    <img src="./images/canvas/download-solid.png"   class="able-download " width="18">
+    <img src="./images/canvas/download-solid-disable.png"  class="disable-download" width="18">
+    </td>
     
 
  
@@ -703,6 +727,8 @@ createTable().then(()=>{
           })
           if(!e.target.parentElement.classList.contains('disable')){
             e.target.parentElement.classList.add('active');
+            e.target.parentElement.children[3].style.backgroundColor = '#fff';
+            e.target.parentElement.children[4].style.backgroundColor = '#fff';
             let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
   
   
@@ -723,34 +749,38 @@ createTable().then(()=>{
             if(ev.children[1].innerText.length > 0 || ev.children[2].innerText.length > 0)
               if(!ev.classList.contains('disable')){
                 ev.classList.add('active')
-
+          ev.children[3].style.backgroundColor = '#fff';
+            ev.children[4].style.backgroundColor = '#fff';
               }
            
           })
         }
         //eye show
         if(e.target.classList.contains('eye-show')){
-          e.target.parentElement.classList.remove('active');
-          e.target.parentElement.classList.add('disable');
-          e.target.parentElement.children[1].contentEditable = false;
-          e.target.parentElement.children[2].contentEditable = false;
-          e.target.parentElement.querySelector('.eye-show').style.display = 'none';
-          e.target.parentElement.querySelector('.eye-hide').style.display = 'inline-block';
-          e.target.parentElement.querySelector('.able-download').style.display = 'none';
-          e.target.parentElement.querySelector('.disable-download').style.display = 'inline-block';
+        
 
+          e.target.parentElement.parentElement.classList.remove('active');
+          e.target.parentElement.parentElement.classList.add('disable');
+          e.target.parentElement.parentElement.children[1].contentEditable = false;
+          e.target.parentElement.parentElement.children[2].contentEditable = false;
+          e.target.parentElement.parentElement.querySelector('.eye-show').style.display = 'none';
+          e.target.parentElement.parentElement.querySelector('.eye-hide').style.display = 'inline-block';
+          e.target.parentElement.parentElement.querySelector('.able-download').style.display = 'none';
+          e.target.parentElement.parentElement.querySelector('.disable-download').style.display = 'inline-block';
+           e.target.parentElement.parentElement.children[3].style.backgroundColor = '#fff';
+            e.target.parentElement.parentElement.children[4].style.backgroundColor = '#fff';
 
         }
         //eye hide
         if(e.target.classList.contains('eye-hide')){
            
-          e.target.parentElement.classList.remove('disable');
-          e.target.parentElement.children[1].contentEditable = true;
-          e.target.parentElement.children[2].contentEditable = true;
-          e.target.parentElement.querySelector('.eye-show').style.display = 'inline-block';
-          e.target.parentElement.querySelector('.eye-hide').style.display = 'none';
-          e.target.parentElement.querySelector('.able-download').style.display = 'inline-block';
-          e.target.parentElement.querySelector('.disable-download').style.display = 'none';
+          e.target.parentElement.parentElement.classList.remove('disable');
+          e.target.parentElement.parentElement.children[1].contentEditable = true;
+          e.target.parentElement.parentElement.children[2].contentEditable = true;
+          e.target.parentElement.parentElement.querySelector('.eye-show').style.display = 'inline-block';
+          e.target.parentElement.parentElement.querySelector('.eye-hide').style.display = 'none';
+          e.target.parentElement.parentElement.querySelector('.able-download').style.display = 'inline-block';
+          e.target.parentElement.parentElement.querySelector('.disable-download').style.display = 'none';
         }
           //swap column
           if (e.target.classList.contains("swap-column")) {
@@ -866,18 +896,30 @@ createTable().then(()=>{
 
 
     add_name_btn.addEventListener("click", () => {
-      this.canvas.discardActiveObject()
-      this.canvas.renderAll()
+      
       parent.style.right = 0
 
+       resize_canvas_event = true
+       
+          let a = document.querySelector('.list-name-container').offsetWidth
+          let b = window.innerWidth
+          let c = b -a
+          document.querySelector('main').style.width = c +'px'
  
- 
-     let a = document.querySelector('.list-name-container').offsetWidth
-      let b = window.innerWidth
-    let c = b -a
-      document.querySelector('main').style.width = c +'px'
 
 
+      this.canvas.discardActiveObject()
+      this.canvas.renderAll()
+
+      if(resize_canvas_event == true){
+        window.addEventListener('resize', ()=>{
+         
+          let a = document.querySelector('.list-name-container').offsetWidth
+          let b = window.innerWidth
+          let c = b -a
+          document.querySelector('main').style.width = c +'px'
+                })
+      }
  
     });
 
@@ -893,15 +935,19 @@ createTable().then(()=>{
         let data = []
 
       names.forEach((element) => {
+        element.classList.remove('active')
        let a = element.children[1].innerText.trim()
      let b =   element.children[2].innerText.trim()
-     element.children[1].innerText = a
-     element.children[2].innerText = b
+     let c =   element.className
+         console.log(c);
+    //  element.children[1].innerText = a
+    //  element.children[2].innerText = b
         let x = {}
         if(element.children[1].innerText.length && element.children[2].innerText.length || element.children[1].innerText.length|| element.children[2].innerText.length) {
       
           x.data_1 = a;
           x.data_2 = b ;
+          x.data_3 = c
           data.push(x)
         }
        
@@ -915,15 +961,21 @@ createTable().then(()=>{
 
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
- 
- 
- 
-           
           parent.style.right = '-550px'
-         
-
          document.querySelector('main').style.width = '100%'
-          
+          resize_canvas_event = false
+
+          if(resize_canvas_event == false){
+            window.addEventListener('resize', ()=>{
+              document.querySelector('main').style.width = '100%'
+                    })
+  
+          }
+
+
+
+
+
           this.loading_save('visible','Saved successfuly.');
            document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
         }
@@ -1120,8 +1172,8 @@ createTable().then(()=>{
  
       
         a.forEach((element) => {
-        
-          if(!element.classList.contains('disable')){
+          
+          if(element.className !== 'disable'){
             if(element.children[1].innerText.length && element.children[2].innerText.length
               || element.children[1].innerText.length || element.children[2].innerText.length) {
                 let data = {
@@ -1140,107 +1192,116 @@ createTable().then(()=>{
     
      
       let names = arrayName;
+      if(names.length){
         let i = 0
     
-     const again =()=>{
-      let a = this.canvas.getObjects().filter((e) => {
-        return e.name === "Column-1-textbox";
-      });
-      a[0].set({ text: names[i].dataOne });
-
-      let b = this.canvas.getObjects().filter((e) => {
-        return e.name === "Column-2-textbox";
-      });
-      b[0].set({ text: names[i].dataTwo });
-      var scaleFactor = 1;
-      this.canvas.setWidth(this.width  );
-      this.canvas.setHeight(this.height );
-      this.canvas.setZoom(scaleFactor);
-      this.canvas.renderAll();
-            let imgSrc = this.canvas
-            .toDataURL("image/jpeg", [0.0, 1.0])
-  
-            const img = document.createElement("img");
-            
-            img.src = imgSrc
-            img.width = "600";
-            img.className = "print-view-img";
-            document.querySelector("#modal-container-generate-certificate .modal-body").appendChild(img);
-              this.canvas.setHeight(this.canvas.current_height);
-        this.canvas.setWidth(this.canvas.current_width);
-        this.canvas.setZoom(this.canvas.current_canvasScale);
-        this.canvas.renderAll();
-  
-        i++
-        let x = i + 1
-       if(i < names.length){
-        this.loading("visible",`Generating ${names.length}  certifcates:<br> ${x} completed`);
-          setTimeout(()=>{
-            
-            again()
-          })
+        const again =()=>{
+         let a = this.canvas.getObjects().filter((e) => {
+           return e.name === "Column-1-textbox";
+         });
+         a[0].set({ text: names[i].dataOne });
    
-       
-       }else{
-        let images = document.querySelectorAll(".print-view-img");
-
-        var urls = [];
-        images.forEach((e) => {
-          urls.push(e.src);
-        });
-        downloadZip().then(()=>{
-          this.loading("visible",`<h4> Successfuly Downloaded  ${names.length}  certifcates</h4> <br>  <div class="btn  btn-md btn-success done-download">Close</div>`);
-  
-          document.querySelector('.done-download').addEventListener('click',  ()=>{
-            this.loading("hidden",null);
-           })
-        });
-        function downloadZip() {
-
-          return new Promise((resolve, reject) => {
-            var zip = new JSZip();
-            var count = 0;
-            var zipFilename = "zipFilename.zip";
-    
-            urls.forEach(function (url) {
-              var filename = "filename";
-              // loading a file and add it in a zip file
-              JSZipUtils.getBinaryContent(url, function (err, data) {
-                if (err) {
-                  throw err; // or handle the error
-                }
-                var img = zip.folder("images");
-                img.file(filename + "_" + count + ".png", data, { binary: true });
-                count++;
-                if (count == urls.length) {
-                  zip.generateAsync({ type: "blob" }).then(function (content) {
-                    const a = document.createElement("a");
-                    a.href = URL.createObjectURL(content);
-    
-                    document.body.appendChild(a);
-                    a.download = zipFilename;
-                    a.click();
-                    document.body.removeChild(a);
-    
-                    // saveAs(content, "zipFilename");
-                  });
-                }
-              });
-            });
-        
-            resolve()
-          })
-    
-        }
-  
- 
+         let b = this.canvas.getObjects().filter((e) => {
+           return e.name === "Column-2-textbox";
+         });
+         b[0].set({ text: names[i].dataTwo });
+         var scaleFactor = 1;
+         this.canvas.setWidth(this.width  );
+         this.canvas.setHeight(this.height );
+         this.canvas.setZoom(scaleFactor);
+         this.canvas.renderAll();
+               let imgSrc = this.canvas
+               .toDataURL("image/jpeg", [0.0, 1.0])
      
-       }
-
+               const img = document.createElement("img");
+               
+               img.src = imgSrc
+               img.width = "600";
+               img.className = "print-view-img";
+               document.querySelector("#modal-container-generate-certificate .modal-body").appendChild(img);
+                 this.canvas.setHeight(this.canvas.current_height);
+           this.canvas.setWidth(this.canvas.current_width);
+           this.canvas.setZoom(this.canvas.current_canvasScale);
+           this.canvas.renderAll();
+     
+           i++
+           let x = i + 1
+          if(i < names.length){
+           this.loading("visible",`Generating ${names.length}  certifcates:<br> ${x} completed`);
+             setTimeout(()=>{
+               
+               again()
+             })
       
+          
+          }else{
+           let images = document.querySelectorAll(".print-view-img");
+   
+           var urls = [];
+           images.forEach((e) => {
+             urls.push(e.src);
+           });
+           downloadZip().then(()=>{
+             this.loading("visible",`<h4> Successfuly Downloaded  ${names.length}  certifcates</h4> <br>  <div class="btn  btn-md btn-success done-download">Close</div>`);
+     
+             document.querySelector('.done-download').addEventListener('click',  ()=>{
+               this.loading("hidden",null);
+              })
+           });
+           function downloadZip() {
+   
+             return new Promise((resolve, reject) => {
+               var zip = new JSZip();
+               var count = 0;
+               var zipFilename = "zipFilename.zip";
+       
+               urls.forEach(function (url) {
+                 var filename = "filename";
+                 // loading a file and add it in a zip file
+                 JSZipUtils.getBinaryContent(url, function (err, data) {
+                   if (err) {
+                     throw err; // or handle the error
+                   }
+                   var img = zip.folder("images");
+                   img.file(filename + "_" + count + ".png", data, { binary: true });
+                   count++;
+                   if (count == urls.length) {
+                     zip.generateAsync({ type: "blob" }).then(function (content) {
+                       const a = document.createElement("a");
+                       a.href = URL.createObjectURL(content);
+       
+                       document.body.appendChild(a);
+                       a.download = zipFilename;
+                       a.click();
+                       document.body.removeChild(a);
+       
+                       // saveAs(content, "zipFilename");
+                     });
+                   }
+                 });
+               });
+           
+               resolve()
+             })
+       
+           }
+     
     
-    }
-    again()
+        
+          }
+   
+         
+       
+       }
+       again()
+      }else{
+        this.loading("visible",`<h4> No names added </h4> <br>  <div class="btn  btn-md btn-danger text text-white done-download">Close</div>`);
+     
+             document.querySelector('.done-download').addEventListener('click',  ()=>{
+               this.loading("hidden",null);
+              })
+      }
+    
 
    
 

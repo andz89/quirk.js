@@ -1,3 +1,15 @@
+.pen-icon {
+  position: fixed;
+  right: 0px;
+  top: 90px;
+
+  .btn {
+    border-radius: 12px;
+
+  }
+}
+
+
 .list-name-container {
 
   display: flex;
@@ -6,7 +18,7 @@
   position: fixed;
   z-index: 1;
 
-  top: 70px;
+  top: 72px;
   height: 100%;
   width: 550px;
   right: -550px;
@@ -19,9 +31,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #e9dddd;
+    background-color: #0f5c68;
     width: 100%;
+    cursor: pointer;
 
+    .btn {
+      background-color: #1e7280;
+      border-radius: 3px;
+    }
 
   }
 
@@ -44,32 +61,40 @@
   .able-download {
     display: none;
     margin: 10px 7px;
+    cursor: pointer;
+
   }
 
   .disable-download {
     display: none;
     margin: 10px 7px;
+    cursor: pointer;
 
   }
 
+
+
   .eye-hide {
     display: none;
-
+    cursor: pointer;
     margin: 10px 7px;
   }
 
   .eye-show {
     margin: 10px 7px;
     display: none;
+    cursor: pointer;
 
   }
 
+
+
   th {
-    vertical-align: middle;
-    border-top: .5pt solid black;
-    border-right: .5pt solid black;
-    border-bottom: .5pt solid black;
-    border-left: .5pt solid black;
+    // vertical-align: middle;
+    // border-top: .5pt solid black;
+    // border-right: .5pt solid black;
+    // border-bottom: .5pt solid black;
+    // border-left: .5pt solid black;
 
 
     height: 40px;
@@ -119,7 +144,8 @@
   }
 
   .modal-header {
-
+    border-top: #fff 3px solid;
+    background-color: #0f5c68;
     width: 550px;
     margin: 10px auto 0 auto;
     padding: 10px;
@@ -148,7 +174,7 @@
       width: 550px;
       height: 500px;
 
-
+      padding-bottom: 20px;
 
 
 
