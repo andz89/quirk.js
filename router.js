@@ -61,6 +61,7 @@ router.get("/dashboard", middleware.role_admin, adminController.dashboard);
 router.get("/admin-login", middleware.role_guest, adminController.login_page);
 router.get("/admin-templates", middleware.role_admin, adminController.templates);
 router.get("/admin-background", middleware.role_admin, adminController.background);
+router.get("/admin-users", middleware.role_admin, adminController.users);
 
 //user admin action
 router.post("/admin-login-request", adminController.admin_login_post);

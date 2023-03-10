@@ -26,3 +26,8 @@ let bg = new Canvas_background()
 bg.canvas_background()
 
 bg.modal_background_details()
+
+
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+let expire_date = tomorrow.toLocaleString()

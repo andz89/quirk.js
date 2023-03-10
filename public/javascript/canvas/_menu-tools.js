@@ -346,7 +346,7 @@ resetCanvas(){
   //limit maximum 10,500 characters
   //target limit 10,000 characters
     document.getElementById("save_json").addEventListener("click", () => {
- this.loading_save('visible','Saving . .  Please wait...');
+ this.loading_save('visible','Saving . . .');
     function replaceBreakLine(valueToEscape) {
       if (valueToEscape != null && valueToEscape != "") {
          return valueToEscape.replaceAll(/\\n|\n/g,"<-br->");
@@ -505,11 +505,17 @@ let json_file = JSON.stringify(merge);
         if (xhttp.readyState == 4 && xhttp.status == 200) {
        
           let data = JSON.parse(xhttp.responseText);
+          setTimeout(()=>{
+            this.loading_save('visible','Saved');
+
+          },1000)
+      
           if(data === 'ok'){
-            this.loading_save('visible','Saved successfuly.');
+       
             setTimeout((e)=>{
-              document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
-            },500)
+              this.loading_save('hidden',null);
+              // document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
+            },3000)
        
           }
           if(data === 'error'){
@@ -906,7 +912,7 @@ createTable().then(()=>{
           let c = b -a
           document.querySelector('main').style.width = c +'px'
  
-
+        add_name_btn.style.display = 'none'
 
       this.canvas.discardActiveObject()
       this.canvas.renderAll()
@@ -961,7 +967,9 @@ createTable().then(()=>{
 
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-          parent.style.right = '-550px'
+          parent.style.right = '-503px'
+        add_name_btn.style.display = 'block'
+
          document.querySelector('main').style.width = '100%'
           resize_canvas_event = false
 

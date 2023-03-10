@@ -217,4 +217,21 @@ Admin.prototype.update_template = function () {
    
   });
 };
+Admin.prototype.get_codes = function (){
+  return new Promise((resolve, reject) => {
+   
+    let sql = 'SELECT * FROM activation_code' ;
+    db.query(sql,async (err, result) => {
+    
+      if (err) {
+        reject(err);
+        return false;
+      }
+ 
+  
+      resolve(result);
+    });
+
+});
+}
 module.exports = Admin;

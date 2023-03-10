@@ -5,10 +5,12 @@ exports.login = (req, res) => {
   user
     .login()
     .then((data) => {
-
+      console.log(data[0].user_name);
       req.session.user = {
         user_id: data[0].user_id,
         user_email: data[0].user_email,
+        user_name: data[0].user_name,
+
         user_role: "user",
       };
       req.session.save(function (err) {
@@ -118,12 +120,22 @@ exports.activateCanvas = (req,res) => {
   })
 }
 exports.submit_code = (req,res) => {
-  let code = {}
-  code.user_id = req.session.user.user_id;
-  code.code = req.query.code;
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  let date_expired = tomorrow.toLocaleString()
   
-  
+    let code = {}
+    code.user_id = req.session.user.user_id;
+    code.user_email = req.session.user.user_email;
+    code.user_name = req.session.user.user_name;
+    code.code_date = new Date().toLocaleString();
 
+
+    code.date_expired = date_expired
+    code.code = req.query.code;
+
+  
+  console.log(code)
   let user = new User(code);
   user.check_code().then(function (data)   {
   

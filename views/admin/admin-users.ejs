@@ -1,0 +1,65 @@
+<%- include('../include/admin-header') %>
+    <div class="bg-white users-page">
+        <div class="" style="min-height: 400px;">
+            <div class="d-flex justify-content-center py-1">
+                <h3>Certificate Subscription</h3>
+
+            </div>
+            <div class="  d-flex justify-content-center align-items-center">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User ID
+                            <th>Username
+                            <th>email
+                            <th>code
+                            <th>date of activation
+                            <th>date of expiration</th>
+                            <th>Certificate Subscription
+                            <th>action
+                    </thead>
+                    <tbody>
+                        <% data.forEach((data)=>{%>
+                            <tr>
+                                <td>
+                                    <%= data.user_id %>
+                                        <div>
+                                            <div class="btn btn-sm btn-success">Copy</div>
+
+                                        </div>
+                                </td>
+                                <td>
+                                    <%= data.user_name %>
+                                </td>
+                                <td>
+                                    <%= data.user_email %>
+                                </td>
+                                <td>
+                                    <%= data.code %>
+                                </td>
+                                <td>
+                                    <%= data.date_purchased %>
+                                </td>
+                                <td>
+                                    <%= data.date_expired %>
+                                </td>
+                                <td>
+                                    <%= data.certificate_subscription %>
+
+                                </td>
+                                <td>
+                                    <div>edit</div>
+                                </td>
+                            </tr>
+                            <% }) %>
+
+                    </tbody>
+                </table>
+                <!-- partial -->
+            </div>
+        </div>
+
+    </div>
+
+    <%- include('../include/admin-footer') %>

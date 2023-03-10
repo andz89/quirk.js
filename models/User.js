@@ -167,6 +167,7 @@ User.prototype.login = function () {
         bcrypt.compareSync(this.data.user_password, result[0].user_password)
       ) {
         resolve(result);
+        
       } else {
         reject(this.data);
       }
@@ -283,6 +284,12 @@ User.prototype.saved_template_database  =function() {
             
   });
 };
+
+
+
+//--------------------checking code, updating code and updating use start------------------------//
+
+
 //update activation code details
 User.prototype.update_user = function (count){
   
@@ -293,6 +300,7 @@ User.prototype.update_user = function (count){
         reject(err);
         return false;
       }
+       
       resolve()
     });
   })
@@ -302,7 +310,7 @@ User.prototype.update_user = function (count){
 User.prototype.update_code = function (count){
   
   return new Promise( (resolve, reject)=> {
-    var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}'  WHERE code = '${this.data.code}'`;
+    var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}',user_email = '${this.data.user_email}', user_name = '${this.data.user_name}',date_purchased = '${this.data.code_date}',date_expired= '${this.data.date_expired}',certificate_subscription = 'true' WHERE code = '${this.data.code}'`;
     db.query(sql, async (err, result) => {
       if (err) {
         reject(err);
@@ -329,6 +337,8 @@ User.prototype.check_code = function(){
               if( result[0].user_id == ''){
                 
                await this.update_code()
+                
+
               resolve('true')
               }else{
               this.data.taken_message ='code is already taken by other user'
@@ -347,6 +357,12 @@ User.prototype.check_code = function(){
 
 });
 }
+
+//--------------------checking code, updating code and updating user end------------------------//
+
+
+
+
 
 //update activation code details
 User.prototype.create_template_copy = function (){

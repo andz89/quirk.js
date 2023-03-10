@@ -189,3 +189,15 @@ exports.updateTemplate = function (req, res){
       // res.json(err);
     });
 }
+
+exports.users = function (req, res){
+  let users = new Admin()
+ users.get_codes().then((data)=>{
+  console.log(data);
+  res.render("admin/admin-users", {
+     data: data
+  });
+  })
+    
+ 
+}

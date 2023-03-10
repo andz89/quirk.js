@@ -16,7 +16,7 @@
 @import 'templates';
 @import 'modal-edit-template-admin';
 @import 'background';
-
+@import 'admin-users';
 
 
 
@@ -37,6 +37,8 @@
 @import 'canvas-css/add_background';
 @import 'canvas-css/canvas';
 @import 'canvas-css/header';
+
+
 
 
 
@@ -86,14 +88,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding: 0 10px;
-
   width: 100%;
-
   transition: all .5s;
-
-
 
 }
 
