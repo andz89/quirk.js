@@ -1,46 +1,66 @@
 <%- include('../include/user-header') %>
 
-    <div style="min-height: 400px;" class="p-1 bg-white purchased-templates-container">
+    <div style="min-height: 700px;" class="p-1 bg-white purchased-templates-container">
         <div class="d-flex justify-content-center ">
             <h4>Your Purchased Templates</h4>
         </div>
-        <% if(success_message !='' ){ %>
-            <div class="text text-center  success-message-container" style="font-weight:100px">
-                <div class="bg-success p-1">
-                    You have successfully added a new template!
-                </div>
-                <div class="message">
-                    Template Name: <%- success_message %>
-                </div>
+        <% if(expired===true ){ %>
 
-            </div>
-
-            <% } %>
-
-                <div class="purchased-templates    py-1" style="width: 100%;">
-                    <% data.forEach((data)=>{%>
-
-                        <div class="hover-opactiy d-flex  justify-content-center flex-direction-column"
-                            style="width: 200px;">
-                            <a href="/canvas?template_id=<%= data.template_id %> " target="_blank">
-                                <input type="hidden" id="display-template-id" value="<%= data.template_id %>">
+            <%- include('../include/submit-code') %>
 
 
-                                <img src="images/ci/<%= data.thumbnail%>" width="170" class="show-template-details"
-                                    alt="">
-                                <h4 class="text text-dark show-template-details">
-                                    <%= data.template_name %>
-                                </h4>
-                                <p style="display:none">
-                                    <%= data.template_description %>
-                                </p>
 
+                <% } %>
+                    <% if(success_message !='' ){ %>
+                        <div class="text text-center  success-message-container" style="font-weight:100px">
+                            <div class="bg-success p-1">
+                                You have successfully added a new template!
+                            </div>
+                            <div class="message">
+                                Template Name: <%- success_message %>
+                            </div>
 
-                            </a>
                         </div>
 
-                        <% }) %>
-                </div>
+                        <% } %>
+
+                            <div class="purchased-templates   py-1" style="width: 100%;">
+                                <% data.forEach((data)=>{%>
+
+                                    <div class="d-flex  align-items-start   flex-direction-column "
+                                        style="width: 170px;position:relative">
+
+                                        <input type="hidden" class="template_id" value="<%= data.template_id %>">
+                                        <input type="hidden" class="purchased_id" value="<%= data.purchased_id %> ">
+
+                                        <a
+                                            href="/canvas?template_id=<%= data.template_id %>&id=<%= data.purchased_id %> ">
+                                            <img src="images/ci/<%= data.thumbnail%>" class="hover-opactiy " width="170"
+                                                alt="">
+                                        </a>
+
+
+                                        <div class=" text text-dark ">
+                                            <%= data.template_name %>
+                                        </div>
+
+
+                                        <div class="option">
+                                            <img src="images/gear-solid.png" class="hover-opactiy gear-option"
+                                                width="16" alt="">
+                                            <div class="container hide">
+                                            </div>
+                                            <div class="delete-template hide">Delete Template</div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+
+                                    <% }) %>
+                            </div>
 
 
     </div>

@@ -30,6 +30,8 @@ router.post("/saveList", middleware.role_user, userController.saveList);
 router.post("/resetCanvas", middleware.role_user, userController.resetCanvas)
 router.post("/get-all-background-image", middleware.role_user, userController.getAllBackgroundImage);
 router.post("/submit_code", middleware.role_user, userController.submit_code);
+router.post("/delete_template", middleware.role_user, userController.deleteTemplate);
+
 
 
 //pages
@@ -63,6 +65,7 @@ router.get("/admin-templates", middleware.role_admin, adminController.templates)
 router.get("/admin-background", middleware.role_admin, adminController.background);
 router.get("/admin-users", middleware.role_admin, adminController.users);
 
+
 //user admin action
 router.post("/admin-login-request", adminController.admin_login_post);
 router.post("/add-template",upload.single('image') ,adminController.add_template);
@@ -80,5 +83,6 @@ router.post("/update-background" ,upload.fields([{
   name:'thumbnail_image', maxCount: 1
 }]),adminController.updateBackground);
 
-
+router.post("/create-code", middleware.role_admin, adminController.createCode);
+router.post("/delete-code", middleware.role_admin, adminController.deleteCode);
 module.exports = router;

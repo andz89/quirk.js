@@ -1,6 +1,8 @@
 const Admin = require("../models/Admin");
 const User = require("../models/User");
 const Page = require("../models/Page");
+const { v4: uuidv4 } = require("uuid");
+
 exports.dashboard = (req, res) => {
   res.render("admin/dashboard", {
     data: "you are logged as admin",
@@ -92,13 +94,7 @@ bg.add_background().then((data)=>{
 };
 
 exports.updateBackground = (req, res) => {
-  // console.log(req.files);
-// console.log(req.files);
-  // if(req.files){
-  
-  //   // console.log(req.file.fieldname);
  
-  //    }
   //    console.log(req.files);
   if(req.files){//if no photos updloaded
    
@@ -170,9 +166,6 @@ exports.remove = function (req, res){
 
 exports.updateTemplate = function (req, res){
 
-
- 
- 
   if(req.file ){//if no photos updloaded
    
     req.body.file = req.file.filename
@@ -193,10 +186,40 @@ exports.updateTemplate = function (req, res){
 exports.users = function (req, res){
   let users = new Admin()
  users.get_codes().then((data)=>{
-  console.log(data);
+  
   res.render("admin/admin-users", {
      data: data
   });
+  })
+    
+ 
+}
+exports.createCode = function (req, res){
+  let code = uuidv4()
+  req.body.duration = req.query.duration;
+  req.body.note = req.query.note;
+  req.body.limit = req.query.limit;
+  req.body.code = code;
+ 
+  let users = new Admin(req.body)
+ users.create_code().then(()=>{
+ res.send(code);
+  
+  })
+    
+ 
+}
+
+exports.deleteCode = function (req, res){
+ 
+ 
+  req.body.code = req.query.code;
+ 
+ 
+  let users = new Admin(req.body)
+ users.delete_code().then(()=>{
+ res.send('true');
+  
   })
     
  

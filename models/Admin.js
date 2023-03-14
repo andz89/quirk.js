@@ -217,6 +217,8 @@ Admin.prototype.update_template = function () {
    
   });
 };
+
+ 
 Admin.prototype.get_codes = function (){
   return new Promise((resolve, reject) => {
    
@@ -228,10 +230,47 @@ Admin.prototype.get_codes = function (){
         return false;
       }
  
-  
+    
       resolve(result);
     });
 
 });
+}
+Admin.prototype.create_code = function(){
+  return new Promise((resolve, reject)=>{
+    let data = {
+      code: this.data.code,
+      days_duration: this.data.duration,
+      note: this.data.note,
+      template_limit: this.data.limit
+
+
+    }
+    let sql = "INSERT INTO activation_code SET ?";
+    db.query(sql, data, async (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+     
+      resolve();
+    });
+  })
+}
+
+
+Admin.prototype.delete_code = function(){
+  return new Promise( (resolve, reject) => {
+   
+    let sql = `DELETE FROM activation_code WHERE code = '${this.data.code}'`;
+    db.query(sql, (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      resolve();
+    });
+  })
 }
 module.exports = Admin;

@@ -258,7 +258,7 @@ User.prototype.saved_template_database  =function() {
   return new Promise( async(resolve, reject) => {
 
     if(this.data.user_role === 'user'){
-      var sql = `UPDATE purchased_template SET template_json = '${this.data.saved_json}' WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'`;
+      var sql = `UPDATE purchased_template SET template_json = '${this.data.saved_json}' WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'&& purchased_id = '${this.data.purchased_id}'`;
       db.query(sql, (err, result) => {
   
       if (err) {
@@ -288,7 +288,28 @@ User.prototype.saved_template_database  =function() {
 
 
 //--------------------checking code, updating code and updating use start------------------------//
+User.prototype.getUserTemplates = function() {
+  return new Promise(async (resolve, reject) => {
+   
+          let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'` ;
+        db.query(sql, (err, result) => {
+        
+          if (err) {
+            reject(err);
+            return false;
+          }
+          if(result.length > 0){
+            this.data.current_template = result.length
+          }else{
+            this.data.current_template = 0
+          }
+        
+          
+          resolve();
+        });
 
+});
+}
 
 //update activation code details
 User.prototype.update_user = function (count){
@@ -307,43 +328,46 @@ User.prototype.update_user = function (count){
 
 }
 //update activation code details
-User.prototype.update_code = function (count){
-  
+User.prototype.update_code = function ( ){
+ 
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + this.data.days_duration);
+  this.data.code_date = new Date().toLocaleString();
+  let date_expired = tomorrow.toLocaleString()
   return new Promise( (resolve, reject)=> {
-    var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}',user_email = '${this.data.user_email}', user_name = '${this.data.user_name}',date_purchased = '${this.data.code_date}',date_expired= '${this.data.date_expired}',certificate_subscription = 'true' WHERE code = '${this.data.code}'`;
-    db.query(sql, async (err, result) => {
+    var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}',user_email = '${this.data.user_email}', user_name = '${this.data.user_name}',date_purchased = '${this.data.code_date}',template_used=${this.data.current_template},date_expired= '${date_expired}',certificate_subscription = 'true' WHERE code = '${this.data.code}'`;
+    db.query(sql,(err, result) => {
       if (err) {
         reject(err);
         return false;
       }
-      await  this.update_user()
+     
       resolve()
     });
   })
 
 }
+ 
 //check code and validate
 User.prototype.check_code = function(){
+
+  
+
   return new Promise((resolve, reject) => {
    
-    let sql = `SELECT * FROM activation_code WHERE code = "${this.data.code}" `;
+    let sql = `SELECT * FROM activation_code WHERE code = "${this.data.code}" && certificate_subscription = '' && user_id='' `;
     db.query(sql, async (err, result) => {
       if (err) {
         reject(err);
         return false;
       }
- 
+     
       if(result.length > 0){
-              if( result[0].user_id == ''){
-                
+        this.data.days_duration =  result[0].days_duration
+        await this.getUserTemplates()
                await this.update_code()
-                
-
               resolve('true')
-              }else{
-              this.data.taken_message ='code is already taken by other user'
-              resolve(this.data.taken_message )
-              }
+              
       }else{
         this.data.taken_message ='not found'
         resolve(this.data.taken_message)
@@ -378,6 +402,7 @@ User.prototype.create_template_copy = function (){
 
 
       this.data.copied_template  = {
+        purchased_id: uuidv4(),
         user_id: this.data.user_id,
         template_id: result[0].template_id,
         template_name: result[0].template_name,
@@ -393,18 +418,48 @@ User.prototype.create_template_copy = function (){
   })
 
 }
-User.prototype.check_template_subscription = function(){
-  return new Promise( async (resolve, reject) => {
-    let sql = `SELECT * FROM users WHERE user_id = "${this.data.user_id}"`;
+
+//update temlpate used 
+User.prototype.updateActivationCode_template_used = function (){
+  
+  return new Promise( (resolve, reject)=> {
+   
+    let sql = `UPDATE activation_code SET  template_used = ${this.data.template_used_count}  WHERE user_id = "${this.data.user_id}" AND certificate_subscription = "true"`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
         return false;
       }
+    
+
  
-      if (result[0].certificate_subscription === 'true'){
-        this.data.certificate_subsription = true
-        resolve()
+      resolve()
+    });
+  })
+
+}
+
+//check subscription and add 1 to template used count if not limit reach
+User.prototype.check_template_subscription = function(){
+  return new Promise( async (resolve, reject) => {
+    let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription = "true"`;
+    db.query(sql, async (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }  
+      if (result.length > 0){
+     
+        if(this.data.current_template+ 1> result[0].template_limit){
+          this.data.taken_message = 'limit-reach' 
+          resolve()
+        }else{
+         
+          this.data.certificate_subsription = true
+          this.data.template_used_count =  this.data.current_template + 1
+          resolve()
+        }
+   
       }else{
         this.data.certificate_subsription = false
         this.data.taken_message = 'Please subcribe!'
@@ -414,35 +469,84 @@ User.prototype.check_template_subscription = function(){
     });
   })
 }
-User.prototype.new_template =  function(){
+User.prototype.duplicate_template =  function(){
   return new Promise( async (resolve, reject) => {
-  
+      await  this.getUserTemplates()
       await  this.check_template_subscription()
-    // await  this.check_code()
-    // if(!this.data.taken_message){
-
-    // await this.update_code(this.data.count)
+ 
     if(this.data.certificate_subsription === true){
-      await this.create_template_copy()
-
+      await this.create_template_copy()//get a copy of selected template 
+   
       let sql_2 = "INSERT INTO purchased_template SET ?";
-      db.query(sql_2, this.data.copied_template, (err, result) => {
+      db.query(sql_2, this.data.copied_template,async (err, result) => {
       if (err) {
       reject(err);
       return false;
       }
- 
+      await this.updateActivationCode_template_used()
       resolve(this.data.certificate_subsription)
-  
+    
       });
     }else{
 
-    resolve(this.data.certificate_subsription)
+    resolve(this.data.taken_message)
     }
      
      })
 }
  
+
+
+
+
+
+
+
+
+
+//delete user template and update activation code
+User.prototype.delete_template = function (req, res) {
+  return new Promise( (resolve, reject) => {
+   
+    let sql = `DELETE FROM purchased_template WHERE template_id='${this.data.template_id}'&& purchased_id='${this.data.purchased_id}'&& user_id = '${this.data.user_id}'`;
+    db.query(sql, async (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      
+      await  this.getUserTemplates()
+      this.data.template_used_count = this.data.current_template 
+      await this.updateActivationCode_template_used()
+      resolve('true');
+    });
+  });
+}
+
+//get activation code and minus 1 to template used count
+User.prototype.getActivation_code = function(req, res) {
+  return new Promise((resolve, reject) => {
+    let sql = `SELECT * FROM activation_code WHERE  certificate_subscription='true'&& user_id = '${this.data.user_id}'`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+    
+      this.data.template_used_count = result[0].template_used - 1
+      resolve(result);
+
+    });
+  });
+}
+
+//delete user template and update activation code
+
+
+
+
+
+
 User.prototype.update_list = function (count){
  
   return new Promise( (resolve, reject)=> {
@@ -470,6 +574,12 @@ User.prototype.update_list = function (count){
   })
 
 }
+
+
+
+
+
+
 
 User.prototype.reset_canvas = function () {
   return new Promise( async (resolve, reject)=> {
@@ -503,4 +613,5 @@ User.prototype.get_all_backgrounds_image = function(){
 
   })
 }
+
 module.exports = User;

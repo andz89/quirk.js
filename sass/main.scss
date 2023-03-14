@@ -18,7 +18,7 @@
 @import 'background';
 @import 'admin-users';
 
-
+@import 'expired_modal.scss';
 
 
 // canvas
@@ -56,7 +56,7 @@ body {
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #f0eeee;
+  background-color: #fff;
   color: #333;
 
 
@@ -88,6 +88,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100%;
   padding: 0 10px;
   width: 100%;
   transition: all .5s;
@@ -123,4 +125,43 @@ main {
 
 ::-webkit-scrollbar-corner {
   background-color: rgba(75, 75, 75, 0.712)
+}
+
+.subscribe-message-container {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  user-select: none;
+  background-color: #0c0c0c60;
+  justify-content: center;
+  align-items: center;
+
+  .close {
+    position: absolute;
+    margin-top: 10px;
+    top: 0;
+    right: 0;
+  }
+
+  .message-container-content {
+
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    width: 380px;
+    height: 400px;
+
+
+
+  }
+
+  .reach-limit-message-container {}
 }

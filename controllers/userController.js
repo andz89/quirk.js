@@ -5,7 +5,7 @@ exports.login = (req, res) => {
   user
     .login()
     .then((data) => {
-      console.log(data[0].user_name);
+    
       req.session.user = {
         user_id: data[0].user_id,
         user_email: data[0].user_email,
@@ -82,6 +82,7 @@ exports.saved_template = function (req, res) {
   data.saved_json = req.query.saved_json;
   data.user_id = req.session.user.user_id;
   data.template_id =  req.query.template_id;
+  data.purchased_id =  req.query.purchased_id;
   data.user_role =  req.session.user.user_role;
 
   let user = new User(data);
@@ -104,14 +105,20 @@ exports.activateCanvas = (req,res) => {
   
 
   let user = new User(template);
-  user.new_template().then(function (data)   {
+  user.duplicate_template().then(function (data)   {
    
-    if(data){
+    if(data === true){
      
       req.flash("success_message", ` ${req.query.template_name}. `);
       res.send(data);
 
-    }else{
+    }else if(data === 'limit-reach'){
+
+      res.send(data);
+    }
+    
+    else{
+   
       res.send(data);
     }
   
@@ -120,24 +127,16 @@ exports.activateCanvas = (req,res) => {
   })
 }
 exports.submit_code = (req,res) => {
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  let date_expired = tomorrow.toLocaleString()
-  
+ 
     let code = {}
     code.user_id = req.session.user.user_id;
     code.user_email = req.session.user.user_email;
     code.user_name = req.session.user.user_name;
-    code.code_date = new Date().toLocaleString();
 
-
-    code.date_expired = date_expired
     code.code = req.query.code;
 
-  
-  console.log(code)
   let user = new User(code);
-  user.check_code().then(function (data)   {
+  user.check_code().then(function (data) {
   
     if(data == 'true'){
      
@@ -180,4 +179,27 @@ exports.getAllBackgroundImage = (req, res)=>{
 user.get_all_backgrounds_image().then((data)=>{
   res.json(data);
 })
+}
+
+exports.deleteTemplate = (req, res) => {
+  let data = {}
+  data.template_id = req.query.template_id;
+  data.purchased_id = req.query.purchased_id;
+  data.user_id = req.session.user.user_id;
+  
+  let user = new User(data);
+  user.delete_template().then(function (data) {
+  
+    if(data == 'true'){
+     
+    
+      res.send('true');
+
+    }else{
+      res.send('false');
+    }
+  
+ 
+   
+  })
 }

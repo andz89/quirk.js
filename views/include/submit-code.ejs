@@ -1,0 +1,26 @@
+<!-- submit code to subscribe -->
+
+<div class="subscribe-message-container <%=locals.expired ? 'show' : 'hide' %>">
+    <div class="message-container-content">
+        <div class="<%=locals.expired ? 'hide' : 'show' %> close btn btn-sm btn-danger text text-white">
+            Close
+        </div>
+        <div class="reach-limit-message-container">
+
+        </div>
+        <div class="expire-message">
+            <span>Please subscribe!!</span>
+            <div class="form">
+                <div class="d-flex gap-10 ">
+                    <input type="text" class="code">
+                    <div class="btn btn-sm btn-success sumbit-code-btn">
+                        Submit
+                    </div>
+                </div>
+
+                <span class="message"></span>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -63,8 +63,10 @@
                                         </div>
 
                                         <div class="details-container">
-                                            <div>
-                                                <div class="btn btn-sm btn-primary" id="create-copy-btn">Create a copy
+                                            <div class="buttons">
+
+                                                <div class="btn btn-sm btn-primary  create-copy-btn  ">
+                                                    Create a copy
                                                 </div>
                                             </div>
 
@@ -84,27 +86,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- submit code to subscribe -->
-                            <div class="subscribe-message-container" style="display:none">
-                                <br>
-                                <div class="message-container-content">
-                                    <span>Please subscribe!!</span>
-                                    <div class="form">
-                                        <div class="d-flex gap-10 ">
-                                            <input type="text" id="code">
-                                            <div class="btn btn-sm btn-success sumbit-code-btn">
-                                                Submit
-                                            </div>
-                                        </div>
-                                        <span class="message"></span>
-                                    </div>
-                                </div>
+
+                            <%- include('../include/submit-code') %>
 
 
-                            </div>
                 </div>
-
     </div>
+
+
 
 
     <%- include('../include/footer') %>

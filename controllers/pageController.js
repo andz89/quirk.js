@@ -66,8 +66,9 @@ exports.templates_page = (req, res) => {
 
 let templates = new Page()
 templates.getAllTemplates().then((data)=>{
-;
+ 
   res.render("pages/templates", {
+
     data: data,
     success_message_subscriber: req.flash('success_message_subscriber'),
     user_type: req.session.user.user_role,
@@ -84,14 +85,28 @@ exports.purchased_templates = function(req,res){
   let purchased_templates = new Page(data)
   purchased_templates.getUserTemplates().then((data)=>{
  
- 
-    res.render("pages/purchased-templates", {
+    if(data.expired === true){
+     
+      res.render("pages/purchased-templates", {
 
-      success_message: req.flash("success_message"),
-      data: data,
-      user_type: req.session.user.user_role,
-      session: req.session.user ? true : false,
-    }); 
+        success_message: req.flash("success_message"),
+        data: data.result,
+        expired:true,
+        user_type: req.session.user.user_role,
+        session: req.session.user ? true : false,
+      });
+      
+    }else{
+      res.render("pages/purchased-templates", {
+    
+        success_message: req.flash("success_message"),
+        data: data.result,
+        expired:false,
+        user_type: req.session.user.user_role,
+        session: req.session.user ? true : false,
+      });
+    }
+    
   })
 }
  
@@ -102,20 +117,29 @@ exports.canvas =(req, res) =>{
   data.user_role = req.session.user.user_role
   data.user_id = req.session.user.user_id;
   data.template_id = req.query.template_id;
+  data.purchased_id = req.query.id;
 
   let page = new Page(data);
   page.getCanvas().then((data) => {
-       
+      
+          
+    if(data === 'expired'){
+     
+      res.redirect("/purchased-templates"); 
+    }else{
+      res.render("pages/canvas", {
+        purchased_id:data.purchased_id,
+      
+        template_json:data.template_json,
+        template_id:data.template_id,
+        template_name:data.template_name,
+        thumbnail:'http://localhost:5000/images/ci/'+ data.thumbnail,
+        canvas_image:'http://localhost:5000/images/ci/'+ data.canvas_image,
+        list: data.list,
+        user_role: req.session.user.user_role,
+      });
+    }
 
-    res.render("pages/canvas", {
-                template_json:data.template_json,
-                template_id:data.template_id,
-                template_name:data.template_name,
-                thumbnail:'http://localhost:5000/images/ci/'+ data.thumbnail,
-                canvas_image:'http://localhost:5000/images/ci/'+ data.canvas_image,
-                list: data.list,
-                user_role: req.session.user.user_role,
-              });
           
           })
 }

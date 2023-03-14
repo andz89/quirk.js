@@ -534,7 +534,7 @@ let json_file = JSON.stringify(merge);
       };
       xhttp.open(
         "POST",
-        `http://localhost:5000/saved-template?saved_json=  `+ encodeURIComponent(json_file) + `&template_id=${this.canvas.template_id}`,
+        `http://localhost:5000/saved-template?saved_json=  `+ encodeURIComponent(json_file) + `&template_id=${this.canvas.template_id}&purchased_id=${purchased_id}`,
         true
       );
       xhttp.send();

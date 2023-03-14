@@ -9,6 +9,7 @@ import Templates from "./templates.js";
  
 let templates = new Templates();
 templates.modal_template_details()
+templates.puchased_template()
 templates.create_copy()
 templates.sumbmit_code()
 let update = new Update();
