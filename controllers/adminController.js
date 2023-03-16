@@ -135,9 +135,32 @@ exports.updateBackground = (req, res) => {
     
   };
 exports.add_template = function (req, res) {
-  
+let thumbnail_image
+let modal_image
  
-  req.body.file = req.file.filename
+console.log(modal_image);
+if(req.files.thumbnail_image){
+  req.files.thumbnail_image.forEach((e)=>{
+    thumbnail_image = e.filename ;
+   })
+}else{
+  thumbnail_image = false;
+}
+
+if(req.files.modal_image){
+  req.files.modal_image.forEach((e)=>{
+    modal_image = e.filename;
+   })
+   
+}else{
+  modal_image = false;
+
+}
+ 
+ 
+  req.body.thumbnail_image = thumbnail_image
+  req.body.modal_image = modal_image
+
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database
@@ -165,12 +188,30 @@ exports.remove = function (req, res){
 }
 
 exports.updateTemplate = function (req, res){
+let thumbnail_image
+let modal_image
 
-  if(req.file ){//if no photos updloaded
+if(req.files.thumbnail_image){
+  req.files.thumbnail_image.forEach((e)=>{
+    thumbnail_image = e.filename ;
+   })
+}else{
+  thumbnail_image = false
+}
+
+if(req.files.modal_image){
+  req.files.modal_image.forEach((e)=>{
+    modal_image = e.filename;
+   })
    
-    req.body.file = req.file.filename
-  }
+}else{
+  modal_image = false
+}
+console.log('controller');
+ console.log(req.body);
  
+  req.body.thumbnail_image = thumbnail_image
+  req.body.modal_image = modal_image
   let admin = new Admin(req.body);
  
   admin

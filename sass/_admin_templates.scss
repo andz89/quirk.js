@@ -30,12 +30,10 @@
     input[type='text'] {
         background-color: #fff;
         margin: 0;
-
+        width: 400px;
     }
 
-    input[type="file"] {
-        // display: none;
-    }
+
 
     .custom-file-upload {
         border: 1px solid #ccc;

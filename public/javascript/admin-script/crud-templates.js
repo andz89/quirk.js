@@ -39,24 +39,42 @@ class Crud_templates {
        
           if(e.target.classList.contains('edit-template')){
        
+            //modal display element start//
             let modal_parent =  document.querySelector('.modal-edit-admin')
             modal_parent.style.display = 'flex';
             let modal_title = modal_parent.querySelector('.title') 
             let modal_description = modal_parent.querySelector('.description')
             let modal_id = modal_parent.querySelector('.template-id') 
-            let modal_thumbnail = modal_parent.querySelector('.thumbnail') 
+            let display_thumbnail = modal_parent.querySelector('.display_thumbnail') 
+            let display_modal_image = modal_parent.querySelector('.display_modal_image') 
+
+            let modal_image_path = modal_parent.querySelector('.modal_image_path')//element in modal
+            let thumbnail_image_path = modal_parent.querySelector('.thumbnail_image_path') //element in modal
+            //modal display element end//
+
+            //element from display element start//
             let parent = e.target.parentElement.parentElement 
-          
             let template_title = parent.querySelector('.title').innerText;
-     
             let template_description = parent.querySelector('.description').innerText;
             let template_id = parent.querySelector('.template-id').value
             let template_thumbnail = parent.querySelector('.thumbnail').src
-       
+            let template_modal_image = parent.querySelector('.modal_image').src
+
+            
+            let thumbnail_image_link= parent.querySelector('#thumbnail_image_link').value//element from display
+            let modal_image_link= parent.querySelector('#modal_image_link').value//element from display
+             //element from display element end//
+
+            //setting value
+            modal_image_path.value = modal_image_link
+            thumbnail_image_path.value = thumbnail_image_link
             modal_title.value = template_title;
             modal_description.value = template_description.trim()
-            modal_thumbnail.src = template_thumbnail
+            display_thumbnail.src = template_thumbnail
+            display_modal_image.src = template_modal_image
+
             modal_id.value = template_id
+     
 
             //json file
             modal_parent.querySelector(".json-file").addEventListener("change", (e) => {
@@ -74,7 +92,7 @@ class Crud_templates {
 
               modal_title.value = '';
               modal_description.value = ''
-              modal_thumbnail.src = ''
+              display_thumbnail.src = ''
               modal_id.value = ''
               modal_parent.querySelector(".json-text").value = ''
               modal_parent.querySelector(".json-file").value = ''
@@ -105,7 +123,7 @@ class Crud_templates {
                   /**
                    * Assign the path to the image preview element.
                    */
-                  modal_thumbnail.src = imageSrc;
+                  display_thumbnail.src = imageSrc;
            
               }
       

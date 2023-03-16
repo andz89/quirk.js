@@ -27,16 +27,15 @@
                             <div class="purchased-templates   py-1" style="width: 100%;">
                                 <% data.forEach((data)=>{%>
 
-                                    <div class="d-flex  align-items-start   flex-direction-column "
-                                        style="width: 170px;position:relative">
+                                    <div class="template-container">
 
                                         <input type="hidden" class="template_id" value="<%= data.template_id %>">
                                         <input type="hidden" class="purchased_id" value="<%= data.purchased_id %> ">
 
                                         <a
                                             href="/canvas?template_id=<%= data.template_id %>&id=<%= data.purchased_id %> ">
-                                            <img src="images/ci/<%= data.thumbnail%>" class="hover-opactiy " width="170"
-                                                alt="">
+                                            <img src="images/ci/<%= data.thumbnail%>" class="hover-opactiy d-image"
+                                                width="200" alt="">
                                         </a>
 
 
@@ -46,8 +45,8 @@
 
 
                                         <div class="option">
-                                            <img src="images/gear-solid.png" class="hover-opactiy gear-option"
-                                                width="16" alt="">
+                                            <img src="images/list.png" class="hover-opactiy gear-option" width="20"
+                                                alt="">
                                             <div class="container hide">
                                             </div>
                                             <div class="delete-template hide">Delete Template</div>

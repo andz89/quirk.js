@@ -87,7 +87,7 @@ exports.purchased_templates = function(req,res){
  
     if(data.expired === true){
      
-      res.render("pages/purchased-templates", {
+      res.render("pages/my-templates", {
 
         success_message: req.flash("success_message"),
         data: data.result,
@@ -97,7 +97,7 @@ exports.purchased_templates = function(req,res){
       });
       
     }else{
-      res.render("pages/purchased-templates", {
+      res.render("pages/my-templates", {
     
         success_message: req.flash("success_message"),
         data: data.result,
@@ -125,7 +125,7 @@ exports.canvas =(req, res) =>{
           
     if(data === 'expired'){
      
-      res.redirect("/purchased-templates"); 
+      res.redirect("/my-templates"); 
     }else{
       res.render("pages/canvas", {
         purchased_id:data.purchased_id,

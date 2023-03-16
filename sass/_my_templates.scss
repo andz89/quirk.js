@@ -37,6 +37,30 @@
         font-family: 'Poppins', sans-serif;
         gap: 20px;
 
+        .template-container {
+            border: 1px solid #ccc;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+            background-color: #c6cffa6e;
+            width: 230px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+
+        }
+
+        .d-image {
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+        }
+
+        img {
+            cursor: pointer;
+
+        }
+
         .show {
             display: block;
         }
@@ -44,6 +68,8 @@
         .hide {
             display: none;
         }
+
+
 
         .option {
             position: absolute;

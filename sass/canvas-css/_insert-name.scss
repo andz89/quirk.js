@@ -11,6 +11,8 @@
   width: 550px;
   right: -502px;
 
+
+
   .pen-icon {
 
     margin-top: 15px;
@@ -49,6 +51,7 @@
     background-color: #d3d2d2;
     color: #4F5F64;
     transition: all .5s;
+    border-right: 10px solid #d3d2d2;
 
   }
 
@@ -57,17 +60,20 @@
 
   }
 
+
+
   .able-download {
     display: none;
     margin: 10px 7px;
     cursor: pointer;
-
+    padding: 0;
   }
 
   .disable-download {
     display: none;
     margin: 10px 7px;
     cursor: pointer;
+    padding: 0;
 
   }
 
@@ -77,9 +83,13 @@
     display: none;
     cursor: pointer;
     margin: 10px 7px;
+    padding: 0;
+
   }
 
   .eye-show {
+    padding: 0;
+
     margin: 10px 7px;
     display: none;
     cursor: pointer;
@@ -105,7 +115,10 @@
     font-family: Arial;
     padding-left: 2px;
     text-align: left;
+
   }
+
+
 
   .sequence {
     font-size: 12px;
@@ -174,7 +187,7 @@
       height: 500px;
 
       padding-bottom: 20px;
-
+      overflow-x: hidden;
 
 
 

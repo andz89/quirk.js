@@ -664,9 +664,9 @@ createTable().then(()=>{
 
       div.innerHTML = `
       <td class="sequence">.</td>
-      <td class="xl65 column-1" style="border-right:.5pt solid black;
+      <td class="xl65 column-1" spellcheck="false"  style="border-right:.5pt solid black;
      " contenteditable="true"></td>
-      <td class="xl65 column-2" style="border-right:.5pt solid black;
+      <td  spellcheck="false"  class="xl65 column-2" style="border-right:.5pt solid black;
     border-left:none; " contenteditable="true"></td>
     <td>
     <img src="./images/canvas/eye-solid.png" class="eye-show" width="18">

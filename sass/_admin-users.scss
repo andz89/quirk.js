@@ -106,6 +106,19 @@
          word-break: normal;
      }
 
+     .copy-message {
+         display: none;
+         position: absolute;
+         margin-top: -55px;
+         margin-left: 45px;
+
+         background-color: #000;
+         padding: 5px;
+         border-top-right-radius: 10px;
+         border-top-left-radius: 10px;
+         border-bottom-right-radius: 10px;
+     }
+
 
 
      td {

@@ -14,8 +14,7 @@
             <div class="admin-message btn btn-md btn-success" style="display: none;width: 300px;"></div>
             <div class="hide" id="template-form">
                 <div class=" d-flex justify-content-center bg-light p-1 m-1">
-                    <form action="/add-template" method="POST" enctype="multipart/form-data"
-                        class="add-templates-form ">
+                    <form action="/add-template" method="POST" enctype="multipart/form-data">
 
                         <div
                             class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1">
@@ -33,14 +32,17 @@
                             </div>
                             <input type="hidden" name="json_file" id="json_file">
 
-                            <!-- <label class="custom-file-upload">
-                            <input type="file" />
-                            Upload display image
-                        </label> -->
+
                             <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
                                 <label for=""> Thumbnail image</label>
 
-                                <input required type="file" name="image" accept='image/*' />
+                                <input required type="file" name="thumbnail_image" accept='image/*' />
+
+                            </div>
+                            <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
+                                <label for=""> Modal Image</label>
+
+                                <input required type="file" name="modal_image" accept='image/*' />
 
                             </div>
 
@@ -85,19 +87,23 @@
 
             <div class=" admin-templates" style="width: 100%;">
                 <% data.forEach((data)=>{%>
-
-
                     <div class="d-flex  align-items-start  flex-direction-column  m-1">
                         <div class=" d-flex  align-items-start flex-direction-column">
                             <img class="thumbnail" src="images/ci/<%= data.thumbnail %>" width="170" alt="">
+                            <img class="modal_image" style="display: none;" src="images/ci/<%= data.modal_image %>"
+                                width="170" alt="">
+                            <input type="hidden" id="thumbnail_image_link" value="<%= data.thumbnail %>">
+                            <input type="hidden" id="modal_image_link" value="<%= data.modal_image%>">
+
                             <h3 class="title text text-dark">
                                 <%= data.template_name %>
                             </h3>
+
                             <span style="display:none" class="description">
                                 <%= data.template_description %>
                             </span>
-                            <input type="hidden" class="template-id" value="<%= data.template_id %>">
 
+                            <input type="hidden" class="template-id" value="<%= data.template_id %>">
 
                         </div>
 
@@ -140,11 +146,18 @@
 
                         <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
                             <label for="">Thumbnail</label>
-                            <input type="file" name="thumbnail-image" class="thumbnail-image p-1">
-                            <img class="thumbnail" width="200" src="" alt="">
-
+                            <input type="file" name="thumbnail_image" class="thumbnail-image p-1">
+                            <img class="display_thumbnail" width="200" src="" alt="">
+                            <input type="hidden" name="thumbnail_image_path" class="thumbnail_image_path">
                         </div>
+                        <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                            <label for="">Modal Image</label>
+                            <input type="file" name="modal_image" class="modal-image p-1">
 
+                            <img class="display_modal_image" width="200" src="" alt="">
+
+                            <input type="hidden" name="modal_image_path" class="modal_image_path">
+                        </div>
                         <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
                             <label for="">Json File</label>
                             <input type="file" class="json-file p-1">

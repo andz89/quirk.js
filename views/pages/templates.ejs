@@ -20,13 +20,14 @@
                     <% data.forEach((data)=>{%>
 
 
-                        <!-- <a href="/canvas?id=<%= data.template_id %> " target="_blank"> -->
-                        <div class="hover-opactiy d-flex  justify-content-center flex-direction-column"
-                            style="width: 200px;">
+
+                        <div class=" templates-container">
                             <input type="hidden" id="display-template-id" value="<%= data.template_id %>">
 
 
-                            <img src="images/ci/<%= data.thumbnail%>" width="170" class="show-template-details" alt="">
+                            <img src="images/ci/<%= data.thumbnail%>" width="200"
+                                class="hover-opactiy  show-template-details" alt="">
+                            <input type="hidden" class="modal_image" value="<%= data.modal_image %>">
                             <h4 class="text text-dark show-template-details">
                                 <%= data.template_name %>
                             </h4>
@@ -35,16 +36,11 @@
                             </p>
 
 
-                            <!-- </a> -->
-                        </div>
-
-                        <% }) %>
-
                             <!-- create a copy modal -->
                             <div class="modal-activation">
                                 <div class="modal-header">
                                     <div>
-                                        <span class="modal-title">title</span>
+                                        <span class="modal-title"></span>
                                     </div>
                                     <div>
                                         <div class="close">Close</div>
@@ -58,7 +54,7 @@
                                     <div class="content">
 
                                         <div class="img-container">
-                                            <img class="modal-image" width="100%" src="" alt="">
+                                            <img class="modal-image" width="700" alt="">
 
                                         </div>
 
@@ -72,6 +68,10 @@
 
 
                                             <br>
+
+
+                                            <input type="hidden" id="template-name">
+
                                             <input type="hidden" id="template-id">
                                             <span class="modal-description"></span>
                                             <span></span>
@@ -86,6 +86,11 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <% }) %>
+
+
 
                             <%- include('../include/submit-code') %>
 

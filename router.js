@@ -6,6 +6,9 @@ const adminController = require("./controllers/adminController");
 const middleware = require("./middleware/role");
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
+const fs = require('fs')
+let formidable = require('formidable');
+
 const path = require('path')
 const storage = multer.diskStorage({
   destination: (req, file, cb)=>{
@@ -31,6 +34,31 @@ router.post("/resetCanvas", middleware.role_user, userController.resetCanvas)
 router.post("/get-all-background-image", middleware.role_user, userController.getAllBackgroundImage);
 router.post("/submit_code", middleware.role_user, userController.submit_code);
 router.post("/delete_template", middleware.role_user, userController.deleteTemplate);
+router.post("/user_upload_img",//Process the file upload in Node
+
+function (req, res,next){
+ 
+  var form = new formidable.IncomingForm();
+  form.parse(req, function (error, fields, file) {
+   
+    let filepath = file.input_img.filepath;
+    let newpath = 'public/images/ci/';
+    
+    let a = file.input_img.originalFilename.replace(/\.[^/.]+$/, "")
+    newpath +=a + uuidv4() + path.extname(file.input_img.originalFilename)
+
+    //Copy the uploaded file to a custom folder
+    fs.rename(filepath, newpath, function () {
+      //Send a NodeJS file upload confirmation message
+      res.end();
+    });
+    form.on('end', () => {});
+    res.new_path = newpath
+    next()
+  });
+
+  
+}, userController.userUploadImg);
 
 
 
@@ -40,7 +68,7 @@ router.get("/canvas",  middleware.role_user, pageController.canvas);
 router.get("/", middleware.home_role, pageController.home); // home
 router.get("/account-page", middleware.role_user, pageController.account_page);
 router.get("/templates", middleware.role_user, pageController.templates_page);
-router.get("/purchased-templates", middleware.role_user, pageController.purchased_templates);
+router.get("/my-templates", middleware.role_user, pageController.purchased_templates);
 
 
 
@@ -68,9 +96,25 @@ router.get("/admin-users", middleware.role_admin, adminController.users);
 
 //user admin action
 router.post("/admin-login-request", adminController.admin_login_post);
-router.post("/add-template",upload.single('image') ,adminController.add_template);
+
+router.post("/add-template",upload.fields([{
+  name:'thumbnail_image', maxCount: 1
+}, {
+  name:'modal_image', maxCount: 1
+}]),adminController.add_template);
+
+
+
 router.post("/remove" ,adminController.remove);
-router.post("/updateTemplate" ,upload.single('thumbnail-image'),adminController.updateTemplate);
+
+//update
+router.post("/updateTemplate" ,upload.fields([{
+  name:'thumbnail_image', maxCount: 1
+}, {
+  name:'modal_image', maxCount: 1
+}]),adminController.updateTemplate);
+
+//add background
 router.post("/add-background" ,upload.fields([{
   name:'background_image', maxCount: 1
 }, {

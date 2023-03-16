@@ -101,7 +101,7 @@ exports.activateCanvas = (req,res) => {
   template.user_id = req.session.user.user_id;
   template.template_id = req.query.template_id;
   template.template_name = req.query.template_name;
-  template.image = req.query.image;
+  // template.image = req.query.image;
   
 
   let user = new User(template);
@@ -203,3 +203,14 @@ exports.deleteTemplate = (req, res) => {
    
   })
 }
+
+exports.userUploadImg = (req, res)=>{
+  console.log('sss');
+ 
+
+  
+console.log(res.new_path);
+
+  
+}
+
