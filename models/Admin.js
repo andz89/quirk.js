@@ -141,7 +141,7 @@ Admin.prototype.deleteImageBackground = async  function (data){
 
   for(let i=0; i<data.length; i++){
    
-    await  unlinkAsync('public/images/ci/'+data[i])
+    await  unlinkAsync('public/images/canvas_image/'+data[i])
   }
  
    

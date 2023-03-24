@@ -16,7 +16,7 @@ let formidable = require('formidable');
 const path = require('path')
 const storage = multer.diskStorage({
   destination: (req, file, cb)=>{
-    cb(null,  'public/images/ci/')
+    cb(null,  'public/images/canvas_image/')
   },
   filename: (req, file, cb)=>{
 

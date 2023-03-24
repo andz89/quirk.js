@@ -31,7 +31,7 @@ export class Menu_tools extends Modification {
                   let div = document.createElement('div')
                   div.innerHTML = 
                   ` 
-                  <img src='http://localhost:5000/images/ci/${e.thumbnail_image}' width="150px">
+                  <img src='http://localhost:5000/images/canvas_image/${e.thumbnail_image}' width="150px">
                   <input type="hidden" name="background_name" class="bg_name" value="${e.background_image}">
 
                   <span class="btn btn-sm btn-success apply-btn">Apply</span>`
@@ -59,7 +59,7 @@ export class Menu_tools extends Modification {
                      let image_name =e.target.parentElement.querySelector(".bg_name").value
                    
                     let b = link_save.filter((e)=>{
-                      return  e ==='http://localhost:5000/images/ci/'+ image_name 
+                      return  e ==='http://localhost:5000/images/canvas_image/'+ image_name 
                   
                      })
                     
@@ -71,7 +71,7 @@ export class Menu_tools extends Modification {
 
         a.forEach((e)=>{
  
-            if(e._originalElement.currentSrc == 'http://localhost:5000/images/ci/'+ image_name){
+            if(e._originalElement.currentSrc == 'http://localhost:5000/images/canvas_image/'+ image_name){
               e.opacity = 1;
               this.canvas.renderAll()
               }
@@ -84,7 +84,7 @@ export class Menu_tools extends Modification {
                     //kung wala
                     console.log('wala');
 
-                    link ='http://localhost:5000/images/ci/'+ image_name 
+                    link ='http://localhost:5000/images/canvas_image/'+ image_name 
                     link_save.push(link)
                     console.log(b);
                    
@@ -317,7 +317,7 @@ if(parent.querySelector('.img-container')){
 
           
           
-          <img src="images/list.png" class="hover-opactiy  option" width="20"
+          <img src="images/canvas/list-black.png" class="hover-opactiy  option" width="15"
           alt="">
           <div class="delete-template text hide text-dark">Delete</div>
      
@@ -449,8 +449,8 @@ upload_img_btn.addEventListener('click',(e)=>{
      
                
                
-               <img src="images/list.png" class="hover-opactiy  option" width="20"
-               alt="">
+               <img src="images/canvas/list-black.png" class="hover-opactiy  option" width="15"
+          alt="">
                <div class="delete-template text hide text-dark">Delete</div>
           
          
@@ -1178,7 +1178,9 @@ createTable().then(()=>{
       textbox[0].set({text: e.target.parentElement.parentElement.children[1].innerText ? e.target.parentElement.parentElement.children[1].innerText:''}) 
       textbox[1].set({text: e.target.parentElement.parentElement.children[2].innerText ? e.target.parentElement.parentElement.children[2].innerText:''}) 
       
-      this.canvas.renderAll()
+      if( textbox[0].text.trim() || textbox[1].text.trim()){
+
+        this.canvas.renderAll()
         var scaleFactor = 1;
         this.canvas.setWidth(this.width * scaleFactor);
         this.canvas.setHeight(this.height * scaleFactor);
@@ -1186,20 +1188,25 @@ createTable().then(()=>{
   
         this.canvas.renderAll();
   
-        let display_name = document.querySelector("#file_name").innerHTML;
+        
         const a = document.createElement("a");
         document.body.appendChild(a);
         a.href = this.canvas.toDataURL({
           format: "png",
           // quality:  1
         });
-        a.download = `${display_name}.png`;
+        a.download =  `${textbox[0].text.trim() || textbox[1].text.trim()}`;
         a.click();
         document.body.removeChild(a);
   
         this.canvas.setHeight(this.canvas.current_height);
         this.canvas.setWidth(this.canvas.current_width);
         this.canvas.setZoom(this.canvas.current_canvasScale);
+
+      }else{
+        console.log('no download');
+      }
+    
  
      }
     })
@@ -1540,7 +1547,7 @@ createTable().then(()=>{
                .toDataURL("image/jpeg", [0.0, 1.0])
      
                const img = document.createElement("img");
-               
+               img.setAttribute('name',  a[0].text.trim() || b[0].text.trim());
                img.src = imgSrc
                img.width = "600";
                img.className = "print-view-img";
@@ -1565,7 +1572,10 @@ createTable().then(()=>{
    
            var urls = [];
            images.forEach((e) => {
-             urls.push(e.src);
+            let data = {}
+            data.src = e.src;
+            data.name = e.getAttribute('name')
+             urls.push(data);
            });
            downloadZip().then(()=>{
              this.loading("visible",`<h4> Successfuly Downloaded  ${names.length}  certifcates</h4> <br>  <div class="btn  btn-md btn-success done-download">Close</div>`);
@@ -1585,20 +1595,20 @@ createTable().then(()=>{
                var zipFilename = "zipFilename.zip";
        
                urls.forEach(function (url) {
-                 var filename = "filename";
+                 var filename =url.name;
                  // loading a file and add it in a zip file
-                 JSZipUtils.getBinaryContent(url, function (err, data) {
+                 JSZipUtils.getBinaryContent(url.src, function (err, data) {
                    if (err) {
                      throw err; // or handle the error
                    }
                    var img = zip.folder("images");
-                   img.file(filename + "_" + count + ".png", data, { binary: true });
+                   img.file(filename + ".png", data, { binary: true });
                    count++;
                    if (count == urls.length) {
                      zip.generateAsync({ type: "blob" }).then(function (content) {
                        const a = document.createElement("a");
                        a.href = URL.createObjectURL(content);
-       
+                      
                        document.body.appendChild(a);
                        a.download = zipFilename;
                        a.click();

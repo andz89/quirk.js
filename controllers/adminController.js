@@ -160,7 +160,7 @@ if(req.files.modal_image){
  
   req.body.thumbnail_image = thumbnail_image
   req.body.modal_image = modal_image
-
+console.log(thumbnail_image);
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database

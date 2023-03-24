@@ -20,7 +20,7 @@ class Templates{
             let id =  parent.querySelector('#display-template-id').value
             parent.querySelector('.modal-activation .modal-title').innerText = title;
             parent.querySelector('.modal-activation .modal-description').innerText = description.trim();
-            parent.querySelector('.modal-activation .modal-image').src = 'images/ci/'+img;
+            parent.querySelector('.modal-activation .modal-image').src = 'images/canvas_image/'+img;
             parent.querySelector('.modal-activation #template-id').value = id;
             parent.querySelector('.modal-activation #template-name').value = title;
 
