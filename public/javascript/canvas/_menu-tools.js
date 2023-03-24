@@ -57,26 +57,27 @@ export class Menu_tools extends Modification {
               
 
                      let image_name =e.target.parentElement.querySelector(".bg_name").value
-
+                   
                     let b = link_save.filter((e)=>{
                       return  e ==='http://localhost:5000/images/ci/'+ image_name 
                   
                      })
                     
                    if(b != ''){
-                    //kung naa
-                let a = this.canvas.getObjects().filter((e)=>{
-                        return e.type == 'image';
-                      })
-                    
-                   
-                     a.forEach((e)=>{
+                  //kung naa
+                  let a = this.canvas.getObjects().filter((e)=>{
+                  return e.type == 'image';
+                  })
 
-                        if(e._originalElement.currentSrc == 'http://localhost:5000/images/ci/'+ image_name){
-                        e.opacity = 1;
-                        this.canvas.renderAll()
-                        }
-                     })
+        a.forEach((e)=>{
+ 
+            if(e._originalElement.currentSrc == 'http://localhost:5000/images/ci/'+ image_name){
+              e.opacity = 1;
+              this.canvas.renderAll()
+              }
+          
+       
+        })
 
                      add_bg_image.style.display ="none"
                    }else{
@@ -88,7 +89,7 @@ export class Menu_tools extends Modification {
                     console.log(b);
                    
                   fabric.Image.fromURL(link, (img) => {
-                   // img.excludeFromExport = true;
+                 
                    img.name = "bg-image";
                    this.canvas.add(img);
                    img.scaleToWidth(this.canvas.getWidth());
@@ -96,7 +97,7 @@ export class Menu_tools extends Modification {
                    this.canvas.sendToBack(img);
                    img.selectable = false;
                    img.hoverCursor = "default";
-               
+                  img.tae = 'tae'
                    img.set("lockMovementX", true);
                    img.set("lockMovementY", true);
                    img.set("lockScalingX", true)
@@ -116,9 +117,10 @@ export class Menu_tools extends Modification {
                      mtr: false,
                    });
                    this.canvas.renderAll();
+             
+                   add_bg_image.style.display ="none"
                  });
-
-                 add_bg_image.style.display ="none"
+               
                    }
                   
                     }
@@ -154,40 +156,43 @@ export class Menu_tools extends Modification {
     let a = this.canvas.getObjects().filter((e)=>{
       return e.name == "bg-image";
     })
-    
-if(a ==  false){
-  console.log('execute');
-  fabric.Image.fromURL(link, (img) => {
-    // img.excludeFromExport = true;
-    img.name = "bg-image";
-    this.canvas.add(img);
-    img.scaleToWidth(this.canvas.getWidth());
-    this.canvas.viewportCenterObject(img);
-    this.canvas.sendToBack(img);
-    img.selectable = false;
-    img.hoverCursor = "default";
-
-    img.set("lockMovementX", true);
-    img.set("lockMovementY", true);
-    // img.set("lockScalingX", true)
-    img.set("lockScalingY", true);
-    img.set("lockRotation", true);
-    this.canvas.discardActiveObject();
-    this.canvas.renderAll();
-    img.setControlsVisibility({
-      mt: false,
-      mb: false,
-      ml: false,
-      mr: false,
-      tr: false,
-      tl: false,
-      br: false,
-      bl: false,
-      mtr: false,
+  
+if(link != null ){//dili null
+  if(a ==  false){
+ 
+    fabric.Image.fromURL(link, (img) => {
+      // img.excludeFromExport = true;
+      img.name = "bg-image";
+      this.canvas.add(img);
+      img.scaleToWidth(this.canvas.getWidth());
+      this.canvas.viewportCenterObject(img);
+      this.canvas.sendToBack(img);
+      img.selectable = false;
+      img.hoverCursor = "default";
+  
+      img.set("lockMovementX", true);
+      img.set("lockMovementY", true);
+      // img.set("lockScalingX", true)
+      img.set("lockScalingY", true);
+      img.set("lockRotation", true);
+      this.canvas.discardActiveObject();
+      this.canvas.renderAll();
+      img.setControlsVisibility({
+        mt: false,
+        mb: false,
+        ml: false,
+        mr: false,
+        tr: false,
+        tl: false,
+        br: false,
+        bl: false,
+        mtr: false,
+      });
+      this.canvas.renderAll();
     });
-    this.canvas.renderAll();
-  });
-} 
+  } 
+}
+
   }
 resetCanvas(){
   if(role == 'user'){
@@ -274,7 +279,207 @@ resetCanvas(){
       };
     });
   }
+  upload_user_image(){
+    let photo_container = document.querySelector('#photos-container')
+    
+  let add_photo_btn = document.querySelector('#add-photos')
+  add_photo_btn.addEventListener('click', (e)=>{
+    let parent = document.querySelector('.display-photos-container')
+ 
+if(parent.querySelector('.img-container')){
+  
 
+  photo_container.style.display = 'flex'
+ 
+
+}else{
+   //get images users
+   var xhttp = new XMLHttpRequest();
+   
+   xhttp.onreadystatechange = () => {
+     if (xhttp.readyState == 4 && xhttp.status == 200) {
+       let data = JSON.parse(xhttp.responseText);
+      
+   
+    
+      setTimeout(()=>{
+      photo_container.style.display = 'flex'
+      })
+  
+         data.forEach((e)=>{
+     
+          let div = document.createElement('div');
+         div.className = 'img-container'
+         div.innerHTML = `<div>
+         <div class="container hide"></div>
+          <img src="images/users/${e.image_path}" class="user-image"   >
+          <div id="${e.image_path}" class="btn btn-sm btn-primary use-btn" >Use</div>
+
+          
+          
+          <img src="images/list.png" class="hover-opactiy  option" width="20"
+          alt="">
+          <div class="delete-template text hide text-dark">Delete</div>
+     
+    
+         </div>`;
+         parent.appendChild(div);
+
+         })
+       
+            } 
+          };
+          xhttp.open(
+            "POST",
+            `http://localhost:5000/get_user_image`,
+            true
+          );
+          xhttp.send( );
+}
+})
+
+// use image to canvas and send request to server
+parent.addEventListener('click', (e)=>{
+  if(e.target.classList.contains('use-btn')){
+   let id = e.target.id;
+ 
+     //get images users
+   var xhttp = new XMLHttpRequest();
+   xhttp.onreadystatechange = () => {
+     if (xhttp.readyState == 4 && xhttp.status == 200) {
+       let data = JSON.parse(xhttp.responseText);
+ 
+              fabric.Image.fromURL('images/users/'+data[0].image_path, (img) => {
+              img.name = img.type;
+           
+              img.scaleToWidth(600);
+              img.id = this.uniqueId(); 
+              this.canvas.add(img)
+         
+              this.canvas.renderAll()
+              });
+
+              photo_container.style.display = 'none';
+ 
+    
+
+
+            } 
+          };
+          xhttp.open(
+            "POST",
+            `http://localhost:5000/get_user_image_toCanvas?id=${id}`,
+            true
+          );
+          xhttp.send( );
+  }
+  if(e.target.classList.contains('option')){
+    if(e.target.parentElement.querySelector('.delete-template').classList.contains('hide')){
+      e.target.parentElement.querySelector('.container').classList.add('show');
+      e.target.parentElement.querySelector('.container').classList.remove('hide');
+
+      e.target.parentElement.querySelector('.delete-template').classList.add('show');
+      e.target.parentElement.querySelector('.delete-template').classList.remove('hide');
+
+
+    }else{
+      e.target.parentElement.querySelector('.delete-template').classList.add('hide');
+      e.target.parentElement.querySelector('.delete-template').classList.remove('show');
+
+      e.target.parentElement.querySelector('.container').classList.add('hide');
+      e.target.parentElement.querySelector('.container').classList.remove('show');
+
+    }
+  }
+  if(e.target.classList.contains('container')){
+    e.target.parentElement.querySelector('.delete-template').classList.add('hide');
+    e.target.parentElement.querySelector('.delete-template').classList.remove('show');
+
+    e.target.parentElement.querySelector('.container').classList.add('hide');
+    e.target.parentElement.querySelector('.container').classList.remove('show');
+   }
+
+   if(e.target.classList.contains('delete-template')){
+     let id = e.target.parentElement.querySelector('.use-btn').id;
+
+     var xhttp = new XMLHttpRequest();
+     xhttp.onreadystatechange = () => {
+       if (xhttp.readyState == 4 && xhttp.status == 200) {
+         let data = JSON.parse(xhttp.responseText);
+   
+     e.target.parentElement.parentElement.remove()
+          
+  
+              } 
+            };
+            xhttp.open(
+              "POST",
+              `http://localhost:5000/delete_user_image?id=${id}`,
+              true
+            );
+            xhttp.send( );
+   }
+})
+ 
+let upload_img = document.querySelector('#input_img')
+let upload_img_btn = document.querySelector('#upload_img_btn')
+//upload image
+upload_img_btn.addEventListener('click',(e)=>{
+  const xhr = new XMLHttpRequest()
+  const formData = new FormData()
+   
+
+  formData.append("input_img", upload_img.files[0]);
+ if(document.querySelector("#input_img").value){
+  var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = () => {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            let data = JSON.parse(xhttp.responseText);
+       
+              let parent = document.querySelector('.display-photos-container')
+              let div = document.createElement('div');
+              const imageSrc = URL.createObjectURL(upload_img.files[0]);
+      
+             div.className = 'img-container'
+              div.innerHTML =  `<div>
+              <div class="container hide"></div>
+               <img src="${imageSrc}" class="user-image"   >
+               <div id="${data}" class="btn btn-sm btn-primary use-btn" >Use</div>
+     
+               
+               
+               <img src="images/list.png" class="hover-opactiy  option" width="20"
+               alt="">
+               <div class="delete-template text hide text-dark">Delete</div>
+          
+         
+              </div>`;
+              parent.appendChild(div);
+      
+ 
+                 } 
+               };
+               xhttp.open(
+                 "POST",
+                 `http://localhost:5000/user_upload_img?template_id=${template_id}&purchased_id=${purchased_id}`,
+                 true
+               );
+               xhttp.send(formData);
+
+ } 
+
+
+ 
+})
+photo_container.querySelector('.close').addEventListener('click',(e)=>{
+  photo_container.style.display = 'none'
+  
+   
+
+})
+
+  }
   download_as_image() {
   
     //  if(e.target){
@@ -314,10 +519,11 @@ resetCanvas(){
     
       let obj = this.canvas.getActiveObject()
       if(obj){
-        e.preventDefault()
-        let text = e.clipboardData.getData("text");
-        obj.text = text
-        this.canvas.renderAll()
+        // e.preventDefault()
+        // let text = e.clipboardData.getData("text");
+
+        // obj.text = text
+        // this.canvas.renderAll()
       }
    
       // if(obj){
@@ -340,12 +546,51 @@ resetCanvas(){
     });
   }
 
+//  text_submit(){
+   
+// // let upload_img_btn = document.querySelector('#text_submit')
+// // let upload_img = document.querySelector('#file_input')
+
+// //upload image
+// upload_img_btn.addEventListener('click',(e)=>{
+
+//   const xhr = new XMLHttpRequest()
+//   const form = document.querySelector('#upload-form');
+  
+//   const formData = new FormData(form);
+
+//   // formData.append("file_input", upload_img.files[0]);
+//   var xhttp = new XMLHttpRequest();
+//         xhttp.onreadystatechange = () => {
+//           if (xhttp.readyState == 4 && xhttp.status == 200) {
+//             let data = JSON.parse(xhttp.responseText);
+       
+
+//                  } 
+//                };
+//                xhttp.open(
+//               "POST",
+//         `http://localhost:5000/text_submit?template_id=${this.canvas.template_id}&purchased_id=${purchased_id}`,
+//         true
+//                );
+//                xhttp.send(formData);
+
  
+
+// })
+//  }
 
  save_file_json() {
   //limit maximum 10,500 characters
   //target limit 10,000 characters
     document.getElementById("save_json").addEventListener("click", () => {
+     
+      let ab = this.canvas.toJSON([
+       "id",
+       "name",
+       'tae'
+     ]);
+     console.log(ab);
  this.loading_save('visible','Saving . . .');
     function replaceBreakLine(valueToEscape) {
       if (valueToEscape != null && valueToEscape != "") {
@@ -398,10 +643,10 @@ resetCanvas(){
         "underline",
         "overline",
         "linethrough",
-        "fontStyle",
+        // "fontStyle",
         "lineHeight",
         "charSpacing",
-        "styles",
+        // "styles",
         "direction",
         "path",
         "pathStartOffset",
@@ -424,17 +669,17 @@ resetCanvas(){
         "overline",
 "linethrough",
 "deltaY",
-"selectionStyle",
+// "selectionStyle",
         
     ];
   
     let json = this.canvas.toJSON([
       "id",
       "name",
-    
+      'tae'
       
     ]);
-
+ 
  
 json.objects.forEach((e)=>{
  
@@ -452,8 +697,10 @@ json.objects.forEach((e)=>{
           delete e['width'];
           delete e['height'];
           }
-
-  textbox_property.forEach((c)=>{
+        
+{
+ 
+}  textbox_property.forEach((c)=>{
      delete e[c];
     if(e.cropY === 0 || e.cropX === 0){
       delete e['cropY'];
@@ -482,8 +729,6 @@ json.objects.forEach((e)=>{
     
 })
 
-
-  
  
 
 let size = {
@@ -496,29 +741,27 @@ let merge = {
   size,
 };
 let json_file = JSON.stringify(merge);
+let json_text = document.querySelector('#text-input')
+json_text.value = json_file;
+const xhr = new XMLHttpRequest()
+const form = document.querySelector('#upload-form');
 
- 
-   
-   
-      var xhttp = new XMLHttpRequest();
+const formData = new FormData(form);
+
+// formData.append("file_input", upload_img.files[0]);
+var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-       
           let data = JSON.parse(xhttp.responseText);
-          setTimeout(()=>{
-            this.loading_save('visible','Saved');
-
-          },1000)
-      
           if(data === 'ok'){
        
             setTimeout((e)=>{
               this.loading_save('hidden',null);
               // document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
             },3000)
-       
           }
-          if(data === 'error'){
+
+     if(data === 'error'){
             document.querySelector('.lds-spinner-container-saving-json .text-container .loader').style.display = 'none'; 
 
             document.querySelector('.lds-spinner-container-saving-json ').style.display = 'flex';
@@ -530,14 +773,62 @@ let json_file = JSON.stringify(merge);
 
           }
 
-        }
-      };
-      xhttp.open(
-        "POST",
-        `http://localhost:5000/saved-template?saved_json=  `+ encodeURIComponent(json_file) + `&template_id=${this.canvas.template_id}&purchased_id=${purchased_id}`,
-        true
-      );
-      xhttp.send();
+
+
+
+
+
+
+               } 
+             };
+             xhttp.open(
+            "POST",
+      `http://localhost:5000/saved-template?template_id=${this.canvas.template_id}&purchased_id=${purchased_id}`,
+      true
+             );
+             xhttp.send(formData);
+
+
+   ///////////////////////////////////////////////
+   
+      // var xhttp = new XMLHttpRequest();
+      // xhttp.onreadystatechange = () => {
+      //   if (xhttp.readyState == 4 && xhttp.status == 200) {
+       
+      //     let data = JSON.parse(xhttp.responseText);
+      //     setTimeout(()=>{
+      //       this.loading_save('visible','Saved');
+
+      //     },1000)
+      
+      //     if(data === 'ok'){
+       
+      //       setTimeout((e)=>{
+      //         this.loading_save('hidden',null);
+      //         // document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
+      //       },3000)
+       
+      //     }
+      //     if(data === 'error'){
+      //       document.querySelector('.lds-spinner-container-saving-json .text-container .loader').style.display = 'none'; 
+
+      //       document.querySelector('.lds-spinner-container-saving-json ').style.display = 'flex';
+      //       document.querySelector('.lds-spinner-container-saving-json .text-container .error').style.display = 'block';
+
+      //       document.querySelector('.lds-spinner-container-saving-json .text-container .error .btn').addEventListener('click', function(){
+      //         document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
+      //       })
+
+      //     }
+
+      //   }
+      // };
+      // xhttp.open(
+      //   "POST",
+      //   `http://localhost:5000/saved-template?saved_json=  `+ encodeURIComponent(json_file) + `&template_id=${this.canvas.template_id}&purchased_id=${purchased_id}`,
+      //   true
+      // );
+      // xhttp.send();
     });
   }
 
@@ -665,7 +956,7 @@ createTable().then(()=>{
       div.innerHTML = `
       <td class="sequence">.</td>
       <td class="xl65 column-1" spellcheck="false"  style="border-right:.5pt solid black;
-     " contenteditable="true"></td>
+     " contenteditable="true"> </td>
       <td  spellcheck="false"  class="xl65 column-2" style="border-right:.5pt solid black;
     border-left:none; " contenteditable="true"></td>
     <td>
@@ -694,8 +985,20 @@ createTable().then(()=>{
           e.target.parentElement.querySelector('.eye-show').style.display = 'none'
           e.target.parentElement.querySelector('.able-download').style.display = 'none'
         }
-
+        let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
+         e.target.innerText
+         if(e.target.classList.contains('column-1')){
+ 
+          textbox[0].set({text: e.target.innerText}) 
+         };
+         if(e.target.classList.contains('column-2')){
+ 
+          textbox[1].set({text: e.target.innerText}) 
+         };
+         this.canvas.renderAll()
       })
+
+    
     parent.addEventListener("click", (e)=>{
       
       //remove row
@@ -737,9 +1040,11 @@ createTable().then(()=>{
             e.target.parentElement.children[4].style.backgroundColor = '#fff';
             let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
   
-  
-            textbox[0].set({text: e.target.parentElement.children[1].innerText ? e.target.parentElement.children[1].innerText:'Column-1-textbox'}) 
-            textbox[1].set({text: e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'Column-2-textbox'}) 
+            textbox[0].set('splitByGrapheme', true)
+            textbox[1].set('splitByGrapheme', true) 
+            textbox[0].set({text: e.target.parentElement.children[1].innerText ? e.target.parentElement.children[1].innerText:'--'}) 
+            textbox[1].set({text: e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'--'}) 
+         
             this.canvas.renderAll()
           }
        
@@ -870,8 +1175,8 @@ createTable().then(()=>{
       let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
 
 
-      textbox[0].set({text: e.target.parentElement.children[1].innerText ? e.target.parentElement.children[1].innerText:'Column-1-textbox'}) 
-      textbox[1].set({text: e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'Column-2-textbox'}) 
+      textbox[0].set({text: e.target.parentElement.parentElement.children[1].innerText ? e.target.parentElement.parentElement.children[1].innerText:''}) 
+      textbox[1].set({text: e.target.parentElement.parentElement.children[2].innerText ? e.target.parentElement.parentElement.children[2].innerText:''}) 
       
       this.canvas.renderAll()
         var scaleFactor = 1;
@@ -945,9 +1250,7 @@ createTable().then(()=>{
        let a = element.children[1].innerText.trim()
      let b =   element.children[2].innerText.trim()
      let c =   element.className
-         console.log(c);
-    //  element.children[1].innerText = a
-    //  element.children[2].innerText = b
+   
         let x = {}
         if(element.children[1].innerText.length && element.children[2].innerText.length || element.children[1].innerText.length|| element.children[2].innerText.length) {
       
@@ -985,7 +1288,9 @@ createTable().then(()=>{
 
 
           this.loading_save('visible','Saved successfuly.');
-           document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
+          this.loading_save('hidden', null);
+
+         
         }
       };
       xhttp.open(
@@ -1002,7 +1307,8 @@ createTable().then(()=>{
  
         if(e.target.parentElement.parentElement.parentElement){
           if(e.target.parentElement.parentElement.parentElement.parentElement.classList.contains('list-names')){
- 
+
+          
    
             element.innerHTML = e.clipboardData.getData("text/html");
       
@@ -1120,8 +1426,20 @@ createTable().then(()=>{
        
             }
             }
-      
+            //this area exucute after paste event to change the column text in textbox canvas
+            let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
+            e.target.innerText
+            if(e.target.classList.contains('column-1')){
     
+             textbox[0].set({text: e.target.innerText}) 
+             textbox[1].set({text: e.target.parentElement.children[2].innerText}) 
+             
+            };
+            if(e.target.classList.contains('column-2')){
+    
+           
+            };
+            this.canvas.renderAll()
     
           }
         } 
@@ -1255,6 +1573,9 @@ createTable().then(()=>{
              document.querySelector('.done-download').addEventListener('click',  ()=>{
                this.loading("hidden",null);
               })
+
+              //delete created images after download
+              document.querySelector("#modal-container-generate-certificate .modal-body").innerHTML = ''
            });
            function downloadZip() {
    

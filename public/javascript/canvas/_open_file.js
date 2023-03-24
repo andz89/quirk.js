@@ -27,7 +27,9 @@ export class Open_file {
           backgroundColor: "#fff",
           preserveObjectStacking: true,
           centeredScaling:true,
-           selection:false
+           selection:false,
+          
+          
         });
       };
       let canvas_created = canvas(width, height);
@@ -76,9 +78,9 @@ export class Open_file {
                 e.lockRotation = true
                 e.selectable = false;
                 e.hoverCursor = "default";
-                
-               
               }
+
+              
              })
         
         

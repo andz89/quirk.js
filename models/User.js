@@ -330,10 +330,13 @@ User.prototype.update_user = function (count){
 //update activation code details
 User.prototype.update_code = function ( ){
  
+
+  this.data.code_date = new Date().toLocaleString();//date code created
+
   var tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + this.data.days_duration);
-  this.data.code_date = new Date().toLocaleString();
-  let date_expired = tomorrow.toLocaleString()
+  let date_expired = tomorrow.toLocaleString()//date expiration
+
   return new Promise( (resolve, reject)=> {
     var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}',user_email = '${this.data.user_email}', user_name = '${this.data.user_name}',date_purchased = '${this.data.code_date}',template_used=${this.data.current_template},date_expired= '${date_expired}',certificate_subscription = 'true' WHERE code = '${this.data.code}'`;
     db.query(sql,(err, result) => {
@@ -614,4 +617,91 @@ User.prototype.get_all_backgrounds_image = function(){
   })
 }
 
+
+ 
+User.prototype.upload_user_img = function (req, res){
+ 
+  return new Promise(async (resolve, reject) => {
+    this.data.date_uploaded = new Date().toLocaleString();//date code created
+    let data = {
+
+      upload_id: uuidv4(),
+   
+      user_id:this.data.user_id,
+      image_path: this.data.new_path,
+      purchased_id: this.data.purchased_id,
+   
+      date_uploaded: this.data.date_uploaded
+    };
+    let sql = "INSERT INTO user_image SET ?";
+    db.query(sql, data, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      resolve();
+    });
+  });
+
+}
+User.prototype.get_user_image = function(req, res) {
+  return new Promise(async (resolve, reject) =>{
+    let sql = `SELECT * FROM user_image WHERE user_id = "${this.data.user_id}"
+ `;
+   db.query(sql, (err, result) => {
+     if (err) {
+       reject(err);
+       return false;
+     }
+     resolve(result);
+   });
+  })
+}
+User.prototype.get_user_image_toCanvas = function(req, res) {
+  return new Promise(async (resolve, reject) =>{
+    let sql = `SELECT * FROM user_image WHERE image_path = "${this.data.image_path}"
+ `;
+   db.query(sql, (err, result) => {
+     if (err) {
+       reject(err);
+       return false;
+     }
+     resolve(result);
+   });
+  })
+}
+
+User.prototype.delete_user_image = function(req, res) {
+  return new Promise( (resolve, reject) => {
+   
+    let sql = `DELETE FROM user_image WHERE image_path='${this.data.image_path}' `;
+    db.query(sql, async (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      this.deleteImageBackground(this.data.image_path)
+  
+      resolve();
+    });
+  });
+}
+User.prototype.deleteImageBackground = async  function (data){
+   
+
+  if (Array.isArray(data)) {
+    for(let i=0; i<data.length; i++){
+   
+      await  unlinkAsync('public/images/users/'+data[i])
+    }
+   
+  } else {
+    unlinkAsync('public/images/users/'+data)
+  }
+  
+
+   
+ 
+}
 module.exports = User;

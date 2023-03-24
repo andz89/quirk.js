@@ -90,10 +90,9 @@
                     <div class="d-flex  align-items-start  flex-direction-column  m-1">
                         <div class=" d-flex  align-items-start flex-direction-column">
                             <img class="thumbnail" src="images/ci/<%= data.thumbnail %>" width="170" alt="">
-                            <img class="modal_image" style="display: none;" src="images/ci/<%= data.modal_image %>"
-                                width="170" alt="">
-                            <input type="hidden" id="thumbnail_image_link" value="<%= data.thumbnail %>">
-                            <input type="hidden" id="modal_image_link" value="<%= data.modal_image%>">
+
+
+
 
                             <h3 class="title text text-dark">
                                 <%= data.template_name %>
@@ -120,6 +119,72 @@
                                 Edit
                                 details</div>
                         </div>
+
+
+                        <!-- edit temmplate modal -->
+                        <div class="modal-edit-admin">
+                            <form action="/updateTemplate" method="POST" enctype="multipart/form-data">
+
+                                <div class="modal-content">
+                                    <div>
+                                        <div class="btn btn-sm btn-danger text text-white delete-template-btn">
+                                            Delete Template
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <input type="text" name="template_name" class="title">
+                                    </div>
+                                    <div>
+                                        <textarea name="template_description" class="description"></textarea>
+                                    </div>
+                                    <input type="hidden" name="template_id" class="template_id">
+
+
+
+
+                                    <div
+                                        class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                                        <label for="">Thumbnail</label>
+                                        <input type="file" name="thumbnail_image" class="thumbnail-image p-1">
+                                        <img class="display_thumbnail" width="200" src="" alt="">
+                                        <input type="hidden" name="thumbnail_image_path" value="<%=data.thumbnail%>"
+                                            class="thumbnail_image_path">
+                                    </div>
+
+
+                                    <div
+                                        class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                                        <label for="">Modal Image</label>
+                                        <input type="file" name="modal_image" class="modal-image p-1">
+
+                                        <img class="display_modal_image" width="200"
+                                            src="images/ci/<%= data.modal_image %>" alt="">
+
+                                        <input type="hidden" name="modal_image_path" value="<%=data.modal_image%>"
+                                            class="modal_image_path">
+
+
+                                    </div>
+                                    <div
+                                        class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                                        <label for="">Json File</label>
+                                        <input type="file" class="json-file p-1">
+                                    </div>
+
+                                    <input type="hidden" name="template_json" class="json-text">
+
+                                    <div class="button-container">
+                                        <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel Changes
+                                        </div>
+                                        <input type="submit" class="btn btn-sm btn-success update-template-btn"
+                                            value="Save changes">
+
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
 
@@ -128,53 +193,7 @@
 
             </div>
 
-            <!-- edit temmplate modal -->
-            <div class="modal-edit-admin">
-                <form action="/updateTemplate" method="POST" enctype="multipart/form-data">
 
-                    <div class="modal-content">
-                        <div>
-                            <input type="text" name="template_name" class="title">
-                        </div>
-                        <div>
-                            <textarea name="template_description" class="description"></textarea>
-                        </div>
-                        <input type="hidden" name="template_id" class="template-id">
-
-
-
-
-                        <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
-                            <label for="">Thumbnail</label>
-                            <input type="file" name="thumbnail_image" class="thumbnail-image p-1">
-                            <img class="display_thumbnail" width="200" src="" alt="">
-                            <input type="hidden" name="thumbnail_image_path" class="thumbnail_image_path">
-                        </div>
-                        <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
-                            <label for="">Modal Image</label>
-                            <input type="file" name="modal_image" class="modal-image p-1">
-
-                            <img class="display_modal_image" width="200" src="" alt="">
-
-                            <input type="hidden" name="modal_image_path" class="modal_image_path">
-                        </div>
-                        <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
-                            <label for="">Json File</label>
-                            <input type="file" class="json-file p-1">
-                        </div>
-
-                        <input type="hidden" name="template_json" class="json-text">
-
-                        <div class="button-container">
-                            <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel Changes</div>
-                            <input type="submit" class="btn btn-sm btn-success update-template-btn"
-                                value="Save changes">
-
-                        </div>
-
-                    </div>
-                </form>
-            </div>
         </div>
 
 

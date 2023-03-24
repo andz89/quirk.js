@@ -1,4 +1,7 @@
 const User = require("../models/User");
+const dotenv = require("dotenv");
+dotenv.config();
+
 
 exports.login = (req, res) => {
   let user = new User(req.body);
@@ -78,8 +81,9 @@ exports.update_account = function (req, res) {
 };
 
 exports.saved_template = function (req, res) {
+ 
   let data = {};
-  data.saved_json = req.query.saved_json;
+  data.saved_json =  res.text_input;
   data.user_id = req.session.user.user_id;
   data.template_id =  req.query.template_id;
   data.purchased_id =  req.query.purchased_id;
@@ -205,12 +209,48 @@ exports.deleteTemplate = (req, res) => {
 }
 
 exports.userUploadImg = (req, res)=>{
-  console.log('sss');
+  let data = {}
+  data.user_id = req.session.user.user_id;
+  data.new_path = res.new_path;
+  data.purchased_id = req.query.purchased_id;
+  data.template_id = req.query.template_id;
+  data.template_id = req.query.template_id;
+  console.log(res.new_path);
+ 
+ 
+  let user_img = new User(data)
+  user_img.upload_user_img()
+ 
+  
+}
+exports.getUserImage = (req, res)=>{
+  let data = {}
+  data.user_id = req.session.user.user_id;
  
 
-  
-console.log(res.new_path);
+  let user_img = new User(data)
+  user_img.get_user_image().then((data) => {
+    res.send(data)
+  })
+}
+exports.getUserImageToCanvas = (req, res)=>{
+  let data = {}
+  data.image_path = req.query.id;
+ 
 
-  
+  let user_img = new User(data)
+  user_img.get_user_image_toCanvas().then((data) => {
+    res.send(data)
+  })
+}
+exports.deleteUserImage = (req, res)=>{
+  let data = {}
+  data.image_path = req.query.id;
+ 
+
+  let user_img = new User(data)
+  user_img.delete_user_image().then((data) => {
+    res.json('ok')
+  })
 }
 

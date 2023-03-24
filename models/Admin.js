@@ -83,6 +83,7 @@ Admin.prototype.update_background = function () {
     let image_to_delete = []
     let thumbnail;
     let background;
+     
 
       if(this.data.thumbnail_image == false ){//no upload thumbnail
           thumbnail = ''
@@ -111,7 +112,7 @@ Admin.prototype.update_background = function () {
         
          
        
-        if(image_to_delete === true) {
+        if(image_to_delete.length) {
           this.deleteImageBackground(image_to_delete)
         }
  
@@ -180,8 +181,10 @@ Admin.prototype.update_template = function () {
         }
         resolve(result);
       });
- 
-      if(image_to_delete === true) {
+      console.log('delete image');
+      console.log(image_to_delete);
+      if(image_to_delete.length) {
+       
         this.deleteImageBackground(image_to_delete)
       }
  
@@ -244,4 +247,52 @@ Admin.prototype.delete_code = function(){
     });
   })
 }
+
+//delete user template and update activation code
+Admin.prototype.delete_template = function (req, res) {
+  return new Promise( (resolve, reject) => {
+   
+    let sql = `DELETE FROM templates WHERE template_id='${this.data.template_id}' `;
+    db.query(sql, async (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      console.log(this.data.modal_image_path);
+      let image_to_delete = []
+      image_to_delete.push(this.data.modal_image_path)
+      image_to_delete.push(this.data.thumbnail_image_path)
+      if(image_to_delete.length > 0){
+        this.deleteImageBackground(image_to_delete)
+        resolve('true');
+      }
+     
+    });
+  });
+}
+
+//delete user background and update activation code
+Admin.prototype.delete_background = function (req, res) {
+  return new Promise( (resolve, reject) => {
+   
+    let sql = `DELETE FROM background WHERE background_id='${this.data.background_id}' `;
+    db.query(sql, async (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+ 
+      let image_to_delete = []
+      image_to_delete.push(this.data.background_image_path)
+      image_to_delete.push(this.data.thumbnail_image_path)
+      if(image_to_delete.length > 0){
+        this.deleteImageBackground(image_to_delete)
+        resolve('true');
+      }
+     
+    });
+  });
+}
+
+
 module.exports = Admin;

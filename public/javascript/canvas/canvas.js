@@ -33,6 +33,8 @@ export class Canvas extends Modification {
       SCALE_FACTOR: this.SCALE_FACTOR,
       fileHandle: this.fileHandle,
     });
+    menu_tools.upload_user_image()
+// menu_tools.text_submit()
     menu_tools.download_as_image()
     menu_tools.loadPage();
     menu_tools.insertText(".dropbtn-insert-text");

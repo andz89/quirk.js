@@ -44,14 +44,12 @@
                     <div id="canvas-image-background">Background</div>
 
                 </div>
-                I <div class="d-flex sub-header-tools">
-                    <div>
-                        <input type="file" name="input_img" id="input_img">
-
-                    </div>
-                    <div id="upload_img_btn">Submit</div>
+                |
+                <div class="sub-header-tools">
+                    <div id="add-photos">Photos</div>
 
                 </div>
+
             </div>
             <div class="zoom_and_undo_container">
 
@@ -134,7 +132,6 @@
                 <div>
                     <img src="images/canvas/insert-text.png" alt="" width="20">
                 </div>
-
             </li>
         </div>
 
@@ -242,7 +239,33 @@
             <div class="modal-body"></div>
         </div>
     </div>
+    <!-- modal for adding user photos -->
 
+    <div id="photos-container">
+
+        <div class="modal-content">
+
+            <div class="close-container ">
+
+                <div class="close btn  btn-sm">
+                    &#x2715
+                </div>
+            </div>
+            <div class="upload-image-container">
+
+                <input type="file" name="input_img" id="input_img">
+
+
+                <div class="btn btn-primary btn-sm" id="upload_img_btn">Submit</div>
+            </div>
+            <div class="display-photos-container">
+
+            </div>
+
+        </div>
+
+
+    </div>
     <!-- display image after generate certificate -->
     <div id="modal-container-generate-certificate">
         <div class="modal-canvas">
@@ -271,7 +294,12 @@
         </div>
 
     </div>
+    <!-- test -->
+    <form id="upload-form">
 
+        <textarea hidden id="text-input" name="text-input"></textarea>
+
+    </form>
     <!-- loader for generating certificate-->
     <div class="lds-spinner-container-generate d-flex justify-content-center align-items-center ">
         <div class="text-container">
@@ -307,6 +335,7 @@
         let purchased_id = '<%-purchased_id%>';
 
         let template_id = '<%-template_id%>';
+
         let canvas_image = '<%-canvas_image%>';
         let template_name = '<%-template_name%>';
         let list = '<%-list%>';

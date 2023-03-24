@@ -17,26 +17,28 @@
 @import 'modal-edit-template-admin';
 @import 'background';
 @import 'admin-users';
+@import 'canvas-css/insert-name';
+@import 'canvas-css/display_certificates';
+@import 'canvas-css/insert-textbox';
+@import 'canvas-css/photos';
 
+
+@import 'canvas-css/canvas';
+@import 'canvas-css/header';
 @import 'expired_modal.scss';
 
 
 // canvas
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
-// @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Titan+One&display=swap');
-@import 'canvas-css/insert-name';
-@import 'canvas-css/display_certificates';
-@import 'canvas-css/insert-textbox';
-@import 'canvas-css/add_background';
-@import 'canvas-css/canvas';
-@import 'canvas-css/header';
+
 
 
 

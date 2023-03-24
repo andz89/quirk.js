@@ -34,22 +34,24 @@ class Crud_templates {
   }
  //modal edit template
   edit_template(){
- 
-        window.addEventListener('click', (e)=>{
-       
+    let parent = document.querySelector('.admin-templates-container')
+        if(parent)
+      parent.addEventListener('click', (e)=>{
+        let template = e.target.parentElement.parentElement;
+      
           if(e.target.classList.contains('edit-template')){
-       
+
+ 
             //modal display element start//
-            let modal_parent =  document.querySelector('.modal-edit-admin')
+            let modal_parent =  template.querySelector('.modal-edit-admin')
             modal_parent.style.display = 'flex';
             let modal_title = modal_parent.querySelector('.title') 
             let modal_description = modal_parent.querySelector('.description')
-            let modal_id = modal_parent.querySelector('.template-id') 
+            let modal_id = modal_parent.querySelector('.template_id') 
             let display_thumbnail = modal_parent.querySelector('.display_thumbnail') 
             let display_modal_image = modal_parent.querySelector('.display_modal_image') 
 
-            let modal_image_path = modal_parent.querySelector('.modal_image_path')//element in modal
-            let thumbnail_image_path = modal_parent.querySelector('.thumbnail_image_path') //element in modal
+     
             //modal display element end//
 
             //element from display element start//
@@ -58,20 +60,23 @@ class Crud_templates {
             let template_description = parent.querySelector('.description').innerText;
             let template_id = parent.querySelector('.template-id').value
             let template_thumbnail = parent.querySelector('.thumbnail').src
-            let template_modal_image = parent.querySelector('.modal_image').src
+            // let template_modal_image = parent.querySelector('.modal_image').src
 
             
-            let thumbnail_image_link= parent.querySelector('#thumbnail_image_link').value//element from display
-            let modal_image_link= parent.querySelector('#modal_image_link').value//element from display
+            // let thumbnail_image_link= parent.querySelector('#thumbnail_image_link').value//element from display
+            // let modal_image_link= parent.querySelector('#modal_image_link').value//element from display
              //element from display element end//
+            // console.log(modal_image_link);
 
             //setting value
-            modal_image_path.value = modal_image_link
-            thumbnail_image_path.value = thumbnail_image_link
+            // modal_image_path.value = modal_image_link
+            // thumbnail_image_path.value = thumbnail_image_link
+            // console.log(modal_image_path.value);
+
             modal_title.value = template_title;
             modal_description.value = template_description.trim()
             display_thumbnail.src = template_thumbnail
-            display_modal_image.src = template_modal_image
+            // display_modal_image.src = template_modal_image
 
             modal_id.value = template_id
      
@@ -90,13 +95,7 @@ class Crud_templates {
 
             modal_parent.querySelector('.cancel-btn').addEventListener('click', ()=>{
 
-              modal_title.value = '';
-              modal_description.value = ''
-              display_thumbnail.src = ''
-              modal_id.value = ''
-              modal_parent.querySelector(".json-text").value = ''
-              modal_parent.querySelector(".json-file").value = ''
-              modal_parent.querySelector(".thumbnail-image").value = ''
+ 
               modal_parent.style.display = 'none';
             });
 
@@ -132,8 +131,40 @@ class Crud_templates {
               
             });
 
- 
           }
+
+          
+              //delete and remove
+              if(e.target.classList.contains('delete-template-btn')){
+      
+                let parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement
+              
+                let modal_parent =   e.target.parentElement.parentElement
+               let template_id =  modal_parent.querySelector('.template_id').value
+
+            let modal_image_path = modal_parent.querySelector('.modal_image_path').value
+            let thumbnail_image_path = modal_parent.querySelector('.thumbnail_image_path').value
+
+ 
+                   var xhttp = new XMLHttpRequest();
+               xhttp.onreadystatechange = () => {
+                 if (xhttp.readyState == 4 && xhttp.status == 200) {
+                
+                   let data = JSON.parse(xhttp.responseText);
+                parent.remove()
+                   
+                 
+                 }else{
+                   console.log('error')
+                 }
+               };
+               xhttp.open(
+                 "POST",
+                 `http://localhost:5000/admin_delete_template?modal_image_path=${modal_image_path}&thumbnail_image_path=${thumbnail_image_path}&template_id=${template_id}`,
+                 true
+               );
+               xhttp.send();
+                 }
         })
     
         

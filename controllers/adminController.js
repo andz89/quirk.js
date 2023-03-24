@@ -127,7 +127,7 @@ exports.updateBackground = (req, res) => {
   
  
     let bg = new Admin(req.body)
-  
+  console.log(bg);
   bg.update_background().then((data)=>{
     res.redirect("/admin-background");
    
@@ -208,10 +208,11 @@ if(req.files.modal_image){
   modal_image = false
 }
 console.log('controller');
- console.log(req.body);
+
  
   req.body.thumbnail_image = thumbnail_image
   req.body.modal_image = modal_image
+  console.log(req.body);
   let admin = new Admin(req.body);
  
   admin
@@ -264,4 +265,50 @@ exports.deleteCode = function (req, res){
   })
     
  
+}
+
+exports.adminDeleteTemplate = (req, res) => {
+ 
+  req.body.template_id = req.query.template_id;
+ req.body.modal_image_path = req.query.modal_image_path;
+ req.body.thumbnail_image_path = req.query.thumbnail_image_path;
+ 
+  let admin = new Admin(req.body);
+  admin.delete_template().then(function (data) {
+  
+    if(data == 'true'){
+     
+    
+      res.send('true');
+
+    }else{
+      res.send('false');
+    }
+  
+ 
+   
+  })
+}
+
+exports.deleteBackground = (req, res) => {
+ 
+  req.body.background_id = req.query.background_id;
+  req.body.thumbnail_image_path = req.query.thumbnail_image_path;
+  req.body.background_image_path = req.query.background_image_path;
+
+  let admin = new Admin(req.body);
+  admin.delete_background().then(function (data) {
+  
+    if(data == 'true'){
+     
+      res.send('true');
+
+    }else{
+      res.send('false');
+    }
+  
+ 
+   
+  })
+
 }
