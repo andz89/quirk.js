@@ -1,32 +1,19 @@
-import { Modification } from "./_modification.js";
+import { Global } from "./_global.js";
 
-export class Menu_tools extends Modification {
+export class Menu_tools extends Global {
+  //add background
   add_background(){
- 
-
       let add_bg_image =  document.querySelector("#modal-container-add-background")
       let modal_body =   add_bg_image.querySelector('.modal-body')
-
-    
         document.querySelector("#canvas-image-background").addEventListener("click", ()=>{
-  
-       console.log(modal_body.innerHTML.length)
+
           if(modal_body.innerHTML.length){
-        
-            console.log('wala ng request');
             add_bg_image.style.display ="flex"
-         
-    
           }else{
-            console.log(' nag request');
-     
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = () => {
               if (xhttp.readyState == 4 && xhttp.status == 200) {
                 let data = JSON.parse(xhttp.responseText);
-             
-    
-       
                 data.forEach((e)=>{
                   let div = document.createElement('div')
                   div.innerHTML = 
@@ -70,20 +57,16 @@ export class Menu_tools extends Modification {
                   })
 
         a.forEach((e)=>{
- 
             if(e._originalElement.currentSrc == 'http://localhost:5000/images/canvas_image/'+ image_name){
               e.opacity = 1;
               this.canvas.renderAll()
               }
           
-       
         })
 
-                     add_bg_image.style.display ="none"
+            add_bg_image.style.display ="none"
                    }else{
                     //kung wala
-                    console.log('wala');
-
                     link ='http://localhost:5000/images/canvas_image/'+ image_name 
                     link_save.push(link)
                     console.log(b);
@@ -149,6 +132,8 @@ export class Menu_tools extends Modification {
  
   
   }
+
+  //load page event
   loadPage() {
     
  
@@ -194,6 +179,7 @@ if(link != null ){//dili null
 }
 
   }
+  //reset canvas
 resetCanvas(){
   if(role == 'user'){
     document.querySelector('#reset').addEventListener('click', ()=>{
@@ -223,7 +209,7 @@ resetCanvas(){
 
 
   // textbox
-  insertText( ) {
+  insertText() {
     let insert_text = document.querySelector(".dropbtn-insert-text");
     insert_text.addEventListener("click", () => {
         console.log('gg')
@@ -236,7 +222,7 @@ resetCanvas(){
    
          width: 100,
         splitByGrapheme: true,
-    
+        disableStyleCopyPaste: true,
         centeredScaling: true,
       });
       
@@ -248,37 +234,7 @@ resetCanvas(){
     });
   }
 
-  uploadImageLocalFile(selector) {
-    document.querySelector(selector).addEventListener("click", async () => {
-      const [fileHandle] = await window.showOpenFilePicker({
-        types: [
-          {
-            description: "Images",
-            accept: {
-              "image/jpeg": [".jpg", ".jpeg"],
-              "image/png": [".png"],
-              "image/svg+xml": [".svg"],
-            },
-          },
-        ],
-      });
-      this.loaderShow();
-      const file = await fileHandle.getFile();
-
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        fabric.Image.fromURL(reader.result, (img) => {
-          img.name = img.type;
-          img.id = this.uniqueId();
-          this.adding_object_style(img);
-
-          this.loaderHide();
-        });
-      };
-    });
-  }
+  // upload user image
   upload_user_image(){
     let photo_container = document.querySelector('#photos-container')
     
@@ -480,105 +436,7 @@ photo_container.querySelector('.close').addEventListener('click',(e)=>{
 })
 
   }
-  download_as_image() {
   
-    //  if(e.target){
-    //   const download_image = document.querySelector("#download-image")
-    //   download_image.onclick = () => {
-    //     console.log('ss');
-    //     var scaleFactor = 1;
-    //     this.canvas.setWidth(this.width * scaleFactor);
-    //     this.canvas.setHeight(this.height * scaleFactor);
-    //     this.canvas.setZoom(scaleFactor);
-  
-    //     this.canvas.renderAll();
-  
-    //     let display_name = document.querySelector("#file_name").innerHTML;
-    //     const a = document.createElement("a");
-    //     document.body.appendChild(a);
-    //     a.href = this.canvas.toDataURL({
-    //       format: "png",
-    //       // quality:  1
-    //     });
-    //     a.download = `${display_name}.png`;
-    //     a.click();
-    //     document.body.removeChild(a);
-  
-    //     this.canvas.setHeight(this.canvas.current_height);
-    //     this.canvas.setWidth(this.canvas.current_width);
-    //     this.canvas.setZoom(this.canvas.current_canvasScale);
-    //   };
-    //  }
-  
-   
-  }
-
-  paste_text() {
-    window.addEventListener("paste", (e) => {
-    
-    
-      let obj = this.canvas.getActiveObject()
-      if(obj){
-        // e.preventDefault()
-        // let text = e.clipboardData.getData("text");
-
-        // obj.text = text
-        // this.canvas.renderAll()
-      }
-   
-      // if(obj){
-      //   this.canvas.text = obj.text
-      //   setTimeout(()=>{
-         
-      //     let obj = this.canvas.getActiveObject()
-      //     obj.removeStyle('styles')
-      //     obj.removeStyle('fontStyle')
-      //     obj.removeStyle('stroke')
-      //     obj.removeStyle('strokeWidth')
-      //     obj.removeStyle('fontWeight')
-   
-         
-      //     this.canvas.renderAll();
-      //   })
-      // }
-    
-   
-    });
-  }
-
-//  text_submit(){
-   
-// // let upload_img_btn = document.querySelector('#text_submit')
-// // let upload_img = document.querySelector('#file_input')
-
-// //upload image
-// upload_img_btn.addEventListener('click',(e)=>{
-
-//   const xhr = new XMLHttpRequest()
-//   const form = document.querySelector('#upload-form');
-  
-//   const formData = new FormData(form);
-
-//   // formData.append("file_input", upload_img.files[0]);
-//   var xhttp = new XMLHttpRequest();
-//         xhttp.onreadystatechange = () => {
-//           if (xhttp.readyState == 4 && xhttp.status == 200) {
-//             let data = JSON.parse(xhttp.responseText);
-       
-
-//                  } 
-//                };
-//                xhttp.open(
-//               "POST",
-//         `http://localhost:5000/text_submit?template_id=${this.canvas.template_id}&purchased_id=${purchased_id}`,
-//         true
-//                );
-//                xhttp.send(formData);
-
- 
-
-// })
-//  }
 
  save_file_json() {
   //limit maximum 10,500 characters
@@ -760,16 +618,13 @@ var xhttp = new XMLHttpRequest();
               // document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
             },3000)
           }
+         
+         
 
      if(data === 'error'){
             document.querySelector('.lds-spinner-container-saving-json .text-container .loader').style.display = 'none'; 
 
-            document.querySelector('.lds-spinner-container-saving-json ').style.display = 'flex';
-            document.querySelector('.lds-spinner-container-saving-json .text-container .error').style.display = 'block';
-
-            document.querySelector('.lds-spinner-container-saving-json .text-container .error .btn').addEventListener('click', function(){
-              document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
-            })
+            this.alert("Something went wrong. try again later!");
 
           }
 
@@ -789,46 +644,7 @@ var xhttp = new XMLHttpRequest();
              xhttp.send(formData);
 
 
-   ///////////////////////////////////////////////
-   
-      // var xhttp = new XMLHttpRequest();
-      // xhttp.onreadystatechange = () => {
-      //   if (xhttp.readyState == 4 && xhttp.status == 200) {
-       
-      //     let data = JSON.parse(xhttp.responseText);
-      //     setTimeout(()=>{
-      //       this.loading_save('visible','Saved');
-
-      //     },1000)
-      
-      //     if(data === 'ok'){
-       
-      //       setTimeout((e)=>{
-      //         this.loading_save('hidden',null);
-      //         // document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
-      //       },3000)
-       
-      //     }
-      //     if(data === 'error'){
-      //       document.querySelector('.lds-spinner-container-saving-json .text-container .loader').style.display = 'none'; 
-
-      //       document.querySelector('.lds-spinner-container-saving-json ').style.display = 'flex';
-      //       document.querySelector('.lds-spinner-container-saving-json .text-container .error').style.display = 'block';
-
-      //       document.querySelector('.lds-spinner-container-saving-json .text-container .error .btn').addEventListener('click', function(){
-      //         document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
-      //       })
-
-      //     }
-
-      //   }
-      // };
-      // xhttp.open(
-      //   "POST",
-      //   `http://localhost:5000/saved-template?saved_json=  `+ encodeURIComponent(json_file) + `&template_id=${this.canvas.template_id}&purchased_id=${purchased_id}`,
-      //   true
-      // );
-      // xhttp.send();
+  
     });
   }
 
@@ -837,7 +653,7 @@ var xhttp = new XMLHttpRequest();
 
   //insert data
   insertData() {
-    let resize_canvas_event;
+  
     //load names from database
  const createTable = ()=>{
   return new Promise((resolve, reject)=>{
@@ -863,10 +679,6 @@ border-left:none; " contenteditable="true"></td>
 <img src="./images/canvas/download-solid.png"   class="able-download " width="18">
 <img src="./images/canvas/download-solid-disable.png"  class="disable-download" width="18">
 </td>
-
-
-     
-
 
         `;
         document.querySelector(".list-name-container table tbody ").appendChild(div)
@@ -1133,31 +945,31 @@ createTable().then(()=>{
       
           }
           if(e.target.classList.contains('sentence-case')){
- 
+
            
               let tr = document.querySelectorAll(
                 ".list-name-container .list-names  table tbody tr"
               ) 
-      
-              Array.from(tr).forEach((ev)=>{
-                if(ev.classList.contains('active') ){
-                  let b = ev.children[1].innerText.replace(/,(?=[^\s])/g, ", ");
-                  let c = b.replace(/\w\S*/g, function (txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                  });
-                  ev.children[1].innerText = c;
-      
-                  let d = ev.children[2].innerText.replace(/,(?=[^\s])/g, ", ");
-                  let e= d.replace(/\w\S*/g, function (txt) {
-                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-                  });
-                  ev.children[2].innerText = e;
-                }
-              
+         
+    
+                  for(let i = 0; i < tr.length;i++){
+                    if(tr[i].classList.contains('active') ){
+                      let b = tr[i].children[1].innerText.replace(/,(?=[^\s])/g, ", ");
+                      let c = b.replace(/\w\S*/g, function (txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                      });
+                     tr[i].children[1].innerText = c;
+          
+                      let d = tr[i].children[2].innerText.replace(/,(?=[^\s])/g, ", ");
+                      let e= d.replace(/\w\S*/g, function (txt) {
+                        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                      });
+                      tr[i].children[2].innerText = e;
+    
+                    }  
+                  }
                
-              })
-
- 
+           
               
  
           }
@@ -1195,7 +1007,7 @@ createTable().then(()=>{
           format: "png",
           // quality:  1
         });
-        a.download =  `${textbox[0].text.trim() || textbox[1].text.trim()}`;
+        a.download =  `${textbox[0].text.trim() || textbox[1].text.trim()}.png`;
         a.click();
         document.body.removeChild(a);
   
@@ -1211,13 +1023,15 @@ createTable().then(()=>{
      }
     })
 
-
-
+ 
+  
     add_name_btn.addEventListener("click", () => {
-      
+    
+
+  
       parent.style.right = 0
 
-       resize_canvas_event = true
+       this.canvas.resize_canvas_event = true
        
           let a = document.querySelector('.list-name-container').offsetWidth
           let b = window.innerWidth
@@ -1229,15 +1043,19 @@ createTable().then(()=>{
       this.canvas.discardActiveObject()
       this.canvas.renderAll()
 
-      if(resize_canvas_event == true){
+      if(this.canvas.resize_canvas_event == true){
         window.addEventListener('resize', ()=>{
-         
+ 
           let a = document.querySelector('.list-name-container').offsetWidth
           let b = window.innerWidth
           let c = b -a
           document.querySelector('main').style.width = c +'px'
                 })
       }
+
+     
+
+     
  
     });
 
@@ -1281,9 +1099,9 @@ createTable().then(()=>{
         add_name_btn.style.display = 'block'
 
          document.querySelector('main').style.width = '100%'
-          resize_canvas_event = false
-
-          if(resize_canvas_event == false){
+          this.canvas.resize_canvas_event = false
+   
+          if(this.canvas.resize_canvas_event == false){
             window.addEventListener('resize', ()=>{
               document.querySelector('main').style.width = '100%'
                     })
@@ -1311,7 +1129,7 @@ createTable().then(()=>{
     });
 
     window.addEventListener("paste",   (e) =>{
- 
+      
         if(e.target.parentElement.parentElement.parentElement){
           if(e.target.parentElement.parentElement.parentElement.parentElement.classList.contains('list-names')){
 
@@ -1345,7 +1163,7 @@ createTable().then(()=>{
                          break;
                        }
                       if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                       inputs[x].children[1].innerText = excel_data[i].children[0].innerText
+                       inputs[x].children[1].textContent = excel_data[i].children[0].textContent
                        inputs[x].querySelector('.eye-show').style.display = 'inline-block';
                        inputs[x].querySelector('.able-download').style.display = 'inline-block';
                        i++
@@ -1364,7 +1182,7 @@ createTable().then(()=>{
                     
                         if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
                         
-                       inputs[x].children[2].innerText = excel_data[i].children[0].innerText
+                       inputs[x].children[2].textContent = excel_data[i].children[0].textContent
                        inputs[x].querySelector('.eye-show').style.display = 'inline-block';
                        inputs[x].querySelector('.able-download').style.display = 'inline-block';
                        i++
@@ -1388,8 +1206,8 @@ createTable().then(()=>{
                       for(let x = 0; x < inputs.length; x++) {
                        
                             if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
-                              inputs[x].children[1].innerText = excel_data[i].children[0].innerText
-                              inputs[x].children[2].innerText = excel_data[i].children[1].innerText
+                              inputs[x].children[1].textContent = excel_data[i].children[0].textContent
+                              inputs[x].children[2].textContent = excel_data[i].children[1].textContent
                               inputs[x].querySelector('.eye-show').style.display = 'inline-block';
                               inputs[x].querySelector('.able-download').style.display = 'inline-block';
                               i++
@@ -1411,7 +1229,7 @@ createTable().then(()=>{
                        
                             if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
                               
-                              inputs[x].children[2].innerText = excel_data[i].children[0].innerText
+                              inputs[x].children[2].textContent = excel_data[i].children[0].textContent
                               inputs[x].querySelector('.eye-show').style.display = 'inline-block';
                               inputs[x].querySelector('.able-download').style.display = 'inline-block';
                               i++
@@ -1435,11 +1253,11 @@ createTable().then(()=>{
             }
             //this area exucute after paste event to change the column text in textbox canvas
             let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
-            e.target.innerText
+            e.target.textContent
             if(e.target.classList.contains('column-1')){
     
-             textbox[0].set({text: e.target.innerText}) 
-             textbox[1].set({text: e.target.parentElement.children[2].innerText}) 
+             textbox[0].set({text: e.target.textContent}) 
+             textbox[1].set({text: e.target.parentElement.children[2].textContent}) 
              
             };
             if(e.target.classList.contains('column-2')){
@@ -1456,20 +1274,7 @@ createTable().then(()=>{
     });
 
  
-
-    document
-      .querySelector(".list-name-container")
-      .addEventListener("click", (e) => {
-      
-
-        //remove row
-        // if (e.target.classList.contains("delete")) {
-        //   e.target.parentElement.remove();
-      
-          
-        // }
-      
-      });
+ 
   }
 
   // generate certificate
@@ -1602,7 +1407,8 @@ createTable().then(()=>{
                      throw err; // or handle the error
                    }
                    var img = zip.folder("images");
-                   img.file(filename + ".png", data, { binary: true });
+                   let a =  count+1
+                   img.file(filename  +'_'+'00'+a + ".png", data, { binary: true });
                    count++;
                    if (count == urls.length) {
                      zip.generateAsync({ type: "blob" }).then(function (content) {
@@ -1656,17 +1462,24 @@ createTable().then(()=>{
   //insert name on textbox
   insert_textbox() {
     const doubleClick = (e) => {
+           let parent =   document.querySelector(".list-name-container") 
+      let add_name_btn = document.querySelector("#insert-names");
+      if (e.target && e.target.name == "Column-1-textbox" || e.target && e.target.name == "Column-2-textbox") {
 
-      if (e.target && e.target.name == "Column-1-textbox") {
-       
-       document.querySelector(".list-name-container").style.display = "block"    
-  
+        parent.style.right = 0
+
+        this.canvas.resize_canvas_event = true
+        
+           let a = parent.offsetWidth
+           let b = window.innerWidth
+           let c = b -a
+           document.querySelector('main').style.width = c +'px'
+     
+         add_name_btn.style.display = 'none'
+         this.canvas.discardActiveObject()
+         this.canvas.renderAll()
       }
-      if (e.target && e.target.name == "Column-2-textbox") {
-       
-        document.querySelector(".list-name-container").style.display = "block"    
-   
-       }
+     
  
     };
     this.canvas.on({
@@ -1676,7 +1489,7 @@ createTable().then(()=>{
   
   
   }
-
+//download image
   download_as_Zip() {
     const download_as_Zip = document.querySelector("#download_as_Zip");
     download_as_Zip.onclick = () => {
@@ -1712,21 +1525,286 @@ createTable().then(()=>{
                 a.click();
                 document.body.removeChild(a);
 
-                // saveAs(content, "zipFilename");
+        
               });
             }
           });
         });
       }
 
-      // let images = document.querySelectorAll(".test-image");
-      // images.forEach((e) => {
-      //   e.remove();
-      // });
+     
     };
   }
  
 
+   // font color change
+   fontColor() {
+    let color = document.querySelector("#color");
+    color.addEventListener("input", (e) => {
+      let object = this.canvas.getActiveObject();
+      if(object === undefined){
+        this.alert("no selected textbox or image");
+      }
+      if (object != undefined) {
+        if (window.getSelection().toString() != "") {
+          object.setSelectionStyles({ fill: e.target.value });
+          this.canvas.renderAll();
+        } else if (window.getSelection().toString() == "") {
+          object.removeStyle("fill");
+          object.set("fill", e.target.value);
+          object.dirty = true;
+          this.canvas.renderAll();
+        }
+      }
+    });
+  }
+//bold text
+  bold_text() {
+    document.querySelector("#bold").onclick = () => {
+      let object = this.canvas.getActiveObject();
+      if(!object ){
+        this.alert("no selected textbox or image");
+        return false
+      }
+      if (object && object.bold === undefined) {
+        if (object.getSelectedText() == "") {
+          // empty
+          object.removeStyle("fontWeight");
+          object.set({ fontWeight: "bold" });
+          object.dirty = true;
+          this.canvas.renderAll();
+          bold.style.backgroundColor = "rgba(87, 86, 86, 0.733)";
+          object.bold = true;
+        } else {
+          object.setSelectionStyles({ fontWeight: "bold" });
+          bold.style.backgroundColor = "rgba(87, 86, 86, 0.733)";
+          object.bold = true;
+          object.dirty = true;
+          this.canvas.renderAll();
+        }
+      } else {
+        if (object.getSelectedText() == "") {
+          // empty
+          object.removeStyle("fontWeight");
+
+          // to check if some text is normal and bold
+          if (object.fontWeight == "normal") {
+            object.set({ fontWeight: "bold" });
+            this.canvas.renderAll();
+          } else {
+            object.set({ fontWeight: "normal" });
+            object.dirty = true;
+            this.canvas.renderAll();
+            bold.style.backgroundColor = "";
+            object.bold = undefined;
+          }
+        } else {
+          object.setSelectionStyles({ fontWeight: "normal" });
+          object.dirty = true;
+          bold.style.backgroundColor = "";
+          this.canvas.renderAll();
+          object.bold = undefined;
+        }
+      }
+    };
+  }
+//italic text
+  italic_text() {
+    let italic = document.querySelector("#italic");
+    italic.onclick = () => {
+      let object = this.canvas.getActiveObject();
+      if(!object ){
+        this.alert("no selected textbox or image");
+        return false
+      }
+      if (object.italic === undefined) {
+        if (object.getSelectedText() == "") {
+          object.removeStyle("fontStyle");
+
+          object.set({ fontStyle: "italic" });
+
+          object.dirty = true;
+          this.canvas.renderAll();
+          object.italic = true;
+          italic.style.backgroundColor = "rgba(87, 86, 86, 0.733)";
+        } else {
+          object.setSelectionStyles({ fontStyle: "italic" });
+          object.dirty = true;
+          this.canvas.renderAll();
+          object.italic = true;
+          italic.style.backgroundColor = "rgba(87, 86, 86, 0.733)";
+        }
+      } else {
+        if (object.getSelectedText() == "") {
+          object.removeStyle("fontStyle");
+
+          // to check if some text is normal and italic
+          if (object.fontStyle == "normal") {
+            object.set({ fontStyle: "italic" });
+            this.canvas.renderAll();
+          } else {
+            object.set({ fontStyle: "" });
+            object.dirty = true;
+            this.canvas.renderAll();
+            italic.style.backgroundColor = "";
+            object.italic = undefined;
+          }
+        } else {
+          object.setSelectionStyles({ fontStyle: "normal" });
+
+          object.dirty = true;
+          this.canvas.renderAll();
+          object.italic = undefined;
+          italic.style.backgroundColor = "";
+        }
+      }
+    };
+  }
+
  
-  
+  //text align left
+  textAlign_left() {
+    document.querySelector("#alignLeftText");
+    alignLeftText.onclick = () => {
+      let object = this.canvas.getActiveObject();
+      if(!object ){
+        this.alert("no selected textbox or image");
+        return false
+      }
+      object.set("textAlign", "left");
+
+      object.dirty = true;
+      this.canvas.renderAll();
+    };
+  }
+  //text align center
+  textAlign_center() {
+    let alignCenterText = document.querySelector("#alignCenterText");
+    alignCenterText.onclick = () => {
+      let object = this.canvas.getActiveObject();
+      if (!object) {
+        return false;
+      }
+      object.set("textAlign", "center");
+      object.dirty = true;
+      this.canvas.renderAll();
+    };
+  }
+  //text align right
+  textAlign_right() {
+    let alignRightText = document.querySelector("#alignRightText");
+    alignRightText.onclick = () => {
+      let object = this.canvas.getActiveObject();
+      if (!object) {
+        return false;
+      }
+      object.set("textAlign", "right");
+      this.canvas.setActiveObject(object);
+      object.dirty = true;
+      this.canvas.renderAll();
+    };
+  }
+  //font size
+  fontSize() {
+    let fontSize = document.querySelector('#fontSize');
+    fontSize.oninput = (e) => {
+      let object = this.canvas.getActiveObject();
+      if(!object ){
+        this.alert("no selected textbox or image");
+        return false
+      }
+      if (object) {
+        if (object.getSelectedText() != "") {
+          object.setSelectionStyles({ fontSize: e.target.value });
+          // fontSizeinput = e.target.value
+          object.dirty = true;
+          this.canvas.renderAll();
+          // object.set({fontSize: e.target.value })
+        } else {
+          object.removeStyle("fontSize");
+          object.set({ fontSize: e.target.value });
+          object.dirty = true;
+          this.canvas.renderAll();
+        }
+      }
+    };
+  }
+//font family
+  fontStyle() {
+    // fonts
+    var fonts = [
+      "Roboto",
+      "Dancing Script",
+      "Work Sans",
+      "Open Sans",
+      "Arial",
+      "Titan One",
+      "Fredoka One"
+    ];
+     
+    fonts.unshift("Times New Roman");
+    // Populate the fontFamily select
+    let fontFamilySelect = document.querySelector("#fontFamilySelect");
+    fonts.forEach((font) => {
+      var option = document.createElement("option");
+      option.innerHTML = font;
+      option.value = font;
+      option.style.fontFamily = font;
+      option.style.fontSize = "1rem";
+
+      fontFamilySelect.appendChild(option);
+    });
+
+    // Apply selected font on change
+    fontFamilySelect.onchange = (e) => {
+      let object = this.canvas.getActiveObject();
+      if(!object ){
+        this.alert("no selected textbox or image");
+        return false
+      }
+      if (e.target.value !== "Times New Roman") {
+        loadAndUse(e.target.value);
+      } else {
+        object.set("fontFamily", e.target.value);
+        this.canvas.renderAll();
+      }
+    };
+
+    const loadAndUse = (font) => {
+      let object = this.canvas.getActiveObject();
+
+      var myfont = new FontFaceObserver(font);
+      myfont
+        .load()
+        .then(() => {
+          // when font is loaded, use it.
+          console.log(object.text);
+          object.set("fontFamily", font);
+          this.canvas.renderAll();
+        })
+        .catch((e) => {
+          this.alert("unstable internet connection. cannot load google fonts");
+        });
+    };
+  }
+  //delete object
+  deleteObjects() {
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Delete") {
+    
+        if(role == 'admin'){
+          this.canvas.remove(this.canvas.getActiveObject());
+        }
+        if(role == 'user'){
+          if (this.canvas.getActiveObject().name === "textbox") {
+            return false;
+          }
+           
+            this.canvas.remove(this.canvas.getActiveObject());
+        }
+
+     
+      }
+    });
+  }
 }

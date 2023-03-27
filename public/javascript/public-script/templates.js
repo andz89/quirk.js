@@ -49,7 +49,7 @@ class Templates{
                   xhttp.onreadystatechange = () => {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
                      let response = xhttp.responseText
-                 
+                      console.log(response);
                
                      if(response === 'true'){
                   
@@ -63,7 +63,7 @@ class Templates{
                      
                        div = `
              
-                       <h3>  Your reach the limit</h3><br>
+                       <h3>  Your reach the limit</h3> 
                      
                        Please delete some of your created template!
                    
@@ -78,8 +78,8 @@ class Templates{
                       
                       let message_container = document.querySelector('.subscribe-message-container')
                       message_container.style.display = 'flex'
-           
-          
+                     
+                      
                      }
                   
           

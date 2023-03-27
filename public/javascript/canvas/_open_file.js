@@ -3,10 +3,7 @@ import { Canvas } from "./canvas.js";
 export class Open_file {
   get_file_json(json,template_id,template_name) {
 
- 
   let json_parsed = JSON.parse(json);
- 
-    
  
     const run_json_file = (canvas_saved) => {
       let canvasScale = 1;
@@ -32,7 +29,7 @@ export class Open_file {
           
         });
       };
-      let canvas_created = canvas(width, height);
+      const canvas_created = canvas(width, height);
  
      
   
@@ -120,7 +117,8 @@ export class Open_file {
               }
         
               fitCanvasToScreen();
-        
+       
+            
               function zoomIn(selector) {
                 SCALE_FACTOR = 1.1;
                 let p = 25
@@ -172,7 +170,10 @@ export class Open_file {
               }
         
               zoomOut("#zoomOut");
-       
+       //------------------------------------------
+
+
+       //----------------------------------------------------------------------------------------
             });
     
    
@@ -193,8 +194,6 @@ export class Open_file {
       "Open Sans",
       "Titan One",
       "Fredoka One"
-      
-
     ];
     const loadAndUse = (font) => {
        return new Promise((resolve, reject) => {
@@ -219,7 +218,7 @@ export class Open_file {
      
     };   
       loadAndUse(fonts).then(()=>{
-   
+       
  
       }).catch((e)=>{
       

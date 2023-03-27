@@ -207,7 +207,7 @@ if(req.files.modal_image){
 }else{
   modal_image = false
 }
-console.log('controller');
+
 
  
   req.body.thumbnail_image = thumbnail_image

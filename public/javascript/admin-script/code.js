@@ -79,7 +79,7 @@ class Code {
                
                      <div>
                          <div class="btn btn-sm btn-success copy-code">Copy</div>
-  
+                         <span class="copy-message">Copied</span>
                      </div>
              </td>
              <td>

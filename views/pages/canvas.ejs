@@ -72,31 +72,17 @@
 
         <!-- tools -->
         <div class="tools">
-
+            <li class="dropbtn-insert-text ">
+                <div>
+                    <img src="images/canvas/insert-text.png" alt="" width="20">
+                </div>
+            </li>
             <div class="text">
 
-                <div class="fonts-Select-size">
-                    <select id="fontFamilySelect" class="fontFamilySelect  "></select>
-                    <input type="number" value="18" id="fontSize"><br>
 
-                </div>
 
                 <div class="text-style-align">
 
-                    <input type="color" id="color" class="color  " value="#008080">
-
-                    <!-- color -->
-                    <label id="bold"> <img class=" "
-                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3LjMzIDguNTgiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+QXNzZXQgMTA8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl8zIiBkYXRhLW5hbWU9IkxheWVyIDMiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTS4zMywxMC4zMnYtMWwuOTEtLjE4VjNMLjMzLDIuNzh2LTFINC4xNGE0LjA5LDQuMDksMCwwLDEsMi4zNi41OSwyLDIsMCwwLDEsLjg1LDEuNzZBMS44OSwxLjg5LDAsMCwxLDcsNS4xNmExLjk0LDEuOTQsMCwwLDEtLjkyLjcsMi4wOCwyLjA4LDAsMCwxLC44Ni40LDEuNjMsMS42MywwLDAsMSwuNTEuNjgsMi4xMywyLjEzLDAsMCwxLC4xNy44OCwyLjI0LDIuMjQsMCwwLDEtLjgxLDEuODcsMy42OCwzLjY4LDAsMCwxLTIuMy42M1pNMyw1LjM0SDQuMmExLjcxLDEuNzEsMCwwLDAsMS4wNi0uMjksMSwxLDAsMCwwLC4zNy0uODIsMSwxLDAsMCwwLS4zNy0uODgsMS44MywxLjgzLDAsMCwwLTEuMTItLjI4SDNaTTMsOUg0LjU1YTEuNTksMS41OSwwLDAsMCwxLS4zQTEuMDgsMS4wOCwwLDAsMCw2LDcuODJhMS42NiwxLjY2LDAsMCwwLS4xNC0uNzEsMSwxLDAsMCwwLS40MS0uNDQsMS42OCwxLjY4LDAsMCwwLS43Mi0uMTRIM1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0wLjMzIC0xLjc0KSIvPjwvZz48L2c+PC9zdmc+"
-                            width="13" alt="">
-                    </label>
-
-                    <!-- italic -->
-                    <label id="italic">
-                        <img class=" "
-                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1LjIgOC43NiI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNjY2M7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5pdGFsaWM8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl80IiBkYXRhLW5hbWU9IkxheWVyIDQiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTUuMjEsMi43NEM0LjA4LDIuODMsNCwyLjkxLDMuNzksMy44OUwyLjcxLDkuNTRjLS4yLDEtLjA4LDEuMTIsMSwxLjJsLS4wNy4zOEguMDlsLjA5LS4zOGMxLjA5LS4xLDEuMjEtLjE5LDEuNDEtMS4yTDIuNjgsMy44OWMuMTktMSwuMDgtMS4wNi0xLjA1LTEuMTVsLjA4LS4zOEg1LjNaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC4wOSAtMi4zNikiLz48L2c+PC9nPjwvc3ZnPg=="
-                            width="8" alt="" />
-                    </label>
 
                     <!-- alignLeftText -->
                     <label id="alignLeftText">
@@ -118,27 +104,33 @@
                             alt="" width="15" />
                     </label>
 
+                    <label id="bold"> <img class=" "
+                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3LjMzIDguNTgiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+QXNzZXQgMTA8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl8zIiBkYXRhLW5hbWU9IkxheWVyIDMiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTS4zMywxMC4zMnYtMWwuOTEtLjE4VjNMLjMzLDIuNzh2LTFINC4xNGE0LjA5LDQuMDksMCwwLDEsMi4zNi41OSwyLDIsMCwwLDEsLjg1LDEuNzZBMS44OSwxLjg5LDAsMCwxLDcsNS4xNmExLjk0LDEuOTQsMCwwLDEtLjkyLjcsMi4wOCwyLjA4LDAsMCwxLC44Ni40LDEuNjMsMS42MywwLDAsMSwuNTEuNjgsMi4xMywyLjEzLDAsMCwxLC4xNy44OCwyLjI0LDIuMjQsMCwwLDEtLjgxLDEuODcsMy42OCwzLjY4LDAsMCwxLTIuMy42M1pNMyw1LjM0SDQuMmExLjcxLDEuNzEsMCwwLDAsMS4wNi0uMjksMSwxLDAsMCwwLC4zNy0uODIsMSwxLDAsMCwwLS4zNy0uODgsMS44MywxLjgzLDAsMCwwLTEuMTItLjI4SDNaTTMsOUg0LjU1YTEuNTksMS41OSwwLDAsMCwxLS4zQTEuMDgsMS4wOCwwLDAsMCw2LDcuODJhMS42NiwxLjY2LDAsMCwwLS4xNC0uNzEsMSwxLDAsMCwwLS40MS0uNDQsMS42OCwxLjY4LDAsMCwwLS43Mi0uMTRIM1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0wLjMzIC0xLjc0KSIvPjwvZz48L2c+PC9zdmc+"
+                            width="13" alt="">
+                    </label>
+
+                    <!-- italic -->
+                    <label id="italic">
+                        <img class=" "
+                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1LjIgOC43NiI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNjY2M7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5pdGFsaWM8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl80IiBkYXRhLW5hbWU9IkxheWVyIDQiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTUuMjEsMi43NEM0LjA4LDIuODMsNCwyLjkxLDMuNzksMy44OUwyLjcxLDkuNTRjLS4yLDEtLjA4LDEuMTIsMSwxLjJsLS4wNy4zOEguMDlsLjA5LS4zOGMxLjA5LS4xLDEuMjEtLjE5LDEuNDEtMS4yTDIuNjgsMy44OWMuMTktMSwuMDgtMS4wNi0xLjA1LTEuMTVsLjA4LS4zOEg1LjNaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC4wOSAtMi4zNikiLz48L2c+PC9nPjwvc3ZnPg=="
+                            width="8" alt="" />
+                    </label>
+
+
+
                 </div>
-                <div class="fill-tools-container">
-
-
-
-
-
-
-
-
+                <div class="fonts-Select-size">
+                    <select id="fontFamilySelect" class="fontFamilySelect  "></select>
+                    <input type="number" value="18" id="fontSize"><br>
 
                 </div>
+                <input type="color" id="color" class="color  " value="#008080">
+
             </div>
 
 
 
-            <li class="dropbtn-insert-text ">
-                <div>
-                    <img src="images/canvas/insert-text.png" alt="" width="20">
-                </div>
-            </li>
+
         </div>
 
     </div>
@@ -222,8 +214,24 @@
     </div>
 
 
-    <!-- alert for fonts not loading -->
-    <div id="alert-header"></div>
+    <!-- notification for object error in canvas -->
+    <div id="notification" class="noti-close">
+        <div class="content-notification noti-close">
+            <div class="content-notification-details">
+                <div class="header-msg noti-close">
+                    <h4>Warning:</h4>
+                </div>
+                <div class="message-notification noti-close">
+
+                </div>
+                <div class="close-containe-msg noti-close">
+                    Click anywhere to close
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
     <!-- canvas -->
     <main>
@@ -317,11 +325,7 @@
     <div class="lds-spinner-container-saving-json ">
         <div class="text-container">
             <span class="loader"> </span>
-            <div class="error" style="display:none">
-                <span>Something went wrong!</span><br>
-                <div class="btn btn-sm btn-danger text text-white">Close</div>
 
-            </div>
         </div>
     </div>
 

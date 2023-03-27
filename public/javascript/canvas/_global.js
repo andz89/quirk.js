@@ -1,4 +1,4 @@
-export class Modification {
+export class Global {
   constructor(property) {
     this.canvas = property.canvas;
     this.canvasScale = property.canvasScale;
@@ -8,19 +8,7 @@ export class Modification {
     this.height = property.height;
   }
 
-  objectSizeOnCanvas(object) {
-    if (this.width > 3000) {
-      object.scaleToWidth(700);
-    } else if (this.height > 2000) {
-      object.scaleToWidth(450);
-    } else if (this.height == 800 && this.width == 400) {
-      object.scaleToWidth(200);
-    } else {
-      object.scaleToWidth(250);
-    }
-    object.originX = "center";
-    object.originY = "center";
-  }
+ 
 
   adding_object_style(object) {
     if (object.type === "textbox") {
@@ -44,23 +32,9 @@ export class Modification {
     }
   }
 
-  loaderShow() {
-    document.querySelector(".modal-loader").classList.add("spinner-1");
-    document.querySelector(".modal-loader").style.display = "block";
-  }
-  loaderHide() {
-    document.querySelector(".modal-loader").classList.remove("spinner-1");
-    document.querySelector(".modal-loader").style.display = "none";
-  }
+ 
 
-  groupObjectStyle(object) {
-    object.set("borderColor", "#333");
-    object.set("cornerColor", "#17a2b8");
-    object.set("cornerSize", 12);
-    object.set("cornerStyle", "circle");
-    object.set("transparentCorners", false);
-    object.set("lockUniScaling", true);
-  }
+ 
 
   uniqueId() {
     let d = new Date();
@@ -76,21 +50,29 @@ export class Modification {
   }
 
  
-
+//user in font selection
   alert(text) {
-    let alert_container = document.querySelector("#alert-header");
-    alert_container.innerHTML = "";
+    let alert_container = document.querySelector("#notification");
+    
+    let message_notification = document.querySelector("#notification .message-notification");
+    message_notification.innerHTML = "";
     alert_container.style.display = "flex";
-    let span = document.createElement("span");
-    span.innerHTML = `${text}`;
-    alert_container.appendChild(span);
+    let div = document.createElement("div");
+    
+    div.innerHTML = `${text}`;
+    message_notification.appendChild(div);
 
-    setTimeout(() => {
-      alert_container.removeChild(span);
+
+   alert_container.addEventListener('click',  (e)=>{
+  
+    if(e.target.classList.contains("noti-close")){
+ 
       alert_container.style.display = "none";
-    }, 5000);
+    }
+   })
+ 
   }
-
+//arrow key functionality
   moveSelected(direction) {
     let STEP = 5;
 
@@ -123,15 +105,7 @@ export class Modification {
   }
 
   
-  
-  returnToOriginalSize() {
-    this.canvas.setHeight(this.canvas.current_height);
-    this.canvas.setWidth(this.canvas.current_width);
-    this.canvas.setZoom(this.canvas.current_canvasScale);
-  }
-
-  
-
+//downloading certificates //loader
   loading(display,message) {
     document.querySelector(".lds-spinner-container-generate").style.visibility = display;
     if(message){
@@ -143,6 +117,8 @@ export class Modification {
     }
    
   }
+
+  //use in saving json file to server //loader
   loading_save(display,message) {
     document.querySelector(".lds-spinner-container-saving-json").style.visibility = display;
     if(message){

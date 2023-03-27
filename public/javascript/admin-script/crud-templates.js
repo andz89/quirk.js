@@ -49,7 +49,7 @@ class Crud_templates {
             let modal_description = modal_parent.querySelector('.description')
             let modal_id = modal_parent.querySelector('.template_id') 
             let display_thumbnail = modal_parent.querySelector('.display_thumbnail') 
-            let display_modal_image = modal_parent.querySelector('.display_modal_image') 
+         
 
      
             //modal display element end//
@@ -60,23 +60,12 @@ class Crud_templates {
             let template_description = parent.querySelector('.description').innerText;
             let template_id = parent.querySelector('.template-id').value
             let template_thumbnail = parent.querySelector('.thumbnail').src
-            // let template_modal_image = parent.querySelector('.modal_image').src
-
-            
-            // let thumbnail_image_link= parent.querySelector('#thumbnail_image_link').value//element from display
-            // let modal_image_link= parent.querySelector('#modal_image_link').value//element from display
-             //element from display element end//
-            // console.log(modal_image_link);
-
-            //setting value
-            // modal_image_path.value = modal_image_link
-            // thumbnail_image_path.value = thumbnail_image_link
-            // console.log(modal_image_path.value);
+            let display_modal_image = parent.querySelector('.display_modal_image')
 
             modal_title.value = template_title;
             modal_description.value = template_description.trim()
             display_thumbnail.src = template_thumbnail
-            // display_modal_image.src = template_modal_image
+ 
 
             modal_id.value = template_id
      
@@ -99,7 +88,7 @@ class Crud_templates {
               modal_parent.style.display = 'none';
             });
 
-
+           //display upload image before submission to server
             modal_parent.querySelector(".thumbnail-image").addEventListener("change", (e) => {
           
               const imageFiles = e.target.files;
@@ -130,7 +119,36 @@ class Crud_templates {
       
               
             });
-
+            modal_parent.querySelector(".modal-image").addEventListener("change", (e) => {
+          
+              const imageFiles = e.target.files;
+              /**
+               * Count the number of files selected.
+               */
+              const imageFilesLength = imageFiles.length;
+              /**
+               * If at least one image is selected, then proceed to display the preview.
+               */
+              if (imageFilesLength > 0) {
+                  /**
+                   * Get the image path.
+                   */
+                  const imageSrc = URL.createObjectURL(imageFiles[0]);
+                  /**
+                   * Select the image preview element.
+                   */
+                 
+                  /**
+                   * Assign the path to the image preview element.
+                   */
+                  display_modal_image.src = imageSrc;
+           
+              }
+      
+            
+      
+              
+            });
           }
 
           

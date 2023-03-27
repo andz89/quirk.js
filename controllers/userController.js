@@ -109,25 +109,18 @@ exports.activateCanvas = (req,res) => {
   
 
   let user = new User(template);
-  user.duplicate_template().then(function (data)   {
+  user.duplicate_template().then(function ()   {
    
-    if(data === true){
-     
-      req.flash("success_message", ` ${req.query.template_name}. `);
-      res.send(data);
-
-    }else if(data === 'limit-reach'){
-
-      res.send(data);
-    }
-    
-    else{
-   
-      res.send(data);
-    }
   
- 
+      req.flash("success_message", ` ${req.query.template_name}. `);
+      res.send('true');
+
+
+    
    
+  }).catch((data)=>{
+    
+    res.send(data);
   })
 }
 exports.submit_code = (req,res) => {
@@ -140,19 +133,11 @@ exports.submit_code = (req,res) => {
     code.code = req.query.code;
 
   let user = new User(code);
-  user.check_code().then(function (data) {
-  
-    if(data == 'true'){
-     
+  user.check_code().then(function () {
       req.flash("success_message_subscriber", 'true');
-      res.send(data);
-
-    }else{
-      res.send(data);
-    }
-  
- 
-   
+      res.send('true');
+  }).catch((data)=>{
+    res.send(data);
   })
 }
 exports.resetCanvas = (req,res) => {

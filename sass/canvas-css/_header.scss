@@ -3,12 +3,9 @@
   background-color: #0f5c68;
 
   position: fixed;
-
   width: 100%;
-
   color: #f1f1f1;
   z-index: 1;
-
   padding-bottom: 5px;
 
   //file name
@@ -35,7 +32,6 @@
         font-size: .8rem;
       }
     }
-
 
   }
 
@@ -69,6 +65,7 @@
     }
 
 
+    // for canvas options ----------------------------------------------------------------
     /* The container <div> - needed to position the dropdown content */
     .dropdown {
 
@@ -113,7 +110,7 @@
       display: none;
     }
 
-
+    // end
 
 
 
@@ -235,19 +232,60 @@
 
 
 
-
-#alert-header {
+// font style selection css
+#notification {
   position: fixed;
-  // display: flex;
+
   display: none;
   padding: 2px 5px;
-  justify-content: flex-start;
+
   cursor: pointer;
   user-select: none;
   gap: 10px;
+  height: 100%;
   width: 100%;
-  background-color: rgb(255, 237, 137);
+  background-color: #f0f3f300;
   text-align: center;
-  z-index: 4;
-  opacity: .8;
+  z-index: 1;
+
+
+
+
+  .content-notification {
+    margin: auto;
+
+    .content-notification-details {
+      box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+      background-color: #fafc8c;
+      height: 100%;
+      width: 300px;
+      padding: 10px;
+    }
+
+    .header-msg {
+      width: 100%;
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+
+    }
+
+    .close-containe-msg {
+      width: 100%;
+      font-size: 12px;
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      font-style: italic;
+
+
+    }
+
+    .message-notification {
+      font-size: 14px;
+      background-color: #fff;
+      padding: 5px;
+    }
+
+  }
 }

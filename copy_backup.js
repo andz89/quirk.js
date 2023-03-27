@@ -203,3 +203,36 @@ let json_file = JSON.stringify(merge);
       xhttp.send();
     });
   }
+
+  download_as_image() {
+  
+    if(e.target){
+     const download_image = document.querySelector("#download-image")
+     download_image.onclick = () => {
+       console.log('ss');
+       var scaleFactor = 1;
+       this.canvas.setWidth(this.width * scaleFactor);
+       this.canvas.setHeight(this.height * scaleFactor);
+       this.canvas.setZoom(scaleFactor);
+ 
+       this.canvas.renderAll();
+ 
+       let display_name = document.querySelector("#file_name").innerHTML;
+       const a = document.createElement("a");
+       document.body.appendChild(a);
+       a.href = this.canvas.toDataURL({
+         format: "png",
+         // quality:  1
+       });
+       a.download = `${display_name}.png`;
+       a.click();
+       document.body.removeChild(a);
+ 
+       this.canvas.setHeight(this.canvas.current_height);
+       this.canvas.setWidth(this.canvas.current_width);
+       this.canvas.setZoom(this.canvas.current_canvasScale);
+     };
+    }
+ 
+  
+ }

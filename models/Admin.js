@@ -151,10 +151,16 @@ Admin.prototype.deleteImageBackground = async  function (data){
 
 Admin.prototype.update_template = function () {
   return new Promise(async (resolve, reject) => {
-    
+    let json_file;
     let image_to_delete = []
     let thumbnail;
     let modal_image;
+    if(this.data.template_json.length){
+      json_file = `template_json ='${this.data.template_json}',`
+    }else{
+      json_file = '';
+    }
+
 
       if(this.data.thumbnail_image == false ){//no upload thumbnail
           thumbnail = ''
@@ -173,7 +179,7 @@ Admin.prototype.update_template = function () {
      }
 
 
-    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',${thumbnail} ${modal_image} template_description = '${this.data.template_description}',template_json ='${this.data.template_json}' WHERE template_id = '${this.data.template_id}'`;
+    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',${thumbnail} ${modal_image}  ${json_file} template_description = '${this.data.template_description}' WHERE template_id = '${this.data.template_id}'`;
       db.query(sql, (err, result) => {
         if (err) {
           reject(err);
@@ -181,8 +187,7 @@ Admin.prototype.update_template = function () {
         }
         resolve(result);
       });
-      console.log('delete image');
-      console.log(image_to_delete);
+ 
       if(image_to_delete.length) {
        
         this.deleteImageBackground(image_to_delete)

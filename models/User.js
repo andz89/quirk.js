@@ -57,7 +57,9 @@ User.prototype.validate = function () {
       this.errors_data.password = " *You must provide a password. ";
     }
 
-    //execute only if the id is true // user for registration only
+
+    // use for registration only not for update
+    //this condition prevent if the validate function is used in update account
     if (this.data.user_id === undefined) {
       // length of input password
       if (
@@ -75,7 +77,9 @@ User.prototype.validate = function () {
         this.errors_data.password = " *Password cannot exceed 30 characters ";
       }
     }
-    // end ------------ execute only if the id is true // user for registration only
+    // end ------------ user for registration only
+
+
 
     // length of input username
     if (this.data.user_name.length > 0 && this.data.user_name.length < 3) {
@@ -88,7 +92,7 @@ User.prototype.validate = function () {
     }
 
     const checkExistUsername = () => {
-      if (this.data.user_id === true) {
+      if (this.data.user_id === true) {//for update account
         return new Promise((resolve, reject) => {
           let sql = `SELECT * FROM users WHERE user_name = "${this.data.user_name}"
            OR user_email = "${this.data.user_email}"`;
@@ -101,6 +105,7 @@ User.prototype.validate = function () {
           });
         });
       } else {
+        //for registration of new account
         return new Promise((resolve, reject) => {
           let sql = `SELECT * FROM users WHERE user_name = "${this.data.user_name}"
            OR user_email = "${this.data.user_email}"`;
@@ -115,31 +120,43 @@ User.prototype.validate = function () {
       }
     };
 
-    // Only if username and email is valid then check to see if it's already taken
+   
     if (
       this.data.user_name.length > 2 &&
       this.data.user_name.length < 31 &&
       validator.isAlphanumeric(this.data.user_name)
     ) {
+       // if username and email is valid then check to see if it's already taken
       checkExistUsername().then((result) => {
         if (result.length) {
           result.forEach((element) => {
             if (element.user_email === this.data.user_email) {
               if (element.user_id === this.data.user_id) {
+                //if the validation function is used to update the user account
+                //this area check if the current user is the owner of current email
+                
+                resolve();
               } else {
                 this.errors_data.email = " *That email is already taken. ";
+                resolve();
               }
             }
             if (element.user_name === this.data.user_name) {
               if (element.user_id === this.data.user_id) {
+                //if the validation function is used to update the user account
+
+                //this area check if the current user is the owner of current user_name
+                resolve();
               } else {
                 this.errors_data.username = "*That username is already taken.";
+                resolve();
               }
             }
 
-            resolve();
+          
           });
         } else {
+          //the provide new username and email is unique
           resolve();
         }
       });
@@ -280,14 +297,14 @@ User.prototype.saved_template_database  =function() {
       resolve(result);
       });
     }
-
-            
+   
   });
 };
 
 
 
 //--------------------checking code, updating code and updating use start------------------------//
+//get user templates created -
 User.prototype.getUserTemplates = function() {
   return new Promise(async (resolve, reject) => {
    
@@ -311,23 +328,26 @@ User.prototype.getUserTemplates = function() {
 });
 }
 
-//update activation code details
-User.prototype.update_user = function (count){
+//update activation code details-
+// User.prototype.update_user = function (count){
   
-  return new Promise( (resolve, reject)=> {
-    var sql = `UPDATE users SET  certificate_subscription = 'true' WHERE user_id = '${this.data.user_id}'`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
+//   return new Promise( (resolve, reject)=> {
+//     var sql = `UPDATE users SET  certificate_subscription = 'true' WHERE user_id = '${this.data.user_id}'`;
+//     db.query(sql, (err, result) => {
+//       if (err) {
+//         reject(err);
+//         return false;
+//       }
        
-      resolve()
-    });
-  })
+//       resolve()
+//     });
+//   })
 
-}
-//update activation code details
+// }
+
+//update activation code details -
+
+
 User.prototype.update_code = function ( ){
  
 
@@ -351,7 +371,7 @@ User.prototype.update_code = function ( ){
 
 }
  
-//check code and validate
+ //check code and validate  *
 User.prototype.check_code = function(){
 
   
@@ -368,12 +388,12 @@ User.prototype.check_code = function(){
       if(result.length > 0){
         this.data.days_duration =  result[0].days_duration
         await this.getUserTemplates()
-               await this.update_code()
-              resolve('true')
+        await this.update_code()
+        resolve()
               
       }else{
         this.data.taken_message ='not found'
-        resolve(this.data.taken_message)
+        reject(this.data.taken_message)
       }
     
 
@@ -385,12 +405,12 @@ User.prototype.check_code = function(){
 });
 }
 
-//--------------------checking code, updating code and updating user end------------------------//
+//end-------------------checking code, updating code and updating user  
 
 
 
 
-
+// start ------------------//
 //update activation code details
 User.prototype.create_template_copy = function (){
   
@@ -422,7 +442,7 @@ User.prototype.create_template_copy = function (){
 
 }
 
-//update temlpate used 
+//update template_used  column
 User.prototype.updateActivationCode_template_used = function (){
   
   return new Promise( (resolve, reject)=> {
@@ -442,7 +462,7 @@ User.prototype.updateActivationCode_template_used = function (){
 
 }
 
-//check subscription and add 1 to template used count if not limit reach
+//check subscription and add 1 to template used count if not limit reach -
 User.prototype.check_template_subscription = function(){
   return new Promise( async (resolve, reject) => {
     let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription = "true"`;
@@ -465,13 +485,15 @@ User.prototype.check_template_subscription = function(){
    
       }else{
         this.data.certificate_subsription = false
-        this.data.taken_message = 'Please subcribe!'
+        this.data.taken_message = 'Please subcribe!!!!'
         resolve()
       }
      
     });
   })
 }
+
+//*
 User.prototype.duplicate_template =  function(){
   return new Promise( async (resolve, reject) => {
       await  this.getUserTemplates()
@@ -487,17 +509,18 @@ User.prototype.duplicate_template =  function(){
       return false;
       }
       await this.updateActivationCode_template_used()
-      resolve(this.data.certificate_subsription)
+      resolve()
     
       });
     }else{
-
-    resolve(this.data.taken_message)
+      reject(this.data.taken_message)
+ 
     }
      
      })
 }
  
+// end ------------------//
 
 
 
@@ -527,28 +550,23 @@ User.prototype.delete_template = function (req, res) {
 }
 
 //get activation code and minus 1 to template used count
-User.prototype.getActivation_code = function(req, res) {
-  return new Promise((resolve, reject) => {
-    let sql = `SELECT * FROM activation_code WHERE  certificate_subscription='true'&& user_id = '${this.data.user_id}'`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
+// User.prototype.getActivation_code = function(req, res) {
+//   return new Promise((resolve, reject) => {
+//     let sql = `SELECT * FROM activation_code WHERE  certificate_subscription='true'&& user_id = '${this.data.user_id}'`;
+//     db.query(sql, (err, result) => {
+//       if (err) {
+//         reject(err);
+//         return false;
+//       }
     
-      this.data.template_used_count = result[0].template_used - 1
-      resolve(result);
+//       this.data.template_used_count = result[0].template_used - 1
+//       resolve(result);
 
-    });
-  });
-}
+//     });
+//   });
+// }
 
 //delete user template and update activation code
-
-
-
-
-
 
 User.prototype.update_list = function (count){
  
@@ -577,11 +595,6 @@ User.prototype.update_list = function (count){
   })
 
 }
-
-
-
-
-
 
 
 User.prototype.reset_canvas = function () {

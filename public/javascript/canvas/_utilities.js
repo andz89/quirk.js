@@ -1,56 +1,14 @@
-import { Modification } from "./_modification.js";
+import { Global } from "./_global.js";
  
-export class Utilities extends Modification {
-  deleteObjects() {
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Delete") {
-    
-        if(role == 'admin'){
-          this.canvas.remove(this.canvas.getActiveObject());
-        }
-        if(role == 'user'){
-          if (this.canvas.getActiveObject().name === "textbox") {
-            return false;
-          }
-           
-            this.canvas.remove(this.canvas.getActiveObject());
-        }
-
-     
-      }
-    });
-  }
-
-  discardActiveObject() {
+export class Utilities extends Global {
  
-    window.onclick = (e) => {
-  
-      if (e.target.classList.contains("upper-canvas")) {
-        document.querySelector(".files-container .dropdown-content").style.display = "none";
-      }
- 
-      if (e.target.id === "canvas-background") {
-        document.querySelector(".files-container .dropdown-content").style.display = "none";
-        this.canvas.discardActiveObject();
-        this.canvas.renderAll();
-      }
-    };
 
-    document.querySelector(".files-container .dropdown-content").addEventListener("click", ()=>{
-      document.querySelector(".files-container .dropdown-content").style.display = "none";
-    })
-    
-  }
-
+  //click on object in the canvas event
   canvasOn() {
     const select_object = (o) => {
       var activeObj = o.selected[0];
 
-      if(activeObj.type === 'activeSelection') {
-        this.canvas.discardActiveObject();
-      } else {
-        //do nothing
-      }
+     
       // bold text
       let bold = document.querySelector("#bold");
       if (activeObj.type == "textbox" && activeObj.fontWeight === "bold") {
@@ -88,22 +46,7 @@ export class Utilities extends Modification {
       }
       // -------------------------------------//
 
-      // stroke_width
-      // document.querySelector("#strokeWidth").value = activeObj.strokeWidth;
-      // -------------------------------------//
-
-      // -------------------------------------//
-
-      if (activeObj.group !== undefined) {
-        let group = activeObj.group;
-        group.set("borderColor", "#333");
-        group.set("cornerColor", "#17a2b8");
-        group.set("cornerSize", 8);
-        group.set("cornerStyle", "circle");
-        group.set("transparentCorners", false);
-        group.set("lockUniScaling", true);
-        group.setControlsVisibility({ mtr: false });
-      }
+ 
       activeObj.set("cornerSize", 8);
       activeObj.setControlsVisibility({ mtr: false });
       activeObj.set("borderColor", "#333");
@@ -119,20 +62,7 @@ export class Utilities extends Modification {
 
   
 
- 
-
-
-    // font size change when scaling
-    // this.canvas.store_objects = []
-    // const mouseUp_object = (o) => {
-    //   let activeObj = o.target;
-    //   if (activeObj !== null  && activeObj.type === "textbox") {
-    //     document.querySelector("#fontSize").value = activeObj.fontSize
-    //   }
-    
-     
-    // };
-
+  
  
 
 
@@ -176,14 +106,14 @@ export class Utilities extends Modification {
       "selection:updated": select_object,
       "selection:created": select_object,
  
-      // "mouse:up": mouseUp_object,
+  
       'object:moving': moving_object,
     
     });
   }
 
-  // arrow movement
-  arrowMovement() {
+  // arrow movement // mirror
+  mirror_movement() {
     var Direction = {
       LEFT: 0,
       UP: 1,
@@ -284,7 +214,7 @@ export class Utilities extends Modification {
   }
 
  
-  filesBtn() {
+  canvas_option() {
     document.querySelector(".files-btn").onclick = (e) => {
       let el = document.querySelector(".files-container .dropdown-content");
 
@@ -295,5 +225,51 @@ export class Utilities extends Modification {
       }
     };
   }
-  
+  paste_text(){
+    window.addEventListener("copy", (e)=>{
+      let obj = this.canvas.getActiveObject();
+     obj.disableStyleCopyPaste = true
+
+      setTimeout(() => {
+        obj.removeStyle('font-family');
+
+   
+        this.canvas.renderAll();
+      });
+
+
+        if(obj){
+     
+//           setTimeout( ()=>{
+//             // obj.text 
+//             let span = document.createElement("span");
+//             span.textContent = obj.text;
+//             span.className = 'text-span'
+//             document.body.appendChild(span);
+//             document.querySelector('.text-span').style.fontFamily = obj.fontFamily;
+         
+//             let text_content = document.querySelector('.text-span').textContent
+//             // text_content.removeAttribute("style")
+            
+//             // obj.set('text',te)
+            
+//            // Assume we have an existing Textbox on the canvas
+ 
+
+// // Create a clone of the original Textbox
+// var clonedTextbox = fabric.util.object.clone(obj);
+
+// // Set a new position for the cloned Textbox
+// clonedTextbox.set({ left: 100, top: 100 });
+//             clonedTextbox.set({text: 'sdfdsf'})
+// // Add the cloned Textbox to the canvas
+// this.canvas.add(clonedTextbox);
+
+// // Render the this.canvas
+// this.canvas.renderAll();
+//           })
+ 
+        }
+    })
+  }
 }
