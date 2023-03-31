@@ -208,29 +208,39 @@ resetCanvas(){
 }
 
 
-  // textbox
+  // textbox 
   insertText() {
     let insert_text = document.querySelector(".dropbtn-insert-text");
     insert_text.addEventListener("click", () => {
+     
         console.log('gg')
+  
+
       let object = new fabric.Textbox("Your Text Here", {
         textAlign: "center",
 
       
         id: this.uniqueId() ,
         dirty: true,
-   
          width: 100,
         splitByGrapheme: true,
-        disableStyleCopyPaste: true,
+        highlightOnFocus: false,
         centeredScaling: true,
+        highlight: false // disable auto-highlight
       });
       
       object.fontSize = 12
       object.scaleToWidth(800)
-      object.name = 'user-custom';
-      object.lockMovementX = true
-      this.adding_object_style(object);
+      object.name = role == 'admin'? object.type : 'user-custom';
+     
+      // object.lockMovementX = true
+      object.perPixelTargetFind = false;
+      this.canvas.add(object)
+      // this.canvas.overflow = 'visible'
+      this.canvas.setActiveObject(object);
+      this.canvas.viewportCenterObject(object);
+      this.canvas.renderAll();
+      // this.adding_object_style(object);
     });
   }
 
@@ -439,20 +449,14 @@ photo_container.querySelector('.close').addEventListener('click',(e)=>{
   
 
  save_file_json() {
-  //limit maximum 10,500 characters
-  //target limit 10,000 characters
+ 
     document.getElementById("save_json").addEventListener("click", () => {
      
-      let ab = this.canvas.toJSON([
-       "id",
-       "name",
-       'tae'
-     ]);
-     console.log(ab);
+   
  this.loading_save('visible','Saving . . .');
     function replaceBreakLine(valueToEscape) {
       if (valueToEscape != null && valueToEscape != "") {
-         return valueToEscape.replaceAll(/\\n|\n/g,"<-br->");
+         return valueToEscape.replaceAll(/(\r\n|\n|\r)/gm,"<-br->");
       } else {
          return valueToEscape;
       } 
@@ -474,67 +478,11 @@ photo_container.querySelector('.close').addEventListener('click',(e)=>{
   this.canvas.renderAll()
 })
 
-      let textbox_property = [
-        "filters",
-        "originX",
-        "originY",
-        "version",
-        "stroke",
-        "strokeWidth",
-       "strokeDashArray",
-        "strokeLineCap",
-        "strokeDashOffset",
-        "strokeLineJoin",
-        "strokeUniform",
-        "strokeMiterLimit",
-        "angle",
-        "flipX",
-        "flipY",
-        "opacity",
-        "shadow",
-        "visible",
-        "fillRule",
-        "paintFirst",
-        "globalCompositeOperation",
-        "skewX",
-        "skewY",
-        "underline",
-        "overline",
-        "linethrough",
-        // "fontStyle",
-        "lineHeight",
-        "charSpacing",
-        // "styles",
-        "direction",
-        "path",
-        "pathStartOffset",
-        "pathSide",
-        "pathAlign",
-        "splitByGrapheme",
-        "editable",
-        "borderColor",
-        "cornerColor",
-        "cornerSize",
-        "cornerStyle",
-        "transparentCorners",
-        "_controlsVisibility",
-       "lockMovementX",
-        "lockMovementY",
-        // "lockScalingX",
-        // "lockScalingY",
-        "underline",
-        "selectable",
-        "overline",
-"linethrough",
-"deltaY",
-// "selectionStyle",
-        
-    ];
   
+ 
     let json = this.canvas.toJSON([
       "id",
       "name",
-      'tae'
       
     ]);
  
@@ -542,49 +490,18 @@ photo_container.querySelector('.close').addEventListener('click',(e)=>{
 json.objects.forEach((e)=>{
  
         if(e.type === 'textbox'){
+          e.text =e.text.trim()
         e.text =  replaceQoute(replaceBreakLine(e.text)) 
         
         }
       
-        if(e.name === 'bg-image'){
-          delete e['left'];
-          delete e['top'];
-          delete e['crossOrigin'];
-          delete e['scaleY'];
-          delete e['scaleX'];
-          delete e['width'];
-          delete e['height'];
-          }
+      
         
 {
  
-}  textbox_property.forEach((c)=>{
-     delete e[c];
-    if(e.cropY === 0 || e.cropX === 0){
-      delete e['cropY'];
-      delete e['cropX'];
-    }
-   
-    if(e.fill ==="rgb(0,0,0)" || e.fill === "#000000"){
-      delete e["fill"];
-    }
-    if(e.backgroundColor === ""||e.backgroundColor === "transparent" )
-    delete e["backgroundColor"];
-     })
-     if(e.textBackgroundColor === ""){
-    delete e["textBackgroundColor"];
-     }
-     if(e.fontWeight === "normal"){
-      delete e["fontWeight"];
-     }
+}  
+
  
-     if(e.fontFamily === "Times New Roman"){
-      delete e["fontFamily"];
-     }
-     if(e.minWidth === 20){
-      delete e["minWidth"];
-     }
-    
 })
 
  
@@ -648,7 +565,76 @@ var xhttp = new XMLHttpRequest();
     });
   }
 
+  print_view(){
+    document.querySelector('#print-view').addEventListener('click', ()=>{
+    
+      let imageSrc = document.querySelector('#view-image')
+ 
+      const resizeCanvas = ()=>{
+        return new Promise((resolve, reject) =>{
+          var scaleFactor = 1;
+          this.canvas.setWidth(this.width * scaleFactor);
+          this.canvas.setHeight(this.height * scaleFactor);
+          this.canvas.setZoom(scaleFactor);
+    
+          this.canvas.renderAll();
+    
+          
+         
+          let canvas = this.canvas.toDataURL({
+            format: "png",
+            // quality:  1
+          });
+         
+          imageSrc.src = canvas
+          this.canvas.setHeight(this.canvas.current_height);
+          this.canvas.setWidth(this.canvas.current_width);
+          this.canvas.setZoom(this.canvas.current_canvasScale);
   
+          resolve()
+        })
+      }
+      
+       resizeCanvas().then(()=>{
+
+        // get the dimensions of the viewport
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        
+        // get the image element
+        var image = document.getElementById('view-image');
+        
+        // get the natural dimensions of the image
+        var naturalWidth = image.naturalWidth;
+        var naturalHeight = image.naturalHeight;
+        
+        // calculate the aspect ratios of the viewport and image
+        var viewportAspectRatio = viewportWidth / viewportHeight;
+        var imageAspectRatio = naturalWidth / naturalHeight;
+        
+        // determine which dimension to scale by
+        if (viewportAspectRatio > imageAspectRatio) {
+          // scale by height
+          var scaleFactor = viewportHeight / naturalHeight;
+        } else {
+          // scale by width
+          var scaleFactor = viewportWidth / naturalWidth;
+        }
+        
+        // set the CSS transform property to scale the image
+        image.style.transform = 'scale(' + scaleFactor + ')';
+        
+              
+            
+         
+                  let image_container = document.querySelector('.print-view-container')
+        image_container.style.display = 'flex';
+        console.log('done');
+            
+       })
+     
+    })
+  }
  
 
   //insert data
@@ -797,7 +783,7 @@ createTable().then(()=>{
           e.target.parentElement.querySelector('.eye-show').style.display = 'none'
           e.target.parentElement.querySelector('.able-download').style.display = 'none'
         }
-        let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
+        let textbox= this.canvas.getObjects().filter((el) => el.name === 'column-1' || el.name === 'column-2');
          e.target.innerText
          if(e.target.classList.contains('column-1')){
  
@@ -850,12 +836,19 @@ createTable().then(()=>{
             e.target.parentElement.classList.add('active');
             e.target.parentElement.children[3].style.backgroundColor = '#fff';
             e.target.parentElement.children[4].style.backgroundColor = '#fff';
-            let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
-  
-            textbox[0].set('splitByGrapheme', true)
-            textbox[1].set('splitByGrapheme', true) 
-            textbox[0].set({text: e.target.parentElement.children[1].innerText ? e.target.parentElement.children[1].innerText:'--'}) 
-            textbox[1].set({text: e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'--'}) 
+            let textbox_1= this.canvas.getObjects().filter((el) => el.name === 'column-1');
+            let textbox_2= this.canvas.getObjects().filter((el) =>  el.name === 'column-2');
+
+
+            textbox_1[0].set('splitByGrapheme', true)
+            textbox_2[0].set('splitByGrapheme', true) 
+           
+ 
+
+            textbox_1[0].set({text:  e.target.parentElement.children[1].innerText ?  e.target.parentElement.children[1].innerText  :'-column 1-'})
+         
+
+            textbox_2[0].set({text:  e.target.parentElement.children[2].innerText ? e.target.parentElement.children[2].innerText:'-column 2-'}) 
          
             this.canvas.renderAll()
           }
@@ -984,7 +977,7 @@ createTable().then(()=>{
        
       })
       e.target.parentElement.classList.add('active');
-      let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
+      let textbox= this.canvas.getObjects().filter((el) => el.name === 'column-1' || el.name === 'column-2');
 
 
       textbox[0].set({text: e.target.parentElement.parentElement.children[1].innerText ? e.target.parentElement.parentElement.children[1].innerText:''}) 
@@ -1128,11 +1121,10 @@ createTable().then(()=>{
 
     });
 
-    window.addEventListener("paste",   (e) =>{
+    document.querySelector(".list-name-container").addEventListener("paste",   (e) =>{
       
-        if(e.target.parentElement.parentElement.parentElement){
-          if(e.target.parentElement.parentElement.parentElement.parentElement.classList.contains('list-names')){
-
+       
+        
           
    
             element.innerHTML = e.clipboardData.getData("text/html");
@@ -1250,9 +1242,13 @@ createTable().then(()=>{
                 }
        
             }
+            }else{
+    
+              e.preventDefault();
+              e.target.textContent = element.innerText.trim()
             }
             //this area exucute after paste event to change the column text in textbox canvas
-            let textbox= this.canvas.getObjects().filter((el) => el.name === 'Column-1-textbox' || el.name === 'Column-2-textbox');
+            let textbox= this.canvas.getObjects().filter((el) => el.name === 'column-1' || el.name === 'column-2');
             e.target.textContent
             if(e.target.classList.contains('column-1')){
     
@@ -1266,8 +1262,8 @@ createTable().then(()=>{
             };
             this.canvas.renderAll()
     
-          }
-        } 
+      
+  
      
    
 
@@ -1335,12 +1331,12 @@ createTable().then(()=>{
     
         const again =()=>{
          let a = this.canvas.getObjects().filter((e) => {
-           return e.name === "Column-1-textbox";
+           return e.name === "column-1";
          });
          a[0].set({ text: names[i].dataOne });
    
          let b = this.canvas.getObjects().filter((e) => {
-           return e.name === "Column-2-textbox";
+           return e.name === "column-2";
          });
          b[0].set({ text: names[i].dataTwo });
          var scaleFactor = 1;
@@ -1464,7 +1460,7 @@ createTable().then(()=>{
     const doubleClick = (e) => {
            let parent =   document.querySelector(".list-name-container") 
       let add_name_btn = document.querySelector("#insert-names");
-      if (e.target && e.target.name == "Column-1-textbox" || e.target && e.target.name == "Column-2-textbox") {
+      if (e.target && e.target.name == "column-1" || e.target && e.target.name == "column-2") {
 
         parent.style.right = 0
 
@@ -1778,7 +1774,7 @@ createTable().then(()=>{
         .load()
         .then(() => {
           // when font is loaded, use it.
-          console.log(object.text);
+ 
           object.set("fontFamily", font);
           this.canvas.renderAll();
         })

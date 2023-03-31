@@ -7,8 +7,8 @@ export class Utilities extends Global {
   canvasOn() {
     const select_object = (o) => {
       var activeObj = o.selected[0];
-
-     
+      console.log(activeObj.name);
+    console.log(role);
       // bold text
       let bold = document.querySelector("#bold");
       if (activeObj.type == "textbox" && activeObj.fontWeight === "bold") {
@@ -101,12 +101,27 @@ export class Utilities extends Global {
       }
    
     }
+    const mody = (o) =>{
+      let activeObject = o.target
+      if(!activeObject){
+        return false
+      }
+      if(activeObject.getBoundingRect().width >this.canvas.width){
+    
+        activeObject.set({
+          width: 300
+        })
+        this.canvas.viewportCenterObjectH(activeObject);
+        this.canvas.renderAll()
+      };
+      // if(activeObject.getBound)
+    }
 
     this.canvas.on({
       "selection:updated": select_object,
       "selection:created": select_object,
- 
-  
+      "object:modified": mody,
+      
       'object:moving': moving_object,
     
     });
@@ -226,50 +241,89 @@ export class Utilities extends Global {
     };
   }
   paste_text(){
-    window.addEventListener("copy", (e)=>{
-      let obj = this.canvas.getActiveObject();
-     obj.disableStyleCopyPaste = true
+      let a
+      let b
+      let c
+      let target
+    const mouseUp_object = (o) =>{
+    
+      let activeObj = o.target;
+      if(!activeObj){
+        return false
+      }
+      if(activeObj.type == 'textbox'){
+      
+        // activeObj.selectAll()
+        let text = activeObj.text;
+        target = o.target.selectionStart
+          c = activeObj.getSelectedText()
+      
+  
+ 
 
-      setTimeout(() => {
-        obj.removeStyle('font-family');
+      a = text.slice(0, target)  
+      b = text.slice(target + c.length  )
+      
 
-   
-        this.canvas.renderAll();
+
+      }
+      
+      
+    }
+  
+
+    // b = text.slice(target + c.length)
+    // d = text.slice(target , c.length)
+
+    
+    this.canvas.on({
+    
+     'mouse:up': mouseUp_object,
+    // 'mouse:down': mouseDown_object,
+ 
+  
       });
-
-
-        if(obj){
-     
-//           setTimeout( ()=>{
-//             // obj.text 
-//             let span = document.createElement("span");
-//             span.textContent = obj.text;
-//             span.className = 'text-span'
-//             document.body.appendChild(span);
-//             document.querySelector('.text-span').style.fontFamily = obj.fontFamily;
-         
-//             let text_content = document.querySelector('.text-span').textContent
-//             // text_content.removeAttribute("style")
-            
-//             // obj.set('text',te)
-            
-//            // Assume we have an existing Textbox on the canvas
- 
-
-// // Create a clone of the original Textbox
-// var clonedTextbox = fabric.util.object.clone(obj);
-
-// // Set a new position for the cloned Textbox
-// clonedTextbox.set({ left: 100, top: 100 });
-//             clonedTextbox.set({text: 'sdfdsf'})
-// // Add the cloned Textbox to the canvas
-// this.canvas.add(clonedTextbox);
-
-// // Render the this.canvas
-// this.canvas.renderAll();
-//           })
- 
+      window.addEventListener('keydown',(e)=>{
+        let obj = this.canvas.getActiveObject();
+        
+        if(!obj || obj.type !== 'textbox'){
+          return false
         }
+     target = e.target.selectionStart
+     console.log(target);
+   
+     let text = obj.text
+      c = obj.getSelectedText()
+      a = text.slice(0, target)  
+      b = text.slice(target + c.length )
+ 
+ 
+      });
+ 
+    
+    window.addEventListener("paste", (e)=>{
+      e.preventDefault()
+      let obj = this.canvas.getActiveObject();
+      if(!obj){
+        return false
+      }
+      
+     
+      let text = e.clipboardData.getData("text");
+     
+      if(obj.text ==''){
+        obj.set('text', '' )
+
+        obj.set('text', text )
+ 
+      }else{
+ 
+
+      obj.set('text',a + text +b)
+      }
+      console.log(obj.text)
+      this.canvas.discardActiveObject()
+      this.canvas.renderAll()
     })
   }
 }

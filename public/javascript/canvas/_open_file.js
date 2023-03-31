@@ -13,19 +13,19 @@ export class Open_file {
        let width = json_parsed.size.w;
        let height = json_parsed.size.h;
       document.querySelector("#file_name").innerHTML = template_name
-
+    
       const canvas = (width, height) => {
         let c = document.createElement("canvas");
         c.id = "canvas";
         document.querySelector("#canvas-background").appendChild(c);
         return new fabric.Canvas("canvas", {
-          width: width,
-          height: height,
+          width: width + 600,
+          height: height + 600,
           backgroundColor: "#fff",
           preserveObjectStacking: true,
           centeredScaling:true,
            selection:false,
-          
+        
           
         });
       };
@@ -84,16 +84,22 @@ export class Open_file {
               canvas_created.template_id = template_id //saving the template id in canvas
            
            
-        
+           
               let canvasInit = new Canvas({
                 canvas: canvas_created,
                 width: fabric.util.parseUnit(width),
                 height: fabric.util.parseUnit(height),
                 canvasScale: canvasScale,
                 SCALE_FACTOR: SCALE_FACTOR,
+          
               });
               canvasInit.create_main_canvas();
+
+
+            
               canvas_created.renderAll();
+
+
               function fitCanvasToScreen() {
                 // this.canvasScale = 1;
                 if (width >= 3000) {
@@ -170,6 +176,8 @@ export class Open_file {
               }
         
               zoomOut("#zoomOut");
+
+      
        //------------------------------------------
 
 
@@ -193,7 +201,8 @@ export class Open_file {
       "Work Sans",
       "Open Sans",
       "Titan One",
-      "Fredoka One"
+      "Fredoka One",
+      "Arial"
     ];
     const loadAndUse = (font) => {
        return new Promise((resolve, reject) => {
