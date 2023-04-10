@@ -35,12 +35,12 @@ router.post("/update_account", userController.update_account);
 router.post("/activateCanvas", check.role_user, userController.activateCanvas);
 router.post("/saveList", check.role_user, userController.saveList);
 router.post("/resetCanvas", check.role_user, userController.resetCanvas)
-router.post("/get-all-background-image", check.role_user, userController.getAllBackgroundImage);
+router.post("/get-all-background-image", check.canvas_role, userController.getAllBackgroundImage);
 router.post("/submit_code", check.role_user, userController.submit_code);
 router.post("/delete_template", check.role_user, userController.deleteTemplate);
-router.post("/get_user_image", check.role_user, userController.getUserImage);
-router.post("/get_user_image_toCanvas", check.role_user, userController.getUserImageToCanvas);
-router.post("/delete_user_image", check.role_user, userController.deleteUserImage);
+router.post("/get_user_image", check.canvas_role, userController.getUserImage);
+router.post("/get_user_image_toCanvas", check.canvas_role, userController.getUserImageToCanvas);
+router.post("/delete_user_image", check.canvas_role, userController.deleteUserImage);
 router.post("/saved-template",filter.check_data, function (req, res,next ){
  
  var form = new formidable.IncomingForm();
@@ -69,7 +69,8 @@ router.post("/saved-template",filter.check_data, function (req, res,next ){
 
 
 
-router.post("/user_upload_img",filter.check_data,//Process the file upload in Node
+router.post("/user_upload_img",filter.check_data, userController.checkUploadedImages,
+//Process the file upload in Node
 
 
 function (req, res,next){
@@ -101,12 +102,7 @@ function (req, res,next){
       res.send('error')
     }
   
-    
- 
   });
- 
- 
-
 
 }, userController.userUploadImg);
 
@@ -117,9 +113,10 @@ function (req, res,next){
 router.get("/canvas",  check.role_user, pageController.canvas);
 router.get("/", check.home_role, pageController.home); // home
 router.get("/account-page", check.role_user, pageController.account_page);
-router.get("/templates", check.role_user, pageController.templates_page);
+router.get("/templates",  pageController.templates_page);
 router.get("/my-templates", check.role_user, pageController.purchased_templates);
 
+router.get("/canvas-test", check.canvas_role, pageController.canvasTest);
 
 
 
@@ -145,7 +142,7 @@ router.get("/admin-users", check.role_admin, adminController.users);
 
 
 //user admin action
-router.post("/admin_delete_template", check.role_user, adminController.adminDeleteTemplate);
+router.post("/admin_delete_template", check.role_admin, adminController.adminDeleteTemplate);
 
 router.post("/admin-login-request", adminController.admin_login_post);
 

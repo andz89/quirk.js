@@ -4,12 +4,10 @@ class Templates{
     modal_template_details(){
         if(document.querySelector('.templates')){
             document.querySelector('.templates').addEventListener('click', function(e){
-              let parent = e.target.parentElement
+              let parent = e.target.parentElement 
         //close modal templates      
         if(e.target.classList.contains('show-template-details')){
-        parent.querySelector('.modal-activation .close').addEventListener('click', function(){
-        parent.querySelector('.modal-activation').style.display = 'none';     
-        })
+       
                 
           parent.querySelector('.modal-activation').style.display = 'flex';
  
@@ -25,6 +23,9 @@ class Templates{
             parent.querySelector('.modal-activation #template-name').value = title;
 
           }
+          parent.querySelector('.modal-activation .close').addEventListener('click', function(){
+            parent.querySelector('.modal-activation').style.display = 'none';     
+            })
           }
             })
     
@@ -37,7 +38,7 @@ class Templates{
           document.querySelector(".templates").addEventListener("click", (e)=>{
             if(e.target.classList.contains('create-copy-btn')){
           
-          
+ 
               let template_id =  e.target.parentElement.parentElement.querySelector('.modal-activation #template-id').value
           
           
@@ -49,16 +50,19 @@ class Templates{
                   xhttp.onreadystatechange = () => {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
                      let response = xhttp.responseText
-                      console.log(response);
-               
+                 
                      if(response === 'true'){
                   
                         window.location.href = 'http://localhost:5000/my-templates'
                      }
-                     else  if(response === 'limit-reach'){
+                     else if(response === 'limit-reach'){
+                     console.log('limit ajax');
+
                       let message_container = document.querySelector('.subscribe-message-container')
-                      document.querySelector('.expire-message').style.display = 'none'
-                      
+                      message_container.querySelector('.expire-message').style.display = 'none'
+                      message_container.querySelector('.puchase-href-btn').href = '/my-templates'
+                      message_container.querySelector('.puchase-href-btn').children[0].innerText = 'Go to my templates'
+
                        let div;
                      
                        div = `
@@ -74,16 +78,22 @@ class Templates{
            
           
                      }
-                     else{
+                     else if(response == 'expired'){
+                     console.log('expreired ajax');
                       
                       let message_container = document.querySelector('.subscribe-message-container')
                       message_container.style.display = 'flex'
                      
                       
                      }
+                     
+                     else{
+                      window.location.href = 'http://localhost:5000/login-page'
+                    }
                   
           
                     }
+                   
                   };
                   xhttp.open(
                     "POST",
@@ -134,13 +144,9 @@ class Templates{
             xhttp.send();
           });
 
-          //close form
-          parent.querySelector(".close").addEventListener("click", ()=>{
- 
-          parent.style.display = 'none'
-          }
+           
           
-          )
+ 
         }
       }
 

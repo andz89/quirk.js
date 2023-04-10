@@ -100,18 +100,20 @@ exports.saved_template = function (req, res) {
     });
 };
 exports.activateCanvas = (req,res) => {
-
+  
+  if(!req.session.user.user_id){
+    redirect('/login');
+    return false;
+  }
   let template = {}
   template.user_id = req.session.user.user_id;
   template.template_id = req.query.template_id;
   template.template_name = req.query.template_name;
-  // template.image = req.query.image;
-  
 
+  
   let user = new User(template);
   user.duplicate_template().then(function ()   {
-   
-  
+
       req.flash("success_message", ` ${req.query.template_name}. `);
       res.send('true');
 
@@ -119,7 +121,7 @@ exports.activateCanvas = (req,res) => {
     
    
   }).catch((data)=>{
-    
+       
     res.send(data);
   })
 }
@@ -196,17 +198,41 @@ exports.deleteTemplate = (req, res) => {
 exports.userUploadImg = (req, res)=>{
   let data = {}
   data.user_id = req.session.user.user_id;
+  data.user_role =  req.session.user.user_role;
+
   data.new_path = res.new_path;
   data.purchased_id = req.query.purchased_id;
   data.template_id = req.query.template_id;
   data.template_id = req.query.template_id;
-  console.log(res.new_path);
+ 
  
  
   let user_img = new User(data)
-  user_img.upload_user_img()
+  user_img.upload_user_img() 
  
   
+}
+exports.checkUploadedImages = (req, res,next) =>{
+  console.log(req.session.user.user_role);
+  if(req.session.user.user_role == 'admin'){
+    next();
+   
+  }else{
+    let data = {}
+    data.user_id = req.session.user.user_id;
+  
+    let user = new User(data);
+    user.checkUploadedImages().then((data)=>{
+      
+      if(data == 'true'){
+       
+        next();
+      }else{
+        res.send(data);
+      }
+    })
+  }
+ 
 }
 exports.getUserImage = (req, res)=>{
   let data = {}

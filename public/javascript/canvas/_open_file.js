@@ -2,7 +2,7 @@ import { Canvas } from "./canvas.js";
 
 export class Open_file {
   get_file_json(json,template_id,template_name) {
-
+ 
   let json_parsed = JSON.parse(json);
  
     const run_json_file = (canvas_saved) => {
@@ -29,35 +29,47 @@ export class Open_file {
           
         });
       };
-      const canvas_created = canvas(width, height);
+
+      function replaceBreakLine(valueToEscape) {
+        if (valueToEscape != null && valueToEscape != "") {
+       
+           return valueToEscape.replaceAll('<-br->','\n');
+        } else {
+           return valueToEscape;
+        } 
+     }
+
+     function replaceQoute(valueToEscape){
+      if (valueToEscape != null && valueToEscape != "") {
+      
+        return valueToEscape.replaceAll('<-q->',"'");
+     } else {
+        return valueToEscape;
+     } 
+     }
+
+      let a = json_parsed.json.objects
+      a.forEach((e)=>{
+       if(e.type === 'textbox'){
+        
+         e.text = replaceQoute(replaceBreakLine(e.text) ) 
  
+       }
      
-  
+ 
+       
+      })
+    
+      const canvas_created = canvas(width, height);
             canvas_created.loadFromJSON(canvas_saved.json, function(){
         
-              function replaceBreakLine(valueToEscape) {
-                if (valueToEscape != null && valueToEscape != "") {
-               
-                   return valueToEscape.replaceAll('<-br->','\n');
-                } else {
-                   return valueToEscape;
-                } 
-             }
-        
-             function replaceQoute(valueToEscape){
-              if (valueToEscape != null && valueToEscape != "") {
-              
-                return valueToEscape.replaceAll('<-q->',"'");
-             } else {
-                return valueToEscape;
-             } 
-             }
+           
         
              let a = canvas_created.getObjects()
              a.forEach((e)=>{
               if(e.type === 'textbox'){
-                
-                e.text = replaceQoute(replaceBreakLine(e.text) ) 
+                e.imageSmoothingEnabled = false
+ 
                 e.centeredScaling = true
                 e.setControlsVisibility({mt: false,mb: false,tr: false,tl: false,br: false,bl: false, mtr: false})
                 if(e.name === 'Column-1-textbox' || e.name === 'Column-2-textbox'){

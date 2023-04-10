@@ -7,33 +7,9 @@ export class Utilities extends Global {
   canvasOn() {
     const select_object = (o) => {
       var activeObj = o.selected[0];
-      console.log(activeObj.name);
-    console.log(role);
-      // bold text
-      let bold = document.querySelector("#bold");
-      if (activeObj.type == "textbox" && activeObj.fontWeight === "bold") {
-        bold.style.backgroundColor = "rgba(87, 86, 86, 0.733)";
-      }
-      if (activeObj.type == "textbox" && activeObj.fontWeight === "normal") {
-        bold.style.backgroundColor = "";
-      }
-      if (activeObj.type !== "textbox") {
-        bold.style.backgroundColor = "";
-      }
-      // -------------------------------------//
+    
 
-      // italic text
-      let italic = document.querySelector("#italic");
-      if (activeObj.type == "textbox" && activeObj.fontStyle === "italic") {
-        italic.style.backgroundColor = "rgba(87, 86, 86, 0.733)";
-      }
-      if (activeObj.type == "textbox" && activeObj.fontStyle === "normal") {
-        italic.style.backgroundColor = "";
-      }
-      if (activeObj.type !== "textbox") {
-        italic.style.backgroundColor = "";
-      }
-      // -------------------------------------//
+ 
 
       // fontSize
       if (activeObj.type == "textbox") {
@@ -57,7 +33,15 @@ export class Utilities extends Global {
       activeObj.set("lockUniScaling", true);
  
 
-   
+      // if(activeObj.type != 'image' ){
+      //   let grid = this.canvas.getObjects().filter((obj)=>{
+      //     return obj.name == 'grid-image';
+      //   })
+      //   grid[0].opacity = 0
+      //   this.canvas.renderAll()
+      // }
+  
+ 
     };
 
   
@@ -92,7 +76,30 @@ export class Utilities extends Global {
                 this.canvas.discardActiveObject(e)
             }
           }
+
+          if(activeObj.type == 'image'){
+            let grid = this.canvas.getObjects().filter((obj)=>{
+              return obj.name == 'grid';
+            })
+            grid[0].opacity = 1
+    let bg = this.canvas.getObjects().filter((obj)=>{
+            return obj.name == 'bg-image' && obj.opacity == 1;
+          })
+          if(bg){
+            let index = this.canvas.getObjects().indexOf(bg[0]); 
+           grid[0].moveTo(index + 1);
+          }else{
+            this.canvas.sendToBack(grid[0]);
+          }
+
+            this.canvas.renderAll()
+          }
         
+
+
+      
+
+          
          
         })
 
@@ -100,6 +107,15 @@ export class Utilities extends Global {
     
       }
    
+    }
+    const mouse_down = (o)=>{
+      let activeObj  = o.target
+   
+      if( activeObj.name ==  'grid'){
+        
+        activeObj.opacity = 0
+        this.canvas.renderAll()
+      }
     }
     const mody = (o) =>{
       let activeObject = o.target
@@ -121,7 +137,7 @@ export class Utilities extends Global {
       "selection:updated": select_object,
       "selection:created": select_object,
       "object:modified": mody,
-      
+      'mouse:down': mouse_down,
       'object:moving': moving_object,
     
     });

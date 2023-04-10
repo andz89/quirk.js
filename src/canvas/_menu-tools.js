@@ -1,4 +1,7 @@
 import { Global } from "./_global.js";
+let FontFaceObserver = require('fontfaceobserver');
+let JSZip = require('jszip');
+let JSZipUtils = require('jszip-utils');
 
 export class Menu_tools extends Global {
   //add background
@@ -69,7 +72,7 @@ export class Menu_tools extends Global {
                     //kung wala
                     link ='http://localhost:5000/images/canvas_image/'+ image_name 
                     link_save.push(link)
-                    console.log(b);
+      
                    
                   fabric.Image.fromURL(link, (img) => {
                  
@@ -135,7 +138,6 @@ export class Menu_tools extends Global {
 
   //load page event
   loadPage() {
-    
  
     let link = canvas_image;
     let a = this.canvas.getObjects().filter((e)=>{
@@ -161,7 +163,7 @@ if(link != null ){//dili null
       img.set("lockScalingY", true);
       img.set("lockRotation", true);
       this.canvas.discardActiveObject();
-      this.canvas.renderAll();
+    
       img.setControlsVisibility({
         mt: false,
         mb: false,
@@ -177,11 +179,54 @@ if(link != null ){//dili null
     });
   } 
 }
+// grid image
+// let gridImage = 'http://localhost:5000/images/canvas/grid.png';
+// fabric.Image.fromURL(gridImage, (img) => {
+//   // img.excludeFromExport = true;
+//   img.name = "grid-image";
+//   this.canvas.add(img);
+//   img.scaleToWidth(this.canvas.getWidth());
+//   this.canvas.viewportCenterObject(img);
+//   img.excludeFromExport = true;
+//   img.selectable = false;
+//   img.hoverCursor = "default";
+//   img.opacity = 0
+//   img.set("lockMovementX", true);
+//   img.set("lockMovementY", true);
+//   // img.set("lockScalingX", true)
+//   img.set("lockScalingY", true);
+//   img.set("lockRotation", true);
+//   this.canvas.discardActiveObject();
+//   this.canvas.renderAll();
+//   img.setControlsVisibility({
+//     mt: false,
+//     mb: false,
+//     ml: false,
+//     mr: false,
+//     tr: false,
+//     tl: false,
+//     br: false,
+//     bl: false,
+//     mtr: false,
+//   });
+//   let bg = this.canvas.getObjects().filter((obj)=>{
+//     return obj.name == 'bg-image' && obj.opacity == 1;
+//   })
+//   if(bg){
+//     let index = this.canvas.getObjects().indexOf(bg[0]); 
+//     img.moveTo(index + 1);
+//   }else{
+//     this.canvas.sendToBack(img);
+//   }
+
+//   this.canvas.renderAll();
+// });
+
 
   }
   //reset canvas
 resetCanvas(){
-  if(role == 'user'){
+  if(user_role == 'user'){
     document.querySelector('#reset').addEventListener('click', ()=>{
         
   
@@ -216,24 +261,20 @@ resetCanvas(){
 
       let object = new fabric.Textbox("Your Text Here", {
         textAlign: "center",
-    
+        dirty:true,
        
         id: this.uniqueId() ,
-     
-         width: 100,
+        width:100,
+       
         splitByGrapheme: true,
- 
+        highlightOnFocus: false,
         centeredScaling: true,
  
-        imageSmoothingEnabled:false,
- 
-        fontSize:12,
-  
+        imageSmoothingEnabled:false
       });
       
-
-      object.scaleToWidth(800)
-      object.name = role == 'admin'? object.type : 'user-custom';
+ 
+      object.name = user_role == 'admin'? object.type : 'user-custom';
      
       // object.lockMovementX = true
       object.perPixelTargetFind = false;
@@ -255,7 +296,7 @@ resetCanvas(){
   let add_photo_btn = document.querySelector('#add-photos')
   add_photo_btn.addEventListener('click', (e)=>{
     let parent = document.querySelector('.display-photos-container')
- 
+  
 if(parent.querySelector('.img-container')){
   
 
@@ -270,7 +311,8 @@ if(parent.querySelector('.img-container')){
      if (xhttp.readyState == 4 && xhttp.status == 200) {
        let data = JSON.parse(xhttp.responseText);
       
-   
+     
+       
     
       setTimeout(()=>{
       photo_container.style.display = 'flex'
@@ -281,17 +323,21 @@ if(parent.querySelector('.img-container')){
           let div = document.createElement('div');
          div.className = 'img-container'
          div.innerHTML = `<div>
+
          <div class="container hide"></div>
+        
           <img src="images/users/${e.image_path}" class="user-image"   >
           <div id="${e.image_path}" class="btn btn-sm btn-primary use-btn" >Use</div>
 
           
           
-          <img src="images/canvas/list-black.png" class="hover-opactiy  option" width="15"
+          <img src="images/canvas/list-black.png" 
+           style = '${e.role == 'admin' && user_role == 'user'? 'display:none' : ''}'
+          class=" hover-opactiy  option" width="15"
           alt="">
           <div class="delete-template text hide text-dark">Delete</div>
      
-    
+ 
          </div>`;
          parent.appendChild(div);
 
@@ -322,10 +368,10 @@ parent.addEventListener('click', (e)=>{
               fabric.Image.fromURL('images/users/'+data[0].image_path, (img) => {
               img.name = img.type;
            
-              img.scaleToWidth(600);
+              img.scaleToWidth(200);
               img.id = this.uniqueId(); 
               this.canvas.add(img)
-         
+              this.canvas.viewportCenterObject(img);
               this.canvas.renderAll()
               });
 
@@ -406,26 +452,32 @@ upload_img_btn.addEventListener('click',(e)=>{
         xhttp.onreadystatechange = () => {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
             let data = JSON.parse(xhttp.responseText);
-       
-              let parent = document.querySelector('.display-photos-container')
-              let div = document.createElement('div');
-              const imageSrc = URL.createObjectURL(upload_img.files[0]);
-      
-             div.className = 'img-container'
-              div.innerHTML =  `<div>
-              <div class="container hide"></div>
-               <img src="${imageSrc}" class="user-image"   >
-               <div id="${data}" class="btn btn-sm btn-primary use-btn" >Use</div>
-     
-               
-               
-               <img src="images/canvas/list-black.png" class="hover-opactiy  option" width="15"
-          alt="">
-               <div class="delete-template text hide text-dark">Delete</div>
+
+                if(data ==  false){
+                  this.alert('limit-reached');
+             
+                }else{
+                  let parent = document.querySelector('.display-photos-container')
+                  let div = document.createElement('div');
+                  const imageSrc = URL.createObjectURL(upload_img.files[0]);
           
+                 div.className = 'img-container'
+                  div.innerHTML =  `<div>
+                  <div class="container hide"></div>
+                   <img src="${imageSrc}" class="user-image"   >
+                   <div id="${data}" class="btn btn-sm btn-primary use-btn" >Use</div>
          
-              </div>`;
-              parent.appendChild(div);
+                   
+                   
+                   <img src="images/canvas/list-black.png" class="hover-opactiy  option" width="15"
+              alt="">
+                   <div class="delete-template text hide text-dark">Delete</div>
+              
+             
+                  </div>`;
+                  parent.appendChild(div);
+                }
+       
       
  
                  } 
@@ -571,12 +623,16 @@ var xhttp = new XMLHttpRequest();
   print_view(){
     document.querySelector('#print-view').addEventListener('click', ()=>{
       this.loading('visible',' Please wait...');
-    
+      let grid= this.canvas.getObjects().filter((obj)=>{
+        return obj.name == 'grid';
+      })
+      grid[0].opacity = 0;
+      this.canvas.renderAll()
       let imageSrc = document.querySelector('#view-image')
  
       const resizeCanvas = ()=>{
         return new Promise((resolve, reject) =>{
-          var scaleFactor = 1;
+          var scaleFactor = 4;
           this.canvas.setWidth(this.width * scaleFactor);
           this.canvas.setHeight(this.height * scaleFactor);
           this.canvas.setZoom(scaleFactor);
@@ -591,9 +647,9 @@ var xhttp = new XMLHttpRequest();
           });
          
           imageSrc.src = canvas
-          this.canvas.setHeight(this.canvas.current_height);
-          this.canvas.setWidth(this.canvas.current_width);
-          this.canvas.setZoom(this.canvas.current_canvasScale);
+          this.canvas.setHeight(this.height);
+          this.canvas.setWidth(this.width);
+          this.canvas.setZoom(1);
   
           resolve()
         })
@@ -626,8 +682,8 @@ var xhttp = new XMLHttpRequest();
     }
     
     // set the CSS transform property to scale the image
-    image.style.transform = 'scale(' + scaleFactor + ')';
-    
+    image.style.transform = 'scale(' + scaleFactor  + ')';
+
       this.loading('hidden', null);
           
     let image_container = document.querySelector('.print-view-container')
@@ -635,6 +691,8 @@ var xhttp = new XMLHttpRequest();
    
     document.querySelector('.print-view-container .close').addEventListener('click', ()=>{
       image_container.style.display = 'none';
+     
+      this.canvas.renderAll()
     })
         })
     
@@ -987,14 +1045,18 @@ createTable().then(()=>{
       e.target.parentElement.classList.add('active');
       let textbox= this.canvas.getObjects().filter((el) => el.name === 'column-1' || el.name === 'column-2');
 
+      let grid= this.canvas.getObjects().filter((obj)=>{
+        return obj.name == 'grid';
+      })
+      grid[0].opacity = 0;
 
-      textbox[0].set({text: e.target.parentElement.parentElement.children[1].innerText ? e.target.parentElement.parentElement.children[1].innerText:''}) 
-      textbox[1].set({text: e.target.parentElement.parentElement.children[2].innerText ? e.target.parentElement.parentElement.children[2].innerText:''}) 
+      textbox[1].set({text: e.target.parentElement.parentElement.children[1].innerText ? e.target.parentElement.parentElement.children[1].innerText:''}) 
+      textbox[0].set({text: e.target.parentElement.parentElement.children[2].innerText ? e.target.parentElement.parentElement.children[2].innerText:''}) 
       
       if( textbox[0].text.trim() || textbox[1].text.trim()){
 
         this.canvas.renderAll()
-        var scaleFactor = 1;
+        var scaleFactor = 4;
         this.canvas.setWidth(this.width * scaleFactor);
         this.canvas.setHeight(this.height * scaleFactor);
         this.canvas.setZoom(scaleFactor);
@@ -1012,10 +1074,11 @@ createTable().then(()=>{
         a.click();
         document.body.removeChild(a);
   
-        this.canvas.setHeight(this.canvas.current_height);
-        this.canvas.setWidth(this.canvas.current_width);
-        this.canvas.setZoom(this.canvas.current_canvasScale);
-
+      
+          this.canvas.setWidth(this.width);
+          this.canvas.setHeight(this.height);
+          this.canvas.setZoom(1);
+ 
       }else{
         console.log('no download');
       }
@@ -1567,36 +1630,41 @@ createTable().then(()=>{
     
     document.querySelector('#bold').onclick = () => {
       let object = this.canvas.getActiveObject();
- 
-      this.canvas.renderAll()
-
-      if (object && object.bold === undefined) {
+      let bold = document.querySelector("#bold");
+      if(!object ){
+        this.alert("no selected textbox or image");
+        return false
+      }
+      if(object){
+        if ( object._Qbold === undefined) {
       
           if (object.getSelectedText() == "") { // empty
               // object.removeStyle('fontWeight')
               object.set({fontWeight: "bold"})
               object.dirty = true;
               this.canvas.renderAll()
-              bold.style.backgroundColor = 'rgba(87, 86, 86, 0.733)'
-              object.bold = true
+              bold.style.backgroundColor = '#f4f4f4'
+              object._Qbold = true
           } else {
          
               object.setSelectionStyles({fontWeight: "bold"})
-              bold.style.backgroundColor = 'rgba(87, 86, 86, 0.733)'
-              object.bold = true
+              bold.style.backgroundColor = '#f4f4f4'
+              object._Qbold = true
               object.dirty = true;
               this.canvas.renderAll()
          
                      
                          
           }
-      } else {
+      }
+       else {
 
           if (object.getSelectedText() == "") { // empty
               // object.removeStyle('fontWeight')
 
               // to check if some text is normal and bold
               if (object.fontWeight == 'normal') {
+                bold.style.backgroundColor = '#f4f4f4'
                   object.set({fontWeight: "bold"})
                   this.canvas.renderAll()
               } else {
@@ -1604,7 +1672,7 @@ createTable().then(()=>{
 
                   this.canvas.renderAll()
                   bold.style.backgroundColor = ''
-                  object.bold = undefined
+                  object._Qbold = undefined
               }
 
           } else {
@@ -1614,18 +1682,14 @@ createTable().then(()=>{
 
               bold.style.backgroundColor = ''
               this.canvas.renderAll()
-              object.bold = undefined
+              object._Qbold = undefined
           }
 
 
       }
-      setTimeout(()=>{
-         console.log(object.styles);
-          console.log('//------------------------//');
-          let a =  this.canvas.toObject()
-        
-            console.log(JSON.stringify(a));
-          })
+      }
+   
+  
 
   }
   }
@@ -1638,6 +1702,7 @@ createTable().then(()=>{
         this.alert("no selected textbox or image");
         return false
       }
+  
       if (object.italic === undefined) {
         if (object.getSelectedText() == "") {
           object.removeStyle("fontStyle");
@@ -1647,13 +1712,13 @@ createTable().then(()=>{
           object.dirty = true;
           this.canvas.renderAll();
           object.italic = true;
-          italic.style.backgroundColor = "rgba(87, 86, 86, 0.733)";
+          italic.style.backgroundColor = "#f4f4f4";
         } else {
           object.setSelectionStyles({ fontStyle: "italic" });
           object.dirty = true;
           this.canvas.renderAll();
           object.italic = true;
-          italic.style.backgroundColor = "rgba(87, 86, 86, 0.733)";
+          italic.style.backgroundColor = "#f4f4f4";
         }
       } else {
         if (object.getSelectedText() == "") {
@@ -1661,6 +1726,7 @@ createTable().then(()=>{
 
           // to check if some text is normal and italic
           if (object.fontStyle == "normal") {
+           italic.style.backgroundColor = '#f4f4f4'
             object.set({ fontStyle: "italic" });
             this.canvas.renderAll();
           } else {
@@ -1813,10 +1879,10 @@ createTable().then(()=>{
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {
     
-        if(role == 'admin'){
+        if(user_role == 'admin'){
           this.canvas.remove(this.canvas.getActiveObject());
         }
-        if(role == 'user'){
+        if(user_role == 'user'){
           if (this.canvas.getActiveObject().name === "textbox") {
             return false;
           }

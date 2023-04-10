@@ -11,7 +11,7 @@ exports.home = (req, res) => {
 exports.contact_page = (req, res) => {
   res.render("pages/contact_page", {
     session: req.session.user ? true : false,
-    user_type: req.session.user.user_role,
+    user_type:req.session.user? req.session.user.user_role:null,
   });
 };
 exports.account_page = (req, res) => {
@@ -66,13 +66,13 @@ exports.templates_page = (req, res) => {
 
 let templates = new Page()
 templates.getAllTemplates().then((data)=>{
- 
+
   res.render("pages/templates", {
 
     data: data,
     success_message_subscriber: req.flash('success_message_subscriber'),
-    user_type: req.session.user.user_role,
     session: req.session.user ? true : false,
+    user_type:req.session.user? req.session.user.user_role:null,
   }); 
 })
   
@@ -124,7 +124,6 @@ exports.canvas =(req, res) =>{
       
           
     if(data === 'expired'){
-     
       res.redirect("/my-templates"); 
     }else{
       let image_name
@@ -135,6 +134,43 @@ exports.canvas =(req, res) =>{
 
       }
       res.render("pages/canvas", {
+        purchased_id:data.purchased_id,
+      
+        template_json:data.template_json,
+        template_id:data.template_id,
+        template_name:data.template_name,
+ 
+        canvas_image:image_name,
+        list: data.list,
+        user_role: req.session.user.user_role,
+      });
+    }
+
+          
+          })
+}
+exports.canvasTest = (req, res) => {
+  let data = {}
+  data.user_role = req.session.user.user_role
+  data.user_id = req.session.user.user_id;
+  data.template_id = req.query.template_id;
+  data.purchased_id = req.query.id;
+
+  let page = new Page(data);
+  page.getCanvas().then((data) => {
+      
+          
+    if(data === 'expired'){
+      res.redirect("/my-templates"); 
+    }else{
+      let image_name
+      if(data.canvas_image){
+        image_name = 'http://localhost:5000/images/ci/' + data.canvas_image
+      }else{
+        image_name = null
+
+      }
+      res.render("pages/canvas-test", {
         purchased_id:data.purchased_id,
       
         template_json:data.template_json,

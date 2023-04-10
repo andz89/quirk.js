@@ -1,7 +1,7 @@
  
-import { Menu_tools } from "./_menu-tools.js";
-import { Global } from "./_global.js";
-import { Utilities } from "./_utilities.js";
+import { Menu_tools } from "./_menu-tools";
+import { Global } from "./_global";
+import { Utilities } from "./_utilities";
 export class Canvas extends Global {
   create_main_canvas = () => {
  

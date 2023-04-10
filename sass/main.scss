@@ -17,28 +17,8 @@
 @import 'modal-edit-template-admin';
 @import 'background';
 @import 'admin-users';
-@import 'canvas-css/insert-name';
-@import 'canvas-css/display_certificates';
-
-@import 'canvas-css/photos';
-@import 'canvas-css/print_view.scss';
-
-@import 'canvas-css/canvas';
-@import 'canvas-css/header';
+@import '_submit-code-form.scss';
 @import 'expired_modal.scss';
-
-
-// canvas
-// @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Titan+One&display=swap');
-
 
 
 
@@ -99,7 +79,6 @@ main {
 
 
 
-
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -126,43 +105,4 @@ main {
 
 ::-webkit-scrollbar-corner {
   background-color: rgba(75, 75, 75, 0.712)
-}
-
-.subscribe-message-container {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  user-select: none;
-  background-color: #0c0c0c60;
-  justify-content: center;
-  align-items: center;
-
-  .close {
-    position: absolute;
-    margin-top: 10px;
-    top: 0;
-    right: 0;
-  }
-
-  .message-container-content {
-
-    position: relative;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fff;
-    padding: 20px;
-    width: 380px;
-    height: 400px;
-
-
-
-  }
-
-  .reach-limit-message-container {}
 }

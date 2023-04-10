@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quirk Client Side</title>
+
+<script defer src="dist/bundle99b539483498a24186c0.js"></script><link href="dist/bundle.bfea74860e863388ae63.css" rel="stylesheet"></head>
+
+<body>
+
+
+    <!-- <div class="modal-loader"></div> -->
+
+
+    <!-- <div id="createCanvasModal"></div>  -->
+    <!-- create modal form to create canvas -->
+
+
+    <!-- header and tools -->
+    <div class="header" id="myHeader">
+        <div class="d-flex">
+            <div class="file_name_container">
+                <span id="file_name"></span>
+            </div>
+
+            <div class="sub_header d-flex align-items-center ">
+
+                <div class="dropdown dropdown-files files-container sub-header-tools">
+                    <li class="dropbtn dropbtn-files files-btn">Canvas</li>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a id="reset"> Reset Canvas</a>
+
+                    </div>
+                </div>
+                |
+                <div class="sub-header-tools">
+                    <div id="save_json">Save</div>
+                </div>
+                |
+                <div class="sub-header-tools">
+                    <div id="canvas-image-background">Background</div>
+
+                </div>
+                |
+                <div class="sub-header-tools">
+                    <div id="add-photos">Photos</div>
+
+                </div>
+                |
+                <div class="sub-header-tools">
+                    <div id="print-view">Print View</div>
+
+                </div>
+            </div>
+            <div class="zoom_and_undo_container">
+
+
+                <div class="zoom-container">
+                    <button id="zoomOut">&#9866;</button>
+                    <span>85%</span>
+                    <button id="zoomIn">&#10010; </button>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- tools -->
+        <div class="tools">
+
+
+            <li class="dropbtn-insert-text ">
+                <div>
+                    <img src="images/canvas/insert-text.png" alt="" width="20">
+                </div>
+            </li>
+            <div class="text">
+                <div class="text-style-align">
+
+                    <!-- color -->
+                    <label id="bold"> <img class=" "
+                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3LjMzIDguNTgiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+QXNzZXQgMTA8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl8zIiBkYXRhLW5hbWU9IkxheWVyIDMiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTS4zMywxMC4zMnYtMWwuOTEtLjE4VjNMLjMzLDIuNzh2LTFINC4xNGE0LjA5LDQuMDksMCwwLDEsMi4zNi41OSwyLDIsMCwwLDEsLjg1LDEuNzZBMS44OSwxLjg5LDAsMCwxLDcsNS4xNmExLjk0LDEuOTQsMCwwLDEtLjkyLjcsMi4wOCwyLjA4LDAsMCwxLC44Ni40LDEuNjMsMS42MywwLDAsMSwuNTEuNjgsMi4xMywyLjEzLDAsMCwxLC4xNy44OCwyLjI0LDIuMjQsMCwwLDEtLjgxLDEuODcsMy42OCwzLjY4LDAsMCwxLTIuMy42M1pNMyw1LjM0SDQuMmExLjcxLDEuNzEsMCwwLDAsMS4wNi0uMjksMSwxLDAsMCwwLC4zNy0uODIsMSwxLDAsMCwwLS4zNy0uODgsMS44MywxLjgzLDAsMCwwLTEuMTItLjI4SDNaTTMsOUg0LjU1YTEuNTksMS41OSwwLDAsMCwxLS4zQTEuMDgsMS4wOCwwLDAsMCw2LDcuODJhMS42NiwxLjY2LDAsMCwwLS4xNC0uNzEsMSwxLDAsMCwwLS40MS0uNDQsMS42OCwxLjY4LDAsMCwwLS43Mi0uMTRIM1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0wLjMzIC0xLjc0KSIvPjwvZz48L2c+PC9zdmc+"
+                            width="13" alt="">
+                    </label>
+
+                    <!-- italic -->
+                    <label id="italic">
+                        <img class=" "
+                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1LjIgOC43NiI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNjY2M7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5pdGFsaWM8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl80IiBkYXRhLW5hbWU9IkxheWVyIDQiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTUuMjEsMi43NEM0LjA4LDIuODMsNCwyLjkxLDMuNzksMy44OUwyLjcxLDkuNTRjLS4yLDEtLjA4LDEuMTIsMSwxLjJsLS4wNy4zOEguMDlsLjA5LS4zOGMxLjA5LS4xLDEuMjEtLjE5LDEuNDEtMS4yTDIuNjgsMy44OWMuMTktMSwuMDgtMS4wNi0xLjA1LTEuMTVsLjA4LS4zOEg1LjNaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC4wOSAtMi4zNikiLz48L2c+PC9nPjwvc3ZnPg=="
+                            width="8" alt="" />
+                    </label>
+
+                    <!-- alignLeftText -->
+                    <label id="alignLeftText">
+                        <img class=" "
+                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4LjAzIDcuMjkiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+bGVmdDwvdGl0bGU+PGcgaWQ9IkxheWVyXzIiIGRhdGEtbmFtZT0iTGF5ZXIgMiI+PGcgaWQ9IkxheWVyXzYiIGRhdGEtbmFtZT0iTGF5ZXIgNiI+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIwLjAzIiB3aWR0aD0iOCIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yOCIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeT0iNCIgd2lkdGg9IjgiIGhlaWdodD0iMC45MSIgcng9IjAuMjgiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHk9IjEuOTMiIHdpZHRoPSI1Ljk3IiBoZWlnaHQ9IjAuOTEiIHJ4PSIwLjI0Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB5PSI2LjM4IiB3aWR0aD0iNS43NiIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yNCIvPjwvZz48L2c+PC9zdmc+"
+                            width="15" alt="" />
+                    </label>
+
+                    <!-- alignCenterText -->
+                    <label id="alignCenterText">
+                        <img class=" "
+                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4IDcuMjkiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+Y2VudGVyXzE8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJjZW50ZXIiPjxyZWN0IGNsYXNzPSJjbHMtMSIgd2lkdGg9IjgiIGhlaWdodD0iMC45MSIgcng9IjAuMjgiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHk9IjQiIHdpZHRoPSI4IiBoZWlnaHQ9IjAuOTEiIHJ4PSIwLjI4Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxLjEzIiB5PSIxLjkzIiB3aWR0aD0iNS43NCIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yNCIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMS4yMyIgeT0iNi4zOCIgd2lkdGg9IjUuNTMiIGhlaWdodD0iMC45MSIgcng9IjAuMjMiLz48L2c+PC9nPjwvc3ZnPg=="
+                            width="15" alt="" />
+                    </label>
+                    <!-- alignRightText -->
+                    <label id="alignRightText">
+                        <img class=" "
+                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4IDcuMjkiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+cmlnaHQ8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJyaWdodCI+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iOCIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yOCIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeT0iNCIgd2lkdGg9IjgiIGhlaWdodD0iMC45MSIgcng9IjAuMjgiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjIuMDMiIHk9IjEuOTMiIHdpZHRoPSI1Ljk3IiBoZWlnaHQ9IjAuOTEiIHJ4PSIwLjI0Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIyLjI0IiB5PSI2LjM4IiB3aWR0aD0iNS43NiIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yNCIvPjwvZz48L2c+PC9zdmc+"
+                            alt="" width="15" />
+                    </label>
+
+                </div>
+                <div class="fonts-Select-size">
+                    <select id="fontFamilySelect" class="fontFamilySelect  "></select>
+                    <input type="number" value="18" id="fontSize"><br>
+
+                </div>
+                <input type="color" id="color" class="color  " value="#008080">
+
+            </div>
+
+
+            <div class="links d-flex justify-content-end px-1" style="width:25%;">
+                <a href="/">
+                    <img class="hover-opactiy" src="images/canvas/house-solid.png" style="margin-top:5px;" width="20"
+                        alt="">
+
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- insert name -->
+    <span class="excel-html-view-data" style="display:none"></span>
+    <div class="list-name-container">
+        <div class="pen-icon"> <img src="images/canvas/pen-solid.png" id="insert-names" class="btn btn-md btn-success"
+                alt="" width="40">
+        </div>
+
+        <div class="list-name-content">
+            <div class="modal-header d-flex justify-content-end bg-dark">
+
+                <div id="preview-image" class="btn btn-xl btn-success">Bulk Download <img
+                        src="./images/canvas/download-solid-white.png" width="20" style="margin-left:5px"></div>
+                <div class="btn btn-sm btn-primary save">
+                    Save and close
+                </div>
+            </div>
+            <div class="tools">
+                <div class="d-flex ">
+                    <div style="height:30px" class="btn btn-sm   ">
+                        <img src="./images/canvas/case.png" style="margin-top: -4px;" class="sentence-case" width="23"
+                            alt="">
+                    </div>
+                    <div style="height:30px" class=" swap-column   btn btn-sm  ">
+                        <img src="images/canvas/swap.png" width="18" alt="" class="swap-column">
+
+                    </div>
+                    <div style="height:30px" class="text text-white btn btn-sm   clear-all">
+                        Clear row
+                    </div>
+                    <div style="height:30px" class=" btn btn-sm   delete">
+                        <img class="delete" src="images/canvas/trash.png" width="18">
+                    </div>
+                </div>
+                <div>
+                    <div class="btn btn-sm btn-dark select-all">Select All</div>
+                </div>
+            </div>
+            <div class="modal-content">
+
+
+
+                <div class="list-names">
+
+                    <table style="border-collapse:
+                         collapse; padding: 0 5px;">
+                        <thead>
+                            <th>
+
+                            </th>
+
+                            <th>
+                                Column 1
+                            </th>
+
+                            <th>
+                                Column 2
+                            </th>
+
+                        </thead>
+
+                        <tbody>
+
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- alert for fonts not loading -->
+    <div id="notification" class="noti-close">
+        <div class="content-notification noti-close">
+
+            <div class="content-notification-details noti-close">
+
+                <div class="header-msg noti-close">
+                    Warning
+                </div>
+
+                <div class=" message-notification noti-close">
+
+                </div>
+                <div class="close-containe-msg noti-close">
+                    Click anywhere to close this notification
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <!-- canvas -->
+    <main>
+
+        <div id="canvas-background">
+
+        </div>
+
+    </main>
+
+    <!-- modal for adding background -->
+    <div id="modal-container-add-background">
+        <div class="modal-content ">
+            <div class="modal-header d-flex justify-content-end">
+                <span class="btn btn-sm btn-danger text text-white close">Close</span>
+
+            </div>
+            <hr>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+    <!-- modal for adding user photos -->
+
+    <div id="photos-container">
+
+        <div class="modal-content">
+
+            <div class="close-container ">
+
+                <div class="close btn  btn-sm">
+                    &#x2715
+                </div>
+            </div>
+            <div class="upload-image-container">
+
+                <input type="file" name="input_img" id="input_img">
+
+
+                <div class="btn btn-primary btn-sm" id="upload_img_btn">Submit</div>
+            </div>
+            <div class="display-photos-container">
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="print-view-container">
+
+
+        <div class="close">
+            &#x2715
+        </div>
+        <img src="" id="view-image" alt="">
+
+    </div>
+    <!-- display image after generate certificate -->
+    <div id="modal-container-generate-certificate">
+        <div class="modal-canvas">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-end">
+
+
+                    <div class="close-container bg-light p-1">
+                        <div id="download_as_Zip" class="btn btn-sm btn-primary">
+                            Download
+                        </div>
+                        <!-- <a id="printCanvas" class="btn btn-sm btn-light">Print</a> -->
+                        <div>
+                            <div class="btn btn-sm btn-dark close">Close</div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+    <!-- test -->
+    <form id="upload-form">
+
+        <textarea hidden id="text-input" name="text-input"></textarea>
+
+    </form>
+    <!-- loader for generating certificate-->
+    <div class="lds-spinner-container-generate d-flex justify-content-center align-items-center ">
+        <div class="text-container">
+            <span class="loader">Loading Please wait</span>
+
+        </div>
+    </div>
+    <!-- loader for saving json to database-->
+    <div class="lds-spinner-container-saving-json ">
+        <div class="text-container">
+            <span class="loader"> </span>
+            <div class="error" style="display:none">
+                <span>Something went wrong!</span><br>
+                <div class="btn btn-sm btn-danger text text-white">Close</div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</body>
+<script>
+    let template_json = '<%-template_json%>';
+    let purchased_id = '<%-purchased_id%>';
+
+    let template_id = '<%-template_id%>';
+
+    let canvas_image = '<%-canvas_image%>';
+    let template_name = '<%-template_name%>';
+    let list = '<%-list%>';
+    let user_role = '<%-user_role%>';
+</script>
+
+
+</html>

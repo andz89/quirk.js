@@ -168,7 +168,7 @@ class Crud_templates {
                xhttp.onreadystatechange = () => {
                  if (xhttp.readyState == 4 && xhttp.status == 200) {
                 
-                   let data = JSON.parse(xhttp.responseText);
+                  //  let data = JSON.parse(xhttp.responseText);
                 parent.remove()
                    
                  

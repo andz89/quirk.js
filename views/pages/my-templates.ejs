@@ -33,16 +33,16 @@
                                         <input type="hidden" class="purchased_id" value="<%= data.purchased_id %> ">
 
                                         <a
-                                            href="/canvas?template_id=<%= data.template_id %>&id=<%= data.purchased_id %> ">
+                                            href="/canvas-test?template_id=<%= data.template_id %>&id=<%= data.purchased_id %> ">
                                             <img src="images/canvas_image/<%= data.thumbnail%>"
                                                 class="hover-opactiy d-image" width="200" alt="">
+
+
+
+                                            <div class=" text text-dark ">
+                                                <%= data.template_name %>
+                                            </div>
                                         </a>
-
-
-                                        <div class=" text text-dark ">
-                                            <%= data.template_name %>
-                                        </div>
-
 
                                         <div class="option">
                                             <img src="images/list.png" class="hover-opactiy gear-option" width="20"

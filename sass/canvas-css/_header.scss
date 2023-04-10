@@ -1,6 +1,8 @@
 .header {
 
   background-color: #0f5c68;
+  // background-color: #0f5c6800;
+
 
   position: fixed;
   width: 100%;
@@ -18,7 +20,7 @@
     margin-right: 5px;
 
     div {
-      border: solid 1px rgb(230, 228, 228);
+
       border-radius: 3px;
       padding: 0px 7px;
       align-items: center;
@@ -123,7 +125,7 @@
 
   .zoom_and_undo_container {
     user-select: none;
-    margin: 5px 0px 0px;
+    margin: 3px 0px 5px -20px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -131,12 +133,12 @@
     width: 100%;
     position: fixed;
     top: 0;
-    margin-left: -20px;
+
   }
 
   .zoom-container {
     background-color: #06343b;
-    padding: 12px 3px;
+    padding: 5px 3px;
     border-radius: 3px;
     font-size: .8rem;
     width: 120px;
@@ -152,7 +154,7 @@
       border: unset;
       background-color: rgba(87, 86, 86, 0.431);
       align-items: center;
-
+      cursor: pointer;
     }
 
   }
@@ -162,7 +164,7 @@
     display: flex;
     gap: 10px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
 
 
     .text {
@@ -246,7 +248,7 @@
   width: 100%;
   background-color: #f0f3f300;
   text-align: center;
-  z-index: 1;
+  z-index: 5;
 
 
 
