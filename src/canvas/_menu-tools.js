@@ -619,7 +619,31 @@ var xhttp = new XMLHttpRequest();
   
     });
   }
+  grid(){
+    document.querySelector('#grid').addEventListener('click', (e)=>{
+      let bg = this.canvas.getObjects().filter((obj)=>{
+        return obj.name == 'bg-image' && obj.opacity == 1;
+      })
+      let grid = this.canvas.getObjects().filter((obj)=>{
+        return obj.name == 'grid'   ;
+      })
+      if(grid[0].opacity == 0){
+        grid[0].set({opacity: 1})
+        if(bg){
+          let index = this.canvas.getObjects().indexOf(bg[0]); 
+         grid[0].moveTo(index + 1);
+        }else{
+          this.canvas.sendToBack(grid[0]);
+        }
+      }else{
+        grid[0].set({opacity: 0})
+      }
+      this.canvas.renderAll()
 
+
+      
+    })
+  }
   print_view(){
     document.querySelector('#print-view').addEventListener('click', ()=>{
       this.loading('visible',' Please wait...');
@@ -1049,6 +1073,10 @@ createTable().then(()=>{
         return obj.name == 'grid';
       })
       grid[0].opacity = 0;
+      var checkbox = document.querySelector('#grid');
+      // Uncheck the checkbox
+      checkbox.checked = false;
+
 
       textbox[1].set({text: e.target.parentElement.parentElement.children[1].innerText ? e.target.parentElement.parentElement.children[1].innerText:''}) 
       textbox[0].set({text: e.target.parentElement.parentElement.children[2].innerText ? e.target.parentElement.parentElement.children[2].innerText:''}) 

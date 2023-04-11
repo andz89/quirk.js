@@ -51,7 +51,7 @@ export class Canvas extends Global {
     menu_tools.textAlign_center();
     menu_tools.textAlign_right();
     menu_tools.fontStyle();
-
+    menu_tools.grid();
  
   };
 }

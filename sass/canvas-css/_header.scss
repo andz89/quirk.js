@@ -3,7 +3,7 @@
   background-color: #0f5c68;
   // background-color: #0f5c6800;
 
-
+  user-select: none;
   position: fixed;
   width: 100%;
   color: #f1f1f1;
@@ -166,6 +166,13 @@
     align-items: center;
     justify-content: flex-end;
 
+    .grid {
+
+      input,
+      label {
+        cursor: pointer;
+      }
+    }
 
     .text {
       display: flex;

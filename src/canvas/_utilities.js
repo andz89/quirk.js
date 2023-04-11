@@ -5,6 +5,7 @@ export class Utilities extends Global {
 
   //click on object in the canvas event
   canvasOn() {
+ 
     const select_object = (o) => {
       var activeObj = o.selected[0];
     
@@ -33,14 +34,7 @@ export class Utilities extends Global {
       activeObj.set("lockUniScaling", true);
  
 
-      // if(activeObj.type != 'image' ){
-      //   let grid = this.canvas.getObjects().filter((obj)=>{
-      //     return obj.name == 'grid-image';
-      //   })
-      //   grid[0].opacity = 0
-      //   this.canvas.renderAll()
-      // }
-  
+   
  
     };
 
@@ -54,6 +48,14 @@ export class Utilities extends Global {
    
       if(o){
         let activeObj = o.target;
+
+ 
+        activeObj.set({opacity: 0.5})
+       
+ 
+
+
+
          this.canvas.getObjects().forEach((e)=>{
 
           if(activeObj.name == 'footer-name' ){
@@ -77,23 +79,6 @@ export class Utilities extends Global {
             }
           }
 
-          if(activeObj.type == 'image'){
-            let grid = this.canvas.getObjects().filter((obj)=>{
-              return obj.name == 'grid';
-            })
-            grid[0].opacity = 1
-    let bg = this.canvas.getObjects().filter((obj)=>{
-            return obj.name == 'bg-image' && obj.opacity == 1;
-          })
-          if(bg){
-            let index = this.canvas.getObjects().indexOf(bg[0]); 
-           grid[0].moveTo(index + 1);
-          }else{
-            this.canvas.sendToBack(grid[0]);
-          }
-
-            this.canvas.renderAll()
-          }
         
 
 
@@ -110,14 +95,18 @@ export class Utilities extends Global {
     }
     const mouse_down = (o)=>{
       let activeObj  = o.target
-   
-      if( activeObj.name ==  'grid'){
-        
-        activeObj.opacity = 0
-        this.canvas.renderAll()
-      }
+    
     }
-    const mody = (o) =>{
+    const mouse_up = (o)=>{
+   
+      let activeObj  = o.target
+      if(activeObj.name == 'grid'){
+        return false
+      }
+      activeObj.set({opacity: 1})
+      this.canvas.renderAll()
+    }
+    const modified = (o) =>{
       let activeObject = o.target
       if(!activeObject){
         return false
@@ -136,9 +125,11 @@ export class Utilities extends Global {
     this.canvas.on({
       "selection:updated": select_object,
       "selection:created": select_object,
-      "object:modified": mody,
+      "object:modified": modified,
       'mouse:down': mouse_down,
       'object:moving': moving_object,
+      'mouse:up': mouse_up,
+
     
     });
   }

@@ -869,6 +869,7 @@
 
 .header {
   background-color: #0f5c68;
+  user-select: none;
   position: fixed;
   width: 100%;
   color: #f1f1f1;
@@ -990,6 +991,10 @@
   gap: 10px;
   align-items: center;
   justify-content: flex-end;
+}
+.header .tools .grid input,
+.header .tools .grid label {
+  cursor: pointer;
 }
 .header .tools .text {
   display: flex;
@@ -1153,7 +1158,6 @@ body {
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
-  background-color: #303030;
   color: #333;
 }
 

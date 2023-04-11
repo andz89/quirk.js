@@ -93,78 +93,166 @@ e.hoverCursor = "default";
 
 })
 //create grid
+ 
+ 
+// Set the canvas dimensions
+var canvasWidth =canvas_created.getWidth() + 10;
+var canvasHeight =canvas_created.getHeight() + 5;
 
-// let canvas_created = canvas(width, height);
-let partition_width = canvas_created.getWidth() / 36
-let partition_height = canvas_created.getHeight() / 36
+// Create a new Fabric.js canvas
 
-for (var i = 0; i <  36; i++) {
 
-if(i == 9 * 2){//50%
-
-  // vertical position
-canvas_created.add(new fabric.Line([ partition_width * i , 0, partition_width * i, canvas_created.getHeight()], { type:'line',name:'grid-lines', stroke: 'rgba(14, 146, 128, 0.671)', strokeWidth: 2, selectable: false,opacity:1 }));
-
+// Create the vertical grid lines
+for (var x = 0; x <= canvasWidth; x += 50) {
+console.log(x);
+if(x == 100){
+var line = new fabric.Line([x, 0, x, canvasHeight], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeWidth:1,
+});
 }
-if(i == 9){// 25%
-
-  // vertical position
-canvas_created.add(new fabric.Line([ partition_width * i , 0, partition_width * i, canvas_created.getHeight()], { type:'line',name:'grid-lines', stroke: 'rgba(14, 146, 128, 0.671)', strokeWidth: 2, selectable: false,opacity:1 }));
-
+else if(x == 200){
+var line = new fabric.Line([x, 0, x, canvasHeight], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeWidth:1,
+});
 }
-if(i == 9 * 3){//75%
-
-  // vertical position
-canvas_created.add(new fabric.Line([ partition_width * i , 0, partition_width * i, canvas_created.getHeight()], { type:'line',name:'grid-lines', stroke: 'rgba(14, 146, 128, 0.671)', strokeWidth: 2, selectable: false,opacity:1 }));
-
+else if(x == 300){
+var line = new fabric.Line([x, 0, x, canvasHeight], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeWidth:1,
+});
 }
-
+else if(x == 550){
+var line = new fabric.Line([x, 0, x, canvasHeight], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeWidth:1,
+});
+}
+else if(x == 650){
+var line = new fabric.Line([x, 0, x, canvasHeight], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeWidth:1,
+});
+}
+else if(x == 750){
+var line = new fabric.Line([x, 0, x, canvasHeight], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeWidth:1,
+});
+}
+ 
 else{
-// vertical position
-canvas_created.add(new fabric.Line([ partition_width * i , 0, partition_width * i, canvas_created.getHeight()], { type:'line',name:'grid-lines', stroke: 'rgba(14, 146, 128, 0.671)', selectable: false,opacity:1 }));
+var line = new fabric.Line([x, 0, x, canvasHeight], {
+stroke: 'gray',
+selectable: false,
+name: 'grid-lines',
+strokeDashArray: [5, 5],
+});
+}
+canvas_created.add(line);
+}
+
+// Create the horizontal grid lines
+for (var y = 0; y <= canvasHeight; y += 50) {
+
+if(y == 300){
+var line = new fabric.Line([0, y, canvasWidth, y], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeWidth:2,
+
+});
+
+
 
 }
 
+else if(y == 150){
+var line = new fabric.Line([0, y, canvasWidth, y], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeWidth:1
+});
 
-if(i == 9 * 2){//50%
 
-canvas_created.add(new fabric.Line([ 0,partition_height * i, canvas_created.getWidth(), partition_height * i], { type: 'line', name:'grid-lines', stroke: 'rgba(14, 146, 128, 0.671)', strokeWidth: 2, selectable: false,opacity:1 }))
-
-}
-if(i == 9){// 25%
-
-canvas_created.add(new fabric.Line([ 0,partition_height * i, canvas_created.getWidth(), partition_height * i], { type: 'line', name:'grid-lines', stroke: 'rgba(14, 146, 128, 0.671)', strokeWidth: 2,selectable: false,opacity:1 }))
-
-}
-if(i == 9 * 3){//75%
-
-canvas_created.add(new fabric.Line([ 0,partition_height * i, canvas_created.getWidth(), partition_height * i], { type: 'line', name:'grid-lines', stroke: 'rgba(14, 146, 128, 0.671)', strokeWidth: 2,selectable: false,opacity:1 }))
 
 }
+else if(y == 450){
+var line = new fabric.Line([0, y, canvasWidth, y], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeWidth:1
+});
 
+
+
+}
 else{
-// vertical position
-canvas_created.add(new fabric.Line([ 0,partition_height * i, canvas_created.getWidth(), partition_height * i], { type: 'line', name:'grid-lines', stroke: 'rgba(14, 146, 128, 0.671)', selectable: false,opacity:1 }))
+var line = new fabric.Line([0, y, canvasWidth, y], {
+  stroke: 'gray',
+  selectable: false,
+  name: 'grid-lines',
+  strokeDashArray: [5, 5],
+});
 
 }
-// horizontal position
-// canvas_created.add(new fabric.Line([ 0, i * grid, canvas_created.getWidth(), i * grid], { type: 'line', name:'grid-lines', stroke: '#000', selectable: false,opacity:1 }))
+
+
+
+canvas_created.add(line);
+
+
 }
+//center line 
+
+
+// Create a new Fabric.js canvas
+
+
+// Calculate the x position of the center of the canvas
+var centerX = canvasWidth / 2;
+
+// Create the vertical line
+var line_center = new fabric.Line([centerX, 0, centerX, canvasHeight], {
+stroke: 'gray',
+selectable: false,
+stroke: 'gray',
+strokeWidth:2,
+name: 'grid-lines'
+});
+canvas_created.add(line_center);
+
+
 
 let objs = canvas_created.getObjects().filter(function(obj){
 return obj.name == 'grid-lines';
 });
 //group all the objects 
 var alltogetherObj = new fabric.Group(objs,{
-// top:200,left:250,
+ 
 lockMovementY:true,
 lockMovementX:true,
 selectable:false,
 excludeFromExport: true,
 opacity:0,
 name:'grid',
-originX:'center',
-originY:'center'});
+ });
 canvas_created.add(alltogetherObj);
 let bg = canvas_created.getObjects().filter((obj)=>{
   return obj.name == 'bg-image' && obj.opacity == 1;
