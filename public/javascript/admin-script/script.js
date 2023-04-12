@@ -2,7 +2,7 @@
 import Canvas_background from "./canvas_background.js";
 import Check from "./check.js";
 import Loader from "./loader.js";
-import Crud_templates from "./Crud-templates.js";
+import Templates from "./templates.js";
 import Code from "./code.js";
 
  
@@ -14,10 +14,12 @@ code.create_code()
 code.copy_code()
 
 
-let crud_templates = new Crud_templates();
-crud_templates.show_templates_form();
-crud_templates.convert_file_to_json();
-crud_templates.edit_template()
+let templates = new Templates();
+templates.show_templates_form();
+templates.convert_file_to_json();
+templates.edit_template()
+templates.show_options()
+templates.publish()
 let check_password = new Check();
 check_password.check_password();
 

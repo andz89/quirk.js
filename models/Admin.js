@@ -298,6 +298,19 @@ Admin.prototype.delete_background = function (req, res) {
     });
   });
 }
+Admin.prototype.publish_update = function(req, res){
+  console.log(this.data.published_status);
+  return new Promise( (resolve, reject) => {
+    var sql = `UPDATE templates SET live = '${this.data.published_status}' WHERE template_id = '${this.data.template_id}'`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      resolve();
 
+    });
+  })
+}
 
 module.exports = Admin;

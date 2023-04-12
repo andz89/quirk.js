@@ -85,16 +85,17 @@
                 </div>
             </div>
 
-            <div class=" admin-templates" style="width: 100%;">
+            <div class="admin-templates" style="width: 100%;">
                 <% data.forEach((data)=>{%>
-                    <div class="d-flex  align-items-start  flex-direction-column  m-1">
+                    <div class="d-flex  align-items-start  flex-direction-column  m-1 template-container">
                         <div class=" d-flex  align-items-start flex-direction-column">
                             <img class="thumbnail" src="images/canvas_image/<%= data.thumbnail %>" width="170" alt="">
 
 
 
+                            <img src="images/list.png" class="hover-opactiy option" width="20" alt="">
 
-                            <h3 class="title text text-dark">
+                            <h3 class="title text text-dark ">
                                 <%= data.template_name %>
                             </h3>
 
@@ -106,34 +107,48 @@
 
                         </div>
 
+                        <div class="container"></div>
 
-                        <!-- buttons -->
-                        <div class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
-                            <a class="btn btn-sm btn-primary" href="/canvas-test?template_id=<%= data.template_id %> "
-                                target="_blank" style="margin:0; padding:2px 5px">
-                                Edit Canvas
-                            </a>
 
-                            <div class="btn btn-sm btn-success edit-template select-none"
-                                style="margin:0; padding:2px 5px">
-                                Edit
-                                details</div>
+                        <div class="option-container">
+
+                            <div class="opt-list">
+                                <a href="/canvas-test?template_id=<%= data.template_id %> " class="text text-dark"
+                                    target="_blank">
+                                    <small> Edit Canvas </small>
+                                </a>
+                            </div>
+
+
+
+
+                            <div class="  opt-list" s>
+                                <small class="edit-template"> Edit
+                                    details</small>
+                            </div>
+                            <div class="opt-list ">
+                                <small class="publish-btn">
+                                    <%= data.live=='true' ? 'Unpublished' :'Publish' %>
+                                </small>
+                                <input type="hidden" id="published_status"
+                                    value="<%= data.live == 'true' ?  'false':'true' %>">
+
+                            </div>
+
                         </div>
 
-
+                        <small id="status" class="<%= data.live == 'true' ?  'live':'not-live' %>">
+                            <%= data.live=='true' ? 'Live' :'Hidden' %>
+                        </small>
                         <!-- edit temmplate modal -->
                         <div class="modal-edit-admin">
                             <form action="/updateTemplate" method="POST" enctype="multipart/form-data">
 
                                 <div class="modal-content">
-                                    <div>
-                                        <div class="btn btn-sm btn-danger text text-white delete-template-btn">
-                                            Delete Template
-                                        </div>
-                                    </div>
+
 
                                     <div>
-                                        <input type="text" name="template_name" class="title">
+                                        <input type="text" name="template_name" class="modal-title">
                                     </div>
                                     <div>
                                         <textarea name="template_description" class="description"></textarea>
@@ -175,10 +190,18 @@
                                     <input type="hidden" name="template_json" class="json-text">
 
                                     <div class="button-container">
-                                        <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel Changes
+                                        <div>
+                                            <div class="delete-template-btn">
+                                                Delete Template
+                                            </div>
                                         </div>
-                                        <input type="submit" class="btn btn-sm btn-success update-template-btn"
-                                            value="Save changes">
+                                        <div>
+                                            <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel Changes
+                                            </div>
+                                            <input type="submit" class="btn btn-sm btn-success update-template-btn"
+                                                value="Save changes">
+
+                                        </div>
 
                                     </div>
 

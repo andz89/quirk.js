@@ -54,7 +54,7 @@ height: json_parsed.size.h,
 backgroundColor: "#fff",
 preserveObjectStacking: true,
  
-// selection:false,
+selection: user_role == 'admin'? true: false,
 imageSmoothingEnabled: false
 
 });

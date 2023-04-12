@@ -73,7 +73,7 @@
         }
 
         input[type='text'] {
-            height: 78px;
+            height: 48px;
         }
 
         textarea {
@@ -91,8 +91,9 @@
         }
 
         .button-container {
+            margin-top: 60px;
             display: flex;
-            justify-content: end;
+            justify-content: space-between;
         }
 
     }

@@ -141,7 +141,10 @@ router.get("/admin-background", check.role_admin, adminController.background);
 router.get("/admin-users", check.role_admin, adminController.users);
 
 
+
 //user admin action
+router.post("/publish", check.role_admin, adminController.publish_update);
+
 router.post("/admin_delete_template", check.role_admin, adminController.adminDeleteTemplate);
 
 router.post("/admin-login-request", adminController.admin_login_post);

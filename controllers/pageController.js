@@ -63,8 +63,9 @@ exports.success_registration_page = function (req, res) {
 };
 
 exports.templates_page = (req, res) => {
-
-let templates = new Page()
+  let data = {}
+  data.user_role = req.session.user.user_role;
+let templates = new Page(data)
 templates.getAllTemplates().then((data)=>{
 
   res.render("pages/templates", {

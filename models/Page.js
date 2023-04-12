@@ -199,8 +199,8 @@ Page.prototype.getCanvas = function(){
  
 Page.prototype.getAllTemplates = function() {
   return new Promise(async (resolve, reject) => {
-   
-    let sql = `SELECT * FROM templates`;
+   if(this.data.user_role == 'admin'){
+    let sql = `SELECT * FROM templates `;
     db.query(sql, (err, result) => {
     
       if (err) {
@@ -211,6 +211,20 @@ Page.prototype.getAllTemplates = function() {
     
       resolve(result);
     });
+   }else{
+    let sql = `SELECT * FROM templates WHERE live = 'true'`;
+    db.query(sql, (err, result) => {
+    
+      if (err) {
+        reject(err);
+        return false;
+      }
+     
+    
+      resolve(result);
+    });
+   }
+   
 
 });
 }

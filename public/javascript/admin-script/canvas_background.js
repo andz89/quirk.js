@@ -73,17 +73,17 @@ class Canvas_background{
         //    })  
    
         
-        //  add_bg_image.querySelector('.close').addEventListener("click",()=>{
+        // //  add_bg_image.querySelector('.close').addEventListener("click",()=>{
     
-        //    add_bg_image.style.display ="none"
-        //  })
+        // //    add_bg_image.style.display ="none"
+        // //  })
        
         // }
         if(document.querySelector("#modal-container-add-background-page-templates")){
 
           let template_page = document.querySelector('.admin-templates-container')
 
-          let add_bg_image =  document.querySelector("#modal-container-add-background-page-templates")
+          let add_bg_image =  document.querySelector("#modal-container-add-background-page-templates")//modal div element
           let modal_body =   add_bg_image.querySelector('.modal-body')
    
        
@@ -97,11 +97,12 @@ class Canvas_background{
                 xhttp.onreadystatechange = () => {
                   if (xhttp.readyState == 4 && xhttp.status == 200) {
                     let data = JSON.parse(xhttp.responseText);
+            
                     data.forEach((e)=>{
                       let div = document.createElement('div')
                       div.innerHTML = 
                       ` 
-                      <img src='http://localhost:5000/images/ci/${e.thumbnail_image}' width="150px">
+                      <img src='http://localhost:5000/images/canvas_image/${e.thumbnail_image}' width="150px">
                       <input type="hidden" name="background_name" value="${e.background_image}">
                       <span class="btn btn-sm btn-success apply-btn">Apply</span>`
           
@@ -116,7 +117,7 @@ class Canvas_background{
                              let a =   e.target.parentElement.querySelector('input').value
                         
                              document.querySelector('.admin-templates-container form #canvas_image').value = a
-                             document.querySelector('.admin-templates-container form #canvas-image-view').src = 'http://localhost:5000/images/ci/'+a
+                             document.querySelector('.admin-templates-container form #canvas-image-view').src = 'http://localhost:5000/images/canvas_image/'+a
                          }
                          if(e.target.classList.contains('close')){
                           add_bg_image.style.display = 'none'

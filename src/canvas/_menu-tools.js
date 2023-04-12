@@ -2239,8 +2239,14 @@ createTable().then(()=>{
 
   group_objects() {
     let group = document.querySelector("#group");
+    
     group.onclick = () => {
+      let object = this.canvas.getActiveObject()
+      if (!object) {
+        return false;
+      }
       let obj = this.canvas.getActiveObject().toGroup();
+   
       obj.editable = true
       obj.name = obj.type;
       obj.id = this.uniqueId();
@@ -2252,7 +2258,7 @@ createTable().then(()=>{
     let ungroup = document.querySelector("#ungroup");
     ungroup.onclick = () => {
       let object = this.canvas.getActiveObject();
-      if (!object._objects) {
+      if (!object) {
         return false;
       }
       if (object.type == "activeSelection") {

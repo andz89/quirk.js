@@ -41,8 +41,9 @@ exports.login_page = (req, res) => {
 };
 exports.templates = (req, res) => {
 
-
-  let templates = new Page()
+  let data = {}
+  data.user_role = req.session.user.user_role;
+  let templates = new Page(data)
 templates.getAllTemplates().then((data)=>{
 ;
   res.render("admin/admin-templates", {
@@ -224,7 +225,24 @@ if(req.files.modal_image){
       // res.json(err);
     });
 }
+exports.publish_update= function (req, res){
+   
+  let data = {
 
+    template_id :req.query.template_id,
+    published_status :req.query.published_status
+  };
+ 
+ 
+
+    let admin = new Admin(data);
+    admin
+      .publish_update()
+      .then(function () {
+        res.json('true')
+      })
+ 
+  }
 exports.users = function (req, res){
   let users = new Admin()
  users.get_codes().then((data)=>{

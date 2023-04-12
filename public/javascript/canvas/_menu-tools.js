@@ -141,7 +141,7 @@ export class Menu_tools extends Global {
     let a = this.canvas.getObjects().filter((e)=>{
       return e.name == "bg-image";
     })
-  
+  console.log(link);
 if(link != null ){//dili null
   if(a ==  false){
  
