@@ -49,7 +49,24 @@ export class Global {
     return dateString + random;
   }
 
- 
+  groupObjectStyle(object) {
+    object.set("borderColor", "#333");
+    object.set("cornerColor", "#17a2b8");
+    object.set("cornerSize", 12);
+    object.set("cornerStyle", "circle");
+    object.set("transparentCorners", false);
+    object.set("lockUniScaling", true);
+    object.setControlsVisibility({mt: false, 
+      mb: false, 
+      ml: false, 
+      mr: false, 
+      bl: false,
+      br: false, 
+      tl: false, 
+      tr: false,
+      mtr: false, })
+
+  }
 //user in font selection
   alert(text) {
     let alert_container = document.querySelector("#notification");

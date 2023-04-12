@@ -9,7 +9,7 @@
 @import 'canvas';
 @import 'header';
 @import 'loader';
-
+@import 'admin-tool';
 
 
 // canvas
@@ -73,7 +73,7 @@ main {
 
     width: 100%;
     transition: all .5s;
-    padding: 90px 10px;
+    padding: 100px 10px 20px;
 
 }
 

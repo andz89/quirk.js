@@ -4,6 +4,27 @@ let JSZip = require('jszip');
 let JSZipUtils = require('jszip-utils');
 
 export class Menu_tools extends Global {
+
+  admin(){
+    
+let close_btn = document.querySelector('.admin-tool-container .close');
+close_btn.addEventListener('click',(e)=>{
+  if(e.target.classList.contains('hide')){
+    document.querySelector('.admin-tool-content').style.display = 'none';
+
+    e.target.classList.remove('hide');
+    e.target.classList.add('open');
+    e.target.innerText = 'Show';
+  }else{
+    document.querySelector('.admin-tool-content').style.display = 'block';
+    e.target.classList.remove('open');
+    e.target.classList.add('hide');
+    e.target.innerText = 'Hide';
+
+  }
+  
+})
+  }
   //add background
   add_background(){
       let add_bg_image =  document.querySelector("#modal-container-add-background")
@@ -1664,23 +1685,25 @@ createTable().then(()=>{
         return false
       }
       if(object){
-        if ( object._Qbold === undefined) {
+        
+        if (object.bold === undefined) {
       
           if (object.getSelectedText() == "") { // empty
               // object.removeStyle('fontWeight')
               object.set({fontWeight: "bold"})
               object.dirty = true;
               this.canvas.renderAll()
-              bold.style.backgroundColor = '#f4f4f4'
-              object._Qbold = true
+              bold.style.backgroundColor = '#06343b'
+              object.bold = true
           } else {
          
               object.setSelectionStyles({fontWeight: "bold"})
-              bold.style.backgroundColor = '#f4f4f4'
-              object._Qbold = true
+              bold.style.backgroundColor = '#06343b'
+              object.bold = true
               object.dirty = true;
               this.canvas.renderAll()
          
+              bold.style.backgroundColor = '#06343b'
                      
                          
           }
@@ -1692,25 +1715,26 @@ createTable().then(()=>{
 
               // to check if some text is normal and bold
               if (object.fontWeight == 'normal') {
-                bold.style.backgroundColor = '#f4f4f4'
+                bold.style.backgroundColor = '#06343b'
+               
                   object.set({fontWeight: "bold"})
                   this.canvas.renderAll()
               } else {
                   object.set({fontWeight: "normal"})
-
+                  object.dirty = true;
                   this.canvas.renderAll()
                   bold.style.backgroundColor = ''
-                  object._Qbold = undefined
+                  object.bold = undefined
               }
 
           } else {
         
               
               object.setSelectionStyles({fontWeight: "normal"})
-
+              object.dirty = true;
               bold.style.backgroundColor = ''
               this.canvas.renderAll()
-              object._Qbold = undefined
+              object.bold = undefined
           }
 
 
@@ -1740,13 +1764,13 @@ createTable().then(()=>{
           object.dirty = true;
           this.canvas.renderAll();
           object.italic = true;
-          italic.style.backgroundColor = "#f4f4f4";
+          italic.style.backgroundColor = "#06343b";
         } else {
           object.setSelectionStyles({ fontStyle: "italic" });
           object.dirty = true;
           this.canvas.renderAll();
           object.italic = true;
-          italic.style.backgroundColor = "#f4f4f4";
+          italic.style.backgroundColor = "#06343b";
         }
       } else {
         if (object.getSelectedText() == "") {
@@ -1754,7 +1778,7 @@ createTable().then(()=>{
 
           // to check if some text is normal and italic
           if (object.fontStyle == "normal") {
-           italic.style.backgroundColor = '#f4f4f4'
+           italic.style.backgroundColor = '#06343b'
             object.set({ fontStyle: "italic" });
             this.canvas.renderAll();
           } else {
@@ -1768,9 +1792,10 @@ createTable().then(()=>{
           object.setSelectionStyles({ fontStyle: "normal" });
 
           object.dirty = true;
+          italic.style.backgroundColor = "";
           this.canvas.renderAll();
           object.italic = undefined;
-          italic.style.backgroundColor = "";
+        
         }
       }
     };
@@ -1921,5 +1946,325 @@ createTable().then(()=>{
      
       }
     });
+  }
+
+  
+ align_canvas() {
+
+    document.querySelector('#align-canvas').addEventListener('click', (e)=>{
+      if(e.target.value == 'Horizontal'){
+        if (this.canvas.getActiveObject().type === "activeSelection") {
+          let obj = this.canvas.getActiveObject().toGroup();
+          this.canvas.viewportCenterObjectH(obj);
+  
+          let selected_objects = this.canvas
+            .getActiveObject()
+            .toActiveSelection();
+            this.groupObjectStyle(selected_objects)
+         
+  
+          this.canvas.renderAll();
+        } else {
+          let object = this.canvas.getActiveObject();
+          this.canvas.viewportCenterObjectH(object);
+          this.canvas.setActiveObject(object);
+        }
+      }
+      if(e.target.value == 'Vertical'){
+        if (this.canvas.getActiveObject().type === "activeSelection") {
+          let obj = this.canvas.getActiveObject().toGroup();
+          this.canvas.viewportCenterObjectV(obj);
+          let selected_objects = this.canvas
+            .getActiveObject()
+            .toActiveSelection();
+            this.groupObjectStyle(selected_objects)
+  
+          this.canvas.renderAll();
+        } else {
+          let object = this.canvas.getActiveObject();
+          this.canvas.viewportCenterObjectV(object);
+          this.canvas.setActiveObject(object);
+        }
+      }
+      if(e.target.value == 'Center'){
+        if (this.canvas.getActiveObject().type === "activeSelection") {
+          let obj = this.canvas.getActiveObject().toGroup();
+          this.canvas.viewportCenterObject(obj);
+          let selected_objects = this.canvas
+            .getActiveObject()
+            .toActiveSelection();
+            this.groupObjectStyle(selected_objects)
+  
+          this.canvas.renderAll();
+        } else {
+          let object = this.canvas.getActiveObject();
+          this.canvas.viewportCenterObject(object);
+  
+          this.canvas.setActiveObject(object);
+        }
+      }
+    })
+   
+  }
+ 
+ 
+
+  align_left() {
+    let align_left = document.querySelector("#align_left");
+    align_left.onclick = () => {
+      let object = this.canvas.getActiveObjects();
+      if (object.length < 2) {
+        return false;
+      }
+
+      let group_objects = this.canvas.getActiveObject().toGroup();
+
+      var groupWidth = group_objects.width;
+
+      object.forEach((obj) => {
+        obj.set({
+          left: -(groupWidth / 2),
+          originX: "left",
+        });
+      });
+      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
+      this.groupObjectStyle(groupObjects)
+   
+      this.canvas.renderAll();
+    };
+  }
+
+  align_center() {
+    let align_center = document.querySelector("#align_center");
+    align_center.onclick = () => {
+      let object = this.canvas.getActiveObjects();
+      if (object.length < 2) {
+        return false;
+      }
+
+      let group_objects = this.canvas.getActiveObject().toGroup();
+
+      var groupWidth = group_objects.width;
+
+      object.forEach((obj) => {
+        var itemWidth = obj.getBoundingRect().width;
+        obj.set({
+          left: 0 - itemWidth / 2,
+          originX: "left",
+        });
+      });
+      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
+
+      this.groupObjectStyle(groupObjects)
+      
+      this.canvas.renderAll();
+    };
+  }
+
+  align_right() {
+    let align_right = document.querySelector("#align-right");
+    align_right.onclick = () => {
+      let object = this.canvas.getActiveObjects();
+      if (object.length < 2) {
+        return false;
+      }
+
+      let group_objects = this.canvas.getActiveObject().toGroup();
+
+      var groupWidth = group_objects.width;
+
+      object.forEach((obj) => {
+        var itemWidth = obj.getBoundingRect().width;
+        obj.set({
+          left: groupWidth / 2 - itemWidth / 2,
+          originX: "center",
+        });
+      });
+
+      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
+      this.groupObjectStyle(groupObjects)
+
+      
+      this.canvas.renderAll();
+    };
+  }
+
+  align_top() {
+    document.querySelector("#align-top").onclick = () => {
+      let object = this.canvas.getActiveObjects();
+      if (object.length < 2) {
+        return false;
+      }
+
+      let group_objects = this.canvas.getActiveObject().toGroup();
+      var groupHeight = group_objects.height;
+
+      object.forEach((obj) => {
+        obj.set({
+          top: 0 - groupHeight / 2,
+          originY: "top",
+        });
+      });
+
+      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
+      this.groupObjectStyle(groupObjects)
+
+        
+      this.canvas.renderAll();
+    };
+  }
+
+  align_middle() {
+    document.querySelector("#align-middle").onclick = () => {
+      let object = this.canvas.getActiveObjects();
+
+      if (object.length < 2) {
+        return false;
+      }
+      object.forEach((obj) => {
+        let itemHeight = obj.getBoundingRect().height;
+
+        obj.set({
+          top: 0 - itemHeight / 2,
+          originY: "top",
+        });
+      });
+      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
+
+      this.groupObjectStyle(groupObjects)
+      
+      this.canvas.renderAll();
+    };
+  }
+
+  align_bottom() {
+    document.querySelector("#align-bottom").onclick = () => {
+      let object = this.canvas.getActiveObjects();
+      if (object.length < 2) {
+        return false;
+      }
+
+      let group_objects = this.canvas.getActiveObject().toGroup();
+      var groupHeight = group_objects.height;
+
+      object.forEach((obj) => {
+        var itemHeight = obj.getBoundingRect().height;
+        obj.set({
+          top: groupHeight / 2 - itemHeight / 2,
+          originY: "center",
+        });
+      });
+    let groupObjects = this.canvas.getActiveObject().toActiveSelection();
+    this.groupObjectStyle(groupObjects)
+      
+      this.canvas.renderAll();
+    };
+  }
+
+  object_name(){
+    document.querySelector('#object-name').addEventListener('input', (e)=>{
+     let obj = this.canvas.getActiveObject()
+     obj.set({name: e.target.value})
+    })
+  }
+  lock() {
+    let lock = document.querySelector("#lock");
+    lock.onclick = () => {
+      let object = this.canvas.getActiveObject();
+      let objects = this.canvas.getActiveObjects();
+      if(!objects){
+        return false;
+      }
+      if(!object){
+        return false;
+      }
+
+      if(object.lockMovementX == false){
+    
+
+          this.canvas.discardActiveObject();
+          object.selectable = true;
+          // object.editable = false;
+          object.set("lockMovementX", true);
+      
+          object.set("lockRotation", true);
+          this.canvas.renderAll();
+ 
+        document.querySelector('#lock').innerHTML = '&#x1F512;'
+      }else{
+        document.querySelector('#lock').innerHTML = '<small> lock </small>'
+        this.canvas.discardActiveObject();
+ 
+ 
+        object.set("lockMovementX", false);
+    
+        object.set("lockRotation", false);
+        this.canvas.renderAll();
+      }
+        console.log(objects);
+ 
+        if (objects.length > 1) {
+     
+
+          objects.forEach((obj) => {
+            if(obj.lockMovementX == false){
+              obj.editable = true;
+              obj.selectable = true;
+              obj.set("lockMovementX", true);
+           
+              obj.set("lockRotation", true);
+              this.canvas.discardActiveObject();
+              this.canvas.renderAll();
+              document.querySelector('#lock').innerHTML = '&#x1F512;'
+            }else{
+              obj.editable = true;
+              obj.selectable = true;
+              obj.set("lockMovementX", false);
+           
+              obj.set("lockRotation", false);
+              this.canvas.discardActiveObject();
+              this.canvas.renderAll();
+        document.querySelector('#lock').innerHTML = '<small> lock </small>'
+
+            }
+            
+          });
+      
+        }
+
+   
+  
+    };
+  }
+
+  group_objects() {
+    let group = document.querySelector("#group");
+    group.onclick = () => {
+      let obj = this.canvas.getActiveObject().toGroup();
+      obj.editable = true
+      obj.name = obj.type;
+      obj.id = this.uniqueId();
+      this.groupObjectStyle(obj)
+    };
+  }
+
+  ungroup_objects() {
+    let ungroup = document.querySelector("#ungroup");
+    ungroup.onclick = () => {
+      let object = this.canvas.getActiveObject();
+      if (!object._objects) {
+        return false;
+      }
+      if (object.type == "activeSelection") {
+        return false;
+      }
+
+      if (object.lockMovementX == true) {
+        return false;
+      } // to check if object is lock
+
+      let a = object.toActiveSelection();
+      this.groupObjectStyle(a)
+    };
   }
 }

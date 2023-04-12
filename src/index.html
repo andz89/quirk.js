@@ -78,20 +78,20 @@
                 </div>
             </li>
             <div class="text">
-                <div class="text-style-align">
-
+                <div class="text-properties">
                     <!-- color -->
-                    <label id="bold"> <img class=" "
-                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3LjMzIDguNTgiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+QXNzZXQgMTA8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl8zIiBkYXRhLW5hbWU9IkxheWVyIDMiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTS4zMywxMC4zMnYtMWwuOTEtLjE4VjNMLjMzLDIuNzh2LTFINC4xNGE0LjA5LDQuMDksMCwwLDEsMi4zNi41OSwyLDIsMCwwLDEsLjg1LDEuNzZBMS44OSwxLjg5LDAsMCwxLDcsNS4xNmExLjk0LDEuOTQsMCwwLDEtLjkyLjcsMi4wOCwyLjA4LDAsMCwxLC44Ni40LDEuNjMsMS42MywwLDAsMSwuNTEuNjgsMi4xMywyLjEzLDAsMCwxLC4xNy44OCwyLjI0LDIuMjQsMCwwLDEtLjgxLDEuODcsMy42OCwzLjY4LDAsMCwxLTIuMy42M1pNMyw1LjM0SDQuMmExLjcxLDEuNzEsMCwwLDAsMS4wNi0uMjksMSwxLDAsMCwwLC4zNy0uODIsMSwxLDAsMCwwLS4zNy0uODgsMS44MywxLjgzLDAsMCwwLTEuMTItLjI4SDNaTTMsOUg0LjU1YTEuNTksMS41OSwwLDAsMCwxLS4zQTEuMDgsMS4wOCwwLDAsMCw2LDcuODJhMS42NiwxLjY2LDAsMCwwLS4xNC0uNzEsMSwxLDAsMCwwLS40MS0uNDQsMS42OCwxLjY4LDAsMCwwLS43Mi0uMTRIM1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0wLjMzIC0xLjc0KSIvPjwvZz48L2c+PC9zdmc+"
-                            width="13" alt="">
+                    <label id="bold"> <img src="images/canvas/bold-solid.png" width="15" alt="">
                     </label>
 
                     <!-- italic -->
                     <label id="italic">
-                        <img class=" "
-                            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1LjIgOC43NiI+PGRlZnM+PHN0eWxlPi5jbHMtMXtmaWxsOiNjY2M7fTwvc3R5bGU+PC9kZWZzPjx0aXRsZT5pdGFsaWM8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl80IiBkYXRhLW5hbWU9IkxheWVyIDQiPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTUuMjEsMi43NEM0LjA4LDIuODMsNCwyLjkxLDMuNzksMy44OUwyLjcxLDkuNTRjLS4yLDEtLjA4LDEuMTIsMSwxLjJsLS4wNy4zOEguMDlsLjA5LS4zOGMxLjA5LS4xLDEuMjEtLjE5LDEuNDEtMS4yTDIuNjgsMy44OWMuMTktMSwuMDgtMS4wNi0xLjA1LTEuMTVsLjA4LS4zOEg1LjNaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC4wOSAtMi4zNikiLz48L2c+PC9nPjwvc3ZnPg=="
-                            width="8" alt="" />
+                        <img class=" " src="images/canvas/italic-solid.png" width="15" alt="" />
                     </label>
+
+                </div>
+
+                <div class="text-style-align">
+
 
                     <!-- alignLeftText -->
                     <label id="alignLeftText">
@@ -353,7 +353,68 @@
         </div>
     </div>
 
+    <!-- admin tool  -->
+    <div class="admin-tool-container">
+        <div class="close hide">
+            Hide
+        </div>
+        <div class="admin-tool-content">
+            <div class="tool-one">
+                <div class="form-group">
 
+                    <select class="form-control" id="align-canvas">
+                        <option active>Align to Canvas</option>
+
+                        <option id="horizontal">Horizontal</option>
+                        <option id="vertical">Vertical</option>
+                        <option id="center">Center</option>
+
+
+                    </select>
+                </div>
+                <hr>
+                <div>
+                    <label for="">Align Objects</label>
+                    <div class="align-icon-container">
+                        <img id="align_left" src="images/canvas/align_left.png" title="align-left" draggable="false"
+                            alt="">
+                        <img id="align_center" src="images/canvas/align_center.png" title="align-center"
+                            draggable="false" alt="">
+                        <img id="align-right" src="images/canvas/align_right.png" title="align-right" draggable="false"
+                            alt="">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <img id="align-bottom" src="images/canvas/align_bottom.png" title="align-bottom"
+                            draggable="false" alt="">
+                        <img id="align-middle" src="images/canvas/align_mid.png" title="align-middle" draggable="false"
+                            alt="">
+                        <img id="align-top" src="images/canvas/align_top.png" title="align-top" draggable="false"
+                            alt="">
+
+                    </div>
+                </div>
+                <hr>
+                <div class="group">
+
+                    <div title="group" id="group" class="folder-btn  ">&#128448;</div>
+                    <div title="ungroup" id="ungroup" class="folder-btn  ">&#128449;</div>
+                </div>
+            </div>
+
+            <div class="tool-two">
+                <div class="object-name-container">
+                    <label for="">Object name</label>
+                    <input type="text" class="form-control" id="object-name">
+                </div>
+
+                <div class="btn btn-sm btn-primary lock" id="lock">&#x1F512;</div>
+                <div class="btn btn-sm btn-primary lock" id="unlock">&#x1F513;</div>
+
+                <div id="duplicate">&#10064;</div>
+
+
+            </div>
+        </div>
+    </div>
 
 
 

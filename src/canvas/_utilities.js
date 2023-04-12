@@ -10,10 +10,46 @@ export class Utilities extends Global {
       var activeObj = o.selected[0];
     
 
- 
+      //select object name
+      document.querySelector('#object-name').value = activeObj.name;
+       
 
+      if(activeObj.lockMovementX == true){
+          document.querySelector('#lock').innerHTML = ' &#x1F512;'
+      }else{
+        document.querySelector('#lock').innerHTML = '<small> lock </small>'
+      }
+
+
+
+      //selecting multiple objects
+      if(activeObj.group  !== undefined){
+
+        let group = activeObj.group
+        this.groupObjectStyle(group)
+       }
+ 
+    
       // fontSize
       if (activeObj.type == "textbox") {
+       let bold =  document.querySelector('#bold')
+        //bold
+        if( activeObj.fontWeight == 'bold'){
+          console.log(activeObj.fontWeight);
+          bold.style.backgroundColor = '#06343b'
+        }
+
+        if(activeObj.type == "textbox" && activeObj.fontWeight === 'normal'){bold.style.backgroundColor = ''}
+  //italic
+  if(activeObj.fontStyle == 'italic' ){
+    document.querySelector('#italic').style.backgroundColor ="#06343b";
+
+   }else{
+    document.querySelector('#italic').style.backgroundColor ="";
+    
+   }
+
+        //font
         document.querySelector("#fontSize").value = activeObj.fontSize
        
       let a =  document.getElementById("fontFamilySelect").selectedIndex = activeObj.fontFamily;
@@ -94,13 +130,16 @@ export class Utilities extends Global {
    
     }
     const mouse_down = (o)=>{
-      let activeObj  = o.target
+   
     
     }
     const mouse_up = (o)=>{
    
       let activeObj  = o.target
       if(activeObj.name == 'grid'){
+        return false
+      }
+      if(activeObj.name == 'bg-image'){
         return false
       }
       activeObj.set({opacity: 1})
@@ -126,7 +165,7 @@ export class Utilities extends Global {
       "selection:updated": select_object,
       "selection:created": select_object,
       "object:modified": modified,
-      'mouse:down': mouse_down,
+      // 'mouse:down': mouse_down,
       'object:moving': moving_object,
       'mouse:up': mouse_up,
 

@@ -1,0 +1,200 @@
+.admin-tool-container {
+    display: flex;
+    transition: all .5s;
+    position: fixed;
+    z-index: 1;
+    left: 10px;
+    top: 90px;
+
+    background-color: rgb(1, 53, 66);
+    padding: 10px;
+    user-select: none;
+    cursor: pointer;
+    min-width: 66px;
+    min-height: 40px;
+
+
+    .close {
+        cursor: pointer;
+        position: absolute;
+        background-color: rgb(233, 233, 233);
+        color: #1b1b1b;
+        padding: 3px 5px;
+        border-radius: 5px;
+        font-size: 14px;
+        right: 10px;
+        top: 5px;
+    }
+
+    .admin-tool-content {
+
+        cursor: pointer;
+        margin-top: 30px;
+        padding: 4px;
+        height: 420px;
+        width: 250px;
+        background-color: aliceblue;
+        display: block;
+
+
+        .tool-one {
+            background-color: rgb(99, 99, 99);
+            height: 200px;
+            padding: 5px;
+            color: #fff;
+
+            /* Styles for the select element */
+            label {
+                font-size: 14px;
+            }
+
+            .form-control {
+                cursor: pointer;
+                display: block;
+                width: 100%;
+                height: 30px;
+                padding: 0.375rem 0.75rem;
+                font-size: .8rem;
+                line-height: 1.5;
+                color: #495057;
+                background-color: #fff;
+                background-clip: padding-box;
+                border: 1px solid #ced4da;
+                border-radius: 0.25rem;
+                transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            }
+
+            .form-control:focus {
+                border-color: #80bdff;
+                outline: 0;
+                box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+            }
+
+            /* Styles for the options */
+            select option {
+                cursor: pointer;
+                color: #495057;
+                background-color: #fff;
+                font-weight: normal;
+            }
+
+            select option:checked {
+                background-color: #a8a8a8;
+                color: #fff;
+            }
+
+            hr {
+                margin: 10px 0;
+            }
+
+            .align-icon-container {
+                margin-top: 2px;
+
+                img {
+                    width: 23px;
+                    box-shadow: rgba(50, 50, 93, 0.4) 0px 2px 5px -1px, rgba(0, 0, 0, 0.5) 0px 1px 3px -1px;
+
+                    transition: all 0.2s ease-in;
+                }
+            }
+
+            .group {
+                display: flex;
+                font-size: 20px;
+                gap: 10px;
+
+                div {
+                    border-radius: 5px;
+                    background-color: #6c6d6d;
+                    padding: 0px 5px;
+                    box-shadow: rgba(50, 50, 93, 0.4) 0px 2px 5px -1px, rgba(0, 0, 0, 0.5) 0px 1px 3px -1px;
+                }
+            }
+        }
+
+        .tool-two {
+            margin-top: 4px;
+            background-color: rgb(217, 218, 219);
+            padding: 5px;
+
+            height: 210px;
+
+            .object-name-container {
+
+
+                label {
+                    font-size: 14px;
+                }
+
+                /* Input text styles */
+                .form-control {
+                    display: block;
+                    width: 100%;
+                    height: calc(2.25rem + 2px);
+                    padding: 0.375rem 0.75rem;
+                    font-size: 1rem;
+                    font-weight: 400;
+                    line-height: 1.5;
+                    color: #495057;
+                    background-color: #fff;
+                    background-clip: padding-box;
+                    border: 1px solid #ced4da;
+                    border-radius: 0.25rem;
+                    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                }
+
+                /* Label styles */
+                .form-group label {
+                    display: block;
+                    margin-bottom: 0.5rem;
+                    font-weight: 600;
+                }
+
+                /* Optional: Adjust styles on focus and hover */
+                .form-control:focus {
+                    border-color: #80bdff;
+                    outline: 0;
+                    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                }
+
+                .form-control:hover {
+                    border-color: #b4b4b4;
+                }
+
+                .form-group label:hover {
+                    cursor: pointer;
+                    color: #007bff;
+                }
+
+            }
+
+            #lock {
+                margin: 5px 0;
+                font-size: 18px;
+                padding: 2px 10px;
+
+            }
+
+            #unlock {
+                display: none;
+                margin: 5px 0;
+                font-size: 18px;
+                padding: 2px 10px;
+            }
+
+            #duplicate {
+                font-size: 18px;
+                padding: 2px 10px;
+                display: inline-block;
+                background-color: $primary-color;
+                color: #fff;
+                transition: all 0.2s ease-in;
+            }
+
+            #duplicate:hover {
+
+                background: lighten($primary-color, 5%)
+            }
+        }
+    }
+}

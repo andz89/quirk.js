@@ -52,6 +52,18 @@ export class Canvas extends Global {
     menu_tools.textAlign_right();
     menu_tools.fontStyle();
     menu_tools.grid();
+    menu_tools.admin();
+    menu_tools.align_canvas();
  
+    menu_tools.align_left();
+    menu_tools.align_center();
+    menu_tools.align_right();
+    menu_tools.align_top();
+    menu_tools.align_middle();
+    menu_tools.align_bottom();
+    menu_tools.object_name();
+    menu_tools. lock();
+    menu_tools.group_objects()
+    menu_tools.ungroup_objects()
   };
 }

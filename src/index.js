@@ -54,7 +54,7 @@ height: json_parsed.size.h,
 backgroundColor: "#fff",
 preserveObjectStacking: true,
  
-selection:false,
+// selection:false,
 imageSmoothingEnabled: false
 
 });
@@ -174,7 +174,7 @@ var line = new fabric.Line([0, y, canvasWidth, y], {
   selectable: false,
   name: 'grid-lines',
   strokeWidth:2,
-
+  
 });
 
 
@@ -252,6 +252,7 @@ selectable:false,
 excludeFromExport: true,
 opacity:0,
 name:'grid',
+hoverCursor:'default',
  });
 canvas_created.add(alltogetherObj);
 let bg = canvas_created.getObjects().filter((obj)=>{
