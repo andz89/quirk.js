@@ -42,13 +42,13 @@ exports.login_page = (req, res) => {
 exports.templates = (req, res) => {
 
   let data = {}
-  data.user_role = req.session.user.user_role;
+  data.user_role =  req.session.user_role;
   let templates = new Page(data)
 templates.getAllTemplates().then((data)=>{
 ;
   res.render("admin/admin-templates", {
     data: data,
-    user_type: req.session.user.user_role,
+    user_type:  req.session.user_role,
     session: req.session.user ? true : false,
   }); 
 })
@@ -62,7 +62,7 @@ templates.getAllBackgrounds().then((data)=>{
 
   res.render("admin/admin-background", {
     data:data,
-    user_type: req.session.user.user_role,
+    user_type:  req.session.user_role,
     session: req.session.user ? true : false,
   }); 
 })

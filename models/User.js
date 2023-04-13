@@ -167,10 +167,10 @@ User.prototype.validate = function () {
 };
 
 User.prototype.login = function () {
-  this.cleanUp();
+  // this.cleanUp();
 
   return new Promise((resolve, reject) => {
-    let sql = `SELECT * FROM users WHERE user_email = "${this.data.user_email}"`;
+    let sql = `SELECT * FROM users WHERE user_id = "${this.data.user_id}"`;
 
     db.query(sql, (err, result) => {
 
@@ -179,14 +179,22 @@ User.prototype.login = function () {
         return false;
       }
 
-      if (
-        result.length &&
-        bcrypt.compareSync(this.data.user_password, result[0].user_password)
-      ) {
-        resolve(result);
-        
-      } else {
-        reject(this.data);
+      if (result)  {
+        resolve('exist')
+      }else{
+        let data = {
+          user_id: this.data.user_id,
+          user_name: this.data.user_name,
+        };
+        let sql = "INSERT INTO users SET ?";
+        db.query(sql, data, (err, result) => {
+          if (err) {
+            reject(err);
+            return false;
+          }
+  
+          resolve();
+        });
       }
     });
   });
@@ -358,7 +366,7 @@ User.prototype.update_code = function ( ){
   let date_expired = tomorrow.toLocaleString()//date expiration
 
   return new Promise( (resolve, reject)=> {
-    var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}',user_email = '${this.data.user_email}', user_name = '${this.data.user_name}',date_purchased = '${this.data.code_date}',template_used=${this.data.current_template},date_expired= '${date_expired}',certificate_subscription = 'true' WHERE code = '${this.data.code}'`;
+    var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}',  user_name = '${this.data.user_name}',date_purchased = '${this.data.code_date}',template_used=${this.data.current_template},date_expired= '${date_expired}',certificate_subscription = 'true' WHERE code = '${this.data.code}'`;
     db.query(sql,(err, result) => {
       if (err) {
         reject(err);

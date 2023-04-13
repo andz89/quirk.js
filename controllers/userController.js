@@ -1,39 +1,35 @@
 const User = require("../models/User");
 const dotenv = require("dotenv");
+
 dotenv.config();
 
 
+exports.profile = (req,res)=>{
+  console.log(req.session);
+  // 6520108334688305
+  res.render("users/profile", {
+    user:req.session.passport.user.displayName
+  });
+}
 exports.login = (req, res) => {
-  let user = new User(req.body);
-  user
-    .login()
-    .then((data) => {
-    
-      req.session.user = {
-        user_id: data[0].user_id,
-        user_email: data[0].user_email,
-        user_name: data[0].user_name,
-
-        user_role: "user",
-      };
+let data = {}
+  data.user_name = req.session.passport.user.displayName;
+  data.user_id = req.session.passport.user.id;
+ req.session.user_role = 'user'
+     let user = new User(data);
+  user.login().then(()=>{
       req.session.save(function (err) {
-        res.redirect("/");
+      res.redirect("pages/home-dashboard" );
       });
-    })
-    .catch((data) => {
-      req.flash("errors", "Invalid username or password");
-      req.flash("users_data", data);
-     
-      req.session.save(function () {
-        res.redirect("/login-page");
-      });
-    });
+  })
+  
 };
 
 exports.logout = function (req, res) {
   req.session.destroy(() => {
     res.redirect("/");
   });
+ 
 };
 
 exports.register = (req, res) => {
@@ -68,7 +64,7 @@ exports.update_account = function (req, res) {
   let data = {};
   data.user_name = req.query.user_name;
   data.user_email = req.query.user_email;
-  data.user_id = req.session.user.user_id;
+  data.user_id = req.session.passport.user.id;
   let user = new User(data);
   user
     .update_account()
@@ -84,10 +80,10 @@ exports.saved_template = function (req, res) {
  
   let data = {};
   data.saved_json =  res.text_input;
-  data.user_id = req.session.user.user_id;
+  data.user_id = req.session.passport.user.id;
   data.template_id =  req.query.template_id;
   data.purchased_id =  req.query.purchased_id;
-  data.user_role =  req.session.user.user_role;
+  data.user_role =   req.session.user_role;
 
   let user = new User(data);
   user
@@ -101,12 +97,13 @@ exports.saved_template = function (req, res) {
 };
 exports.activateCanvas = (req,res) => {
   
-  if(!req.session.user.user_id){
+  if(!req.session.passport.user.id){
+    console.log(req.session.passport.user.id);
     redirect('/login');
     return false;
   }
   let template = {}
-  template.user_id = req.session.user.user_id;
+  template.user_id = req.session.passport.user.id;
   template.template_id = req.query.template_id;
   template.template_name = req.query.template_name;
 
@@ -128,9 +125,9 @@ exports.activateCanvas = (req,res) => {
 exports.submit_code = (req,res) => {
  
     let code = {}
-    code.user_id = req.session.user.user_id;
-    code.user_email = req.session.user.user_email;
-    code.user_name = req.session.user.user_name;
+    code.user_id = req.session.passport.user.id;
+ 
+    code.user_name = req.session.passport.user.displayName;
 
     code.code = req.query.code;
 
@@ -144,7 +141,7 @@ exports.submit_code = (req,res) => {
 }
 exports.resetCanvas = (req,res) => {
   let data = {}
-  data.user_id = req.session.user.user_id;
+  data.user_id = req.session.passport.user.id;
   data.template_id = req.query.template_id;
  
   let user = new User(data);
@@ -155,8 +152,8 @@ exports.resetCanvas = (req,res) => {
 exports.saveList = (req, res)=>{
   let data = {};
   data.list = req.query.list_data
-  data.user_id = req.session.user.user_id;
-  data.user_role = req.session.user.user_role;
+  data.user_id = req.session.passport.user.id;
+  data.user_role =  req.session.user_role;
 
   let user = new User(data);
 user.update_list().then(()=>{
@@ -176,7 +173,7 @@ exports.deleteTemplate = (req, res) => {
   let data = {}
   data.template_id = req.query.template_id;
   data.purchased_id = req.query.purchased_id;
-  data.user_id = req.session.user.user_id;
+  data.user_id = req.session.passport.user.id;
   
   let user = new User(data);
   user.delete_template().then(function (data) {
@@ -197,8 +194,8 @@ exports.deleteTemplate = (req, res) => {
 
 exports.userUploadImg = (req, res)=>{
   let data = {}
-  data.user_id = req.session.user.user_id;
-  data.user_role =  req.session.user.user_role;
+  data.user_id = req.session.passport.user.id;
+  data.user_role =   req.session.user_role;
 
   data.new_path = res.new_path;
   data.purchased_id = req.query.purchased_id;
@@ -213,13 +210,13 @@ exports.userUploadImg = (req, res)=>{
   
 }
 exports.checkUploadedImages = (req, res,next) =>{
-  console.log(req.session.user.user_role);
-  if(req.session.user.user_role == 'admin'){
+  console.log( req.session.user_role);
+  if( req.session.user_role == 'admin'){
     next();
    
   }else{
     let data = {}
-    data.user_id = req.session.user.user_id;
+    data.user_id = req.session.passport.user.id;
   
     let user = new User(data);
     user.checkUploadedImages().then((data)=>{
@@ -236,7 +233,7 @@ exports.checkUploadedImages = (req, res,next) =>{
 }
 exports.getUserImage = (req, res)=>{
   let data = {}
-  data.user_id = req.session.user.user_id;
+  data.user_id = req.session.passport.user.id;
  
 
   let user_img = new User(data)

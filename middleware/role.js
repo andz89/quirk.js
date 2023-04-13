@@ -1,6 +1,6 @@
 exports.role_admin = (req, res, next) => {
   let role = "admin";
-  if (req.session.user && role == req.session.user.user_role) {
+  if ( req.session.user && role ==   req.session.user.user_role) {
  
     next();
   } else {
@@ -8,13 +8,13 @@ exports.role_admin = (req, res, next) => {
   }
 };
 exports.role_user = (req, res, next) => {
-
-  if(!req.session.user){
+ 
+  if(!req.session.passport.user.id){
    
     res.redirect("/login-page");
     return false;
   }
-  if (req.session.user &&  req.session.user.user_role == "user") {
+  if (req.session.passport.user.id &&    req.session.user_role == "user") {
    
     next();
   }else {
@@ -24,8 +24,9 @@ exports.role_user = (req, res, next) => {
   }
 };
 exports.canvas_role = (req, res,next) => {
-  if (req.session.user &&  req.session.user.user_role == "user" || req.session.user && req.session.user.user_role == "admin") {
- 
+
+  if ( req.session.passport.user.id &&    req.session.user_role == "user" ||  req.session.passport.user.id &&   req.session.passport.user.id_role == "admin") {
+
     next();
   }else {
    
@@ -34,7 +35,7 @@ exports.canvas_role = (req, res,next) => {
   }
 };
 exports.role_guest = (req, res, next) => {
-  if (req.session.user && req.session.user.user_role == "user") {
+  if ( req.session.passport  &&   req.session.user_role == "user") {
     next();
   }
  
@@ -43,11 +44,12 @@ exports.role_guest = (req, res, next) => {
   }
 };
 exports.home_role = (req, res, next) => {
-  if(!req.session.user){
+  if(!req.session.passport){
+    
     res.render("pages/landing-page");
     return false;
   }
-  if (req.session.user && req.session.user.user_role == "user") {
+  if (req.session.passport.user.id &&   req.session.user_role == "user") {
     next();
   }else{
     res.redirect('/dashboard');

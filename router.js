@@ -12,8 +12,41 @@ const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
 const fs = require('fs')
 let formidable = require('formidable');
-
 const path = require('path')
+
+//facebook
+const passport = require('passport');
+ 
+ 
+router.get('/home-dashboard',isLoggedIn, userController.login);
+
+
+function isLoggedIn(req,res,next){
+ 
+  if(req.isAuthenticated())
+    return next();
+
+    res.redirect('/')
+
+
+}
+router.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
+
+router.get(
+  '/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/home-dashboard',
+    failureRedirect: '/register-page',
+
+  }),
+ 
+);
+
+ 
+
+
+
+
 const storage = multer.diskStorage({
   destination: (req, file, cb)=>{
     cb(null,  'public/images/canvas_image/')
@@ -28,7 +61,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage})
 //user action
 router.post("/register", userController.register);
-router.post("/login", userController.login);
+// router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 router.post("/update_account", userController.update_account);
 // router.post("/saved-template", userController.saved_template);
@@ -42,6 +75,7 @@ router.post("/get_user_image", check.canvas_role, userController.getUserImage);
 router.post("/get_user_image_toCanvas", check.canvas_role, userController.getUserImageToCanvas);
 router.post("/delete_user_image", check.canvas_role, userController.deleteUserImage);
 router.post("/saved-template",filter.check_data, function (req, res,next ){
+router.post("/login", userController.login);
  
  var form = new formidable.IncomingForm();
 

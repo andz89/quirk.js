@@ -13,8 +13,57 @@ var sessionStore = new MySQLStore({
   database: process.env.MYSQL_DB,
 });
 
+const passport = require('passport');
+const FacebookStrategy = require('passport-facebook').Strategy;
+
+ 
 const app = express();
 
+
+app.use(session({
+  secret: 'SECTRET',
+  resave: false,
+  saveUninitialized: true
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(function(user, cb) {
+  cb(null,user)
+})
+passport.deserializeUser(function(obj, cb) {
+  cb(null,obj)
+})
+passport.use(
+  
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_SECRET_KEY,
+      callbackURL: process.env.FACEBOOK_CALLBACK_URL,
+    },
+    async function (accessToken, refreshToken, profile, cb) {
+      return cb(null, profile);
+ 
+    //   if (!user) {
+    //     console.log('Adding new facebook user to DB..');
+    //     const user = new User({
+    //       accountId: profile.id,
+    //       name: profile.displayName,
+    //       provider: profile.provider,
+    //     });
+    //     await user.save();
+    //     // console.log(user);
+    //     return cb(null, profile);
+    //   } else {
+    //     console.log('Facebook User already exist in DB..');
+    //     // console.log(profile);
+ 
+    //   }
+    }
+  )
+);
 app.use(function (req, res, next) {
   res.header(
     "Cache-Control",

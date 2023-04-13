@@ -200,48 +200,6 @@ if(link != null ){//dili null
     });
   } 
 }
-// grid image
-// let gridImage = 'http://localhost:5000/images/canvas/grid.png';
-// fabric.Image.fromURL(gridImage, (img) => {
-//   // img.excludeFromExport = true;
-//   img.name = "grid-image";
-//   this.canvas.add(img);
-//   img.scaleToWidth(this.canvas.getWidth());
-//   this.canvas.viewportCenterObject(img);
-//   img.excludeFromExport = true;
-//   img.selectable = false;
-//   img.hoverCursor = "default";
-//   img.opacity = 0
-//   img.set("lockMovementX", true);
-//   img.set("lockMovementY", true);
-//   // img.set("lockScalingX", true)
-//   img.set("lockScalingY", true);
-//   img.set("lockRotation", true);
-//   this.canvas.discardActiveObject();
-//   this.canvas.renderAll();
-//   img.setControlsVisibility({
-//     mt: false,
-//     mb: false,
-//     ml: false,
-//     mr: false,
-//     tr: false,
-//     tl: false,
-//     br: false,
-//     bl: false,
-//     mtr: false,
-//   });
-//   let bg = this.canvas.getObjects().filter((obj)=>{
-//     return obj.name == 'bg-image' && obj.opacity == 1;
-//   })
-//   if(bg){
-//     let index = this.canvas.getObjects().indexOf(bg[0]); 
-//     img.moveTo(index + 1);
-//   }else{
-//     this.canvas.sendToBack(img);
-//   }
-
-//   this.canvas.renderAll();
-// });
 
 
   }

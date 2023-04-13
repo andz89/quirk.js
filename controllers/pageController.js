@@ -3,24 +3,26 @@ const Page = require("../models/Page");
 exports.home = (req, res) => {
   //session as user
   res.render("pages/home-dashboard", {
-    user_data: req.session.user,
-    session: req.session.user ? true : false,
-    user_type: req.session.user.user_role,
+    user:  req.session.passport.user.displayName,
+    session:  req.session.passport ? true : false,
+    user_type: req.session.user_role,
   });
 };
 exports.contact_page = (req, res) => {
   res.render("pages/contact_page", {
-    session: req.session.user ? true : false,
-    user_type:req.session.user? req.session.user.user_role:null,
+    session:  req.session.passport ? true : false,
+    user_type: req.session.passport?    req.session.user_role:null,
   });
 };
 exports.account_page = (req, res) => {
-  let page = new Page(req.session.user);
+  let data = {}
+  data.user_id = req.session.passport.user.id
+  let page = new Page(data);
   page.getAccount().then((data) => {
     res.render("pages/account_page", {
       user_data: data,
-      session: req.session.user ? true : false,
-      user_type: req.session.user.user_role,
+      session:  req.session.passport ? true : false,
+      user_type:    req.session.user_role,
     });
   });
 };
@@ -64,7 +66,7 @@ exports.success_registration_page = function (req, res) {
 
 exports.templates_page = (req, res) => {
   let data = {}
-  data.user_role = req.session.user.user_role;
+  data.user_role =    req.session.user_role;
 let templates = new Page(data)
 templates.getAllTemplates().then((data)=>{
 
@@ -72,8 +74,8 @@ templates.getAllTemplates().then((data)=>{
 
     data: data,
     success_message_subscriber: req.flash('success_message_subscriber'),
-    session: req.session.user ? true : false,
-    user_type:req.session.user? req.session.user.user_role:null,
+    session:  req.session.passport ? true : false,
+    user_type: req.session.passport?    req.session.user_role:null,
   }); 
 })
   
@@ -81,7 +83,7 @@ templates.getAllTemplates().then((data)=>{
 
 exports.purchased_templates = function(req,res){
   let data = {}
-  data.user_id = req.session.user.user_id;
+  data.user_id =  req.session.passport.user.id;
  
   let purchased_templates = new Page(data)
   purchased_templates.getUserTemplates().then((data)=>{
@@ -93,8 +95,8 @@ exports.purchased_templates = function(req,res){
         success_message: req.flash("success_message"),
         data: data.result,
         expired:true,
-        user_type: req.session.user.user_role,
-        session: req.session.user ? true : false,
+        user_type:    req.session.user_role,
+        session:  req.session.passport.user.id ? true : false,
       });
       
     }else{
@@ -103,8 +105,8 @@ exports.purchased_templates = function(req,res){
         success_message: req.flash("success_message"),
         data: data.result,
         expired:false,
-        user_type: req.session.user.user_role,
-        session: req.session.user ? true : false,
+        user_type:    req.session.user_role,
+        session:  req.session.passport ? true : false,
       });
     }
     
@@ -113,10 +115,10 @@ exports.purchased_templates = function(req,res){
  
 
 exports.canvas =(req, res) =>{
-   
+    console.log('canvas');
   let data = {}
-  data.user_role = req.session.user.user_role
-  data.user_id = req.session.user.user_id;
+  data.user_role =   req.session.user_role
+  data.user_id =  req.session.passport.user.id;
   data.template_id = req.query.template_id;
   data.purchased_id = req.query.id;
 
@@ -143,7 +145,7 @@ exports.canvas =(req, res) =>{
  
         canvas_image:image_name,
         list: data.list,
-        user_role: req.session.user.user_role,
+        user_role:    req.session.user_role,
       });
     }
 
@@ -152,8 +154,8 @@ exports.canvas =(req, res) =>{
 }
 exports.canvasTest = (req, res) => {
   let data = {}
-  data.user_role = req.session.user.user_role
-  data.user_id = req.session.user.user_id;
+  data.user_role =    req.session.user_role
+  data.user_id =  req.session.passport.user.id;
   data.template_id = req.query.template_id;
   data.purchased_id = req.query.id;
 
@@ -166,7 +168,7 @@ exports.canvasTest = (req, res) => {
     }else{
       let image_name
       if(data.canvas_image){
-        image_name = 'http://localhost:5000/images/ci/' + data.canvas_image
+        image_name = 'http://localhost:5000/images/canvas_image/' + data.canvas_image
       }else{
         image_name = null
 
@@ -180,7 +182,7 @@ exports.canvasTest = (req, res) => {
  
         canvas_image:image_name,
         list: data.list,
-        user_role: req.session.user.user_role,
+        user_role:    req.session.user_role,
       });
     }
 

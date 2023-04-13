@@ -1,9 +1,6 @@
 exports.check_data = (req, res, next) => {
-  console.log(req.session.user.user_id);
-  console.log(req.query.purchased_id);
-  console.log(req.query.template_id);
-
-    if(req.session.user.user_role == 'admin'){
+ 
+    if( req.session.user_role == 'admin'){
       console.log('ok');
       next()
     }else{

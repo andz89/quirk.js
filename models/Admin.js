@@ -21,7 +21,8 @@ Admin.prototype.add_template_into_database = function () {
       template_json: this.data.json_file,
       thumbnail: this.data.thumbnail_image,
       modal_image: this.data.modal_image,
-      canvas_image: this.data.canvas_image
+      canvas_image: this.data.canvas_image,
+      live: 'true'
     };
     let sql = "INSERT INTO templates SET ?";
     db.query(sql, data, (err, result) => {

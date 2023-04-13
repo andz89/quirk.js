@@ -93,7 +93,7 @@
 
 
 
-                            <img src="images/list.png" class="hover-opactiy option" width="20" alt="">
+
 
                             <h3 class="title text text-dark ">
                                 <%= data.template_name %>
@@ -107,35 +107,40 @@
 
                         </div>
 
-                        <div class="container"></div>
 
 
-                        <div class="option-container">
+                        <div class="option">
+                            <img src="images/list.png" class="hover-opactiy gear-option" width="20" alt="">
+                            <div class="container"></div>
 
-                            <div class="opt-list">
-                                <a href="/canvas-test?template_id=<%= data.template_id %> " class="text text-dark"
-                                    target="_blank">
-                                    <small> Edit Canvas </small>
-                                </a>
-                            </div>
+                            <div class="option-list-container">
+                                <div class="opt-list">
+                                    <a href="/canvas-test?template_id=<%= data.template_id %> " class="text text-dark"
+                                        target="_blank">
+                                        Edit Canvas
+                                    </a>
+                                </div>
 
 
 
 
-                            <div class="  opt-list" s>
-                                <small class="edit-template"> Edit
-                                    details</small>
-                            </div>
-                            <div class="opt-list ">
-                                <small class="publish-btn">
+                                <div class="  opt-list edit-template">
+                                    Edit details
+                                </div>
+                                <div class="opt-list publish-btn">
+
                                     <%= data.live=='true' ? 'Unpublished' :'Publish' %>
-                                </small>
+
+
+
+                                </div>
                                 <input type="hidden" id="published_status"
                                     value="<%= data.live == 'true' ?  'false':'true' %>">
-
                             </div>
 
+
                         </div>
+
 
                         <small id="status" class="<%= data.live == 'true' ?  'live':'not-live' %>">
                             <%= data.live=='true' ? 'Live' :'Hidden' %>

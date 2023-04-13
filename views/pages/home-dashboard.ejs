@@ -6,7 +6,7 @@
 
       <div class="landing-inner">
 
-        <p class="lead">Hello <%= user_data.user_name %>, welcome to our Quirk App.</p>
+        <p class="lead">Hello <%= user %>, welcome to our Quirk App.</p>
         <p class="lead">Easy Editable Template and Print!</p>
 
 
@@ -21,6 +21,12 @@
   </div>
 
 
-
+  <script type="text/javascript">
+    if (window.location.hash === "#_=_") {
+      history.replaceState
+        ? history.replaceState(null, null, window.location.href.split("#")[0])
+        : window.location.hash = "";
+    }
+  </script>
 
   <%- include('../include/footer') %>

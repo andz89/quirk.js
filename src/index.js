@@ -77,7 +77,7 @@ if(e.name === 'Column-1-textbox'){
 e.editable = false
 }
 e.lockMovementX = true
-canvas_created.renderAll()
+
 
 }
 if(e.name === 'bg-image'){
@@ -104,7 +104,7 @@ var canvasHeight =canvas_created.getHeight() + 5;
 
 // Create the vertical grid lines
 for (var x = 0; x <= canvasWidth; x += 50) {
-console.log(x);
+ 
 if(x == 100){
 var line = new fabric.Line([x, 0, x, canvasHeight], {
   stroke: 'gray',
@@ -258,13 +258,20 @@ canvas_created.add(alltogetherObj);
 let bg = canvas_created.getObjects().filter((obj)=>{
   return obj.name == 'bg-image' && obj.opacity == 1;
 })
-if(bg){
-  let index = canvas_created.getObjects().indexOf(bg[0]); 
- alltogetherObj.moveTo(index + 1);
-}else{
-  canvas_created.sendToBack(alltogetherObj);
-}
 
+if(bg){
+
+  canvas_created.sendToBack(bg[0]);
+
+  let index =canvas_created.getObjects().indexOf(bg[0]); 
+  alltogetherObj.moveTo(index + 1);
+ 
+} else{
+  
+
+  canvas_created.sendToBack(alltogetherObj);
+
+}
 
 canvas_created.viewportCenterObject(alltogetherObj);
 
@@ -275,7 +282,7 @@ canvas_created.viewportCenterObject(alltogetherObj);
 objs.forEach(function(obj){
 canvas_created.remove(obj);
 });
-
+canvas_created.renderAll()
 });
 
 canvas_created.template_id = template_id //saving the template id in canvas
