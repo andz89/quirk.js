@@ -17,7 +17,7 @@ code.copy_code()
 let templates = new Templates();
 templates.show_templates_form();
 templates.convert_file_to_json();
-templates.edit_template()
+templates.template()
 templates.show_options()
 templates.publish()
 let check_password = new Check();

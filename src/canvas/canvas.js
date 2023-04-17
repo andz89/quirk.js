@@ -34,7 +34,7 @@ export class Canvas extends Global {
     menu_tools.print_view();
 
     menu_tools.upload_user_image()
-    menu_tools.loadPage();
+ 
     menu_tools.insertText();
     menu_tools.add_background()
     menu_tools.save_file_json();

@@ -64,10 +64,11 @@ plugins:[
         template_json : '<%-template_json%>',
         purchased_id : '<%-purchased_id%>',
         template_id : '<%-template_id%>',
-        canvas_image : '<%-canvas_image%>',
+       
         template_name : '<%-template_name%>',
         list : '<%-list%>',
         user_role : '<%-user_role%>',
+        table: '<%-table%>'
        
     }),
     new  MiniCssExtractPlugin({

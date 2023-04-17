@@ -253,25 +253,12 @@ excludeFromExport: true,
 opacity:0,
 name:'grid',
 hoverCursor:'default',
+ 
  });
 canvas_created.add(alltogetherObj);
-let bg = canvas_created.getObjects().filter((obj)=>{
-  return obj.name == 'bg-image' && obj.opacity == 1;
-})
 
-if(bg){
-
-  canvas_created.sendToBack(bg[0]);
-
-  let index =canvas_created.getObjects().indexOf(bg[0]); 
-  alltogetherObj.moveTo(index + 1);
  
-} else{
-  
-
-  canvas_created.sendToBack(alltogetherObj);
-
-}
+canvas_created.sendToBack(alltogetherObj);
 
 canvas_created.viewportCenterObject(alltogetherObj);
 

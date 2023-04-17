@@ -13,26 +13,41 @@ Admin.prototype.add_template_into_database = function () {
  
 
   return new Promise(async (resolve, reject) => {
-    let data = {
+    let table_name;
+    if(this.data.category == 'invitation'){
+      table_name = 'invitation'
+    }
+    if(this.data.category == 'certificate'){
+      table_name = 'templates'
+    }
 
-      template_id: uuidv4(),
-      template_name: this.data.template_name,
-      template_description: this.data.template_description,
-      template_json: this.data.json_file,
-      thumbnail: this.data.thumbnail_image,
-      modal_image: this.data.modal_image,
-      canvas_image: this.data.canvas_image,
-      live: 'true'
-    };
-    let sql = "INSERT INTO templates SET ?";
-    db.query(sql, data, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
 
-      resolve();
-    });
+ 
+      let data = {
+
+        template_id: uuidv4(),
+        template_name: this.data.template_name,
+        template_description: this.data.template_description,
+        template_json: this.data.json_file,
+        thumbnail: this.data.thumbnail_image,
+        modal_image: this.data.modal_image,
+      
+        live: 'false',
+        table_names: this.data.table,
+        category: this.data.category
+      };
+      let sql = `INSERT INTO ${table_name} SET ?`;
+      db.query(sql, data, (err, result) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+          return false;
+        }
+  
+        resolve();
+      });
+     
+   
   });
 };
 Admin.prototype.add_background =function(req, res){
@@ -152,6 +167,13 @@ Admin.prototype.deleteImageBackground = async  function (data){
 
 Admin.prototype.update_template = function () {
   return new Promise(async (resolve, reject) => {
+    let table_name;
+    if(this.data.category == 'invitation'){
+      table_name = 'invitation'
+    }
+    if(this.data.category == 'certificate'){
+      table_name = 'templates'
+    }
     let json_file;
     let image_to_delete = []
     let thumbnail;
@@ -179,9 +201,11 @@ Admin.prototype.update_template = function () {
      
      }
 
+    
 
-    var sql = `UPDATE templates SET template_name = '${this.data.template_name}',${thumbnail} ${modal_image}  ${json_file} template_description = '${this.data.template_description}' WHERE template_id = '${this.data.template_id}'`;
+    var sql = `UPDATE ${table_name} SET template_name = '${this.data.template_name}',${thumbnail} ${modal_image}  ${json_file} template_description = '${this.data.template_description}' ,table_names='${this.data.table}' WHERE template_id = '${this.data.template_id}'`;
       db.query(sql, (err, result) => {
+      
         if (err) {
           reject(err);
           return false;
@@ -257,14 +281,20 @@ Admin.prototype.delete_code = function(){
 //delete user template and update activation code
 Admin.prototype.delete_template = function (req, res) {
   return new Promise( (resolve, reject) => {
-   
-    let sql = `DELETE FROM templates WHERE template_id='${this.data.template_id}' `;
+    console.log(this.data.category);
+    let table_name;
+                if(this.data.category == 'invitation'){
+                  table_name = 'invitation'
+                }else{
+                  table_name = 'templates'
+                }
+    let sql = `DELETE FROM  ${table_name} WHERE template_id='${this.data.template_id}' `;
     db.query(sql, async (err) => {
       if (err) {
         reject(err);
         return false;
       }
-      console.log(this.data.modal_image_path);
+ 
       let image_to_delete = []
       image_to_delete.push(this.data.modal_image_path)
       image_to_delete.push(this.data.thumbnail_image_path)
@@ -300,9 +330,16 @@ Admin.prototype.delete_background = function (req, res) {
   });
 }
 Admin.prototype.publish_update = function(req, res){
-  console.log(this.data.published_status);
+ 
   return new Promise( (resolve, reject) => {
-    var sql = `UPDATE templates SET live = '${this.data.published_status}' WHERE template_id = '${this.data.template_id}'`;
+    let table_name;
+    if(this.data.category == 'invitation'){
+      table_name = 'invitation'
+    }
+    if(this.data.category == 'certificate'){
+      table_name = 'templates'
+    }
+    var sql = `UPDATE ${table_name} SET live = '${this.data.published_status}' WHERE template_id = '${this.data.template_id}'`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);

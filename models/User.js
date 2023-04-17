@@ -263,7 +263,7 @@ User.prototype.update_account = function () {
   return new Promise(async (resolve, reject) => {
     await this.validate();
     if (Object.keys(this.errors_data).length === 0) {
-      var sql = `UPDATE users SET user_email = '${this.data.user_email}',user_name = '${this.data.user_name}' WHERE user_id = '${this.data.user_id}'`;
+      var sql = `UPDATE users SET user_email = '${this.data.user_email}' WHERE user_id = '${this.data.user_id}'`;
       db.query(sql, (err, result) => {
         if (err) {
           reject(err);
@@ -423,8 +423,15 @@ User.prototype.check_code = function(){
 User.prototype.create_template_copy = function (){
   
   return new Promise( (resolve, reject)=> {
-   
-    let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
+    console.log(this.data.category);
+    let table_name;
+    if(this.data.category == 'invitation'){
+      table_name = 'invitation'
+    }
+    if(this.data.category == 'certificate'){
+      table_name = 'templates'
+    }
+    let sql = `SELECT * FROM ${table_name} WHERE template_id = "${this.data.template_id}"`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
@@ -439,8 +446,10 @@ User.prototype.create_template_copy = function (){
         template_name: result[0].template_name,
         template_description: result[0].template_description,
         template_json: result[0].template_json,
-        template_category: result[0].template_category,
-        canvas_image: result[0].canvas_image,
+        category: result[0].category,
+
+     
+       
         thumbnail: result[0].thumbnail
 
       }

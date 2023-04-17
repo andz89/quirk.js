@@ -1,6 +1,6 @@
 exports.role_admin = (req, res, next) => {
   let role = "admin";
-  if ( req.session.user && role ==   req.session.user.user_role) {
+  if ( req.session.admin  &&   req.session.admin.user_role == "admin") {
  
     next();
   } else {
@@ -9,51 +9,44 @@ exports.role_admin = (req, res, next) => {
 };
 exports.role_user = (req, res, next) => {
  
-  if(!req.session.passport.user.id){
-   
-    res.redirect("/login-page");
-    return false;
-  }
-  if (req.session.passport.user.id &&    req.session.user_role == "user") {
-   
+  if (req.session.passport  &&   req.session.passport.user.id) {
+     
     next();
   }else {
-   
+  
+   if(req.session.admin){
     res.redirect("/dashboard");
+
+   }else{
+    res.redirect("/");
+
+   }
    
   }
 };
 exports.canvas_role = (req, res,next) => {
-
-  if ( req.session.passport.user.id &&    req.session.user_role == "user" ||  req.session.passport.user.id &&   req.session.passport.user.id_role == "admin") {
+ 
+  if (req.session.passport  &&   req.session.passport.user.id ||  req.session.admin  &&   req.session.admin.user_role == "admin") {
 
     next();
   }else {
    
-    res.redirect("/login-page");
+    res.redirect("/");
    
   }
 };
 exports.role_guest = (req, res, next) => {
-  if ( req.session.passport  &&   req.session.user_role == "user") {
-    next();
-  }
+  if (req.session.passport) {//true
  
-  else {
-    next();
+    res.redirect("/");
   }
-};
-exports.home_role = (req, res, next) => {
-  if(!req.session.passport){
-    
-    res.render("pages/landing-page");
-    return false;
-  }
-  if (req.session.passport.user.id &&   req.session.user_role == "user") {
-    next();
-  }else{
-    res.redirect('/dashboard');
-  }
-  
+ else if(req.session.admin){//true
+  res.redirect("/dashboard");
+
+ }
+else{
+  next();
+}
  
 };
+ 

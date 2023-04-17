@@ -22,7 +22,10 @@
           <a href="/templates" class="">Templates</a>
 
         </li>
+        <li>
+          <a href="/invitation" class="">Invitation</a>
 
+        </li>
         <li>
           <a href="/contact-page" class="">Contact Us</a>
         </li>
@@ -52,9 +55,12 @@
                   <% }else{ %>
 
                     <div class="sign-btns">
-                      <a href="/login-page" class="btn btn-sm btn-light"> Sign In</a>
-
-                      <a href="/register-page" class="btn btn-sm btn-success">Sign Up</a>
+                      <a href="/auth/facebook" class="text text-dark">
+                        <div class="fb-login">
+                          <img src="images/fb-login.png" width="25" alt="">
+                          Sign in
+                        </div>
+                      </a>
                     </div>
 
                     <% } %>

@@ -1,7 +1,7 @@
 <%- include('../include/user-header') %>
 
   <div class="bg-white">
-    <a href="/auth/facebook">Login facebook </a>
+
     <div class="d-flex justify-content-center flex-direction-column form-container bg-white" style="min-height:420px">
 
       <h1 class="text text-primary">Quirktool</h1>
@@ -17,34 +17,15 @@
 
           <% } %>
       </div>
-
-      <form action="/login" method="POST" class="login-form form">
-
-        <div class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1">
-          <input style="width:300px" name="user_email" type="text" placeholder="Email" autocomplete="off"
-            value="<%= locals.users_data && users_data.length ? users_data[0].user_email : '' %>" />
-
-          <input style="width:300px" name="user_password" type="password" placeholder="Password" id="login-password" />
-          <div class="d-flex align-items-center check-password-container">
-            <input type="checkbox" id="check-password-login-input" />
-
-            <label for="check-password-login-input" class="pad-x"><small> Show Password</small>
-            </label>
+      <div class="d-flex justify-content-center align-items-center">
+        <a href="/auth/facebook" class="text text-dark">
+          <div class="btn btn-md btn-light d-flex justify-content-center align-items-center gap-10">
+            <img src="images/fb-login.png" width="35" alt="">
+            Sign in with Facebook
           </div>
-        </div>
-        <div class="d-flex justify-content-between align-items-end">
-          <div>
-            <button id="login-button" class="btn btn-md btn-success">Sign In</button>
+        </a>
+      </div>
 
-          </div>
-
-          <div class="d-flex justify-content-end">
-            <small>
-              <a href="/register_page" class="text text-dark white-hover">
-                &nbsp;Sign up for Quirk? &nbsp;</a></small>
-          </div>
-        </div>
-      </form>
     </div>
   </div>
   <%- include('../include/loader') %>

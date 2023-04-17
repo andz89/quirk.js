@@ -19,8 +19,8 @@ class Crud_templates {
   }
   convert_file_to_json() {
    
-    if (document.querySelector("#json-file")) {
-      document.querySelector("#json-file").addEventListener("change", (e) => {
+    if (document.querySelector("#json-file-input")) {
+      document.querySelector("#json-file-input").addEventListener("change", (e) => {
         var reader = new FileReader();
         reader.onload = (event) => {
           let json = event.target.result;
@@ -32,15 +32,15 @@ class Crud_templates {
     }
  
   }
- //modal edit template
-  edit_template(){
+ 
+   template(){
     let parent = document.querySelector('.admin-templates-container')
         if(parent)
       parent.addEventListener('click', (e)=>{
-       
+     
         let template = e.target.parentElement.parentElement.parentElement 
-
-          
+    
+            //modal edit template //edit template
           if(e.target.classList.contains('edit-template')){
 
             template.querySelector('.option-list-container').style.display = 'none' // close option list
@@ -155,39 +155,43 @@ class Crud_templates {
           }
 
           
-              //delete and remove
-              if(e.target.classList.contains('delete-template-btn')){
-      
-                let parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement
+        //delete and remove
+        if(e.target.classList.contains('delete-template-btn')){
+          
+          let parent = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            
+          let modal_parent =   e.target.parentElement.parentElement.parentElement.parentElement.parentElement
+          let template_id =  modal_parent.querySelector('.template_id').value
+
+      let modal_image_path = modal_parent.querySelector('.modal_image_path').value
+      let thumbnail_image_path = modal_parent.querySelector('.thumbnail_image_path').value
+      let  category = modal_parent.querySelector('.category').value
+
+
+
+              var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+          
+            //  let data = JSON.parse(xhttp.responseText);
+          parent.remove()
               
-                let modal_parent =   e.target.parentElement.parentElement
-               let template_id =  modal_parent.querySelector('.template_id').value
+            
+            } 
+          };
+          xhttp.open(
+            "POST",
+            `http://localhost:5000/admin_delete_template?modal_image_path=${modal_image_path}&thumbnail_image_path=${thumbnail_image_path}&template_id=${template_id}&category=${category}`,
+            true
+          );
+          xhttp.send();
+            }
 
-            let modal_image_path = modal_parent.querySelector('.modal_image_path').value
-            let thumbnail_image_path = modal_parent.querySelector('.thumbnail_image_path').value
-
- 
-                   var xhttp = new XMLHttpRequest();
-               xhttp.onreadystatechange = () => {
-                 if (xhttp.readyState == 4 && xhttp.status == 200) {
-                
-                  //  let data = JSON.parse(xhttp.responseText);
-                parent.remove()
-                   
-                 
-                 }else{
-                   console.log('error')
-                 }
-               };
-               xhttp.open(
-                 "POST",
-                 `http://localhost:5000/admin_delete_template?modal_image_path=${modal_image_path}&thumbnail_image_path=${thumbnail_image_path}&template_id=${template_id}`,
-                 true
-               );
-               xhttp.send();
-                 }
+         
+         
         })
-    
+       
+      
         
   }
   show_options(){
@@ -218,7 +222,8 @@ class Crud_templates {
      
         if(e.target.classList.contains('publish-btn')){
           let parent=   e.target.parentElement.parentElement.parentElement 
-          console.log(parent);
+          
+         let category = parent.querySelector('.category') 
           let template_id =  parent.querySelector('.template-id') 
       
           let status =  parent.querySelector('#published_status')//input value
@@ -255,7 +260,7 @@ class Crud_templates {
           };
           xhttp.open(
             "POST",
-            `http://localhost:5000/publish?template_id=${template_id.value}&published_status=${status.value}`,
+            `http://localhost:5000/publish?template_id=${template_id.value}&published_status=${status.value}&category=${category.value}`,
             true
           );
           xhttp.send();

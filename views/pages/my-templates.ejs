@@ -4,34 +4,43 @@
         <div class="d-flex justify-content-center ">
             <h4>Your Purchased Templates</h4>
         </div>
-        <% if(expired===true ){ %>
 
-            <%- include('../include/submit-code') %>
+        <% if(success_message !='' ){ %>
+            <div class="text text-center  success-message-container" style="font-weight:100px">
+                <div class="bg-success p-1">
+                    You have successfully added a new template!
+                </div>
+                <div class="message">
+                    Template Name: <%- success_message %>
+                </div>
+
+            </div>
+
+            <% } %>
+
+                <div class="purchased-templates   py-1" style="width: 100%;">
+                    <% data.forEach((data)=>{%>
+
+                        <div class="template-container">
+
+                            <input type="hidden" class="template_id" value="<%= data.template_id %>">
+                            <input type="hidden" class="purchased_id" value="<%= data.purchased_id %> ">
+
+                            <% if(certificate_expired===true ){ %>
+                                <%- include('../include/submit-code') %>
+                                    <a>
+                                        <img src="images/canvas_image/<%= data.thumbnail%>"
+                                            class="hover-opactiy d-image" width="200" alt="">
 
 
 
-                <% } %>
-                    <% if(success_message !='' ){ %>
-                        <div class="text text-center  success-message-container" style="font-weight:100px">
-                            <div class="bg-success p-1">
-                                You have successfully added a new template!
-                            </div>
-                            <div class="message">
-                                Template Name: <%- success_message %>
-                            </div>
+                                        <div class=" text text-dark ">
+                                            <%= data.template_name %>
+                                        </div>
 
-                        </div>
-
-                        <% } %>
-
-                            <div class="purchased-templates   py-1" style="width: 100%;">
-                                <% data.forEach((data)=>{%>
-
-                                    <div class="template-container">
-
-                                        <input type="hidden" class="template_id" value="<%= data.template_id %>">
-                                        <input type="hidden" class="purchased_id" value="<%= data.purchased_id %> ">
-
+                                    </a>
+                                    <small>Expired</small>
+                                    <% }else{ %>
                                         <a
                                             href="/canvas-test?template_id=<%= data.template_id %>&id=<%= data.purchased_id %> ">
                                             <img src="images/canvas_image/<%= data.thumbnail%>"
@@ -43,7 +52,6 @@
                                                 <%= data.template_name %>
                                             </div>
                                         </a>
-
                                         <div class="option">
                                             <img src="images/list.png" class="hover-opactiy gear-option" width="20"
                                                 alt="">
@@ -51,15 +59,20 @@
                                             </div>
                                             <div class="delete-template hide">Delete Template</div>
                                         </div>
+                                        <% } %>
 
 
 
 
 
-                                    </div>
 
-                                    <% }) %>
-                            </div>
+
+
+
+                        </div>
+
+                        <% }) %>
+                </div>
 
 
     </div>

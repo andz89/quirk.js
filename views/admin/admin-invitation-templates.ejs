@@ -1,0 +1,262 @@
+<%- include('../include/admin-header') %>
+
+    <div class="bg-white">
+        <div class="admin-templates-container" style="min-height: 400px;">
+
+            <div class="d-flex justify-content-end">
+
+                <input id="admin-remove" type="submit" class="btn btn-sm btn-danger text text-white"
+                    value="removed saved Templates">
+
+                <div class="btn btn-sm btn-success" id="display-add-templates-form-btn">+ Add Templates</div>
+
+            </div>
+            <div class="admin-message btn btn-md btn-success" style="display: none;width: 300px;"></div>
+            <div>Invitation</div>
+            <div class="hide" id="template-form">
+                <div class=" d-flex justify-content-center bg-light p-1 m-1">
+                    <form action="/add-template" method="POST" enctype="multipart/form-data">
+
+                        <div
+                            class="d-flex gap-20 justify-content-between flex-direction-column align-items-start form my-1">
+                            <div class="d-flex flex-direction-column align-items-start">
+                                <label for="">Template Name</label>
+                                <input required name="template_name" type="text" placeholder="Template Name"
+                                    autocomplete="off" value="" id="template-name" />
+                            </div>
+                            <div class="d-flex flex-direction-column align-items-start">
+                                <label for="">Template Description</label>
+
+                                <input required name="template_description" type="text"
+                                    placeholder="Template Description" id="template-description" autocomplete="off"
+                                    value="" />
+                            </div>
+
+
+
+                            <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
+                                <label for=""> Thumbnail image</label>
+
+                                <input required type="file" name="thumbnail_image" accept='image/*' />
+
+                            </div>
+                            <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
+                                <label for=""> Modal Image</label>
+
+                                <input required type="file" name="modal_image" accept='image/*' />
+
+                            </div>
+
+
+
+                            <input type="hidden" name="canvas_image" id="canvas_image">
+                            <img src="" width="280" id="canvas-image-view" alt="">
+                            <div class="d-flex flex-direction-column align-items-start custom-file-upload">
+                                <label for=""> Upload Json File</label>
+                                <input type="hidden" name="json_file" id="json_file">
+                                <input required type="file" id="json-file-input" accept='application/JSON' />
+
+                            </div>
+                            <input type="hidden" name="category" value="invitation">
+                            <input type="hidden" name="table" value="true">
+
+
+                        </div>
+                        <div class="d-flex justify-content-between align-items-end">
+                            <div>
+                                <button type="submit" id="" class="btn btn-md btn-dark template-btn">sumbit
+                                    Template</button>
+
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="admin-templates" style="width: 100%;">
+                <% data.forEach((data)=>{%>
+                    <div class="d-flex  align-items-start  flex-direction-column  m-1 template-container">
+                        <div class=" d-flex  align-items-start flex-direction-column">
+                            <a href="/canvas-test?template_id=<%= data.template_id %>&category=invitation"
+                                class="text text-dark" target="_blank">
+                                <img class="thumbnail" src="images/canvas_image/<%= data.thumbnail %>" width="170"
+                                    alt="">
+
+
+                            </a>
+
+
+                            <h3 class="title text text-dark ">
+                                <%= data.template_name %>
+                            </h3>
+
+                            <span style="display:none" class="description">
+                                <%= data.template_description %>
+                            </span>
+
+                            <input type="hidden" class="template-id" value="<%= data.template_id %>">
+                            <input type="hidden" name="category" value="<%= data.category %>">
+
+                        </div>
+
+
+
+                        <div class="option">
+                            <img src="images/list.png" class="hover-opactiy gear-option" width="20" alt="">
+                            <div class="container"></div>
+
+                            <div class="option-list-container">
+                                <div class="opt-list">
+                                    <a href="/canvas-test?template_id=<%= data.template_id %> " class="text text-dark"
+                                        target="_blank">
+                                        Edit Canvas
+                                    </a>
+                                </div>
+
+
+
+
+                                <div class="  opt-list edit-template">
+                                    Edit details
+                                </div>
+                                <div class="opt-list publish-btn">
+
+                                    <%= data.live=='true' ? 'Unpublished' :'Publish' %>
+
+
+
+                                </div>
+                                <input type="hidden" id="published_status"
+                                    value="<%= data.live == 'true' ?  'false':'true' %>">
+                            </div>
+
+
+                        </div>
+
+
+                        <small id="status" class="<%= data.live == 'true' ?  'live':'not-live' %>">
+                            <%= data.live=='true' ? 'Live' :'Hidden' %>
+                        </small>
+                        <!-- edit temmplate modal -->
+                        <div class="modal-edit-admin">
+                            <form action="/updateTemplate" method="POST" enctype="multipart/form-data">
+
+                                <div class="modal-content">
+
+
+                                    <div>
+                                        <input type="text" name="template_name" class="modal-title">
+                                    </div>
+                                    <div>
+                                        <textarea name="template_description" class="description"></textarea>
+                                    </div>
+                                    <input type="hidden" name="template_id" class="template_id">
+
+
+
+
+                                    <div
+                                        class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                                        <label for="">Thumbnail</label>
+                                        <input type="file" name="thumbnail_image" class="thumbnail-image p-1">
+                                        <img class="display_thumbnail" width="200" src="" alt="">
+                                        <input type="hidden" name="thumbnail_image_path" value="<%=data.thumbnail%>"
+                                            class="thumbnail_image_path">
+                                        <input type="hidden" value="<%=data.category%>" class="category">
+                                    </div>
+
+
+                                    <div
+                                        class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                                        <label for="">Modal Image</label>
+                                        <input type="file" name="modal_image" class="modal-image p-1">
+
+                                        <img class="display_modal_image" width="200"
+                                            src="images/canvas_image/<%= data.modal_image %>" alt="">
+
+                                        <input type="hidden" name="modal_image_path" value="<%=data.modal_image%>"
+                                            class="modal_image_path">
+
+
+                                    </div>
+                                    <div
+                                        class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
+                                        <label for="">Json File</label>
+                                        <input type="file" class="json-file p-1">
+                                    </div>
+
+                                    <input type="hidden" name="template_json" class="json-text">
+
+
+
+
+
+                                    <input type="hidden" name="category" value="invitation">
+                                    <input type="hidden" name="table" value="true">
+
+
+
+                                    <div class="button-container">
+                                        <div>
+                                            <div class="delete-template-btn">
+                                                Delete Template
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel
+                                                Changes
+                                            </div>
+                                            <input type="submit" class="btn btn-sm btn-success update-template-btn"
+                                                value="Save changes">
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <% }) %>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <script>
+        document.getElementById("admin-remove").addEventListener("click", () => {
+
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                    // console.log(xhttp.responseText);
+
+                    let element = document.querySelector('.admin-message')
+                    element.innerHTML = xhttp.responseText
+                    element.style.display = 'block'
+
+                    setTimeout(() => {
+                        element.style.display = 'none'
+
+                    }, 2000)
+                }
+            };
+            xhttp.open(
+                "POST",
+                `http://localhost:5000/remove`,
+                true
+            );
+            xhttp.send();
+        });
+    </script>
+    <%- include('../include/admin-footer') %>

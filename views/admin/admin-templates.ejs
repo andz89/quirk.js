@@ -30,7 +30,7 @@
                                     placeholder="Template Description" id="template-description" autocomplete="off"
                                     value="" />
                             </div>
-                            <input type="hidden" name="json_file" id="json_file">
+
 
 
                             <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
@@ -46,19 +46,20 @@
 
                             </div>
 
-                            <div id="canvas-image-background-page-templates-btn"
-                                class="btn btn-sm btn-primary add-bg-img">
-                                Canvas Background Image</div>
 
 
                             <input type="hidden" name="canvas_image" id="canvas_image">
                             <img src="" width="280" id="canvas-image-view" alt="">
                             <div class="d-flex flex-direction-column align-items-start custom-file-upload">
                                 <label for=""> Upload Json File</label>
-
-                                <input required type="file" id="json-file" accept='application/JSON' />
+                                <input type="hidden" name="json_file" id="json_file">
+                                <input required type="file" id="json-file-input" accept='application/JSON' />
 
                             </div>
+                            <input type="hidden" name="category" value="certificate">
+                            <input type="hidden" name="table" value="true">
+
+
 
                         </div>
                         <div class="d-flex justify-content-between align-items-end">
@@ -73,26 +74,18 @@
                     </form>
                 </div>
             </div>
-            <!-- modal for adding background -->
-            <div id="modal-container-add-background-page-templates">
-                <div class="modal-content ">
-                    <div class="modal-header d-flex justify-content-end">
-                        <span class="btn btn-sm btn-danger text text-white close">Close</span>
-
-                    </div>
-                    <hr>
-                    <div class="modal-body"></div>
-                </div>
-            </div>
 
             <div class="admin-templates" style="width: 100%;">
                 <% data.forEach((data)=>{%>
                     <div class="d-flex  align-items-start  flex-direction-column  m-1 template-container">
                         <div class=" d-flex  align-items-start flex-direction-column">
-                            <img class="thumbnail" src="images/canvas_image/<%= data.thumbnail %>" width="170" alt="">
+                            <a href="/canvas-test?template_id=<%= data.template_id %> " class="text text-dark"
+                                target="_blank">
+                                <img class="thumbnail" src="images/canvas_image/<%= data.thumbnail %>" width="170"
+                                    alt="">
 
 
-
+                            </a>
 
 
                             <h3 class="title text text-dark ">
@@ -170,6 +163,7 @@
                                         <img class="display_thumbnail" width="200" src="" alt="">
                                         <input type="hidden" name="thumbnail_image_path" value="<%=data.thumbnail%>"
                                             class="thumbnail_image_path">
+                                        <input type="hidden" value="<%=data.category%>" class="category">
                                     </div>
 
 
@@ -194,6 +188,12 @@
 
                                     <input type="hidden" name="template_json" class="json-text">
 
+                                    <input type="hidden" name="category" value="certificate">
+                                    <input type="hidden" name="table" value="true">
+
+
+
+
                                     <div class="button-container">
                                         <div>
                                             <div class="delete-template-btn">
@@ -201,7 +201,8 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel Changes
+                                            <div class="btn btn-sm btn-danger text text-white cancel-btn">Cancel
+                                                Changes
                                             </div>
                                             <input type="submit" class="btn btn-sm btn-success update-template-btn"
                                                 value="Save changes">

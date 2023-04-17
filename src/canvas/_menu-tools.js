@@ -156,53 +156,7 @@ close_btn.addEventListener('click',(e)=>{
  
   
   }
-
-  //load page event
-  loadPage() {
  
-    let link = canvas_image;
-    let a = this.canvas.getObjects().filter((e)=>{
-      return e.name == "bg-image";
-    })
-  
-if(link != null ){//dili null
-  if(a ==  false){
- 
-    fabric.Image.fromURL(link, (img) => {
-      // img.excludeFromExport = true;
-      img.name = "bg-image";
-      this.canvas.add(img);
-      img.scaleToWidth(this.canvas.getWidth());
-      this.canvas.viewportCenterObject(img);
-      this.canvas.sendToBack(img);
-      img.selectable = false;
-      img.hoverCursor = "default";
-  
-      img.set("lockMovementX", true);
-      img.set("lockMovementY", true);
-      // img.set("lockScalingX", true)
-      img.set("lockScalingY", true);
-      img.set("lockRotation", true);
-      this.canvas.discardActiveObject();
-    
-      img.setControlsVisibility({
-        mt: false,
-        mb: false,
-        ml: false,
-        mr: false,
-        tr: false,
-        tl: false,
-        br: false,
-        bl: false,
-        mtr: false,
-      });
-      this.canvas.renderAll();
-    });
-  } 
-}
-
-
-  }
   //reset canvas
 resetCanvas(){
   if(user_role == 'user'){
@@ -560,32 +514,35 @@ const formData = new FormData(form);
 // formData.append("file_input", upload_img.files[0]);
 var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-          let data = JSON.parse(xhttp.responseText);
-          if(data === 'ok'){
-       
-            setTimeout((e)=>{
+        if (xhttp.readyState == 4) {
+
+          if(xhttp.status == 200){
+            let data = JSON.parse(xhttp.responseText);
+            if(data === 'ok'){
+         
+              setTimeout((e)=>{
+                this.loading_save('hidden',null);
+                // document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
+              },3000)
+            }
+            if(data === 'no-user'){
               this.loading_save('hidden',null);
-              // document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
-            },3000)
+      
+              this.alert("Something went wrong. Please refresh the page!");
+            }
           }
          
-         
-
-     if(data === 'error'){
-            document.querySelector('.lds-spinner-container-saving-json .text-container .loader').style.display = 'none'; 
-
-            this.alert("Something went wrong. try again later!");
-
-          }
-
-
-
-
-
-
-
-               } 
+          
+ 
+               } else {
+                // handle error
+                if (xhttp.status === 404) {
+                  console.log('Resource not found');
+                } else if (xhttp.status === 500) {
+                  console.log('Server error');
+                }  
+              }
+           
              };
              xhttp.open(
             "POST",
@@ -600,20 +557,24 @@ var xhttp = new XMLHttpRequest();
   }
   grid(){
     document.querySelector('#grid').addEventListener('click', (e)=>{
-      let bg = this.canvas.getObjects().filter((obj)=>{
-        return obj.name == 'bg-image' && obj.opacity == 1;
-      })
+      
       let grid = this.canvas.getObjects().filter((obj)=>{
         return obj.name == 'grid'   ;
       })
+      let bg = this.canvas.getObjects().filter((obj)=>{
+        return obj.name == 'bg-image'   ;
+      })
+
       if(grid[0].opacity == 0){
         grid[0].set({opacity: 1})
-        if(bg){
-          let index = this.canvas.getObjects().indexOf(bg[0]); 
-         grid[0].moveTo(index + 1);
-        }else{
-          this.canvas.sendToBack(grid[0]);
+        if(bg[0]){
+          this.canvas.sendToBack(bg[0]);
         }
+    
+  
+      
+        
+     
       }else{
         grid[0].set({opacity: 0})
       }
@@ -708,7 +669,13 @@ var xhttp = new XMLHttpRequest();
 
   //insert data
   insertData() {
-  
+     
+  if(table == 'false'){
+    document.querySelector('.pen-icon').style.display = 'none';
+    document.querySelector('.list-name-container').style.display = 'none';
+
+    return false
+  }
     //load names from database
  const createTable = ()=>{
   return new Promise((resolve, reject)=>{
@@ -1166,6 +1133,8 @@ createTable().then(()=>{
 
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
+     
+          
           parent.style.right = '-503px'
         add_name_btn.style.display = 'block'
 
@@ -1187,7 +1156,20 @@ createTable().then(()=>{
           this.loading_save('hidden', null);
 
          
+        }else {
+          // handle error
+          if (xhttp.status === 404) {
+            console.log('Resource not found');
+          } else if (xhttp.status === 500) {
+            console.log('Server error');
+          } else {
+            console.log('An error occurred');
+          }
         }
+        xhttp.onerror = function() {
+          // handle error
+          console.log('An error occurred');
+        };
       };
       xhttp.open(
         "POST",

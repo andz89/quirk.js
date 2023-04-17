@@ -38,7 +38,7 @@ class Templates{
           document.querySelector(".templates").addEventListener("click", (e)=>{
             if(e.target.classList.contains('create-copy-btn')){
           
- 
+             let category =  e.target.parentElement.querySelector('.category')
               let template_id =  e.target.parentElement.parentElement.querySelector('.modal-activation #template-id').value
           
           
@@ -88,7 +88,7 @@ class Templates{
                      }
                      
                      else{
-                      window.location.href = 'http://localhost:5000/login-page'
+                      window.location.href = '/'
                     }
                   
           
@@ -97,7 +97,7 @@ class Templates{
                   };
                   xhttp.open(
                     "POST",
-                    `http://localhost:5000/activateCanvas?template_name=${title}&template_id=${template_id} `,
+                    `http://localhost:5000/activateCanvas?template_name=${title}&template_id=${template_id}&category=${category.value} `,
                     true
                   );
                   xhttp.send();

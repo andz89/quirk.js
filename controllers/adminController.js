@@ -14,7 +14,7 @@ exports.admin_login_post = (req, res) => {
   user
     .admin_login()
     .then((data) => {
-      req.session.user = {
+      req.session.admin = {
         user_id: data[0].id,
         user_name: data[0].admin_user_name,
         user_email: data[0].admin_user_email,
@@ -42,14 +42,14 @@ exports.login_page = (req, res) => {
 exports.templates = (req, res) => {
 
   let data = {}
-  data.user_role =  req.session.user_role;
+  data.user_role =  req.session.admin.user_role;
   let templates = new Page(data)
 templates.getAllTemplates().then((data)=>{
 ;
   res.render("admin/admin-templates", {
     data: data,
-    user_type:  req.session.user_role,
-    session: req.session.user ? true : false,
+    user_type:  req.session.admin.user_role,
+    session: req.session.admin ? true : false,
   }); 
 })
   
@@ -62,8 +62,8 @@ templates.getAllBackgrounds().then((data)=>{
 
   res.render("admin/admin-background", {
     data:data,
-    user_type:  req.session.user_role,
-    session: req.session.user ? true : false,
+    user_type:  req.session.admin.user_role,
+    session: req.session.admin ? true : false,
   }); 
 })
   
@@ -161,13 +161,20 @@ if(req.files.modal_image){
  
   req.body.thumbnail_image = thumbnail_image
   req.body.modal_image = modal_image
-console.log(thumbnail_image);
+ 
+
+ console.log(req.body.category);
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database
     .then(function () {
-      // res.redirect("/admin-templates");
+     if(req.body.category == 'invitation'){
+      res.redirect("/admin-invitations");
+
+     }else{
       res.redirect("/admin-templates");
+
+     }
     })
     .catch((err) => {
       res.send(err);
@@ -213,13 +220,19 @@ if(req.files.modal_image){
  
   req.body.thumbnail_image = thumbnail_image
   req.body.modal_image = modal_image
-  console.log(req.body);
+ 
   let admin = new Admin(req.body);
  
   admin
     .update_template()
     .then(function () {
-      res.redirect('/admin-templates')
+      if(req.body.category == 'invitation'){
+        res.redirect("/admin-invitations");
+  
+       }else{
+        res.redirect("/admin-templates");
+  
+       }
     })
     .catch((err) => {
       // res.json(err);
@@ -230,7 +243,9 @@ exports.publish_update= function (req, res){
   let data = {
 
     template_id :req.query.template_id,
-    published_status :req.query.published_status
+    published_status :req.query.published_status,
+    category :req.query.category
+
   };
  
  
@@ -290,6 +305,8 @@ exports.adminDeleteTemplate = (req, res) => {
   req.body.template_id = req.query.template_id;
  req.body.modal_image_path = req.query.modal_image_path;
  req.body.thumbnail_image_path = req.query.thumbnail_image_path;
+ req.body.category = req.query.category;
+
  
   let admin = new Admin(req.body);
   admin.delete_template().then(function (data) {
@@ -330,3 +347,23 @@ exports.deleteBackground = (req, res) => {
   })
 
 }
+
+
+// invitation 
+exports.invitation = (req, res) => {
+  let data = {}
+  data.user_role =  req.session.admin.user_role;
+ 
+
+  let page = new Page(data);
+  page.getAllInviations().then(function (data) {
+    res.render("admin/admin-invitation-templates", {
+      data: data,
+      user_type:  req.session.admin.user_role,
+      session: req.session.admin ? true : false,
+    }); 
+ 
+   
+  })
+}
+

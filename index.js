@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const flash = require("connect-flash");
+
 const MySQLStore = require("express-mysql-session")(session);
 const IN_PROD = process.env.NODE_ENV === "production";
 
@@ -86,7 +87,11 @@ let sessionOptions = session({
 });
 app.use(sessionOptions);
 app.use(flash());
-const router = require("./router");
+const router = require("./routes/router");
+const admin_router = require("./routes/admin_router");
+const user_router = require("./routes/user_router");
+
+
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -94,6 +99,10 @@ app.use(express.static("public")); // static file
 app.set("view engine", "ejs"); // ejs
 
 app.use("/", router);
+app.use("/", admin_router);
+app.use("/", user_router);
+
+
 app.all("*", function (req, res) {
   if (!req.session.user || req.session.user.user_role == "user") {
     res.redirect("/");

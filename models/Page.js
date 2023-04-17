@@ -118,7 +118,7 @@ Page.prototype.check_user_subscription = function(){
       
         resolve()
        }else{
-          this.data.expired_message = 'expired'
+          this.data.certificate_expired = 'expired'
         resolve()
        }
         
@@ -133,7 +133,13 @@ Page.prototype.getCanvas = function(){
               await this.getList()
 
               if(this.data.user_role === 'admin'){
-                let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
+               let table_name;
+                if(this.data.category == 'invitation'){
+                  table_name = 'invitation'
+                }else{
+                  table_name = 'templates'
+                }
+                let sql = `SELECT * FROM ${table_name} WHERE template_id = "${this.data.template_id}"`;
                
                db.query(sql, (err, result) => {
               
@@ -148,6 +154,8 @@ Page.prototype.getCanvas = function(){
                    data.template_name = result[0].template_name;
                    data.thumbnail = result[0].thumbnail;
                    data.canvas_image = result[0].canvas_image;
+                   data.table = result[0].table_names;
+
 
  
              
@@ -158,7 +166,7 @@ Page.prototype.getCanvas = function(){
               }
               if(this.data.user_role === 'user'){
             
-                if(this.data.expired_message == undefined){
+                if(this.data.certificate_expired == undefined){
                
                   let sql = `SELECT * FROM purchased_template WHERE template_id = "${this.data.template_id}"
                   && user_id = "${this.data.user_id}"&& purchased_id = "${this.data.purchased_id}"`;
@@ -185,7 +193,7 @@ Page.prototype.getCanvas = function(){
                 
                  });
                 }else{
-                  resolve(this.data.expired_message)
+                  resolve(this.data.certificate_expired)
                 }
              
               }
@@ -228,12 +236,45 @@ Page.prototype.getAllTemplates = function() {
 
 });
 }
+
+
+Page.prototype.getAllInviations = function() {
+  return new Promise(async (resolve, reject) => {
+   if(this.data.user_role == 'admin'){
+    let sql = `SELECT * FROM invitation `;
+    db.query(sql, (err, result) => {
+    
+      if (err) {
+        reject(err);
+        return false;
+      }
+     
+    
+      resolve(result);
+    });
+   }else{
+    let sql = `SELECT * FROM invitation WHERE live = 'true'`;
+    db.query(sql, (err, result) => {
+    
+      if (err) {
+        reject(err);
+        return false;
+      }
+     
+    
+      resolve(result);
+    });
+   }
+   
+
+});
+}
 Page.prototype.getUserTemplates = function() {
   return new Promise(async (resolve, reject) => {
    
  
       await this.check_user_subscription()
-      if(this.data.expired_message == undefined){
+       
         let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'` ;
         db.query(sql, (err, result) => {
         
@@ -245,28 +286,10 @@ Page.prototype.getUserTemplates = function() {
         
           let data = {}
           data.result = result;
-          data.expired = false;
+          data.certificate_expired= this.data.certificate_expired?true:false;
           resolve(data);
         });
-        }else{
-        
- 
-          let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'` ;
-        db.query(sql, (err, result) => {
-        
-          if (err) {
-            reject(err);
-            return false;
-          }
-         
-        
-          let data= {}
-          data.result = result;
-          data.expired = true;
- 
-          resolve(data);
-        });
-        }
+     
      
     
  
