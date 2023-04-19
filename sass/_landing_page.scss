@@ -1,38 +1,21 @@
- .landing-container {
+ .landing-page {
+   .landing-container {
 
 
-   .landing-message {
-     min-width: 300px;
-     display: flex;
-     justify-content: center;
-     flex-direction: column;
-     align-items: center;
-     margin-bottom: 20px;
-     padding: 10px;
-   }
+     .landing-message {
+       min-width: 300px;
+       display: flex;
+       justify-content: center;
+       flex-direction: column;
+       align-items: center;
+       margin-bottom: 20px;
+       padding: 10px;
+     }
 
-   .fb-login {
-     display: flex;
-     justify-content: center;
-     align-items: center;
 
-     gap: 8px;
-     padding: 10px;
-     transition: all 0.2s ease-in;
-     border: 1px solid #a3a2a2;
-     border-radius: 4px;
-     font-size: 14px;
-     text-transform: uppercase;
-     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-
-   }
-
-   .fb-login:hover {
-     background: #f4f4f4;
-     transition: .5s;
-     color: #333;
    }
  }
+
 
  @media (max-width: 768px) {
 

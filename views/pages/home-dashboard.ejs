@@ -1,32 +1,22 @@
 <%- include('../include/user-header') %>
-  <div style="min-height: 800px">
-    <div class="d-flex justify-content-center"></div>
-
-    <div class="landing p-3">
-
-      <div class="landing-inner">
-
-        <p class="lead">Hello <%= user %>, welcome to our Quirk App.</p>
-        <p class="lead">Easy Editable Template and Print!</p>
-
-
-        <p class="">
-          Your feed displays the latest posts from the people you follow. If you
-          don&rsquo;t have any friends to follow that&rsquo;s okay; you can use the
-          &ldquo;Search&rdquo; feature in the top menu bar to find content written
-          by people with similar interests and then follow them.
-        </p>
+  <div class="home-dashboard">
+    <div class="my-4 d-flex justify-content-center align-items-start   gap-10 landing-container"
+      style="min-height:800px">
+      <div class="landing-message">
+        <img src="images/quirk-logo.png" width="45" alt="">
+        <h1>Quirktool</h1>
+        <br>
+        <p class="text text-dark">Hello <b class="text text-primary">
+            <%= user %>
+          </b> , welcome to our Quirk App.</p>
       </div>
+
     </div>
   </div>
 
 
-  <script type="text/javascript">
-    if (window.location.hash === "#_=_") {
-      history.replaceState
-        ? history.replaceState(null, null, window.location.href.split("#")[0])
-        : window.location.hash = "";
-    }
-  </script>
+
+
+
 
   <%- include('../include/footer') %>
