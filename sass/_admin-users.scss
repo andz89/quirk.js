@@ -37,22 +37,34 @@
          .code-form {
 
              z-index: 1;
-             width: 330px;
+             width: 430px;
              // margin: 60px auto 10px;
              padding: 20px;
-             height: 430px;
+             height: 530px;
+
+             select {
+                 width: 400px;
+                 height: 50px;
+
+                 option {
+                     font-size: 18px;
+
+                 }
+             }
 
              input,
              textarea {
                  padding: 10px;
                  background-color: #fff;
-                 width: 300px;
+                 width: 400px;
+                 display: block;
              }
 
              .btn {
                  width: 100%;
                  color: #fff;
                  text-align: center;
+
              }
          }
      }
@@ -100,6 +112,13 @@
 
      }
 
+     .code-display {
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+         max-width: 12ch;
+         font-size: 12px;
+     }
 
      .copy-code {
          padding: 2px 4px;

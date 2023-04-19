@@ -5,15 +5,19 @@
 
             <div class="d-flex justify-content-end">
 
-                <input id="admin-remove" type="submit" class="btn btn-sm btn-danger text text-white"
-                    value="removed saved Templates">
+                <div class="d-none btn btn-sm btn-dark" id="close-form">Close Form
+                </div>
 
-                <div class="btn btn-sm btn-success" id="display-add-templates-form-btn">+ Add Templates</div>
+
+                <div class="btn btn-sm btn-success" id="invitation-templates-form-btn">+ Add Invitation Templates
+                </div>
 
             </div>
             <div class="admin-message btn btn-md btn-success" style="display: none;width: 300px;"></div>
-            <div>Invitation</div>
-            <div class="hide" id="template-form">
+            <div class="d-flex justify-content-center align-items-center">
+                <h3>Invitation Templates</h3>
+            </div>
+            <div class="d-none" id="invitation-template-form">
                 <div class=" d-flex justify-content-center bg-light p-1 m-1">
                     <form action="/add-template" method="POST" enctype="multipart/form-data">
 
@@ -33,17 +37,18 @@
                             </div>
 
 
-
                             <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
                                 <label for=""> Thumbnail image</label>
 
-                                <input required type="file" name="thumbnail_image" accept='image/*' />
+                                <input required type="file" onchange="checkFile(this,this.files,40000)"
+                                    name="thumbnail_image" accept='image/*' />
 
                             </div>
                             <div class="d-flex flex-direction-column align-items-start custom-file-upload ">
                                 <label for=""> Modal Image</label>
 
-                                <input required type="file" name="modal_image" accept='image/*' />
+                                <input required type="file" onchange="checkFile(this,this.files,100000)"
+                                    name="modal_image" accept='image/*' />
 
                             </div>
 
@@ -157,10 +162,13 @@
 
 
 
+
+
                                     <div
                                         class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
                                         <label for="">Thumbnail</label>
-                                        <input type="file" name="thumbnail_image" class="thumbnail-image p-1">
+                                        <input type="file" onchange="checkFile(this,this.files,40000)"
+                                            name="thumbnail_image" class="thumbnail-image p-1">
                                         <img class="display_thumbnail" width="200" src="" alt="">
                                         <input type="hidden" name="thumbnail_image_path" value="<%=data.thumbnail%>"
                                             class="thumbnail_image_path">
@@ -171,7 +179,8 @@
                                     <div
                                         class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
                                         <label for="">Modal Image</label>
-                                        <input type="file" name="modal_image" class="modal-image p-1">
+                                        <input type="file" name="modal_image" class="modal-image p-1"
+                                            onchange="checkFile(this,this.files,100000)">
 
                                         <img class="display_modal_image" width="200"
                                             src="images/canvas_image/<%= data.modal_image %>" alt="">
@@ -231,32 +240,22 @@
 
 
     </div>
-
     <script>
-        document.getElementById("admin-remove").addEventListener("click", () => {
+        function checkFile(element, files, size) {
 
 
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = () => {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    // console.log(xhttp.responseText);
+            var file = files[0];
+            console.log(file.size);
+            // Check if the file size is within the allowed limit
+            if (file.size > size) {
 
-                    let element = document.querySelector('.admin-message')
-                    element.innerHTML = xhttp.responseText
-                    element.style.display = 'block'
+                element.value = ''
+                alert("File is too large! Please select a file smaller file.");
 
-                    setTimeout(() => {
-                        element.style.display = 'none'
+                return false;
+            }
+        }
 
-                    }, 2000)
-                }
-            };
-            xhttp.open(
-                "POST",
-                `http://localhost:5000/remove`,
-                true
-            );
-            xhttp.send();
-        });
     </script>
+
     <%- include('../include/admin-footer') %>

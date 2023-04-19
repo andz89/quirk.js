@@ -2,34 +2,86 @@
 
 class Crud_templates {
   show_templates_form() {
-    let template_form = document.querySelector("#template-form");
-    if (template_form) {
-      document
-        .querySelector("#display-add-templates-form-btn")
-        .addEventListener("click", () => {
-          if (template_form.classList.contains("hide")) {
-            document.querySelector("#template-form").classList.remove("hide");
-            document.querySelector("#template-form").classList.add("show");
-          } else {
-            document.querySelector("#template-form").classList.remove("show");
-            document.querySelector("#template-form").classList.add("hide");
-          }
-        });
+    
+    let template_form = document.querySelector(".admin-templates-container");
+    if(!template_form){
+      return false;
     }
+    
+      template_form.querySelector("#close-form").onclick = () => {
+     let certificate_form =   template_form.querySelector("#certificate-template-form")
+        certificate_form? certificate_form.style.display = "none" : null;
+     let school_form = template_form.querySelector("#school-template-form") 
+     school_form? school_form.style.display = "none":null;
+     let invitation_form = template_form.querySelector("#invitation-template-form")
+     invitation_form? invitation_form.style.display = "none":null;
+     template_form.querySelector("#close-form").style.display = 'none';
+      };
+ 
+    if(template_form && template_form.querySelector("#invitation-templates-form-btn")){
+      template_form.querySelector("#invitation-templates-form-btn")
+      .addEventListener("click", () => {
+        
+        template_form.querySelector("#close-form").style.display = 'block';
+   
+        template_form.querySelector("#invitation-template-form").style.display = "block";
+
+        
+     
+      });
+    } 
+    
+ 
+    if(template_form && template_form.querySelector("#certificate-templates-form-btn")){
+      template_form.querySelector("#certificate-templates-form-btn")
+      .addEventListener("click", () => {
+        
+        template_form.querySelector("#close-form").style.display = 'block';
+   
+        template_form.querySelector("#certificate-template-form").style.display = "block";
+        template_form.querySelector("#school-template-form").style.display = "none";
+        
+     
+      });
+
+      template_form
+        .querySelector("#school-templates-form-btn")
+        .addEventListener("click", () => {
+          template_form.querySelector("#close-form").style.display = 'block';
+        
+           template_form.querySelector("#school-template-form").style.display = "block";
+           template_form.querySelector("#certificate-template-form").style.display = "none";
+        
+        });
+    } 
+
   }
   convert_file_to_json() {
-   
-    if (document.querySelector("#json-file-input")) {
-      document.querySelector("#json-file-input").addEventListener("change", (e) => {
+    let template_form = document.querySelector(".admin-templates-container");
+    if(!template_form){
+      return false;
+    }
+    template_form.addEventListener("change", (e)=>{
+      if(e.target.classList.contains('json-file-input')){
         var reader = new FileReader();
         reader.onload = (event) => {
-          let json = event.target.result;
+        let json = event.target.result;
+        e.target.parentElement.querySelector(".json_file").value = json;
+      }
+      reader.readAsText(e.target.files[0]);
+    };
+    })
+    // if (template_form) {
+    //   document.querySelector("#json-file-input").addEventListener("change", (e) => {
+    //     var reader = new FileReader();
+    //     reader.onload = (event) => {
+    //       let json = event.target.result;
           
-          document.querySelector("#json_file").value = json;
-        };
-        reader.readAsText(e.target.files[0]);
-      });
-    }
+    //       document.querySelector("#json_file").value = json;
+    //     };
+    //     reader.readAsText(e.target.files[0]);
+    //   });
+    // }
  
   }
  

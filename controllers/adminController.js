@@ -163,7 +163,7 @@ if(req.files.modal_image){
   req.body.modal_image = modal_image
  
 
- console.log(req.body.category);
+
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database
@@ -180,20 +180,7 @@ if(req.files.modal_image){
       res.send(err);
     });
 };
-exports.remove = function (req, res){
-  
-  let admin = new Admin();
-  admin
-    .remove() //database
-    .then(function () {
-      // res.redirect("/admin-templates");
-      res.send('Deleted')
-      
-    })
-    .catch((err) => {
-      res.send(err);
-    });
-}
+ 
 
 exports.updateTemplate = function (req, res){
 let thumbnail_image
@@ -274,6 +261,7 @@ exports.createCode = function (req, res){
   req.body.duration = req.query.duration;
   req.body.note = req.query.note;
   req.body.limit = req.query.limit;
+  req.body.category = req.query.category;
   req.body.code = code;
  
   let users = new Admin(req.body)

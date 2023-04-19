@@ -4,7 +4,8 @@ const { v4: uuidv4 } = require("uuid");
 const validator = require("validator");
 
 const fs = require('fs')
-const { promisify } = require('util')
+const { promisify } = require('util');
+ 
 
 const unlinkAsync = promisify(fs.unlink)
 
@@ -167,10 +168,10 @@ User.prototype.validate = function () {
 };
 
 User.prototype.login = function () {
-  // this.cleanUp();
+  this.cleanUp();
 
   return new Promise((resolve, reject) => {
-    let sql = `SELECT * FROM users WHERE user_id = "${this.data.user_id}"`;
+    let sql = `SELECT * FROM users WHERE user_email = "${this.data.user_email}"`;
 
     db.query(sql, (err, result) => {
 
@@ -179,22 +180,13 @@ User.prototype.login = function () {
         return false;
       }
 
-      if (result)  {
-        resolve('exist')
-      }else{
-        let data = {
-          user_id: this.data.user_id,
-          user_name: this.data.user_name,
-        };
-        let sql = "INSERT INTO users SET ?";
-        db.query(sql, data, (err, result) => {
-          if (err) {
-            reject(err);
-            return false;
-          }
-  
-          resolve();
-        });
+      if (
+        result.length &&
+        bcrypt.compareSync(this.data.user_password, result[0].user_password)
+      ) {
+        resolve(result);
+      } else {
+        reject(this.data);
       }
     });
   });
@@ -263,7 +255,7 @@ User.prototype.update_account = function () {
   return new Promise(async (resolve, reject) => {
     await this.validate();
     if (Object.keys(this.errors_data).length === 0) {
-      var sql = `UPDATE users SET user_email = '${this.data.user_email}' WHERE user_id = '${this.data.user_id}'`;
+      var sql = `UPDATE users SET user_email = '${this.data.user_email}',user_name = '${this.data.user_name}' WHERE user_id = '${this.data.user_id}'`;
       db.query(sql, (err, result) => {
         if (err) {
           reject(err);
@@ -323,6 +315,7 @@ User.prototype.getUserTemplates = function() {
             reject(err);
             return false;
           }
+      
           if(result.length > 0){
             this.data.current_template = result.length
           }else{
@@ -378,15 +371,14 @@ User.prototype.update_code = function ( ){
   })
 
 }
- 
- //check code and validate  *
+  //check code and validate  *
 User.prototype.check_code = function(){
 
   
 
   return new Promise((resolve, reject) => {
    
-    let sql = `SELECT * FROM activation_code WHERE code = "${this.data.code}" && certificate_subscription = '' && user_id='' `;
+    let sql = `SELECT * FROM activation_code WHERE code = "${this.data.code}" && certificate_subscription = '' && user_id='' && category ='${this.data.category}'  `;
     db.query(sql, async (err, result) => {
       if (err) {
         reject(err);
@@ -398,8 +390,10 @@ User.prototype.check_code = function(){
         await this.getUserTemplates()
         await this.update_code()
         resolve()
-              
+              console.log('aaa');
       }else{
+        console.log('bbb');
+
         this.data.taken_message ='not found'
         reject(this.data.taken_message)
       }
@@ -423,20 +417,16 @@ User.prototype.check_code = function(){
 User.prototype.create_template_copy = function (){
   
   return new Promise( (resolve, reject)=> {
-    console.log(this.data.category);
-    let table_name;
-    if(this.data.category == 'invitation'){
-      table_name = 'invitation'
-    }
-    if(this.data.category == 'certificate'){
-      table_name = 'templates'
-    }
-    let sql = `SELECT * FROM ${table_name} WHERE template_id = "${this.data.template_id}"`;
+ 
+ 
+    let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
         return false;
       }
+    
+ 
 
 
       this.data.copied_template  = {
@@ -482,14 +472,15 @@ User.prototype.updateActivationCode_template_used = function (){
 //check subscription and add 1 to template used count if not limit reach -
 User.prototype.check_template_subscription = function(){
   return new Promise(  (resolve, reject) => {
-    let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription = "true"`;
+    let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription = "true" AND category = 'certificate'`;
     db.query(sql,  (err, result) => {
       if (err) {
         reject(err);
         return false;
       }  
+    
       if (result.length > 0){
-     
+   
         if(this.data.current_template+ 1> result[0].template_limit){
           this.data.taken_message = 'limit-reach' 
           resolve()
@@ -511,32 +502,58 @@ User.prototype.check_template_subscription = function(){
 }
 
 //*
-User.prototype.duplicate_template =  function(){
+User.prototype.duplicate_certificate =  function(){
   return new Promise( async (resolve, reject) => {
-      await  this.getUserTemplates()
-      await  this.check_template_subscription()
- 
-    if(this.data.certificate_subsription === true){
-      await this.create_template_copy()//get a copy of selected template 
+
+  
+      await  this.getUserTemplates()//check the number of the templates the user copied
+      await  this.check_template_subscription()//check if the code summited is exist
+      if(this.data.certificate_subsription === true){
+        await this.create_template_copy()//get a copy of selected template 
+        console.log('executing template');
+        let sql_2 = "INSERT INTO purchased_template SET ?";
+        db.query(sql_2, this.data.copied_template,async (err, result) => {
+        if (err) {
+        reject(err);
+        return false;
+        }
+        await this.updateActivationCode_template_used()
+        resolve()
+      
+        });
+      }else{
+        reject(this.data.taken_message)
    
-      let sql_2 = "INSERT INTO purchased_template SET ?";
-      db.query(sql_2, this.data.copied_template,async (err, result) => {
-      if (err) {
-      reject(err);
-      return false;
       }
-      await this.updateActivationCode_template_used()
-      resolve()
-    
-      });
-    }else{
-      reject(this.data.taken_message)
- 
-    }
+  
+   
      
      })
 }
+User.prototype.duplicate_invitation =  function(){
+  return new Promise( async (resolve, reject) => {
+
+  
+
+      await  this.check_template_subscription()
  
+        await this.create_template_copy()//get a copy of selected template 
+     
+        let sql_2 = "INSERT INTO purchased_template SET ?";
+        db.query(sql_2, this.data.copied_template,async (err, result) => {
+        if (err) {
+        reject(err);
+        return false;
+        }
+        await this.updateActivationCode_template_used()
+        resolve()
+      
+        });
+  
+  
+
+     })
+}
 // end ------------------//
 
 

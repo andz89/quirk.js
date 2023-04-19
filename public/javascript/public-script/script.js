@@ -11,6 +11,7 @@ let templates = new Templates();
 templates.modal_template_details()
 templates.puchased_template()
 templates.create_copy()
+templates.create_invitation()
 templates.sumbmit_code()
 let update = new Update();
 update.update_account();

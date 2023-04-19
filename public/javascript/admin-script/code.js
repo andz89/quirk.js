@@ -55,9 +55,12 @@ class Code {
           document.querySelector('.create-code').addEventListener('click',  ()=>{
               let element =  document.querySelector('.admin-users-page .code-form-container')
          let duration =    element.querySelector('#duration').value
+         let category =    element.querySelector('#category')
+           
          let limit =    element.querySelector('#limit').value
   
          let note =    element.querySelector('textarea').value
+     
          if(!duration ||!note){
           return false
          }else{
@@ -74,7 +77,7 @@ class Code {
              let tr = document.createElement('tr')
              tr.innerHTML = `
              <tr>
-             <td>
+             <td class="code-display">
              <span>${code}</span>
                
                      <div>
@@ -108,17 +111,14 @@ class Code {
   
              </td>
              <td>
-               
+             ${category.value}
   
              </td>
              <td>
                
              ${limit}
              </td>
-             <td>
-               
-             ${note}
-             </td>
+           
              <td class="action">
   
              <div class="btn btn-sm btn-primary text text-white view">View</div>
@@ -134,7 +134,7 @@ class Code {
           };
           xhttp.open(
             "POST",
-            `http://localhost:5000/create-code?duration=${duration}&&note=${note}&&limit=${limit}`,
+            `http://localhost:5000/create-code?duration=${duration}&note=${note}&limit=${limit}&category=${category.value}`,
             true
           );
           xhttp.send();

@@ -106,6 +106,10 @@ Page.prototype.getList = function(){
 Page.prototype.check_user_subscription = function(){
   return new Promise((resolve, reject) => {
  
+ if(this.data.category == 'invitation'){
+  resolve()
+  return false;
+ }
       let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription="true"`;
      db.query(sql, (err, result) => {
        if (err) {

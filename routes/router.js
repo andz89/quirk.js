@@ -125,13 +125,8 @@ router.get("/", pageController.home); // home
 router.get("/account-page", check.role_user, pageController.account_page);
 router.get("/templates",  pageController.templates_page);
 router.get("/my-templates", check.role_user, pageController.purchased_templates);
-router.get("/invitation", check.role_user, pageController.invitation);
-
-
+router.get("/invitation",   pageController.invitation);
 router.get("/canvas-test", check.canvas_role, pageController.canvasTest);
-
-
-
 router.get(
   "/register-page",
   check.role_guest,

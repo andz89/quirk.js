@@ -18,7 +18,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            max-width: 20ch;
+            max-width: 15ch;
             font-size: 15px;
         }
     }
@@ -141,9 +141,6 @@
 
 
 
-    .hide {
-        display: none;
-    }
 
     input[type='text'] {
         background-color: #fff;

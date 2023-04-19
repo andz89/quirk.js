@@ -139,20 +139,7 @@ Admin.prototype.update_background = function () {
    
   });
 };
-Admin.prototype.remove = function (req, res) {
-  return new Promise( (resolve, reject) => {
-   
-    let sql = "DELETE FROM purchased_template";
-    db.query(sql, (err) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
-
-      resolve();
-    });
-  });
-}
+ 
 Admin.prototype.deleteImageBackground = async  function (data){
 
   for(let i=0; i<data.length; i++){
@@ -203,7 +190,7 @@ Admin.prototype.update_template = function () {
 
     
 
-    var sql = `UPDATE ${table_name} SET template_name = '${this.data.template_name}',${thumbnail} ${modal_image}  ${json_file} template_description = '${this.data.template_description}' ,table_names='${this.data.table}' WHERE template_id = '${this.data.template_id}'`;
+    var sql = `UPDATE ${table_name} SET template_name = '${this.data.template_name}',${thumbnail} ${modal_image}  ${json_file} template_description = '${this.data.template_description}' WHERE template_id = '${this.data.template_id}'`;
       db.query(sql, (err, result) => {
       
         if (err) {
@@ -246,7 +233,9 @@ Admin.prototype.create_code = function(){
       code: this.data.code,
       days_duration: this.data.duration,
       note: this.data.note,
-      template_limit: this.data.limit
+      template_limit: this.data.limit,
+      category: this.data.category
+
 
 
     }

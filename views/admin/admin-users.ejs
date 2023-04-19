@@ -24,6 +24,13 @@
                         <label for="">Note</label>
                         <textarea required>confirm</textarea>
                     </div>
+                    <div class="select-element-style">
+                        <select name="Category" id="category">
+                            <option value="invitation">Invitation</option>
+                            <option value="certificate">certificate</option>
+                        </select>
+                    </div>
+                    <br>
                     <div class="btn btn-md btn-danger   close-code-form" style="width:100%">
                         Close</div>
 
@@ -40,22 +47,22 @@
                             <th>code</th>
                             <th>User ID</th>
                             <th>Username</th>
-                            <th>email</th>
+
 
                             <th>date of activation</th>
                             <th>date of expiration</th>
                             <th>Days Duration</th>
                             <th>Certificate Subscription</th>
                             <th>Template used</th>
+                            <th>Category</th>
                             <th>Template Limit</th>
 
-                            <th>note</th>
                             <th>action
                     </thead>
                     <tbody>
                         <% data.forEach((data)=>{%>
                             <tr>
-                                <td>
+                                <td class="code-display">
                                     <span>
                                         <%= data.code %>
                                     </span>
@@ -76,9 +83,7 @@
                                 <td>
                                     <%= data.user_name %>
                                 </td>
-                                <td>
-                                    <%= data.user_email %>
-                                </td>
+
 
                                 <td>
                                     <%= data.date_purchased %>
@@ -96,17 +101,15 @@
                                 </td>
                                 <td>
                                     <%= data.template_used %>
-
-
+                                </td>
+                                <td>
+                                    <%= data.category %>
                                 </td>
                                 <td>
                                     <%= data.template_limit %>
 
                                 </td>
-                                <td>
-                                    <%= data.note %>
 
-                                </td>
                                 <td class="action">
                                     <div class="btn btn-sm btn-primary text text-white view">View</div>
                                     <input type="hidden" id="code" value="<%= data.code %>">

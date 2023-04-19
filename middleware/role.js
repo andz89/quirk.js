@@ -9,7 +9,7 @@ exports.role_admin = (req, res, next) => {
 };
 exports.role_user = (req, res, next) => {
  
-  if (req.session.passport  &&   req.session.passport.user.id) {
+  if (req.session.user  &&   req.session.user.user_id) {
      
     next();
   }else {
@@ -26,7 +26,7 @@ exports.role_user = (req, res, next) => {
 };
 exports.canvas_role = (req, res,next) => {
  
-  if (req.session.passport  &&   req.session.passport.user.id ||  req.session.admin  &&   req.session.admin.user_role == "admin") {
+  if (req.session.user  &&   req.session.user.user_id ||  req.session.admin  &&   req.session.admin.user_role == "admin") {
 
     next();
   }else {
@@ -36,7 +36,7 @@ exports.canvas_role = (req, res,next) => {
   }
 };
 exports.role_guest = (req, res, next) => {
-  if (req.session.passport) {//true
+  if (req.session.user) {//true
  
     res.redirect("/");
   }

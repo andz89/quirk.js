@@ -4,7 +4,7 @@ exports.check_data = (req, res, next) => {
  
       next()
     }else{
-      if(req.session.passport && req.session.passport.user.id && req.query.purchased_id && req.query.template_id){
+      if(req.session.user && req.session.user.user_id && req.query.purchased_id && req.query.template_id){
         
         next()
       }else{

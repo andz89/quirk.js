@@ -44,11 +44,12 @@ router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 router.post("/update_account", userController.update_account);
  
-router.post("/activateCanvas", check.role_user, userController.activateCanvas);
+router.post("/activateCertificate", check.role_user, userController.activateCertificate);
+router.post("/activateInvitation", check.role_user, userController.activateInvitation);
 router.post("/saveList", check.role_user, userController.saveList);
 router.post("/resetCanvas", check.role_user, userController.resetCanvas)
 router.post("/get-all-background-image", check.canvas_role, userController.getAllBackgroundImage);
-router.post("/submit_code", check.role_user, userController.submit_code);
+router.post("/submit_code_certificate", check.role_user, userController.submit_code_certificate);
 router.post("/delete_template", check.role_user, userController.deleteTemplate);
 router.post("/get_user_image", check.canvas_role, userController.getUserImage);
 router.post("/get_user_image_toCanvas", check.canvas_role, userController.getUserImageToCanvas);

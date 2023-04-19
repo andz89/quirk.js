@@ -53,7 +53,7 @@ router.post("/add-template",upload.fields([{
 
 
 
-router.post("/remove" ,adminController.remove);
+ 
 
 //update
 router.post("/updateTemplate" ,upload.fields([{

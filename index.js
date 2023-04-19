@@ -24,7 +24,15 @@ const app = express();
 app.use(session({
   secret: 'SECTRET',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: true,
+  store: sessionStore,
+  cookie: {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24,
+    secure: IN_PROD,
+  }
 }));
 
 

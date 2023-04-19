@@ -26,49 +26,63 @@
                             <input type="hidden" class="template_id" value="<%= data.template_id %>">
                             <input type="hidden" class="purchased_id" value="<%= data.purchased_id %> ">
 
-                            <% if(certificate_expired===true ){ %>
-                                <%- include('../include/submit-code') %>
-                                    <a>
-                                        <img src="images/canvas_image/<%= data.thumbnail%>"
-                                            class="hover-opactiy d-image" width="200" alt="">
-
-
-
-                                        <div class=" text text-dark ">
-                                            <%= data.template_name %>
-                                        </div>
-
-                                    </a>
-                                    <small>Expired</small>
-                                    <% }else{ %>
-                                        <a
-                                            href="/canvas-test?template_id=<%= data.template_id %>&id=<%= data.purchased_id %> ">
+                            <% if(data.category==='certificate' ){ %>
+                                <% if(certificate_expired===true ){ %>
+                                    <%- include('../include/submit-code') %>
+                                        <a>
                                             <img src="images/canvas_image/<%= data.thumbnail%>"
                                                 class="hover-opactiy d-image" width="200" alt="">
 
 
 
-                                            <div class=" text text-dark ">
+                                            <div class=" text text-dark template-name">
                                                 <%= data.template_name %>
                                             </div>
+
                                         </a>
-                                        <div class="option">
-                                            <img src="images/list.png" class="hover-opactiy gear-option" width="20"
-                                                alt="">
-                                            <div class="container hide">
+                                        <small>Expired</small>
+                                        <% }else{ %>
+                                            <a
+                                                href="/canvas-test?template_id=<%= data.template_id %>&id=<%= data.purchased_id %>&category=<%= data.category %> ">
+                                                <img src="images/canvas_image/<%= data.thumbnail%>"
+                                                    class="hover-opactiy d-image" width="200" alt="">
+
+
+
+                                                <div class=" text text-dark template-name">
+                                                    <%= data.template_name %>
+                                                </div>
+                                            </a>
+                                            <div class="option">
+                                                <img src="images/list.png" class="hover-opactiy gear-option" width="20"
+                                                    alt="">
+                                                <div class="container hide">
+                                                </div>
+                                                <div class="delete-template hide">Delete Template</div>
                                             </div>
-                                            <div class="delete-template hide">Delete Template</div>
-                                        </div>
-                                        <% } %>
+                                            <% } %>
+                                                <% }%>
+                                                    <% if(data.category=='invitation' ){ %>
+
+                                                        <a
+                                                            href="/canvas-test?template_id=<%= data.template_id %>&id=<%= data.purchased_id %>&category=<%= data.category %> ">
+                                                            <img src="images/canvas_image/<%= data.thumbnail%>"
+                                                                class="hover-opactiy d-image" width="200" alt="">
 
 
 
-
-
-
-
-
-
+                                                            <div class=" text text-dark template-name">
+                                                                <%= data.template_name %>
+                                                            </div>
+                                                        </a>
+                                                        <div class="option">
+                                                            <img src="images/list.png" class="hover-opactiy gear-option"
+                                                                width="20" alt="">
+                                                            <div class="container hide">
+                                                            </div>
+                                                            <div class="delete-template hide">Delete Template</div>
+                                                        </div>
+                                                        <% } %>
                         </div>
 
                         <% }) %>
