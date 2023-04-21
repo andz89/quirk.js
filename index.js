@@ -1,7 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const flash = require("connect-flash");
-
+const cors = require('cors');
 const MySQLStore = require("express-mysql-session")(session);
 const IN_PROD = process.env.NODE_ENV === "production";
 
@@ -20,6 +20,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
  
 const app = express();
 
+app.use(express.static('public', { maxAge: 0 }));
 
 app.use(session({
   secret: 'SECTRET',
@@ -35,44 +36,24 @@ app.use(session({
   }
 }));
 
+const corsOptions = {
+  origin: 'http://localhost:8080',
+  credentials: true,
+ 
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}
 
-app.use(passport.initialize());
-app.use(passport.session());
-passport.serializeUser(function(user, cb) {
-  cb(null,user)
-})
-passport.deserializeUser(function(obj, cb) {
-  cb(null,obj)
-})
-passport.use(
-  
-  new FacebookStrategy(
-    {
-      clientID: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_SECRET_KEY,
-      callbackURL: process.env.FACEBOOK_CALLBACK_URL,
-    },
-    async function (accessToken, refreshToken, profile, cb) {
-      return cb(null, profile);
- 
-    //   if (!user) {
-    //     console.log('Adding new facebook user to DB..');
-    //     const user = new User({
-    //       accountId: profile.id,
-    //       name: profile.displayName,
-    //       provider: profile.provider,
-    //     });
-    //     await user.save();
-    //     // console.log(user);
-    //     return cb(null, profile);
-    //   } else {
-    //     console.log('Facebook User already exist in DB..');
-    //     // console.log(profile);
- 
-    //   }
-    }
-  )
-);
+app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  next();
+});
+
+
 app.use(function (req, res, next) {
   res.header(
     "Cache-Control",
@@ -103,7 +84,7 @@ const user_router = require("./routes/user_router");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static("public")); // static file
+ 
 app.set("view engine", "ejs"); // ejs
 
 app.use("/", router);

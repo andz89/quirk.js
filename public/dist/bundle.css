@@ -244,12 +244,16 @@
   background-color: #17a2b8;
   color: #fff;
 }
+.bg-secondary {
+  background-color: #f7931e;
+  color: #333;
+}
 .bg-light {
   background-color: #f4f4f4;
   color: #333;
 }
 .bg-dark {
-  background-color: #343a40;
+  background-color: #333;
   color: #fff;
 }
 .bg-success {
@@ -287,11 +291,11 @@
   background: #1ab6cf;
 }
 .btn.btn-dark {
-  background-color: #343a40;
+  background-color: #333;
   color: #fff;
 }
 .btn.btn-dark:hover {
-  background: #3f474e;
+  background: #404040;
 }
 .btn.btn-success {
   background-color: #28a745;
@@ -307,12 +311,19 @@
 .btn.btn-danger:hover {
   background: #e04b59;
 }
+.btn.btn-secondary {
+  background-color: #f7931e;
+  color: #333;
+}
+.btn.btn-secondary:hover {
+  background: #f89f37;
+}
 .btn.btn-light {
   background-color: #f4f4f4;
   color: #333;
 }
 .btn.btn-light:hover {
-  background: #ced3d8;
+  background: #cccccc;
 }
 .btn.btn-sm {
   font-size: 0.8rem;
@@ -341,7 +352,7 @@
   color: #fff;
 }
 .alert.alert-dark {
-  background-color: #343a40;
+  background-color: #333;
   color: #fff;
 }
 .alert.alert-success {
@@ -366,7 +377,7 @@
   color: #fff;
 }
 .badge.badge-dark {
-  background-color: #343a40;
+  background-color: #333;
   color: #fff;
 }
 .badge.badge-success {
@@ -403,7 +414,7 @@
   color: #17a2b8;
 }
 .text.text-dark {
-  color: #343a40;
+  color: #333;
 }
 .text.text-success {
   color: #28a745;
@@ -492,6 +503,43 @@
 
 .select-none {
   user-select: none;
+}
+
+.select-element-style {
+  /* Styles for the options */
+}
+.select-element-style label {
+  font-size: 14px;
+}
+.select-element-style select {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  height: 30px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.select-element-style select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+}
+.select-element-style select option {
+  cursor: pointer;
+  color: #495057;
+  background-color: #fff;
+  font-weight: normal;
+}
+.select-element-style select option:checked {
+  background-color: #a8a8a8;
+  color: #fff;
 }
 
 .list-name-container {

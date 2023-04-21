@@ -2,11 +2,11 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
 const router = express.Router();
-const userController = require("../controllers/userController");
+ 
 const pageController = require("../controllers/pageController");
-const adminController = require("../controllers/adminController");
+ 
 const check = require("../middleware/role");
-const filter = require("../middleware/filter_data");
+ 
 
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
@@ -44,13 +44,13 @@ const upload = multer({storage: storage})
 // router.post("/activateCanvas", check.role_user, userController.activateCanvas);
 // router.post("/saveList", check.role_user, userController.saveList);
 // router.post("/resetCanvas", check.role_user, userController.resetCanvas)
-// router.post("/get-all-background-image", check.canvas_role, userController.getAllBackgroundImage);
+// router.post("/get-all-background-image", check.queryFromcanvas_role, userController.getAllBackgroundImage);
 // router.post("/submit_code", check.role_user, userController.submit_code);
 // router.post("/delete_template", check.role_user, userController.deleteTemplate);
-// router.post("/get_user_image", check.canvas_role, userController.getUserImage);
-// router.post("/get_user_image_toCanvas", check.canvas_role, userController.getUserImageToCanvas);
-// router.post("/delete_user_image", check.canvas_role, userController.deleteUserImage);
-// router.post("/saved-template",filter.check_data, function (req, res,next ){
+// router.post("/get_user_image", check.queryFromcanvas_role, userController.getUserImage);
+// router.post("/get_user_image_toCanvas", check.queryFromcanvas_role, userController.getUserImageToCanvas);
+// router.post("/delete_user_image", check.queryFromcanvas_role, userController.deleteUserImage);
+// router.post("/saved-template",check.saveCanvas_role, function (req, res,next ){
 // router.post("/login", userController.login);
  
 //  var form = new formidable.IncomingForm();
@@ -79,7 +79,7 @@ const upload = multer({storage: storage})
 
 
 
-// router.post("/user_upload_img",filter.check_data, userController.checkUploadedImages,
+// router.post("/user_upload_img",check.saveCanvas_role, userController.checkUploadedImages,
 // //Process the file upload in Node
 
 
@@ -119,6 +119,7 @@ const upload = multer({storage: storage})
 
 
 //pages
+router.get("/development-query", pageController.development_query);
  
 router.get("/canvas",  check.role_user, pageController.canvas);
 router.get("/", pageController.home); // home
@@ -126,7 +127,7 @@ router.get("/account-page", check.role_user, pageController.account_page);
 router.get("/templates",  pageController.templates_page);
 router.get("/my-templates", check.role_user, pageController.purchased_templates);
 router.get("/invitation",   pageController.invitation);
-router.get("/canvas-test", check.canvas_role, pageController.canvasTest);
+router.get("/canvas-test", check.queryFromcanvas_role, pageController.canvasTest);
 router.get(
   "/register-page",
   check.role_guest,

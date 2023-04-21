@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quirk Client Side</title>
 
-</head>
+<script defer src="bundle.js"></script><link href="bundle.css" rel="stylesheet"></head>
 
 <body>
 
@@ -423,17 +423,17 @@
 
 </body>
 <script>
-    let template_json = '<%= htmlWebpackPlugin.options.template_json %>';
-    let purchased_id = '<%= htmlWebpackPlugin.options.purchased_id%>';
+    let template_json = '<%-template_json%>';
+    let purchased_id = '<%-purchased_id%>';
 
-    let template_id = '<%= htmlWebpackPlugin.options.template_id%>';
+    let template_id = '<%-template_id%>';
 
 
-    let template_name = '<%= htmlWebpackPlugin.options.template_name%>';
-    let list = '<%= htmlWebpackPlugin.options.list%>';
-    let table = '<%= htmlWebpackPlugin.options.table%>';
+    let template_name = '<%-template_name%>';
+    let list = '<%-list%>';
+    let table = '<%-table%>';
 
-    let user_role = '<%= htmlWebpackPlugin.options.user_role%>';
+    let user_role = '<%-user_role%>';
 </script>
 
 

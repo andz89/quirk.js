@@ -13,6 +13,12 @@ export class Canvas extends Global {
       canvasScale: this.canvasScale,
       SCALE_FACTOR: this.SCALE_FACTOR,
       fileHandle: this.fileHandle,
+      user_role: this.user_role,
+      table:this.table,
+      list: this.list,
+      purchased_id: this.purchased_id,
+      template_id: this.template_id,
+      mode : this.mode
     });
 
     utils.canvasOn();
@@ -28,6 +34,12 @@ export class Canvas extends Global {
       canvasScale: this.canvasScale,
       SCALE_FACTOR: this.SCALE_FACTOR,
       fileHandle: this.fileHandle,
+      user_role: this.user_role,
+      table:this.table,
+      list: this.list,
+      purchased_id: this.purchased_id,
+      template_id: this.template_id,
+      mode : this.mode
     });
 
     menu_tools.deleteObjects();
@@ -52,7 +64,8 @@ export class Canvas extends Global {
     menu_tools.textAlign_right();
     menu_tools.fontStyle();
     menu_tools.grid();
-    if(user_role == 'admin'){
+    console.log(this.user_role);
+    if(this.user_role == 'admin'){
       menu_tools.admin();
       menu_tools.align_canvas();
       menu_tools.align_left();

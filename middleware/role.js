@@ -24,8 +24,12 @@ exports.role_user = (req, res, next) => {
    
   }
 };
-exports.canvas_role = (req, res,next) => {
- 
+exports.queryFromcanvas_role = (req, res,next) => {
+  req.session.admin = {
+    user_id: 'dsafe321',
+    user_role:  'admin',
+  };
+ console.log('kk');
   if (req.session.user  &&   req.session.user.user_id ||  req.session.admin  &&   req.session.admin.user_role == "admin") {
 
     next();
@@ -50,3 +54,23 @@ else{
  
 };
  
+exports.saveCanvas_role = (req, res, next) => {
+  req.session.admin = {
+    user_id: 'dsafe321',
+    user_role:  'admin',
+  };
+    if( req.session.admin && req.session.admin.user_role == 'admin'){
+      console.log('admin user');
+      next()
+    }else{
+      if(req.session.user && req.session.user.user_id && req.query.purchased_id && req.query.template_id){
+        
+        next()
+      }else{
+      
+        res.json('no-user')
+      
+      }
+    }
+ 
+    };

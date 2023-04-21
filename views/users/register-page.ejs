@@ -3,7 +3,12 @@
   <div class="p-1 ">
     <div class="d-flex flex-direction-column justify-content-center form-container bg-white">
       <form action="/register" method="POST" id="registration-form" class="form">
-        <h1 class="text text-center text-primary my-1">Quirk</h1>
+        <div class="d-flex justify-content-center align-items-center flex-direction-column my-2">
+          <img src="images/quirk-logo.png" width="45" alt="">
+          <h4 class="text text-dark">Quirktool</h4>
+
+        </div>
+
         <div class="d-flex flex-direction-column align-items-start">
           <label for="username-register" class="text-muted"><small>Username</small></label>
 
@@ -58,11 +63,11 @@
         </div>
 
         <div class="d-flex justify-content-between align-items-end py-1">
-          <input type="submit" id="register-button" class="btn btn-md btn-success" value="Submit" />
+          <input type="submit" id="register-button" class="btn btn-sm btn-secondary text text-white" value="Submit" />
 
           <div class="d-flex justify-content-end">
             <small>
-              <a href="/login_page" class="text text-dark white-hover">
+              <a href="/login-page" class="text text-dark white-hover">
                 Sign in for Quirk?
               </a>
             </small>

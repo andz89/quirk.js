@@ -6,6 +6,12 @@ export class Global {
     this.fileHandle = property.fileHandle;
     this.width = property.width;
     this.height = property.height;
+    this.user_role = property.user_role,
+    this.table = property.table,
+    this.list = property.list,
+   this.purchased_id = property.purchased_id;
+    this.template_id = property.template_id,
+    this.mode  = property.mode
   }
 
  

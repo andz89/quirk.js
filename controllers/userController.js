@@ -85,6 +85,7 @@ exports.saved_template = function (req, res) {
   data.purchased_id =  req.query.purchased_id;
   data.user_role =   req.session.user ? req.session.user.user_role : req.session.admin.user_role;
 
+  console.log(data.user_role);
   let user = new User(data);
   user
     .saved_template_database()
@@ -199,6 +200,7 @@ user.update_list().then(()=>{
 
 //query to get the link of an image
 exports.getAllBackgroundImage = (req, res)=>{
+  console.log(req.session);
   let user = new User();
 user.get_all_backgrounds_image().then((data)=>{
   res.json(data);
@@ -268,6 +270,7 @@ exports.checkUploadedImages = (req, res,next) =>{
  
 }
 exports.getUserImage = (req, res)=>{
+ 
   let data = {}
   data.user_id =req.session.admin ? req.session.admin.user_id: req.session.user.user_id;
  
@@ -278,6 +281,7 @@ exports.getUserImage = (req, res)=>{
   })
 }
 exports.getUserImageToCanvas = (req, res)=>{
+
   let data = {}
   data.image_path = req.query.id;
  

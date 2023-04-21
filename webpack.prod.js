@@ -2,6 +2,8 @@ const path  = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+
 module.exports = {
     mode: 'development',
     entry:{
@@ -10,23 +12,14 @@ module.exports = {
 
     output:{
        path: path.resolve(__dirname, 'public/dist'),
-    filename:'[name].[contenthash].js',
+    filename:'[name].js',
+    // filename:'[name].[contenthash].js',
     clean:true,
     assetModuleFilename: '[name][ext]',
-    publicPath: 'dist'
-},
-// devtool:'source-map',
-devServer:{
-    static:{
-        directory:path.resolve(__dirname, 'pages')
-    },
-    port:3000,
-    
-    open: 'canvas-test.ejs',
-    compress: true,
  
-  
 },
+ 
+ 
 module:{
     rules:[
         {
@@ -58,25 +51,28 @@ module:{
     ]
 },
 plugins:[
-    // new CopyWebpackPlugin({
-    //     patterns: [
-    //       { from: 'public/dist/canvas-test.html', to: '../../views/pages/canvas-test.ejs',
-    //       transform(content, path) {
-    //         const bundlePath = 'dist';
-    //         const cssPath = 'dist';
-    //         let html = content.toString();
-    //         html = html.replace(/(<script[^>]+src=")([^"]+)(\/?)([a-z0-9]*\.js[^>]*>)/g, `$1${bundlePath}/$2$3$4`);
-    //         html = html.replace(/(<link[^>]+href=")([^"]+)(\/?)([a-z0-9]*\.css[^>]*>)/g, `$1${cssPath}/$2$3$4`);
-    //         return Buffer.from(html);
-    //       },
+    new webpack.DefinePlugin({
+        MODE: JSON.stringify('development'),
+      }),
+    new CopyWebpackPlugin({
+        patterns: [
+          { from: 'public/dist/index.html', to: '../../views/pages/canvas-test.ejs',
+          transform(content, path) {
+            const bundlePath = 'dist';
+            const cssPath = 'dist';
+            let html = content.toString();
+            html = html.replace(/(<script[^>]+src=")([^"]+)(\/?)([a-z0-9]*\.js[^>]*>)/g, `$1${bundlePath}/$2$3$4`);
+            html = html.replace(/(<link[^>]+href=")([^"]+)(\/?)([a-z0-9]*\.css[^>]*>)/g, `$1${cssPath}/$2$3$4`);
+            return Buffer.from(html);
+          },
 
         
-    //     }
-    //     ]
-    //   }),
+        }
+        ]
+      }),
     new HtmlWebpackPlugin({
         title:'Webpack App',
-        filename: '../../views/pages/canvas-test.ejs',
+        filename: 'index.html',
         template:'./src/index.html',
         template_json : '<%-template_json%>',
         purchased_id : '<%-purchased_id%>',
@@ -87,14 +83,15 @@ plugins:[
         user_role : '<%-user_role%>',
         table: '<%-table%>'
        
-    }),
- 
- 
+    }), 
+    
+
     new  MiniCssExtractPlugin({
-        filename: "[name].[contenthash].css"
+        // filename: "[name].[contenthash].css"
+        filename: "[name].css"
+
       }),
 ]
    
  
 }
-    // "build": "webpack --config webpack.prod.js",

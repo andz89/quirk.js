@@ -27,6 +27,7 @@ close_btn.addEventListener('click',(e)=>{
   }
   //add background
   add_background(){
+ 
       let add_bg_image =  document.querySelector("#modal-container-add-background")
       let modal_body =   add_bg_image.querySelector('.modal-body')
         document.querySelector("#canvas-image-background").addEventListener("click", ()=>{
@@ -159,11 +160,11 @@ close_btn.addEventListener('click',(e)=>{
  
   //reset canvas
 resetCanvas(){
-  if(user_role == 'user'){
+  if(this.user_role == 'user'){
     document.querySelector('#reset').addEventListener('click', ()=>{
         
   
-      let a = template_id 
+   
    
       var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = () => {
@@ -174,7 +175,7 @@ resetCanvas(){
         };
         xhttp.open(
           "POST",
-          `http://localhost:5000/resetCanvas?template_id=${a}`,
+          `http://localhost:5000/resetCanvas?template_id=${this.template_id}`,
           true
         );
         xhttp.send();
@@ -207,7 +208,7 @@ resetCanvas(){
       });
       
  
-      object.name = user_role == 'admin'? object.type : 'user-custom';
+      object.name = this.user_role == 'admin'? object.type : 'user-custom';
      
       // object.lockMovementX = true
       object.perPixelTargetFind = false;
@@ -265,7 +266,7 @@ if(parent.querySelector('.img-container')){
           
           
           <img src="images/canvas/list-black.png" 
-           style = '${e.role == 'admin' && user_role == 'user'? 'display:none' : ''}'
+           style = '${e.role == 'admin' && this.user_role == 'user'? 'display:none' : ''}'
           class=" hover-opactiy  option" width="15"
           alt="">
           <div class="delete-template text hide text-dark">Delete</div>
@@ -417,7 +418,7 @@ upload_img_btn.addEventListener('click',(e)=>{
                };
                xhttp.open(
                  "POST",
-                 `http://localhost:5000/user_upload_img?template_id=${template_id}&purchased_id=${purchased_id}`,
+                 `http://localhost:5000/user_upload_img?template_id=${this.template_id}&purchased_id=${this.purchased_id}`,
                  true
                );
                xhttp.send(formData);
@@ -441,7 +442,11 @@ photo_container.querySelector('.close').addEventListener('click',(e)=>{
  
     document.getElementById("save_json").addEventListener("click", () => {
      
-   
+   console.log(this.template_id);
+  
+   console.log(this.user_role);
+
+
  this.loading_save('visible','Saving . . .');
     function replaceBreakLine(valueToEscape) {
       if (valueToEscape != null && valueToEscape != "") {
@@ -546,7 +551,7 @@ var xhttp = new XMLHttpRequest();
              };
              xhttp.open(
             "POST",
-      `http://localhost:5000/saved-template?template_id=${this.canvas.template_id}&purchased_id=${purchased_id}`,
+      `http://localhost:5000/saved-template?template_id=${this.template_id}&purchased_id=${this.purchased_id}`,
       true
              );
              xhttp.send(formData);
@@ -670,7 +675,7 @@ var xhttp = new XMLHttpRequest();
   //insert data
   insertData() {
      
-  if(table == 'false'){
+  if(this.table == 'false'){
     document.querySelector('.pen-icon').style.display = 'none';
     document.querySelector('.list-name-container').style.display = 'none';
 
@@ -725,8 +730,10 @@ border-left:none; " contenteditable="true"></td>
 
 //insert names from database
 createTable().then(()=>{
-    if(list){
-      let excel_data =  JSON.parse(list);
+    if(this.list){
+ 
+      let excel_data =  JSON.parse(this.list);
+
   
         let inputs = document.querySelectorAll(".list-name-container table tbody tr ");
  
@@ -1872,10 +1879,10 @@ createTable().then(()=>{
     window.addEventListener("keydown", (e) => {
       if (e.key === "Delete") {
     
-        if(user_role == 'admin'){
+        if(this.user_role == 'admin'){
           this.canvas.remove(this.canvas.getActiveObject());
         }
-        if(user_role == 'user'){
+        if(this.user_role == 'user'){
           if (this.canvas.getActiveObject().name === "textbox") {
             return false;
           }

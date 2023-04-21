@@ -172,6 +172,7 @@ exports.canvas =(req, res) =>{
           })
 }
 exports.canvasTest = (req, res) => {
+  console.log(req.session)
   let data = {}
   data.user_role = req.session.admin? req.session.admin.user_role : 'user'
   data.user_id =req.session.user ? req.session.user.user_id: req.session.admin.user_id;
@@ -179,16 +180,18 @@ exports.canvasTest = (req, res) => {
   data.category = req.query.category;
  
   data.purchased_id = req.query.id;
-
+ 
   let page = new Page(data);
   page.getCanvas().then((data) => {
-      
+
     if(data === 'expired'){
  
       res.redirect("/my-templates"); 
     }else{
    
       res.render("pages/canvas-test", {
+
+        
         purchased_id:data.purchased_id,
       
         template_json:data.template_json,
@@ -201,6 +204,39 @@ exports.canvasTest = (req, res) => {
       });
     }
 
+          
+          })
+}
+
+exports.development_query = (req, res) => {
+  req.session.admin = {
+    user_id: 'dsafe321',
+    user_role:  'admin',
+  };
+  req.session.save();
+ 
+  let data = {}
+  
+  data.user_role = 'admin'
+  data.user_id = 'dsafe321'
+  data.template_id = '33c3cea9-789c-43e0-982c-bff8cca50035';
+  data.category = 'certificate';
+ 
+  let page = new Page(data);
+  page.getCanvas().then((data) => {
+    let json_file = {
+      purchased_id:data.purchased_id,
+      
+      template_json:data.template_json,
+      template_id:data.template_id,
+      template_name:data.template_name,
+      table:data.table,
+     
+      list: data.list,
+      user_role:  'admin',
+    }
+    
+    res.send(json_file);
           
           })
 }

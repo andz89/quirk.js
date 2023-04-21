@@ -4,7 +4,7 @@ const router = express.Router();
 const userController = require("../controllers/userController");
  
 const check = require("../middleware/role");
-const filter = require("../middleware/filter_data");
+ 
 
 const { v4: uuidv4 } = require("uuid");
  
@@ -48,15 +48,15 @@ router.post("/activateCertificate", check.role_user, userController.activateCert
 router.post("/activateInvitation", check.role_user, userController.activateInvitation);
 router.post("/saveList", check.role_user, userController.saveList);
 router.post("/resetCanvas", check.role_user, userController.resetCanvas)
-router.post("/get-all-background-image", check.canvas_role, userController.getAllBackgroundImage);
+router.post("/get-all-background-image", check.queryFromcanvas_role, userController.getAllBackgroundImage);
 router.post("/submit_code_certificate", check.role_user, userController.submit_code_certificate);
 router.post("/delete_template", check.role_user, userController.deleteTemplate);
-router.post("/get_user_image", check.canvas_role, userController.getUserImage);
-router.post("/get_user_image_toCanvas", check.canvas_role, userController.getUserImageToCanvas);
-router.post("/delete_user_image", check.canvas_role, userController.deleteUserImage);
+router.post("/get_user_image", check.queryFromcanvas_role, userController.getUserImage);
+router.post("/get_user_image_toCanvas", check.queryFromcanvas_role, userController.getUserImageToCanvas);
+router.post("/delete_user_image", check.queryFromcanvas_role, userController.deleteUserImage);
 
  
-router.post("/saved-template",filter.check_data, function (req, res,next ){
+router.post("/saved-template",check.saveCanvas_role, function (req, res,next ){
 
  
  var form = new formidable.IncomingForm();
@@ -84,7 +84,7 @@ router.post("/saved-template",filter.check_data, function (req, res,next ){
 
 
 
-router.post("/user_upload_img",filter.check_data, userController.checkUploadedImages,
+router.post("/user_upload_img",check.saveCanvas_role, userController.checkUploadedImages,
 //Process the file upload in Node
 function (req, res,next){
  

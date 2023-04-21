@@ -20,6 +20,11 @@
 
     }
 
+    &-secondary {
+        @include set-background($secondary-color);
+
+    }
+
     &-light {
         @include set-background($light-color);
     }
@@ -88,6 +93,14 @@
 
         &:hover {
             background: lighten($danger-color, 5%)
+        }
+    }
+
+    &.btn-secondary {
+        @include set-background($secondary-color);
+
+        &:hover {
+            background: lighten($secondary-color, 5%)
         }
     }
 

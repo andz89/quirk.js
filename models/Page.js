@@ -162,7 +162,7 @@ Page.prototype.getCanvas = function(){
 
 
  
-             
+            
                    resolve(data)
                  
               
