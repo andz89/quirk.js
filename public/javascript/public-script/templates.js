@@ -61,38 +61,24 @@ class Templates{
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
                      let response = xhttp.responseText
                      console.log(response);
-                     if(response === 'true'){
+                     if(response === 'true'){//success creating copy of template
                   
                         window.location.href = 'http://localhost:5000/my-templates'
                      }
                      else if(response === 'limit-reach'){
          
 
-                      let message_container = document.querySelector('.subscribe-message-container')
-                      message_container.querySelector('.expire-message').style.display = 'none'
-                      message_container.querySelector('.puchase-href-btn').href = '/my-templates'
-                      message_container.querySelector('.puchase-href-btn').children[0].innerText = 'Go to my templates'
-
-                       let div;
-                     
-                       div = `
-             
-                       <h3>  Your reach the limit</h3> 
-                     
-                       Please delete some of your created template!
-                   
-                       `
-                       message_container.querySelector('.reach-limit-message-container').innerHTML = div
-                       message_container.style.display = 'flex'
-                  
-           
+                      let message_container = document.querySelector('.input-message-container')
+                      message_container.style.display = 'flex'
+                      message_container.querySelector('.limit-reach').style.display = 'flex';
           
                      }
                      else if(response == 'expired'){
              
                       
-                      let message_container = document.querySelector('.subscribe-message-container')
+                      let message_container = document.querySelector('.input-message-container')
                       message_container.style.display = 'flex'
+                      message_container.querySelector('.expire').style.display = 'flex';
                      
                       
                      }
@@ -196,12 +182,12 @@ class Templates{
         
       }
       sumbmit_code() {
-      let parent =  document.querySelector(".subscribe-message-container")
+      let parent =  document.querySelector(".input-message-container")
         if (parent) {
            
-          document.querySelector(".subscribe-message-container .sumbit-code-btn").addEventListener("click", () => {
+          parent.querySelector(".sumbit-code-btn").addEventListener("click", () => {
   
-        let code =  document.querySelector('.subscribe-message-container .code').value
+        let code =  document.querySelector('.input-message-container .code').value
  
 
             var xhttp = new XMLHttpRequest();
@@ -210,7 +196,7 @@ class Templates{
               if (xhttp.readyState == 4 && xhttp.status == 200) {
                let response = xhttp.responseText
  
-          
+            
                if(response == 'true'){
           
 
@@ -220,7 +206,7 @@ class Templates{
                else{
  
 
-                let message = document.querySelector('.subscribe-message-container .message') 
+                let message = document.querySelector('.input-message-container .message') 
                 message.innerText = response
                }
             

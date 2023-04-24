@@ -294,9 +294,11 @@
     margin: auto;
 
     .content-notification-details {
-      box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
-      background-color: #fafc8c;
-      height: 100%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 110px;
       width: 300px;
       padding: 10px;
     }
@@ -320,11 +322,6 @@
 
     }
 
-    .message-notification {
-      font-size: 14px;
-      background-color: #fff;
-      padding: 5px;
-    }
 
   }
 }

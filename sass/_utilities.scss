@@ -144,6 +144,7 @@
     display: flex;
     justify-content: space-between;
 
+
     .alert-close {
 
         padding: 5px;
@@ -173,6 +174,12 @@
         background-color: #f8d7da;
         border-color: #f5c6cb;
         color: #721c24;
+    }
+
+    &.alert-warning {
+        color: #856404;
+        background-color: #fff3cd;
+        border-color: #ffeeba;
     }
 }
 

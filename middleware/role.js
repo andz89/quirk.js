@@ -42,7 +42,7 @@ exports.queryFromcanvas_role = (req, res,next) => {
   }
  
   if (req.session.user  &&   req.session.user.user_id ||  req.session.admin  &&   req.session.admin.user_role == "admin") {
-    console.log('ningggggg');
+  
     next();
   }else {
    
