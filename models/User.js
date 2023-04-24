@@ -293,7 +293,7 @@ User.prototype.saved_template_database  =function() {
       }else if(this.data.category == 'certificate'){
         table_name = 'templates'
       }else{
-        console.log('error');
+   
         return false;
       }
       var sql = `UPDATE  ${table_name} SET template_json = '${this.data.saved_json}'  WHERE template_id = '${this.data.template_id}'`;
@@ -303,7 +303,7 @@ User.prototype.saved_template_database  =function() {
       reject(err);
       return false;
       }
-      console.log(result);
+ 
       resolve(result);
       });
     }
@@ -400,9 +400,9 @@ User.prototype.check_code = function(){
         await this.getUserTemplates()
         await this.update_code()
         resolve()
-              console.log('aaa');
+          
       }else{
-        console.log('bbb');
+ 
 
         this.data.taken_message ='not found'
         reject(this.data.taken_message)
@@ -520,7 +520,7 @@ User.prototype.duplicate_certificate =  function(){
       await  this.check_template_subscription()//check if the code summited is exist
       if(this.data.certificate_subsription === true){
         await this.create_template_copy()//get a copy of selected template 
-        console.log('executing template');
+       
         let sql_2 = "INSERT INTO purchased_template SET ?";
         db.query(sql_2, this.data.copied_template,async (err, result) => {
         if (err) {

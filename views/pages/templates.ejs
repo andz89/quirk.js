@@ -1,21 +1,21 @@
 <%- include('../include/user-header') %>
-    <div style="min-height: 400px;" class="p-1 bg-white">
-        <div class="d-flex justify-content-center">
-            <h2 class="my-3">School Templates</h2>
-
-        </div>
+    <div style="min-height: 400px;" class="p-1 bg-white  ">
         <% if(success_message_subscriber !='' ){ %>
-            <div class="text text-center my-1" style="font-weight:100px">
-                <div class="bg-success p-1">
-                    You have successfully subscribe!
-                    <br>
-                    Congrats!!
-                </div>
 
-
+            <div class="alert alert-success">
+                You have successfully subscribed! thank you for using our app.
+                <span class="btn btn-sm alert-close">Close</span>
             </div>
 
+
+
+
             <% } %>
+                <div class=" ">
+                    <h2 class="mb-3">School Templates</h2>
+
+                </div>
+
                 <div class="templates" style="width: 100%;">
                     <% data.forEach((data)=>{%>
 

@@ -441,12 +441,8 @@ photo_container.querySelector('.close').addEventListener('click',(e)=>{
  save_file_json() {
  
     document.getElementById("save_json").addEventListener("click", () => {
-     
-   console.log(this.category);
-  
  
-
-
+ 
  this.loading_save('visible','Saving . . .');
     function replaceBreakLine(valueToEscape) {
       if (valueToEscape != null && valueToEscape != "") {

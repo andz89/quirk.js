@@ -17,6 +17,7 @@ data.template_id = template_id;
 data.table = table;
 data.list = list;
 data.category = category;
+ 
 
 
 run_script(data)

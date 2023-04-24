@@ -137,26 +137,42 @@
 
 //  Alerts
 .alert {
-    padding: 0.8rem;
-    margin: 1rem;
-    opacity: 0.9;
-    background: $light-color;
-    color: #333;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: space-between;
 
-    &.alert-primary {
-        @include set-background($primary-color);
+    .alert-close {
+
+        padding: 5px;
+        padding-bottom: 2px;
+        font-weight: 700;
+        cursor: pointer;
     }
 
-    &.alert-dark {
-        @include set-background($dark-color);
+
+
+
+
+    &.alert-primary {
+        color: #0c5460;
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+
     }
 
     &.alert-success {
-        @include set-background($success-color);
+        color: #155724;
+        background-color: #ace6ba;
+        border-color: #c3e6cb;
     }
 
     &.alert-danger {
-        @include set-background($danger-color);
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
     }
 }
 

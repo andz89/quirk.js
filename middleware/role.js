@@ -1,6 +1,9 @@
 
 
  
+//  let mode = 'development'
+let mode = 'production'
+
 exports.role_admin = (req, res, next) => {
   let role = "admin";
   if ( req.session.admin  &&   req.session.admin.user_role == "admin") {
@@ -11,6 +14,7 @@ exports.role_admin = (req, res, next) => {
   }
 };
 exports.role_user = (req, res, next) => {
+  
  
   if (req.session.user  &&   req.session.user.user_id) {
      
@@ -21,21 +25,24 @@ exports.role_user = (req, res, next) => {
     res.redirect("/dashboard");
 
    }else{
-    res.redirect("/");
+ 
+    res.redirect("/login-page");
 
    }
    
   }
 };
 exports.queryFromcanvas_role = (req, res,next) => {
-  req.session.admin = {
-    user_id: 'dsafe321',
-    user_role:  'admin',
-    
-  };
- console.log('kk');
+  if(mode == 'development'){
+    req.session.admin = {
+      user_id: 'dsafe321',
+      user_role:  'admin',
+      
+    };
+  }
+ 
   if (req.session.user  &&   req.session.user.user_id ||  req.session.admin  &&   req.session.admin.user_role == "admin") {
-
+    console.log('ningggggg');
     next();
   }else {
    
@@ -53,16 +60,21 @@ exports.role_guest = (req, res, next) => {
 
  }
 else{
+  console.log('22222222222');
   next();
 }
  
 };
  
 exports.saveCanvas_role = (req, res, next) => {
-  req.session.admin = {
-    user_id: 'dsafe321',
-    user_role:  'admin',
-  };
+  if(mode == 'development'){
+    req.session.admin = {
+      user_id: 'dsafe321',
+      user_role:  'admin',
+      
+    };
+  }
+ 
     if( req.session.admin && req.session.admin.user_role == 'admin'){
       console.log('admin user');
       next()
@@ -78,3 +90,4 @@ exports.saveCanvas_role = (req, res, next) => {
     }
  
     };
+ 

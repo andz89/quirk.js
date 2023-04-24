@@ -1,22 +1,26 @@
 <%- include('../include/user-header') %>
 
     <div style="min-height: 700px;" class="p-1 bg-white purchased-templates-container">
-        <div class="d-flex justify-content-center ">
-            <h4>Your Purchased Templates</h4>
+        <div class="alert alert-danger" style="display:none">
+            Template is successfully deleted.
+            <span class=" alert-close"> &#x2715</span>
         </div>
-
         <% if(success_message !='' ){ %>
-            <div class="text text-center  success-message-container" style="font-weight:100px">
-                <div class="bg-success p-1">
-                    You have successfully added a new template!
-                </div>
-                <div class="message">
-                    Template Name: <%- success_message %>
-                </div>
 
+            <div class=" alert alert-success ">
+                You have successfully added a new template "<%- success_message %>".
+                    <span class="alert-close"> &#x2715</span>
             </div>
 
+
+
+
             <% } %>
+                <div class="d-flex justify-content-center ">
+                    <h4>Your Purchased Templates</h4>
+                </div>
+
+
 
                 <div class="purchased-templates   py-1" style="width: 100%;">
                     <% data.forEach((data)=>{%>

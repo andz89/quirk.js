@@ -8,7 +8,7 @@ import Templates from "./templates.js";
  
  
 let templates = new Templates();
-templates.modal_template_details()
+templates.template_event()
 templates.puchased_template()
 templates.create_copy()
 templates.create_invitation()
@@ -19,3 +19,13 @@ update.modal_update_account()
 let loader = new Loader();
 loader.loading();
 loader.loading_generate()
+
+
+window.addEventListener('click', (e) =>{
+         //close alert success 
+         if(e.target.classList.contains('alert-close')){
+           e.target.parentElement.style.display = 'none'
+         
+          }
+
+})

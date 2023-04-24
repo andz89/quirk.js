@@ -93,6 +93,7 @@ Page.prototype.getList = function(){
          reject(err);
          return false;
        }
+   
          this.data.list = result[0].list
          resolve()
        
@@ -143,7 +144,7 @@ Page.prototype.getCanvas = function(){
                 }else if(this.data.category == 'certificate'){
                   table_name = 'templates'
                 }else{
-                  console.log('error');
+ 
                   return false;
                 }
                 let sql = `SELECT * FROM ${table_name} WHERE template_id = "${this.data.template_id}"`;
@@ -196,7 +197,7 @@ Page.prototype.getCanvas = function(){
                      data.template_name = result[0].template_name;
                      data.thumbnail = result[0].thumbnail;
                      data.canvas_image = result[0].canvas_image;
-               
+                     data.category = result[0].category;
                      resolve(data)
                    
                 

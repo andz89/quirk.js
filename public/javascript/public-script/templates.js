@@ -1,14 +1,17 @@
+import Global from './global.js'
 class Templates{
 
 
-    modal_template_details(){
+    template_event(){
+ 
+  
         if(document.querySelector('.templates')){
             document.querySelector('.templates').addEventListener('click', function(e){
-              let parent = e.target.parentElement 
-        //close modal templates      
+         
+             //show modal   
         if(e.target.classList.contains('show-template-details')){
        
-                
+          let parent = e.target.parentElement  
           parent.querySelector('.modal-activation').style.display = 'flex';
  
           if(parent.querySelector('.modal-activation .modal-title').innerText == ''){
@@ -27,8 +30,14 @@ class Templates{
             parent.querySelector('.modal-activation').style.display = 'none';     
             })
           }
+          
+
+       
+
+
             })
     
+         
         }
     
     }   
@@ -90,7 +99,7 @@ class Templates{
               
                     
                      else{
-                      window.location.href = '/'
+                      window.location.href = '/login-page'
                     }
                   
           
@@ -200,15 +209,17 @@ class Templates{
             xhttp.onreadystatechange = () => {
               if (xhttp.readyState == 4 && xhttp.status == 200) {
                let response = xhttp.responseText
-           
+ 
           
                if(response == 'true'){
-         
+          
 
                   window.location.href = 'http://localhost:5000/templates'
                }
                
                else{
+ 
+
                 let message = document.querySelector('.subscribe-message-container .message') 
                 message.innerText = response
                }
@@ -269,15 +280,15 @@ class Templates{
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = () => {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
-         
-            let data = JSON.parse(xhttp.responseText);
-           
-            e.target.parentElement.parentElement.remove()
-      
+ 
+ 
+   
+      Global.alert()
+ 
+      e.target.parentElement.parentElement.remove()
+            
           
   
-          }else{
-            console.log('error')
           }
         };
         xhttp.open(
@@ -295,6 +306,8 @@ class Templates{
     
 
     }
+    //alert close element
+     
 }
 
 export default Templates;

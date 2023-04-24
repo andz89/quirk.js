@@ -44,7 +44,7 @@ exports.register_page = (req, res) => {
   });
 };
 exports.login_page = (req, res) => {
-
+ console.log('3333333333');
     res.render("users/login-page", {
       errors: req.flash("errors"),
       users_data: req.flash("users_data"),
@@ -190,10 +190,7 @@ exports.canvasTest = (req, res) => {
     }else{
    
       res.render("pages/canvas-test", {
-
-        
         purchased_id:data.purchased_id,
-      
         template_json:data.template_json,
         template_id:data.template_id,
         template_name:data.template_name,

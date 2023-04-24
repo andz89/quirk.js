@@ -83,7 +83,7 @@ plugins:[
         list : '<%-list%>',
         user_role : '<%-user_role%>',
         table: '<%-table%>',
-        category: '<%-category%>'
+      
 
        
     }), 

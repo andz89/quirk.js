@@ -1,3 +1,4 @@
+const { cli } = require("webpack-dev-server");
 const User = require("../models/User");
 const dotenv = require("dotenv");
 
@@ -87,6 +88,7 @@ exports.saved_template = function (req, res) {
   data.category = req.query.category
  
  console.log(req.query.category);
+ console.log('saving category')
   let user = new User(data);
   user
     .saved_template_database()
@@ -115,7 +117,7 @@ exports.activateCertificate = (req,res) => {
   let user = new User(template);
   user.duplicate_certificate().then(function ()   {
    
-      req.flash("success_message", ` ${req.query.template_name}. `);
+      req.flash("success_message", ` ${req.query.template_name} `);
       res.send('true');
 
  
@@ -170,7 +172,7 @@ exports.submit_code_certificate = (req,res) => {
   user.check_code().then(function () {
       req.flash("success_message_subscriber", 'true');
       res.send('true');
-      console.log('cc');
+     
   }).catch((data)=>{
     console.log('ddd');
    
@@ -188,10 +190,11 @@ exports.resetCanvas = (req,res) => {
   })
 }
 exports.saveList = (req, res)=>{
+ 
   let data = {};
   data.list = req.query.list_data
-  data.user_id = req.session.user.user_id;
-  data.user_role =  req.session.user.user_role;
+  data.user_id =req.session.admin && req.session.admin   == 'admin'?req.session.admin.user_id : req.session.user.user_id;
+  data.user_role =req.session.admin &&  req.session.admin.user_role == 'admin'? req.session.admin.user_role:req.session.user.user_role
 
   let user = new User(data);
 user.update_list().then(()=>{

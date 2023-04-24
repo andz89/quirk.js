@@ -46,7 +46,7 @@ router.post("/update_account", userController.update_account);
  
 router.post("/activateCertificate", check.role_user, userController.activateCertificate);
 router.post("/activateInvitation", check.role_user, userController.activateInvitation);
-router.post("/saveList", check.role_user, userController.saveList);
+router.post("/saveList", check.queryFromcanvas_role, userController.saveList);
 router.post("/resetCanvas", check.role_user, userController.resetCanvas)
 router.post("/get-all-background-image", check.queryFromcanvas_role, userController.getAllBackgroundImage);
 router.post("/submit_code_certificate", check.role_user, userController.submit_code_certificate);
