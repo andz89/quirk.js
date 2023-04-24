@@ -287,13 +287,23 @@ User.prototype.saved_template_database  =function() {
     }
 
     if(this.data.user_role === 'admin'){
-      var sql = `UPDATE  templates SET template_json = '${this.data.saved_json}'  WHERE template_id = '${this.data.template_id}'`;
+      let table_name;
+      if(this.data.category == 'invitation'){
+        table_name = 'invitation'
+      }else if(this.data.category == 'certificate'){
+        table_name = 'templates'
+      }else{
+        console.log('error');
+        return false;
+      }
+      var sql = `UPDATE  ${table_name} SET template_json = '${this.data.saved_json}'  WHERE template_id = '${this.data.template_id}'`;
       db.query(sql, (err, result) => {
   
       if (err) {
       reject(err);
       return false;
       }
+      console.log(result);
       resolve(result);
       });
     }

@@ -12,6 +12,8 @@ export class Global {
    this.purchased_id = property.purchased_id;
     this.template_id = property.template_id,
     this.mode  = property.mode
+    this.category  = property.category
+
   }
 
  

@@ -1,3 +1,6 @@
+
+
+ 
 exports.role_admin = (req, res, next) => {
   let role = "admin";
   if ( req.session.admin  &&   req.session.admin.user_role == "admin") {
@@ -28,6 +31,7 @@ exports.queryFromcanvas_role = (req, res,next) => {
   req.session.admin = {
     user_id: 'dsafe321',
     user_role:  'admin',
+    
   };
  console.log('kk');
   if (req.session.user  &&   req.session.user.user_id ||  req.session.admin  &&   req.session.admin.user_role == "admin") {

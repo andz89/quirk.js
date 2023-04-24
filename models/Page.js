@@ -140,8 +140,11 @@ Page.prototype.getCanvas = function(){
                let table_name;
                 if(this.data.category == 'invitation'){
                   table_name = 'invitation'
-                }else{
+                }else if(this.data.category == 'certificate'){
                   table_name = 'templates'
+                }else{
+                  console.log('error');
+                  return false;
                 }
                 let sql = `SELECT * FROM ${table_name} WHERE template_id = "${this.data.template_id}"`;
                
@@ -159,6 +162,8 @@ Page.prototype.getCanvas = function(){
                    data.thumbnail = result[0].thumbnail;
                    data.canvas_image = result[0].canvas_image;
                    data.table = result[0].table_names;
+                   data.category = result[0].category;
+
 
 
  

@@ -172,18 +172,18 @@ exports.canvas =(req, res) =>{
           })
 }
 exports.canvasTest = (req, res) => {
-  console.log(req.session)
+   
   let data = {}
   data.user_role = req.session.admin? req.session.admin.user_role : 'user'
   data.user_id =req.session.user ? req.session.user.user_id: req.session.admin.user_id;
   data.template_id = req.query.template_id;
   data.category = req.query.category;
- 
+  
   data.purchased_id = req.query.id;
  
   let page = new Page(data);
   page.getCanvas().then((data) => {
-
+ 
     if(data === 'expired'){
  
       res.redirect("/my-templates"); 
@@ -198,7 +198,7 @@ exports.canvasTest = (req, res) => {
         template_id:data.template_id,
         template_name:data.template_name,
         table:data.table,
-       
+        category: data.category,
         list: data.list,
         user_role: req.session.user ?  req.session.user.user_role : req.session.admin.user_role,
       });
@@ -209,11 +209,7 @@ exports.canvasTest = (req, res) => {
 }
 
 exports.development_query = (req, res) => {
-  req.session.admin = {
-    user_id: 'dsafe321',
-    user_role:  'admin',
-  };
-  req.session.save();
+ 
  
   let data = {}
   
@@ -231,6 +227,7 @@ exports.development_query = (req, res) => {
       template_id:data.template_id,
       template_name:data.template_name,
       table:data.table,
+      category: data.category,
      
       list: data.list,
       user_role:  'admin',

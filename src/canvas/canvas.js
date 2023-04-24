@@ -18,7 +18,9 @@ export class Canvas extends Global {
       list: this.list,
       purchased_id: this.purchased_id,
       template_id: this.template_id,
-      mode : this.mode
+      mode : this.mode,
+      category : this.category
+
     });
 
     utils.canvasOn();
@@ -39,7 +41,9 @@ export class Canvas extends Global {
       list: this.list,
       purchased_id: this.purchased_id,
       template_id: this.template_id,
-      mode : this.mode
+      mode : this.mode,
+      category : this.category
+
     });
 
     menu_tools.deleteObjects();

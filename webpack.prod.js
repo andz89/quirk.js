@@ -7,7 +7,7 @@ const webpack = require('webpack');
 module.exports = {
     mode: 'development',
     entry:{
-        bundle: path.resolve(__dirname, 'src/index.js')
+        bundle: path.resolve(__dirname, 'src/index_prod.js')
     },
 
     output:{
@@ -16,6 +16,7 @@ module.exports = {
     // filename:'[name].[contenthash].js',
     clean:true,
     assetModuleFilename: '[name][ext]',
+    publicPath: 'dist'
  
 },
  
@@ -52,36 +53,38 @@ module:{
 },
 plugins:[
     new webpack.DefinePlugin({
-        MODE: JSON.stringify('development'),
+        MODE: JSON.stringify('production'),
       }),
-    new CopyWebpackPlugin({
-        patterns: [
-          { from: 'public/dist/index.html', to: '../../views/pages/canvas-test.ejs',
-          transform(content, path) {
-            const bundlePath = 'dist';
-            const cssPath = 'dist';
-            let html = content.toString();
-            html = html.replace(/(<script[^>]+src=")([^"]+)(\/?)([a-z0-9]*\.js[^>]*>)/g, `$1${bundlePath}/$2$3$4`);
-            html = html.replace(/(<link[^>]+href=")([^"]+)(\/?)([a-z0-9]*\.css[^>]*>)/g, `$1${cssPath}/$2$3$4`);
-            return Buffer.from(html);
-          },
+    // new CopyWebpackPlugin({
+    //     patterns: [
+    //       { from: 'public/dist/index.html', to: '../../views/pages/canvas-test.ejs',
+    //       transform(content, path) {
+    //         const bundlePath = 'dist';
+    //         const cssPath = 'dist';
+    //         let html = content.toString();
+    //         html = html.replace(/(<script[^>]+src=")([^"]+)(\/?)([a-z0-9]*\.js[^>]*>)/g, `$1${bundlePath}/$2$3$4`);
+    //         html = html.replace(/(<link[^>]+href=")([^"]+)(\/?)([a-z0-9]*\.css[^>]*>)/g, `$1${cssPath}/$2$3$4`);
+    //         return Buffer.from(html);
+    //       },
 
         
-        }
-        ]
-      }),
+    //     }
+    //     ]
+    //   }),
     new HtmlWebpackPlugin({
         title:'Webpack App',
-        filename: 'index.html',
+        filename: '../../views/pages/canvas-test.ejs',
         template:'./src/index.html',
         template_json : '<%-template_json%>',
         purchased_id : '<%-purchased_id%>',
         template_id : '<%-template_id%>',
-       
+        category : '<%-category%>',
         template_name : '<%-template_name%>',
         list : '<%-list%>',
         user_role : '<%-user_role%>',
-        table: '<%-table%>'
+        table: '<%-table%>',
+        category: '<%-category%>'
+
        
     }), 
     

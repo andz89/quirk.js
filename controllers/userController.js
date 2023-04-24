@@ -9,7 +9,7 @@ dotenv.config();
  
 exports.login = (req, res) => {
  
-  console.log('ok');
+ 
  let user = new User(req.body);
   user.login().then((data)=>{
     req.session.user = {
@@ -84,8 +84,9 @@ exports.saved_template = function (req, res) {
   data.template_id =  req.query.template_id;
   data.purchased_id =  req.query.purchased_id;
   data.user_role =   req.session.user ? req.session.user.user_role : req.session.admin.user_role;
-
-  console.log(data.user_role);
+  data.category = req.query.category
+ 
+ console.log(req.query.category);
   let user = new User(data);
   user
     .saved_template_database()
@@ -200,7 +201,7 @@ user.update_list().then(()=>{
 
 //query to get the link of an image
 exports.getAllBackgroundImage = (req, res)=>{
-  console.log(req.session);
+ 
   let user = new User();
 user.get_all_backgrounds_image().then((data)=>{
   res.json(data);

@@ -150,8 +150,8 @@
                 <% data.forEach((data)=>{%>
                     <div class="d-flex  align-items-start  flex-direction-column  m-1 template-container">
                         <div class=" d-flex  align-items-start flex-direction-column">
-                            <a href="/canvas-test?template_id=<%= data.template_id %> " class="text text-dark"
-                                target="_blank">
+                            <a href="/canvas-test?template_id=<%= data.template_id %>&category=<%= data.category %>"
+                                class="text text-dark" target="_blank">
                                 <img class="thumbnail" src="images/canvas_image/<%= data.thumbnail %>" width="170"
                                     alt="">
 
@@ -179,7 +179,7 @@
 
                             <div class="option-list-container">
                                 <div class="opt-list">
-                                    <a href="/canvas-test?template_id=<%= data.template_id %> " class="text text-dark"
+                                    <a href="/canvas-test?template_id=<%= data.template_id %>" class="text text-dark"
                                         target="_blank">
                                         Edit Canvas
                                     </a>

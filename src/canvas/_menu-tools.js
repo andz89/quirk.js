@@ -442,9 +442,9 @@ photo_container.querySelector('.close').addEventListener('click',(e)=>{
  
     document.getElementById("save_json").addEventListener("click", () => {
      
-   console.log(this.template_id);
+   console.log(this.category);
   
-   console.log(this.user_role);
+ 
 
 
  this.loading_save('visible','Saving . . .');
@@ -488,16 +488,8 @@ json.objects.forEach((e)=>{
         
         }
       
-      
-        
-{
- 
-}  
-
- 
 })
 
- 
 
 let size = {
   w: this.width,
@@ -551,7 +543,7 @@ var xhttp = new XMLHttpRequest();
              };
              xhttp.open(
             "POST",
-      `http://localhost:5000/saved-template?template_id=${this.template_id}&purchased_id=${this.purchased_id}`,
+      `http://localhost:5000/saved-template?template_id=${this.template_id}&purchased_id=${this.purchased_id}&category=${this.category}`,
       true
              );
              xhttp.send(formData);

@@ -7,7 +7,7 @@ const webpack = require('webpack');
 module.exports = {
     mode: 'development',
     entry:{
-        bundle: path.resolve(__dirname, 'src/index.js')
+        bundle: path.resolve(__dirname, 'src/index_dev.js')
     },
 
     output:{
@@ -26,7 +26,7 @@ devServer:{
     // },
     port:3000,
     // hot:true,
-    open: true,
+    // open: true,
     // compress: true,
 
  
@@ -71,22 +71,22 @@ plugins:[
     new webpack.DefinePlugin({
         MODE: JSON.stringify('development'),
       }),
-    new CopyWebpackPlugin({
-        patterns: [
-          { from: 'public/dist/index.html', to: '../../views/pages/canvas-test.ejs',
-          transform(content, path) {
-            const bundlePath = 'dist';
-            const cssPath = 'dist';
-            let html = content.toString();
-            html = html.replace(/(<script[^>]+src=")([^"]+)(\/?)([a-z0-9]*\.js[^>]*>)/g, `$1${bundlePath}/$2$3$4`);
-            html = html.replace(/(<link[^>]+href=")([^"]+)(\/?)([a-z0-9]*\.css[^>]*>)/g, `$1${cssPath}/$2$3$4`);
-            return Buffer.from(html);
-          },
+    // new CopyWebpackPlugin({
+    //     patterns: [
+    //       { from: 'public/dist/index.html', to: '../../views/pages/canvas-test.ejs',
+    //       transform(content, path) {
+    //         const bundlePath = 'dist';
+    //         const cssPath = 'dist';
+    //         let html = content.toString();
+    //         html = html.replace(/(<script[^>]+src=")([^"]+)(\/?)([a-z0-9]*\.js[^>]*>)/g, `$1${bundlePath}/$2$3$4`);
+    //         html = html.replace(/(<link[^>]+href=")([^"]+)(\/?)([a-z0-9]*\.css[^>]*>)/g, `$1${cssPath}/$2$3$4`);
+    //         return Buffer.from(html);
+    //       },
 
         
-        }
-        ]
-      }),
+    //     }
+    //     ]
+    //   }),
     new HtmlWebpackPlugin({
         title:'Webpack App',
         filename: 'index.html',
@@ -98,7 +98,8 @@ plugins:[
         template_name : '<%-template_name%>',
         list : '<%-list%>',
         user_role : '<%-user_role%>',
-        table: '<%-table%>'
+        table: '<%-table%>',
+        category: '<%-category%>'
        
     }), 
     
