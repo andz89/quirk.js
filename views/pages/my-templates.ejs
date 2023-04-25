@@ -32,18 +32,18 @@
 
                             <% if(data.category==='certificate' ){ %>
                                 <% if(certificate_expired===true ){ %>
-                                    <%- include('../include/submit-code') %>
-                                        <a>
-                                            <img src="images/canvas_image/<%= data.thumbnail%>"
-                                                class="hover-opactiy d-image" width="200" alt="">
+                                    <%- include('../include/input-message') %>
+
+                                        <img src="images/canvas_image/<%= data.thumbnail%>"
+                                            class="hover-opactiy d-image expire-message" width="200" alt="">
 
 
 
-                                            <div class=" text text-dark template-name">
-                                                <%= data.template_name %>
-                                            </div>
+                                        <div class=" text text-dark template-name">
+                                            <%= data.template_name %>
+                                        </div>
 
-                                        </a>
+
                                         <small>Expired</small>
                                         <% }else{ %>
                                             <a

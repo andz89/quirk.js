@@ -70,6 +70,9 @@ exports.update_account = function (req, res) {
   user
     .update_account()
     .then(function () {
+      req.session.user.user_name = req.query.user_name
+      req.session.user.user_email = req.query.user_email
+
       res.json(data);
     })
     .catch((err) => {

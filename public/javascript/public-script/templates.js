@@ -3,11 +3,33 @@ class Templates{
 
 
     template_event(){
- 
-  
-        if(document.querySelector('.templates')){
+
+      // my templates page
+      let my_templates = document.querySelector('.purchased-templates-container')
+      if(my_templates){
+      my_templates.addEventListener('click', (e)=>{
+      //show expire message modal
+      if(e.target.classList.contains('expire-message')){
+      let message_container = document.querySelector('.input-message-container')
+      message_container.style.display = 'flex'
+      message_container.querySelector('.expire').style.display = 'flex';
+      }
+      //close expire message modal
+      if(my_templates.querySelector('.close-input-message-container')){
+        if (e.target.matches('.close-input-message-container, .close-btn')) {
+          let message_container = document.querySelector('.input-message-container')
+          message_container.style.display = 'none'
+          message_container.querySelector('.expire').style.display = 'none';
+        }    
+        }
+      })
+      }
+  //templates page
+  let templates = document.querySelector('.templates')
+        if(templates){
             document.querySelector('.templates').addEventListener('click', function(e){
-         
+              
+           
              //show modal   
         if(e.target.classList.contains('show-template-details')){
        
@@ -30,7 +52,14 @@ class Templates{
             parent.querySelector('.modal-activation').style.display = 'none';     
             })
           }
-          
+          //close modal
+          if(templates.querySelector('.close-input-message-container')){
+            if (e.target.matches('.close-input-message-container, .close-btn')) {
+              let message_container = document.querySelector('.input-message-container')
+              message_container.style.display = 'none'
+              message_container.querySelector('.expire').style.display = 'none';
+            }    
+            }
 
        
 
