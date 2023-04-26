@@ -104,34 +104,59 @@ Page.prototype.getList = function(){
   });
 
 }
-Page.prototype.check_user_subscription = function(){
-  return new Promise((resolve, reject) => {
- 
- if(this.data.category == 'invitation'){
-  resolve()
-  return false;
- }
-      let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription="true"`;
-     db.query(sql, (err, result) => {
-       if (err) {
-         reject(err);
-         return false;
-       }
- 
-    
-       if(result.length >0) {
-      
-        resolve()
-       }else{
-          this.data.certificate_expired = 'expired'
-        resolve()
-       }
-        
+
+
+Page.prototype.check_certificate_subscrition = function(){
+  return new Promise((resolve, reject)=>{
+
+    let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription="true" AND category = "certificate"`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      if(result.length !== 0) {
+       resolve()
+      }else{
+         this.data.certificate_expired = 'expired'
+       resolve()
+      }
        
-    
-     });
+    });
   })
 }
+Page.prototype.check_invitation_subscrition = function(){
+  return new Promise((resolve, reject)=>{
+
+    let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription="true" AND category = "invitation"`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      if(result.length !== 0) {
+       resolve()
+      }else{
+         this.data.invitation_expired = 'expired'
+       resolve()
+      }
+       
+    });
+  })
+}
+Page.prototype.check_user_subscription = function(){
+  return new Promise( async(resolve, reject)=>{
+  await this.check_certificate_subscrition()
+  await this.check_invitation_subscrition()
+
+  resolve()
+  })
+}
+
+
+
 Page.prototype.getCanvas = function(){
             return new Promise(async (resolve, reject) => {
               await this.check_user_subscription()
@@ -297,6 +322,8 @@ Page.prototype.getUserTemplates = function() {
           let data = {}
           data.result = result;
           data.certificate_expired= this.data.certificate_expired?true:false;
+          data.invitation_expired= this.data.invitation_expired?true:false;
+
           resolve(data);
         });
      

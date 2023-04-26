@@ -19,18 +19,52 @@
                 <div class="d-flex justify-content-center ">
                     <h4>Your Purchased Templates</h4>
                 </div>
-
-
-
-                <div class="purchased-templates   py-1" style="width: 100%;">
+                <h4>Your Templates</h4>
+                <div class="purchased-templates  invitation-container py-1" style="width: 100%;">
                     <% data.forEach((data)=>{%>
+                        <% if(data.category=='invitation' ){ %>
+                            <div class="template-container">
 
-                        <div class="template-container">
+                                <input type="hidden" class="template_id" value="<%= data.template_id %>">
+                                <input type="hidden" class="purchased_id" value="<%= data.purchased_id %> ">
 
-                            <input type="hidden" class="template_id" value="<%= data.template_id %>">
-                            <input type="hidden" class="purchased_id" value="<%= data.purchased_id %> ">
 
-                            <% if(data.category==='certificate' ){ %>
+
+                                <a
+                                    href="/canvas-test?template_id=<%= data.template_id %>&id=<%= data.purchased_id %>&category=<%= data.category %> ">
+                                    <img src="images/canvas_image/<%= data.thumbnail%>" class="hover-opactiy d-image"
+                                        width="200" alt="">
+
+
+
+                                    <div class=" text text-dark template-name">
+                                        <%= data.template_name %>
+                                    </div>
+                                </a>
+                                <div class="option">
+                                    <img src="images/list.png" class="hover-opactiy gear-option" width="20" alt="">
+                                    <div class="container hide">
+                                    </div>
+                                    <div class="delete-template hide">Delete Template
+                                    </div>
+                                    <input type="hidden" id="category" value="<%=data.category%>">
+                                </div>
+
+
+                            </div>
+                            <% } %>
+                                <% }) %>
+                </div>
+                <h4>School Templates</h4>
+                <div class="purchased-templates  certificate-container py-1" style="width: 100%;">
+                    <% data.forEach((data)=>{%>
+                        <% if(data.category==='certificate' ){ %>
+                            <div class="template-container">
+
+                                <input type="hidden" class="template_id" value="<%= data.template_id %>">
+                                <input type="hidden" class="purchased_id" value="<%= data.purchased_id %> ">
+
+
                                 <% if(certificate_expired===true ){ %>
                                     <%- include('../include/input-message') %>
 
@@ -63,35 +97,18 @@
                                                 <div class="container hide">
                                                 </div>
                                                 <div class="delete-template hide">Delete Template</div>
+                                                <input type="hidden" id="category" value="<%=data.category%>">
                                             </div>
                                             <% } %>
-                                                <% }%>
-                                                    <% if(data.category=='invitation' ){ %>
-
-                                                        <a
-                                                            href="/canvas-test?template_id=<%= data.template_id %>&id=<%= data.purchased_id %>&category=<%= data.category %> ">
-                                                            <img src="images/canvas_image/<%= data.thumbnail%>"
-                                                                class="hover-opactiy d-image" width="200" alt="">
 
 
 
-                                                            <div class=" text text-dark template-name">
-                                                                <%= data.template_name %>
-                                                            </div>
-                                                        </a>
-                                                        <div class="option">
-                                                            <img src="images/list.png" class="hover-opactiy gear-option"
-                                                                width="20" alt="">
-                                                            <div class="container hide">
-                                                            </div>
-                                                            <div class="delete-template hide">Delete Template</div>
-                                                        </div>
-                                                        <% } %>
-                        </div>
-
-                        <% }) %>
+                            </div>
+                            <% }%>
+                                <% }) %>
                 </div>
 
+    </div>
 
     </div>
 

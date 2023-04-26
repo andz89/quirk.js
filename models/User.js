@@ -318,7 +318,7 @@ User.prototype.saved_template_database  =function() {
 User.prototype.getUserTemplates = function() {
   return new Promise(async (resolve, reject) => {
    
-          let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'` ;
+          let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}' AND category ='certificate'` ;
         db.query(sql, (err, result) => {
         
           if (err) {
@@ -427,9 +427,9 @@ User.prototype.check_code = function(){
 User.prototype.create_template_copy = function (){
   
   return new Promise( (resolve, reject)=> {
+  
  
- 
-    let sql = `SELECT * FROM templates WHERE template_id = "${this.data.template_id}"`;
+    let sql = `SELECT * FROM  templates WHERE template_id = "${this.data.template_id}"`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
@@ -463,60 +463,73 @@ User.prototype.create_template_copy = function (){
 User.prototype.updateActivationCode_template_used = function (){
   
   return new Promise( (resolve, reject)=> {
-   
-    let sql = `UPDATE activation_code SET  template_used = ${this.data.template_used_count}  WHERE user_id = "${this.data.user_id}" AND certificate_subscription = "true"`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
-    
-
+     
  
-      resolve()
-    });
+      let sql = `UPDATE activation_code SET  template_used = "${this.data.template_used_count}"  WHERE  user_id = "${this.data.user_id}" AND certificate_subscription = "true" AND category ="${this.data.category}"`;
+      db.query(sql, (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }
+      
+  
+   
+        resolve()
+      });
+   
+ 
   })
 
 }
 
 //check subscription and add 1 to template used count if not limit reach -
 User.prototype.check_template_subscription = function(){
-  return new Promise(  (resolve, reject) => {
-    let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription = "true" AND category = 'certificate'`;
-    db.query(sql,  (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }  
-    
-      if (result.length > 0){
    
-        if(this.data.current_template+ 1> result[0].template_limit){
-          this.data.taken_message = 'limit-reach' 
-          resolve()
+  return new Promise(  (resolve, reject) => {
+   
+
+
+ 
+      let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription = "true" AND category = "${this.data.category}"`;
+      db.query(sql,  (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }  
+        console.log(result);
+        if (result.length > 0){
+   console.log(this.data.current_template);
+          if(this.data.current_template+ 1> result[0].template_limit){
+            this.data.taken_message = 'limit-reach' 
+            resolve()
+          }else{
+           
+            this.data.certificate_subsription = true
+            this.data.template_used_count =  this.data.current_template + 1
+            resolve()
+          }
+     
         }else{
-         
-          this.data.certificate_subsription = true
-          this.data.template_used_count =  this.data.current_template + 1
+          this.data.certificate_subsription = false
+          this.data.taken_message = 'expired'
           resolve()
         }
+      
+       
+      });
    
-      }else{
-        this.data.certificate_subsription = false
-        this.data.taken_message = 'expired'
-        resolve()
-      }
-     
-    });
+ 
   })
 }
 
 //*
 User.prototype.duplicate_certificate =  function(){
   return new Promise( async (resolve, reject) => {
+    
 
   
       await  this.getUserTemplates()//check the number of the templates the user copied
+  
       await  this.check_template_subscription()//check if the code summited is exist
       if(this.data.certificate_subsription === true){
         await this.create_template_copy()//get a copy of selected template 
@@ -540,14 +553,103 @@ User.prototype.duplicate_certificate =  function(){
      
      })
 }
+
+
+
+User.prototype.check_code_invitation = function(){
+  return new Promise(  (resolve, reject) => {
+   
+ 
+    let sql = `SELECT * FROM activation_code WHERE code= "${this.data.code}" AND user_id = "" AND certificate_subscription = "" AND category = "${this.data.category}"`;
+    db.query(sql,  (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }  
+      if (result.length !== 0){
+ 
+ 
+        resolve()
+   
+      }else{
+ 
+
+         this.data.not_found = "not found"
+       resolve()
+      }
+    
+     
+    });
+ 
+
+})
+}
+
+
+User.prototype.create_invitation_copy = function (){
+  
+  return new Promise( (resolve, reject)=> {
+  
+ 
+    let sql = `SELECT * FROM  invitation WHERE template_id = "${this.data.template_id}"`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+    
+ 
+
+
+      this.data.copied_template  = {
+        purchased_id: uuidv4(),
+        user_id: this.data.user_id,
+        template_id: result[0].template_id,
+        template_name: result[0].template_name,
+        template_description: result[0].template_description,
+        template_json: result[0].template_json,
+        category: result[0].category,
+
+     
+       
+        thumbnail: result[0].thumbnail
+
+      }
+      resolve()
+    });
+  })
+
+}
+//update activatation code table
+User.prototype.updateActivationCode_invitation_used = function (){
+  
+  return new Promise( (resolve, reject)=> {
+     
+    // user_id = "" AND certificate_subscription = "" AND category ="${this.data.category}" AND
+      let sql = `UPDATE activation_code SET  user_id = "${this.data.user_id}",certificate_subscription = "true" WHERE  code ="${this.data.code}"`;
+      db.query(sql, (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }
+
+        resolve()
+      });
+   
+ 
+  })
+
+}
+
 User.prototype.duplicate_invitation =  function(){
   return new Promise( async (resolve, reject) => {
 
-  
-
-      await  this.check_template_subscription()
+  await  this.check_code_invitation()
  
-        await this.create_template_copy()//get a copy of selected template 
+      if(this.data.not_found === undefined){
+    
+        await this.create_invitation_copy()//get a copy of selected template 
+      
      
         let sql_2 = "INSERT INTO purchased_template SET ?";
         db.query(sql_2, this.data.copied_template,async (err, result) => {
@@ -555,22 +657,24 @@ User.prototype.duplicate_invitation =  function(){
         reject(err);
         return false;
         }
-        await this.updateActivationCode_template_used()
-        resolve()
+        await this.updateActivationCode_invitation_used()
+        resolve('true')
       
         });
+      }else{
+        console.log(this.data.not_found);
+        reject(this.data.not_found)
+      }
+   
+ 
+
   
+       
   
 
      })
 }
 // end ------------------//
-
-
-
-
-
-
 
 
 
@@ -584,31 +688,26 @@ User.prototype.delete_template = function (req, res) {
         reject(err);
         return false;
       }
-      
-      await  this.getUserTemplates()
-      this.data.template_used_count = this.data.current_template 
-      await this.updateActivationCode_template_used()
+ 
+      if(this.data.category == 'invitation'){
+  
       resolve('true');
+
+      }else if(this.data.category == 'certificate'){
+        await  this.getUserTemplates()
+        this.data.template_used_count = this.data.current_template 
+        await this.updateActivationCode_template_used()
+        resolve('true');
+      }else{
+   
+        return false;
+      }
+    
     });
   });
 }
 
-//get activation code and minus 1 to template used count
-// User.prototype.getActivation_code = function(req, res) {
-//   return new Promise((resolve, reject) => {
-//     let sql = `SELECT * FROM activation_code WHERE  certificate_subscription='true'&& user_id = '${this.data.user_id}'`;
-//     db.query(sql, (err, result) => {
-//       if (err) {
-//         reject(err);
-//         return false;
-//       }
-    
-//       this.data.template_used_count = result[0].template_used - 1
-//       resolve(result);
-
-//     });
-//   });
-// }
+ 
 
 //delete user template and update activation code
 

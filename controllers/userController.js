@@ -103,7 +103,7 @@ exports.saved_template = function (req, res) {
     });
 };
 exports.activateCertificate = (req,res) => {
-   
+   console.log('activateCertificate');
   if(!req.session.user || !req.session.user.user_id){
     
     res.redirect('/');
@@ -115,7 +115,7 @@ exports.activateCertificate = (req,res) => {
   template.category = 'certificate';
 
   template.template_name = req.query.template_name;
-
+ 
   
   let user = new User(template);
   user.duplicate_certificate().then(function ()   {
@@ -138,6 +138,8 @@ exports.activateInvitation = (req, res) => {
     return false;
   }
   let template = {}
+  template.code = '917b19ed-6acf-4d51-81c0-bc90bf46a7e7'
+  template.user_name = req.session.user.user_name;
   template.user_id = req.session.user.user_id;
   template.template_id = req.query.template_id;
   template.category = 'invitation';
@@ -145,16 +147,16 @@ exports.activateInvitation = (req, res) => {
 
   
   let user = new User(template);
-  user.duplicate_invitation().then(function ()   {
+  user.duplicate_invitation().then(function (data)   {
    
       req.flash("success_message", ` ${req.query.template_name}. `);
       res.send('true');
 
-
     
   }).catch((data)=>{
    
-  
+
+ 
     res.send(data);
   })
 }
@@ -219,6 +221,8 @@ exports.deleteTemplate = (req, res) => {
   data.template_id = req.query.template_id;
   data.purchased_id = req.query.purchased_id;
   data.user_id = req.session.user.user_id;
+  data.category = req.query.category;
+
   
   let user = new User(data);
   user.delete_template().then(function (data) {

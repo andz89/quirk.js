@@ -125,6 +125,8 @@ exports.purchased_templates = function(req,res){
  
         data: data.result,
         certificate_expired:data.certificate_expired,
+ 
+
         user_type:req.session.user.user_role,
         session:  req.session.user.user_id ? true : false,
       });

@@ -8,11 +8,18 @@ import Templates from "./templates.js";
  
  
 let templates = new Templates();
+
+//certificate
 templates.template_event()
-templates.puchased_template()
-templates.create_copy()
-templates.create_invitation()
-templates.sumbmit_code()
+templates.sumbmit_certificate_code()
+
+//invitation
+templates.invitation()
+
+//user templates
+templates.my_templates()
+
+
 let update = new Update();
 update.update_account();
 update.modal_update_account()
