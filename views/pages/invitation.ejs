@@ -17,6 +17,63 @@
 
             <% } %>
                 <div class="templates" style="width: 100%;">
+                    <!-- create a copy modal -->
+                    <div class="modal-activation">
+
+                        <div class="modal-header">
+                            <div>
+                                <span class="modal-title"></span>
+                            </div>
+                            <div>
+                                <div class="close">Close</div>
+                            </div>
+
+
+                        </div>
+                        <hr>
+
+                        <div class="modal-content">
+
+                            <div class="content">
+
+                                <div class="img-container">
+                                    <img class="modal-image" width="700" alt="">
+
+                                </div>
+
+                                <div class="details-container">
+
+                                    <div class="buttons">
+
+                                        <div class="btn btn-sm btn-primary  create-invitation-btn  ">
+                                            Create a copy
+                                        </div>
+                                        <input type="hidden" class="category" value="invitation">
+                                    </div>
+
+
+                                    <br>
+
+
+                                    <input type="hidden" id="template-name">
+
+                                    <input type="hidden" id="template-id">
+                                    <span class="modal-description">
+
+                                    </span>
+                                    <span></span>
+                                    <h3></h3>
+                                    <p></p>
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- create a copy modal -->
                     <% data.forEach((data)=>{%>
 
 
@@ -31,62 +88,15 @@
                             <h4 class="text text-dark show-template-details">
                                 <%= data.template_name %>
                             </h4>
-                            <p style="display:none">
+
+                            <p class="d-none">
                                 <%= data.template_description %>
+
                             </p>
 
 
-                            <!-- create a copy modal -->
-                            <div class="modal-activation">
-                                <div class="modal-header">
-                                    <div>
-                                        <span class="modal-title"></span>
-                                    </div>
-                                    <div>
-                                        <div class="close">Close</div>
-                                    </div>
 
 
-                                </div>
-                                <hr>
-                                <div class="modal-content">
-
-                                    <div class="content">
-
-                                        <div class="img-container">
-                                            <img class="modal-image" width="700" alt="">
-
-                                        </div>
-
-                                        <div class="details-container">
-                                            <div class="buttons">
-
-                                                <div class="btn btn-sm btn-primary  create-invitation-btn  ">
-                                                    Create a copy
-                                                </div>
-                                                <input type="hidden" class="category" value="invitation">
-                                            </div>
-
-
-                                            <br>
-
-
-                                            <input type="hidden" id="template-name">
-
-                                            <input type="hidden" id="template-id">
-                                            <span class="modal-description"></span>
-                                            <span></span>
-                                            <h3></h3>
-                                            <p></p>
-
-
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <% }) %>
@@ -97,6 +107,52 @@
 
 
                 </div>
+
+                <div class="invitation-input-code-container">
+
+                    <div class="message-container-content">
+                        <div class="button-container">
+                            <a href="/account-page" class="text text-dark ">
+                                <div class="link btn btn-dark btn-md  ">
+                                    Puchase here
+
+                                </div>
+                            </a>
+                            <div class="cross">
+                                <span class=" cross-btn ">&#x2715</span>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form">
+                            <p> To continue use this template please enter the code below.
+                                <b> Click the
+                                    button above to
+                                    purchase a
+                                    code</b>.
+                            </p>
+                            <div class="d-flex   gap-10 ">
+                                <input type="text" id="code">
+                                <div class="btn btn-sm btn-success sumbit-code-btn">
+                                    Submit
+                                </div>
+                            </div>
+                            <input type="hidden" id="input-template_id">
+
+
+
+
+
+
+
+                            <span class="message"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+
     </div>
 
 

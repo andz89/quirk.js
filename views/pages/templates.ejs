@@ -17,6 +17,57 @@
                 </div>
 
                 <div class="templates" style="width: 100%;">
+                    <!-- create a copy modal -->
+                    <div class="modal-activation">
+                        <div class="modal-header">
+                            <div>
+                                <span class="modal-title"></span>
+                            </div>
+                            <div>
+                                <div class="close">Close</div>
+                            </div>
+
+
+                        </div>
+                        <hr>
+                        <div class="modal-content">
+
+                            <div class="content">
+
+                                <div class="img-container">
+                                    <img class="modal-image" width="700" alt="">
+
+                                </div>
+
+                                <div class="details-container">
+                                    <div class="buttons">
+
+                                        <div class="btn btn-sm btn-primary  create-copy-btn  ">
+                                            Create a copy
+                                        </div>
+
+                                    </div>
+
+
+                                    <br>
+
+
+                                    <input type="hidden" id="template-name">
+
+                                    <input type="hidden" id="template-id">
+                                    <span class="modal-description"></span>
+                                    <span></span>
+                                    <h3></h3>
+                                    <p></p>
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
                     <% data.forEach((data)=>{%>
 
 
@@ -36,57 +87,7 @@
                             </p>
 
 
-                            <!-- create a copy modal -->
-                            <div class="modal-activation">
-                                <div class="modal-header">
-                                    <div>
-                                        <span class="modal-title"></span>
-                                    </div>
-                                    <div>
-                                        <div class="close">Close</div>
-                                    </div>
 
-
-                                </div>
-                                <hr>
-                                <div class="modal-content">
-
-                                    <div class="content">
-
-                                        <div class="img-container">
-                                            <img class="modal-image" width="700" alt="">
-
-                                        </div>
-
-                                        <div class="details-container">
-                                            <div class="buttons">
-
-                                                <div class="btn btn-sm btn-primary  create-copy-btn  ">
-                                                    Create a copy
-                                                </div>
-
-                                            </div>
-
-
-                                            <br>
-
-
-                                            <input type="hidden" id="template-name">
-
-                                            <input type="hidden" id="template-id">
-                                            <span class="modal-description"></span>
-                                            <span></span>
-                                            <h3></h3>
-                                            <p></p>
-
-
-
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <% }) %>

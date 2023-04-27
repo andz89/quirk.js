@@ -138,14 +138,14 @@ exports.activateInvitation = (req, res) => {
     return false;
   }
   let template = {}
-  template.code = '917b19ed-6acf-4d51-81c0-bc90bf46a7e7'
+  template.code = req.query.code;
   template.user_name = req.session.user.user_name;
   template.user_id = req.session.user.user_id;
   template.template_id = req.query.template_id;
   template.category = 'invitation';
-  template.template_name = req.query.template_name;
+ 
 
-  
+  console.log(template);
   let user = new User(template);
   user.duplicate_invitation().then(function (data)   {
    

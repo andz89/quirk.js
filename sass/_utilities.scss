@@ -408,3 +408,29 @@
         color: #fff;
     }
 }
+
+.cross {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    margin: 10px;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.-btn {
+        font-size: 16px;
+        font-weight: 600;
+
+    }
+
+}
+
+.cross:hover {
+    background-color: #dbdbdb;
+}

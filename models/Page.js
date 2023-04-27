@@ -137,6 +137,7 @@ Page.prototype.check_invitation_subscrition = function(){
       }
 
       if(result.length !== 0) {
+
        resolve()
       }else{
          this.data.invitation_expired = 'expired'
@@ -148,8 +149,13 @@ Page.prototype.check_invitation_subscrition = function(){
 }
 Page.prototype.check_user_subscription = function(){
   return new Promise( async(resolve, reject)=>{
-  await this.check_certificate_subscrition()
-  await this.check_invitation_subscrition()
+    if(this.data.category == 'inviation'){
+      await this.check_invitation_subscrition()
+    }else if(this.data.category == 'certificate'){
+      await this.check_certificate_subscrition()
+    }
+
+
 
   resolve()
   })
@@ -200,7 +206,7 @@ Page.prototype.getCanvas = function(){
                });
               }
               if(this.data.user_role === 'user'){
-            
+           
                 if(this.data.certificate_expired == undefined){
                
                   let sql = `SELECT * FROM purchased_template WHERE template_id = "${this.data.template_id}"

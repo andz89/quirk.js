@@ -14,23 +14,37 @@ class Templates{
         if(e.target.classList.contains('show-template-details')){
        
           let parent = e.target.parentElement  
-          parent.querySelector('.modal-activation').style.display = 'flex';
+          let modal = document.querySelector('.modal-activation')
+          modal.style.display = 'flex';
  
-          if(parent.querySelector('.modal-activation .modal-title').innerText == ''){
+          if(modal.querySelector('.modal-title').innerText == ''){
             let title =  parent.querySelector('h4').innerText
             let description = parent.querySelector('p').innerText
             let img =  parent.querySelector('.modal_image').value
             let id =  parent.querySelector('#display-template-id').value
-            parent.querySelector('.modal-activation .modal-title').innerText = title;
-            parent.querySelector('.modal-activation .modal-description').innerText = description.trim();
-            parent.querySelector('.modal-activation .modal-image').src = 'images/canvas_image/'+img;
-            parent.querySelector('.modal-activation #template-id').value = id;
-            parent.querySelector('.modal-activation #template-name').value = title;
+            modal.querySelector('.modal-title').innerText = title;
+            modal.querySelector('.modal-description').innerText = description.trim();
+            modal.querySelector('.modal-image').src = 'images/canvas_image/'+img;
+            modal.querySelector('#template-id').value = id;
+            modal.querySelector('#template-name').value = title;
 
+            if(document.querySelector('.invitation-page')){
+      
+              document.querySelector('#input-template_id').value = id
+
+            }
           }
-          parent.querySelector('.modal-activation .close').addEventListener('click', function(){
-            parent.querySelector('.modal-activation').style.display = 'none';     
-            })
+       
+        
+          }
+        
+          if(e.target.classList.contains('close')){
+            if(document.querySelector('.invitation-page')){
+
+            document.querySelector('#input-template_id').value = ''
+          }
+            document.querySelector('.modal-activation').style.display = 'none';
+
           }
           //close modal
           if(templates.querySelector('.close-input-message-container')){
@@ -40,7 +54,7 @@ class Templates{
               message_container.querySelector('.expire').style.display = 'none';
             }    
             }
-
+         
             })
 
 
@@ -256,24 +270,31 @@ e.target.parentElement.parentElement.remove()
     }
     invitation() {
  
-        if (document.querySelector(".invitation-page")) {
-         
+          if (document.querySelector(".invitation-page")) {
+
           document.querySelector(".invitation-page").addEventListener("click", (e)=>{
-            if(e.target.classList.contains('create-invitation-btn')){
+          if(e.target.classList.contains('create-invitation-btn')){
+          document.querySelector('.invitation-input-code-container').style.display = "flex"
+
+
+          };
+
+          if(e.target.matches('.cross, .cross-btn')){
+
+          document.querySelector('.invitation-input-code-container').style.display = "none"
+
+          }
+          if(e.target.classList.contains('sumbit-code-btn')){
  
-      
-              let template_id =  e.target.parentElement.parentElement.querySelector('.modal-activation #template-id').value
-          
-          
-                 
-                  let title =   e.target.parentElement.parentElement.querySelector('.modal-activation #template-name').value
+           let template_id = document.querySelector('#input-template_id')
+           let code = document.querySelector('#code');
           
                   var xhttp = new XMLHttpRequest();
           
                   xhttp.onreadystatechange = () => {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
                      let response = xhttp.responseText
-                     console.log(response);
+         
                      if(response === 'true'){
                   
                         window.location.href = 'http://localhost:5000/my-templates'
@@ -293,11 +314,13 @@ e.target.parentElement.parentElement.remove()
                   };
                   xhttp.open(
                     "POST",
-                    `http://localhost:5000/activateInvitation?template_name=${title}&template_id=${template_id} `,
+                    `http://localhost:5000/activateInvitation?code=${code.value}&template_id=${template_id.value} `,
                     true
                   );
                   xhttp.send();
-                };
+    
+          }
+       
           })
           
         }
