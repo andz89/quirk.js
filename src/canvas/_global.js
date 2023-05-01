@@ -9,7 +9,7 @@ export class Global {
     this.user_role = property.user_role,
     this.table = property.table,
     this.list = property.list,
-   this.purchased_id = property.purchased_id;
+    this.purchased_id = property.purchased_id;
     this.template_id = property.template_id,
     this.mode  = property.mode
     this.category  = property.category
@@ -18,7 +18,7 @@ export class Global {
 
  
 
-  adding_object_style(object) {
+  adding_object_style(object) { 
     if (object.type === "textbox") {
       object.perPixelTargetFind = false;
       this.canvas.setActiveObject(object);

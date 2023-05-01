@@ -167,7 +167,7 @@ Page.prototype.getCanvas = function(){
             return new Promise(async (resolve, reject) => {
               await this.check_user_subscription()
               await this.getList()
-
+console.log(this.data.category );
               if(this.data.user_role === 'admin'){
                let table_name;
                 if(this.data.category == 'invitation'){
@@ -181,7 +181,7 @@ Page.prototype.getCanvas = function(){
                 let sql = `SELECT * FROM ${table_name} WHERE template_id = "${this.data.template_id}"`;
                
                db.query(sql, (err, result) => {
-              
+                console.log(result);
                  if (err) {
                    reject(err);
                    return false;

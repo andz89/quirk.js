@@ -1,5 +1,8 @@
-const { cli } = require("webpack-dev-server");
+ 
 const User = require("../models/User");
+const encrypt = require("../helper/encrypt");
+
+ 
 const dotenv = require("dotenv");
 
 dotenv.config();
@@ -7,23 +10,32 @@ dotenv.config();
 //   req.query.user_email;
 //  req.session.user.user_id;
 
- 
+// encrypt.decryptSessionData(req.session.user.user_role) 
 exports.login = (req, res) => {
  
  
  let user = new User(req.body);
   user.login().then((data)=>{
     req.session.user = {
-      user_id: data[0].user_id,
-      user_email: data[0].user_email,
-      user_name: data[0].user_name,
-      user_role: "user",
+      user_id: encrypt.encryptSessionData(data[0].user_id) ,
+      user_role: encrypt.encryptSessionData(process.env.USER_ROLE) ,
+ 
     };
       req.session.save(function (err) {
       res.redirect("pages/home-dashboard" );
+      // console.log(req.session.user.user_role);
       });
+  }).catch((data)=>{
+   
+    req.flash("errors", 'invalid email or password');
+
+    req.flash("users_data", data.user);
+    req.session.save(function (err) {
+      res.redirect('/login-page')
+    });
+
   })
-  
+
 };
 
 exports.logout = function (req, res) {
@@ -90,8 +102,8 @@ exports.saved_template = function (req, res) {
   data.user_role =   req.session.user ? req.session.user.user_role : req.session.admin.user_role;
   data.category = req.query.category
  
- console.log(req.query.category);
- console.log('saving category')
+ 
+ 
   let user = new User(data);
   user
     .saved_template_database()
@@ -103,14 +115,17 @@ exports.saved_template = function (req, res) {
     });
 };
 exports.activateCertificate = (req,res) => {
-   console.log('activateCertificate');
+   
   if(!req.session.user || !req.session.user.user_id){
     
     res.redirect('/');
     return false;
   }
+
+// encrypt.decryptSessionData(req.session.user.user_role) 
+
   let template = {}
-  template.user_id = req.session.user.user_id;
+  template.user_id = encrypt.decryptSessionData(req.session.user.user_id) ;
   template.template_id = req.query.template_id;
   template.category = 'certificate';
 
@@ -198,7 +213,7 @@ exports.saveList = (req, res)=>{
  
   let data = {};
   data.list = req.query.list_data
-  data.user_id =req.session.admin && req.session.admin   == 'admin'?req.session.admin.user_id : req.session.user.user_id;
+  data.user_id = req.session.admin && req.session.admin.user_role   == 'admin'?req.session.admin.user_id : req.session.user.user_id;
   data.user_role =req.session.admin &&  req.session.admin.user_role == 'admin'? req.session.admin.user_role:req.session.user.user_role
 
   let user = new User(data);

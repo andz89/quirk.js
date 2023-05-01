@@ -52,7 +52,9 @@ const run_script = (data)=>{
     height: json_parsed.size.h,
     backgroundColor: "#fff",
     preserveObjectStacking: true,
-    selection: MODE == 'development'? true: false,
+    selection: data.user_role== 'admin'? true: false,
+    // selection:   true ;
+
     imageSmoothingEnabled: false
     
     });
@@ -335,6 +337,8 @@ const run_script = (data)=>{
                         list: data.list,
                         category: data.category,
                         template_id: data.template_id,
+                        purchased_id: data.purchased_id,
+
                         mode : MODE
                         });
                         canvasInit.create_main_canvas();

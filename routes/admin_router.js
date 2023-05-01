@@ -3,6 +3,8 @@ const router = express.Router();
  
 const adminController = require("../controllers/adminController");
 const check = require("../middleware/role");
+const random = require("../helper/random");
+
  
 
 const { v4: uuidv4 } = require("uuid");
@@ -13,7 +15,7 @@ const path = require('path')
  
 
 
-
+ 
 
 const storage = multer.diskStorage({
   destination: (req, file, cb)=>{
@@ -21,8 +23,8 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb)=>{
 
-    let a = file.originalname.replace(/\.[^/.]+$/, "")
-    cb(null,a + '-'+ uuidv4()+ path.extname(file.originalname))
+   
+    cb(null,random.getString() + '-'+ uuidv4()+ path.extname(file.originalname))
    
   }
 })

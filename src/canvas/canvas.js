@@ -5,23 +5,23 @@ import { Utilities } from "./_utilities";
 export class Canvas extends Global {
   create_main_canvas = () => {
  
+let properties = {
+  canvas: this.canvas,
+  width: this.width,
+  height: this.height,
+  canvasScale: this.canvasScale,
+  SCALE_FACTOR: this.SCALE_FACTOR,
+  fileHandle: this.fileHandle,
+  user_role: this.user_role,
+  table:this.table,
+  list: this.list,
+  purchased_id: this.purchased_id,
+  template_id: this.template_id,
+  mode : this.mode,
+  category : this.category
 
-    let utils = new Utilities({
-      canvas: this.canvas,
-      width: this.width,
-      height: this.height,
-      canvasScale: this.canvasScale,
-      SCALE_FACTOR: this.SCALE_FACTOR,
-      fileHandle: this.fileHandle,
-      user_role: this.user_role,
-      table:this.table,
-      list: this.list,
-      purchased_id: this.purchased_id,
-      template_id: this.template_id,
-      mode : this.mode,
-      category : this.category
-
-    });
+}
+    let utils = new Utilities(properties);
 
     utils.canvasOn();
     utils.mirror_movement();
@@ -29,22 +29,7 @@ export class Canvas extends Global {
     // utils.paste_text()
  
 
-    let menu_tools = new Menu_tools({
-      canvas: this.canvas,
-      width: this.width,
-      height: this.height,
-      canvasScale: this.canvasScale,
-      SCALE_FACTOR: this.SCALE_FACTOR,
-      fileHandle: this.fileHandle,
-      user_role: this.user_role,
-      table:this.table,
-      list: this.list,
-      purchased_id: this.purchased_id,
-      template_id: this.template_id,
-      mode : this.mode,
-      category : this.category
-
-    });
+    let menu_tools = new Menu_tools(properties);
 
     menu_tools.deleteObjects();
     menu_tools.print_view();

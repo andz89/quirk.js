@@ -442,7 +442,7 @@ photo_container.querySelector('.close').addEventListener('click',(e)=>{
  
     document.getElementById("save_json").addEventListener("click", () => {
  
- 
+ console.log(this.purchased_id);
  this.loading_save('visible','Saving . . .');
     function replaceBreakLine(valueToEscape) {
       if (valueToEscape != null && valueToEscape != "") {
@@ -499,7 +499,7 @@ let merge = {
 let json_file = JSON.stringify(merge);
 let json_text = document.querySelector('#text-input')
 json_text.value = json_file;
-const xhr = new XMLHttpRequest()
+// const xhr = new XMLHttpRequest()
 const form = document.querySelector('#upload-form');
 
 const formData = new FormData(form);
@@ -1102,11 +1102,17 @@ createTable().then(()=>{
         ".list-name-container .list-names table tbody tr"
       );
         let data = []
-
+        function replaceBreakLine(valueToEscape) {
+          if (valueToEscape != null && valueToEscape != "") {
+             return valueToEscape.replaceAll(/(\r\n|\n|\r)/gm,"<-br->");
+          } else {
+             return valueToEscape;
+          } 
+       }
       names.forEach((element) => {
         element.classList.remove('active')
-       let a = element.children[1].innerText.trim()
-     let b =   element.children[2].innerText.trim()
+       let a =replaceBreakLine(element.children[1].innerText.trim()) 
+     let b =   replaceBreakLine(element.children[2].innerText.trim())
      let c =   element.className
    
         let x = {}
@@ -1178,37 +1184,46 @@ createTable().then(()=>{
 
     document.querySelector(".list-name-container").addEventListener("paste",   (e) =>{
       
-       
-        
-          
+ 
    
-            element.innerHTML = e.clipboardData.getData("text/html");
+      element.innerHTML = e.clipboardData.getData("text/html");
       
-         
-         
-            let excel_data = element.querySelectorAll("table tr");
-        
-     
           let inputs = document.querySelectorAll(".list-name-container table tbody tr");
           let a = inputs.length - parseInt(e.target.parentElement.getAttribute('data')) 
        
             if(element.querySelector("table tr")){
               e.preventDefault()
+           
+          
+          let excel_data = []
+          let xx =  element.querySelectorAll("table tr");
+          let arr =  Array.from(xx)
+          arr.forEach((ev)=>{
+          if(ev.children.length !== 0){
+          excel_data.push(ev)
+
+          }
+          })
               if(excel_data.length  > a + 1){
                 return false
             }else{
-       
+              
+           
                 // if copied data is 1 column only
                 if(excel_data[0].children.length < 2){
-               
+            
                  if(e.target.classList.contains('column-1')){
                    for(let i = 0; i < excel_data.length; ) {
                
+
+               
                      for(let x = 0; x < inputs.length; x++) {
+                  
                        if(!excel_data[i].children[0]){
                        
                          break;
                        }
+                    
                       if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
                        inputs[x].children[1].textContent = excel_data[i].children[0].textContent
                        inputs[x].querySelector('.eye-show').style.display = 'inline-block';
@@ -1223,8 +1238,11 @@ createTable().then(()=>{
                      }
                  }
                  if(e.target.classList.contains('column-2')){
+                  console.log('dajon');
+
                    for(let i = 0; i < excel_data.length; ) {
-               
+                  
+                            
                      for(let x = 0; x < inputs.length; x++) {
                     
                         if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
@@ -1246,10 +1264,13 @@ createTable().then(()=>{
                 }
       
       
-                 // if copied data is 2 column 
+                 // if copied data is 2 columns
                 if( excel_data[0].children.length > 1){
+ 
                   if(e.target.classList.contains('column-1')){
                     for(let i = 0; i < excel_data.length; ) {
+                   
+                              
                       for(let x = 0; x < inputs.length; x++) {
                        
                             if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
@@ -1272,6 +1293,7 @@ createTable().then(()=>{
                   }
                   if(e.target.classList.contains('column-2')){
                     for(let i = 0; i < excel_data.length; ) {
+           
                       for(let x = 0; x < inputs.length; x++) {
                        
                             if(parseInt(inputs[x].getAttribute('data'))  >= parseInt(e.target.parentElement.getAttribute('data')) ){
@@ -1298,10 +1320,12 @@ createTable().then(()=>{
        
             }
             }else{
-    
+              
               e.preventDefault();
+            
               e.target.textContent = element.innerText.trim()
             }
+    
             //this area exucute after paste event to change the column text in textbox canvas
             let textbox= this.canvas.getObjects().filter((el) => el.name === 'column-1' || el.name === 'column-2');
             e.target.textContent
@@ -1394,10 +1418,11 @@ createTable().then(()=>{
            return e.name === "column-2";
          });
          b[0].set({ text: names[i].dataTwo });
-         var scaleFactor = 1;
-         this.canvas.setWidth(this.width  );
-         this.canvas.setHeight(this.height );
+         var scaleFactor = 4;
+         this.canvas.setWidth(this.width * scaleFactor);
+         this.canvas.setHeight(this.height * scaleFactor);
          this.canvas.setZoom(scaleFactor);
+
          this.canvas.renderAll();
                let imgSrc = this.canvas
                .toDataURL("image/jpeg", [0.0, 1.0])
@@ -1408,9 +1433,9 @@ createTable().then(()=>{
                img.width = "600";
                img.className = "print-view-img";
                document.querySelector("#modal-container-generate-certificate .modal-body").appendChild(img);
-                 this.canvas.setHeight(this.canvas.current_height);
-           this.canvas.setWidth(this.canvas.current_width);
-           this.canvas.setZoom(this.canvas.current_canvasScale);
+               this.canvas.setWidth(this.width);
+               this.canvas.setHeight(this.height);
+               this.canvas.setZoom(1);
            this.canvas.renderAll();
      
            i++

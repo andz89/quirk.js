@@ -71,17 +71,7 @@ class Crud_templates {
       reader.readAsText(e.target.files[0]);
     };
     })
-    // if (template_form) {
-    //   document.querySelector("#json-file-input").addEventListener("change", (e) => {
-    //     var reader = new FileReader();
-    //     reader.onload = (event) => {
-    //       let json = event.target.result;
-          
-    //       document.querySelector("#json_file").value = json;
-    //     };
-    //     reader.readAsText(e.target.files[0]);
-    //   });
-    // }
+    
  
   }
  

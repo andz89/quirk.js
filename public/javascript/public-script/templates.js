@@ -300,7 +300,7 @@ e.target.parentElement.parentElement.remove()
                         window.location.href = 'http://localhost:5000/my-templates'
                      }
                      else if(response === 'not found'){
-                      console.log(response);
+                      document.querySelector('.invitation-input-code-container .message').innerText = `Invalid code.`
 
                    
                      }

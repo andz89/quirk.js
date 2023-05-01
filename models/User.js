@@ -186,6 +186,7 @@ User.prototype.login = function () {
       ) {
         resolve(result);
       } else {
+    
         reject(this.data);
       }
     });
@@ -275,6 +276,7 @@ User.prototype.saved_template_database  =function() {
   return new Promise( async(resolve, reject) => {
 
     if(this.data.user_role === 'user'){
+      console.log('here');
       var sql = `UPDATE purchased_template SET template_json = '${this.data.saved_json}' WHERE user_id = '${this.data.user_id}' && template_id = '${this.data.template_id}'&& purchased_id = '${this.data.purchased_id}'`;
       db.query(sql, (err, result) => {
   

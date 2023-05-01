@@ -1,4 +1,5 @@
 const Page = require("../models/Page");
+const encrypt = require("../helper/encrypt");
 
 exports.home = (req, res) => {
   //session as user
@@ -7,8 +8,9 @@ exports.home = (req, res) => {
     res.render("pages/home-dashboard", {
       user:  req.session.user.user_name,
       session:  req.session.user ? true : false,
-      user_type: req.session.user.user_role,
+      user_type: 'user',
     });
+  
   }else{
     if(req.session.admin){
       res.redirect('/dashboard')
@@ -20,20 +22,22 @@ exports.home = (req, res) => {
 
 };
 exports.contact_page = (req, res) => {
+
+ 
   res.render("pages/contact_page", {
     session:  req.session.user ? true : false,
-    user_type: req.session.user?    req.session.user.user_role:null,
+    user_type: req.session.user? 'user':null,
   });
 };
 exports.account_page = (req, res) => {
   let data = {}
-  data.user_id = req.session.user.user_id
+  data.user_id = encrypt.decryptSessionData(req.session.user.user_id) 
   let page = new Page(data);
   page.getAccount().then((data) => {
     res.render("pages/account_page", {
       user_data: data,
       session:  req.session.user ? true : false,
-      user_type:    req.session.user.user_role,
+      user_type:  'user',
     });
   });
 };
@@ -44,7 +48,7 @@ exports.register_page = (req, res) => {
   });
 };
 exports.login_page = (req, res) => {
- console.log('3333333333');
+ 
     res.render("users/login-page", {
       errors: req.flash("errors"),
       users_data: req.flash("users_data"),
@@ -87,7 +91,7 @@ templates.getAllTemplates().then((data)=>{
     data: data,
     success_message_subscriber: req.flash('success_message_subscriber'),
     session: req.session.user ? true : false,
-    user_type: req.session.user?  req.session.user.user_role:null,
+    user_type: req.session.user?  'user':null,
   }); 
 })
   
@@ -103,7 +107,7 @@ exports.invitation = (req, res) => {
     success_message_subscriber: req.flash('success_message_subscriber'),
 
       data: data,
-      user_type: req.session.user?  req.session.user.user_role:null,
+      user_type: req.session.user?  'user':null,
       session: req.session.user ? true : false,
     }); 
  
@@ -113,7 +117,7 @@ exports.invitation = (req, res) => {
 }
 exports.purchased_templates = function(req,res){
   let data = {}
-  data.user_id  =  req.session.user.user_id;
+  data.user_id  =  encrypt.decryptSessionData(req.session.user.user_id);
  
   let purchased_templates = new Page(data)
   purchased_templates.getUserTemplates().then((data)=>{
@@ -125,9 +129,7 @@ exports.purchased_templates = function(req,res){
  
         data: data.result,
         certificate_expired:data.certificate_expired,
- 
-
-        user_type:req.session.user.user_role,
+        user_type:'user',
         session:  req.session.user.user_id ? true : false,
       });
       
@@ -177,7 +179,7 @@ exports.canvasTest = (req, res) => {
    
   let data = {}
   data.user_role = req.session.admin? req.session.admin.user_role : 'user'
-  data.user_id =req.session.user ? req.session.user.user_id: req.session.admin.user_id;
+  data.user_id =req.session.user ? encrypt.decryptSessionData(req.session.user.user_id): req.session.admin.user_id;
   data.template_id = req.query.template_id;
   data.category = req.query.category;
   
@@ -214,7 +216,7 @@ exports.development_query = (req, res) => {
   
   data.user_role = 'admin'
   data.user_id = 'dsafe321'
-  data.template_id = '33c3cea9-789c-43e0-982c-bff8cca50035';
+  data.template_id = '45be8fd3-9aa3-4c65-b1ad-b84a63ce8605';
   data.category = 'certificate';
  
   let page = new Page(data);

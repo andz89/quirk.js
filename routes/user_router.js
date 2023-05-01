@@ -2,6 +2,7 @@ const express = require("express");
  
 const router = express.Router();
 const userController = require("../controllers/userController");
+const random = require("../helper/random");
  
 const check = require("../middleware/role");
  
@@ -94,8 +95,8 @@ function (req, res,next){
     let filepath = file.input_img.filepath;
     let newpath = 'public/images/users/';
     
-    let a = file.input_img.originalFilename.replace(/\.[^/.]+$/, "")
-    let b = a + uuidv4() + path.extname(file.input_img.originalFilename)
+ 
+    let b = random.getString() + uuidv4() + path.extname(file.input_img.originalFilename)
     newpath += b
 
   

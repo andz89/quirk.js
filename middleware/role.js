@@ -1,5 +1,5 @@
 
-
+const encrypt = require("../helper/encrypt");
  
 //  let mode = 'development'
 let mode = 'production'
@@ -14,8 +14,9 @@ exports.role_admin = (req, res, next) => {
   }
 };
 exports.role_user = (req, res, next) => {
-  
- 
+//   console.log(encrypt.encryptSessionData);
+//  let b = encrypt.decryptSessionData(encrypt.encryptSessionData.encrypted,encrypt.encryptSessionData.key,encrypt.encryptSessionData.iv)
+//  console.log(b)
   if (req.session.user  &&   req.session.user.user_id) {
      
     next();
@@ -60,7 +61,7 @@ exports.role_guest = (req, res, next) => {
 
  }
 else{
-  console.log('22222222222');
+ 
   next();
 }
  

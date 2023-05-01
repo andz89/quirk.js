@@ -59,6 +59,7 @@ Admin.prototype.add_background =function(req, res){
       background_id: uuidv4(),
       background_name: this.data.background_name,
       background_description: this.data.background_description,
+      live: 'true'
     };
 
    
