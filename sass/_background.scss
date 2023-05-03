@@ -1,14 +1,14 @@
 //page
 .canvas-background-container {
     user-select: none;
-
+    overflow: hidden;
     .form-background {
 
         margin: 10px 0;
 
         form {
             width: 600px;
-
+        
             input[type='text'] {
                 width: 600px;
             }
@@ -20,7 +20,7 @@
             }
         }
     }
-
+  
     .hide {
         display: none;
     }
@@ -30,11 +30,56 @@
     }
 
 
-    .background-list {
+    .background-container {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         justify-content: flex-start;
+   
+        
+        .background-content-details{
+            position: relative;
+            .option{
+               cursor: pointer;
+                position: absolute;
+                bottom: -5px;
+                right: 0;
+
+                .option-list{
+                    z-index: 2;
+                    display: none;
+                    bottom: 30px;
+                    right: 10px;
+                    font-size: 15px;
+                    background-color: #e0e0e0;
+                    position: absolute;
+                    width: 80px;
+                    
+                    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+
+                    div{
+                        padding: 0 5px;
+                    }
+                }
+                .container{
+                    width: 100%;
+                height: 100%;
+                background-color: rgba(248, 248, 248, 0);
+                position: fixed;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                right: 0;
+                padding: 0;
+                margin: 0;
+                }
+                .option-list div:hover{
+                    background-color: #ccc;
+               
+                }
+            }
+        }
+        
     }
 
 
@@ -49,7 +94,7 @@
         user-select: none;
         background-color: #fff;
         flex-direction: column;
-
+      
 
         .modal-header {
 
@@ -75,21 +120,23 @@
         }
 
         .modal-content {
-            margin: 10px 10px 0;
-
-            .content {
-                display: flex;
-                justify-content: center;
-                align-items: start;
-
-                margin: 0 10px;
-
-                input {
-                    width: 100%;
+            top: 0;
+            bottom: 0;
+            height: 500px;
+            margin: auto;
+           
+            overflow: auto;
+            padding: 20px;
+            input[type='file'] {
+                width: 200px;
+            }
+                input   {
+                    width: 50%;
+                  
                 }
 
                 textarea {
-                    width: 100%;
+                    width: 50%;
                     padding: 0 .3rem;
                     font-size: .9rem;
                     border: 1px solid #ccc;
@@ -107,16 +154,9 @@
 
 
                 }
-            }
+            
 
-            .content>.img-container {
-                flex: 6;
-            }
-
-            .content>.details-container {
-                flex: 5;
-            }
-
+         
             img {
 
                 box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);

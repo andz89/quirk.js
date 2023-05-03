@@ -1,5 +1,15 @@
 class Canvas_background {
   canvas_background() {
+    function display_upload_image(selector_input, selector_display) {
+      parent.querySelector(selector_input).addEventListener("change", (e) => {
+        const imageFiles = e.target.files;
+        const imageFilesLength = imageFiles.length;
+        if (imageFilesLength > 0) {
+          const imageSrc = URL.createObjectURL(imageFiles[0]);
+          parent.querySelector(selector_display).src = imageSrc;
+        }
+      });
+    }
     //show canvas_background form
     if (document.querySelector(".form-background")) {
       let form = document.querySelector(".form-background");
@@ -92,14 +102,36 @@ class Canvas_background {
     let parent = document.querySelector(".canvas-background-container");
     if (parent) {
       parent.addEventListener("click", function (e) {
+        //option list
+        if (e.target.classList.contains("option-icon")) {
+          let element = e.target.parentElement;
+          element.querySelector(".option-list").style.display = "block";
+          element.querySelector(".container").style.display = "block";
+        }
+        //hide container
+        if (e.target.classList.contains("container")) {
+          let element = e.target.parentElement;
+          element.querySelector(".option-list").style.display = "none";
+          element.querySelector(".container").style.display = "none";
+        }
+        //hide option list after clicking
+        if (e.target.matches(".edit-btn, .publish-btn")) {
+          let element = e.target.parentElement.parentElement;
+          element.querySelector(".option-list").style.display = "none";
+          element.querySelector(".container").style.display = "none";
+        }
+
+        //edit btn / open modal
         if (e.target.classList.contains("edit-btn")) {
-          let parent = e.target.parentElement;
+          document.querySelector("body").style.overflow = "hidden"; //remove scroll in page
+
+          let parent = e.target.parentElement.parentElement.parentElement;
 
           document.querySelector(".modal-edit-background").style.display =
-            "flex";
+            "flex"; //show nodal
 
+          //----   below query is to get the value of the template  ----//
           let title = parent.querySelector("h4").innerText;
-
           let description = parent.querySelector("p").innerText;
           let thumbnail_image = parent.querySelector("#thumbnail-image").src;
           let bg_image = parent.querySelector("#bg-image").src;
@@ -109,7 +141,8 @@ class Canvas_background {
           ).value;
           let bg_path = parent.querySelector(".background_image_path").value;
 
-          //--------// above query is to get the value of the template
+          //----   below query is to get the element of modal and set the values  ----//
+
           document.querySelector(
             ".modal-edit-background .thumbnail_image_path_modal"
           ).value = thumbnail_path;
@@ -143,13 +176,15 @@ class Canvas_background {
           document
             .querySelector(".modal-edit-background .close")
             .addEventListener("click", function () {
+              document.querySelector("body").style.overflow = "auto"; //add scroll in page
+
               document.querySelector(".modal-edit-background").style.display =
                 "none";
             });
         }
-
+        //delete bg
         if (e.target.classList.contains("delete-btn")) {
-          let parent = e.target.parentElement;
+          let parent = e.target.parentElement.parentElement.parentElement;
 
           let thumbnail_image_path = parent.querySelector(
             ".thumbnail_image_path"
