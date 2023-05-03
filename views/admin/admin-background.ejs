@@ -55,9 +55,18 @@
                             <%= data.background_description %>
                         </p>
 
-                        <div class="btn btn-sm btn-dark edit-btn">View and Edit</div>
-                        <!-- </a> -->
+                        <span class="btn btn-sm btn-dark edit-btn">View and Edit</span>
+                        <span class="btn btn-sm btn-danger delete-btn">delete</span>
 
+
+                        <input type="hidden" class="thumbnail_image_path" value="<%= data.thumbnail_image%>">
+
+                        <input type="hidden" class="background_image_path" value="<%= data.background_image%>">
+
+
+                    </div>
+
+                    <% }) %>
                         <div class="modal-edit-background">
 
                             <form action="/update-background" method="POST" enctype="multipart/form-data" class="form">
@@ -91,7 +100,7 @@
                                                 <input name="thumbnail_image" id="modal-thumbnail-image-input"
                                                     type="file" style="margin: 5px 0;">
                                                 <input type="hidden" name="thumbnail_image_path"
-                                                    class="thumbnail_image_path" value="<%= data.thumbnail_image%>">
+                                                    class="thumbnail_image_path_modal" value="">
 
 
 
@@ -106,7 +115,7 @@
                                                 <input type="file" name="background_image" id="modal-bg-image-input"
                                                     style="margin: 5px 0;">
                                                 <input type="hidden" value="<%= data.background_image%>"
-                                                    name="background_image_path" class="background_image_path">
+                                                    name="background_image_path" class="background_image_path_modal">
 
 
                                                 <img class="modal-bg-image" width="400" src="" alt="">
@@ -145,10 +154,6 @@
                                 </div>
                             </form>
                         </div>
-                    </div>
-
-                    <% }) %>
-
             </div>
 
         </div>

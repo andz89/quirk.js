@@ -49,27 +49,23 @@
           <li>
             <a href="/account-page" class="">Account</a>
           </li>
-          <% if(locals.user_type=='admin' ){ %>
-            <li>
-              <a href="/dashboard" class="bg-dark">Dashboard</a>
-            </li>
+
+
+          <li>
+            <form action="/logout" method="POST" class="">
+              <input type="submit" class="btn btn-sm btn-light" value="Sign Out" />
+            </form>
+          </li>
+
+
+          <% }else{ %>
+
+            <div class="sign-btns">
+              <a href="/login-page" class="btn btn-sm btn-light "> Sign In</a>
+
+              <a href="/register-page" class="btn btn-sm btn-secondary text text-white">Sign Up</a>
+            </div>
+
             <% } %>
-              <% if(locals.user_type=='user' ){ %>
-                <li>
-                  <form action="/logout" method="POST" class="">
-                    <input type="submit" class="btn btn-sm btn-light" value="Sign Out" />
-                  </form>
-                </li>
-                <% } %>
-
-                  <% }else{ %>
-
-                    <div class="sign-btns">
-                      <a href="/login-page" class="btn btn-sm btn-light "> Sign In</a>
-
-                      <a href="/register-page" class="btn btn-sm btn-secondary text text-white">Sign Up</a>
-                    </div>
-
-                    <% } %>
       </ul>
     </nav>

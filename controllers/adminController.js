@@ -40,318 +40,246 @@ exports.login_page = (req, res) => {
   });
 };
 exports.templates = (req, res) => {
-
-  let data = {}
-  data.user_role =  req.session.admin.user_role;
-  let templates = new Page(data)
-templates.getAllTemplates().then((data)=>{
-;
-  res.render("admin/admin-templates", {
-    data: data,
-    user_type:  req.session.admin.user_role,
-    session: req.session.admin ? true : false,
-  }); 
-})
-  
+  let data = {};
+  data.user_role = req.session.admin.user_role;
+  let templates = new Page(data);
+  templates.getAllTemplates().then((data) => {
+    res.render("admin/admin-templates", {
+      data: data,
+      user_type: req.session.admin.user_role,
+      session: req.session.admin ? true : false,
+    });
+  });
 };
 exports.background = (req, res) => {
-
-
-  let templates = new Admin()
-templates.getAllBackgrounds().then((data)=>{
-
-  res.render("admin/admin-background", {
-    data:data,
-    user_type:  req.session.admin.user_role,
-    session: req.session.admin ? true : false,
-  }); 
-})
-  
+  let templates = new Admin();
+  templates.getAllBackgrounds().then((data) => {
+    res.render("admin/admin-background", {
+      data: data,
+      user_type: req.session.admin.user_role,
+      session: req.session.admin ? true : false,
+    });
+  });
 };
 
 exports.addBackground = (req, res) => {
-let thumbnail_image
-let background_image
+  let thumbnail_image;
+  let background_image;
 
- req.files.thumbnail_image.forEach((e)=>{
-  thumbnail_image = e.filename ;
- })
+  req.files.thumbnail_image.forEach((e) => {
+    thumbnail_image = e.filename;
+  });
 
- req.files.background_image.forEach((e)=>{
-  background_image = e.filename;
- })
- 
- 
-  req.body.background_image =  background_image 
-  req.body.thumbnail_image =  thumbnail_image 
+  req.files.background_image.forEach((e) => {
+    background_image = e.filename;
+  });
 
-  let bg = new Admin(req.body)
+  req.body.background_image = background_image;
+  req.body.thumbnail_image = thumbnail_image;
 
-bg.add_background().then((data)=>{
-  res.redirect("/admin-background");
- 
-})
-  
+  let bg = new Admin(req.body);
+
+  bg.add_background().then((data) => {
+    res.redirect("/admin-background");
+  });
 };
 
 exports.updateBackground = (req, res) => {
- 
   //    console.log(req.files);
-  if(req.files){//if no photos updloaded
-   
-    let thumbnail_image
-    let background_image
-    
-    if(req.files.thumbnail_image){
-      req.files.thumbnail_image.forEach((e)=>{
-        thumbnail_image = e.filename ;
-       })
-    }else{
+  if (req.files) {
+    //if no photos updloaded
+
+    let thumbnail_image;
+    let background_image;
+
+    if (req.files.thumbnail_image) {
+      req.files.thumbnail_image.forEach((e) => {
+        thumbnail_image = e.filename;
+      });
+    } else {
       thumbnail_image = false;
     }
 
-
-    if(req.files.background_image){
-      req.files.background_image.forEach((e)=>{
-        background_image = e.filename ;
-       })
-    }else{
+    if (req.files.background_image) {
+      req.files.background_image.forEach((e) => {
+        background_image = e.filename;
+      });
+    } else {
       background_image = false;
     }
-    
 
- 
-     
-      req.body.background_image =  background_image 
-      req.body.thumbnail_image =  thumbnail_image 
+    req.body.background_image = background_image;
+    req.body.thumbnail_image = thumbnail_image;
   }
-  
- 
-    let bg = new Admin(req.body)
+
+  let bg = new Admin(req.body);
   console.log(bg);
-  bg.update_background().then((data)=>{
+  bg.update_background().then((data) => {
     res.redirect("/admin-background");
-   
-  })
-    
-  };
+  });
+};
 exports.add_template = function (req, res) {
-let thumbnail_image
-let modal_image
- 
-console.log(modal_image);
-if(req.files.thumbnail_image){
-  req.files.thumbnail_image.forEach((e)=>{
-    thumbnail_image = e.filename ;
-   })
-}else{
-  thumbnail_image = false;
-}
+  let thumbnail_image;
+  let modal_image;
 
-if(req.files.modal_image){
-  req.files.modal_image.forEach((e)=>{
-    modal_image = e.filename;
-   })
-   
-}else{
-  modal_image = false;
+  console.log(modal_image);
+  if (req.files.thumbnail_image) {
+    req.files.thumbnail_image.forEach((e) => {
+      thumbnail_image = e.filename;
+    });
+  } else {
+    thumbnail_image = false;
+  }
 
-}
- 
- 
-  req.body.thumbnail_image = thumbnail_image
-  req.body.modal_image = modal_image
- 
+  if (req.files.modal_image) {
+    req.files.modal_image.forEach((e) => {
+      modal_image = e.filename;
+    });
+  } else {
+    modal_image = false;
+  }
 
+  req.body.thumbnail_image = thumbnail_image;
+  req.body.modal_image = modal_image;
 
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database
     .then(function () {
-     if(req.body.category == 'invitation'){
-      res.redirect("/admin-invitations");
-
-     }else{
-      res.redirect("/admin-templates");
-
-     }
+      if (req.body.category == "invitation") {
+        res.redirect("/admin-invitations");
+      } else {
+        res.redirect("/admin-templates");
+      }
     })
     .catch((err) => {
       res.send(err);
     });
 };
- 
 
-exports.updateTemplate = function (req, res){
-let thumbnail_image
-let modal_image
+exports.updateTemplate = function (req, res) {
+  let thumbnail_image;
+  let modal_image;
 
-if(req.files.thumbnail_image){
-  req.files.thumbnail_image.forEach((e)=>{
-    thumbnail_image = e.filename ;
-   })
-}else{
-  thumbnail_image = false
-}
+  if (req.files.thumbnail_image) {
+    req.files.thumbnail_image.forEach((e) => {
+      thumbnail_image = e.filename;
+    });
+  } else {
+    thumbnail_image = false;
+  }
 
-if(req.files.modal_image){
-  req.files.modal_image.forEach((e)=>{
-    modal_image = e.filename;
-   })
-   
-}else{
-  modal_image = false
-}
+  if (req.files.modal_image) {
+    req.files.modal_image.forEach((e) => {
+      modal_image = e.filename;
+    });
+  } else {
+    modal_image = false;
+  }
 
+  req.body.thumbnail_image = thumbnail_image;
+  req.body.modal_image = modal_image;
 
- 
-  req.body.thumbnail_image = thumbnail_image
-  req.body.modal_image = modal_image
- 
   let admin = new Admin(req.body);
- 
+
   admin
     .update_template()
     .then(function () {
-      if(req.body.category == 'invitation'){
+      if (req.body.category == "invitation") {
         res.redirect("/admin-invitations");
-  
-       }else{
+      } else {
         res.redirect("/admin-templates");
-  
-       }
+      }
     })
     .catch((err) => {
       // res.json(err);
     });
-}
-exports.publish_update= function (req, res){
-   
+};
+exports.publish_update = function (req, res) {
   let data = {
-
-    template_id :req.query.template_id,
-    published_status :req.query.published_status,
-    category :req.query.category
-
+    template_id: req.query.template_id,
+    published_status: req.query.published_status,
+    category: req.query.category,
   };
- 
- 
 
-    let admin = new Admin(data);
-    admin
-      .publish_update()
-      .then(function () {
-        res.json('true')
-      })
- 
-  }
-exports.users = function (req, res){
-  let users = new Admin()
- users.get_codes().then((data)=>{
-  
-  res.render("admin/admin-users", {
-     data: data
+  let admin = new Admin(data);
+  admin.publish_update().then(function () {
+    res.json("true");
   });
-  })
-    
- 
-}
-exports.createCode = function (req, res){
-  let code = uuidv4()
+};
+exports.users = function (req, res) {
+  let users = new Admin();
+  users.get_codes().then((data) => {
+    res.render("admin/admin-users", {
+      data: data,
+    });
+  });
+};
+exports.createCode = function (req, res) {
+  let code = uuidv4();
   req.body.duration = req.query.duration;
   req.body.note = req.query.note;
   req.body.limit = req.query.limit;
   req.body.category = req.query.category;
   req.body.code = code;
- 
-  let users = new Admin(req.body)
- users.create_code().then(()=>{
- res.send(code);
-  
-  })
-    
- 
-}
 
-exports.deleteCode = function (req, res){
- 
- 
+  let users = new Admin(req.body);
+  users.create_code().then(() => {
+    res.send(code);
+  });
+};
+
+exports.deleteCode = function (req, res) {
   req.body.code = req.query.code;
- 
- 
-  let users = new Admin(req.body)
- users.delete_code().then(()=>{
- res.send('true');
-  
-  })
-    
- 
-}
+
+  let users = new Admin(req.body);
+  users.delete_code().then(() => {
+    res.send("true");
+  });
+};
 
 exports.adminDeleteTemplate = (req, res) => {
- 
   req.body.template_id = req.query.template_id;
- req.body.modal_image_path = req.query.modal_image_path;
- req.body.thumbnail_image_path = req.query.thumbnail_image_path;
- req.body.category = req.query.category;
+  req.body.modal_image_path = req.query.modal_image_path;
+  req.body.thumbnail_image_path = req.query.thumbnail_image_path;
+  req.body.category = req.query.category;
 
- 
   let admin = new Admin(req.body);
   admin.delete_template().then(function (data) {
-  
-    if(data == 'true'){
-     
-    
-      res.send('true');
-
-    }else{
-      res.send('false');
+    if (data == "true") {
+      res.send("true");
+    } else {
+      res.send("false");
     }
-  
- 
-   
-  })
-}
+  });
+};
 
 exports.deleteBackground = (req, res) => {
- 
   req.body.background_id = req.query.background_id;
   req.body.thumbnail_image_path = req.query.thumbnail_image_path;
   req.body.background_image_path = req.query.background_image_path;
 
   let admin = new Admin(req.body);
   admin.delete_background().then(function (data) {
-  
-    if(data == 'true'){
-     
-      res.send('true');
-
-    }else{
-      res.send('false');
+    if (data == "true") {
+      res.send("true");
+    } else {
+      res.send("false");
     }
-  
- 
-   
-  })
+  });
+};
 
-}
-
-
-// invitation 
+// invitation
 exports.invitation = (req, res) => {
-  let data = {}
-  data.user_role =  req.session.admin.user_role;
- 
+  let data = {};
+  data.user_role = req.session.admin.user_role;
 
   let page = new Page(data);
   page.getAllInviations().then(function (data) {
     res.render("admin/admin-invitation-templates", {
       data: data,
-      user_type:  req.session.admin.user_role,
+      user_type: req.session.admin.user_role,
       session: req.session.admin ? true : false,
-    }); 
- 
-   
-  })
-}
-
+    });
+  });
+};

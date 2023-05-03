@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 // // Generate a new key and IV for each session
 // function generateSessionKeyAndIV() {
@@ -7,14 +7,14 @@ const crypto = require('crypto');
 //   return { key, iv };
 // }
 // let sessionData
- 
+
 // exports.encryptSessionData = () =>{
 //  return sessionData
 // }
 // // Encrypt session data using a new key and IV
 // exports.encryptSessionData =(data) =>{
 //   const { key, iv } = generateSessionKeyAndIV();
-  
+
 //   const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
 //    encrypted = cipher.update(data, 'utf8', 'hex');
 //   encrypted += cipher.final('hex');
@@ -32,28 +32,24 @@ const crypto = require('crypto');
 //   return decrypted;
 // }
 
-
- 
- 
-const ALGORITHM = 'aes-256-cbc';
-const SECRET_KEY = 'mysecretkey'.padEnd(32, '\0'); // 32 byte key
+const ALGORITHM = "aes-256-cbc";
+const SECRET_KEY = "mysecretkey".padEnd(32, "\0"); // 32 byte key
 
 exports.encryptSessionData = (data) => {
   const iv = crypto.randomBytes(16); // 16 byte IV
   const cipher = crypto.createCipheriv(ALGORITHM, SECRET_KEY, iv);
-  let encrypted = cipher.update(data, 'utf8', 'hex');
-  encrypted += cipher.final('hex');
-  return iv.toString('hex') + encrypted;
+  let encrypted = cipher.update(data, "utf8", "hex");
+  encrypted += cipher.final("hex");
+  return iv.toString("hex") + encrypted;
 };
 
 exports.decryptSessionData = (data) => {
-  const iv = Buffer.from(data.slice(0, 32), 'hex'); // Extract IV from data
+  const iv = Buffer.from(data.slice(0, 32), "hex"); // Extract IV from data
   const decipher = crypto.createDecipheriv(ALGORITHM, SECRET_KEY, iv);
-  let decrypted = decipher.update(data.slice(32), 'hex', 'utf8'); // Extract ciphertext from data
-  decrypted += decipher.final('utf8');
+  let decrypted = decipher.update(data.slice(32), "hex", "utf8"); // Extract ciphertext from data
+  decrypted += decipher.final("utf8");
   return decrypted;
 };
-
 
 // Usage example
 // const encryptedData = this.encryptSessionData('Hello, world!');

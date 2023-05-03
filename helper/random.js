@@ -1,11 +1,12 @@
 exports.getString = () => {
   let now = new Date();
   let seed = now.getTime().toString();
-  let result = '';
-  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = "";
+  let characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
   // Generate random numbers and letters for first 5 characters
-  let randomString = '';
+  let randomString = "";
   for (let i = 0; i < 5; i++) {
     let index = Math.floor(Math.random() * characters.length);
     randomString += characters.charAt(index);
@@ -21,4 +22,4 @@ exports.getString = () => {
   result = randomString + result.substring(5);
 
   return result;
-  };
+};
