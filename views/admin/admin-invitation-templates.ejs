@@ -1,5 +1,6 @@
 <%- include('../include/admin-header') %>
-
+    thumbnail_image
+    modal_image
     <div class="bg-white">
         <div class="admin-templates-container" style="min-height: 400px;">
 
@@ -58,8 +59,9 @@
                             <img src="" width="280" id="canvas-image-view" alt="">
                             <div class="d-flex flex-direction-column align-items-start custom-file-upload">
                                 <label for=""> Upload Json File</label>
-                                <input type="hidden" name="json_file" id="json_file">
-                                <input required type="file" id="json-file-input" accept='application/JSON' />
+
+                                <textarea name="json_file" id="json_file" cols="30" rows="10"></textarea>
+                                <input required type="file" class="json-file-input" accept='application/JSON' />
 
                             </div>
                             <input type="hidden" name="category" value="invitation">
@@ -190,14 +192,22 @@
 
 
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
                                         <label for="">Json File</label>
                                         <input type="file" class="json-file p-1">
                                     </div>
 
-                                    <input type="hidden" name="template_json" class="json-text">
+                                    <input type="hidden" name="template_json" class="json-text"> -->
 
+
+                                    <div class="d-flex flex-direction-column align-items-start custom-file-upload">
+                                        <label for=""> Upload Json File</label>
+
+                                        <textarea name="json_file" id="json_file" cols="30" rows="10"></textarea>
+                                        <input required type="file" class="json-file-input" accept='application/JSON' />
+
+                                    </div>
 
 
 

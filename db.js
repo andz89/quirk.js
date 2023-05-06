@@ -8,7 +8,6 @@ let pool = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.MYSQL_DB,
-  
 });
 
 pool.getConnection(function (err) {

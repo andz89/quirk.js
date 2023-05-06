@@ -13,18 +13,26 @@
                     <label for="bg-name">Background Name</label>
                     <input type="text" name="background_name">
                 </div>
-                <div class="d-flex my-2 flex-direction-column align-items-start">
-                    <label for="thumbnail_image">Thumbnail-image</label>
-                    <input type="file" name="thumbnail_image">
-                </div>
-                <div class="d-flex my-2 flex-direction-column align-items-start">
-                    <label for="bg-image">Background Image</label>
-                    <input type="file" name="background_image">
-                </div>
                 <div class="d-flex flex-direction-column align-items-start">
                     <label for="bg-description">Background Description</label>
                     <textarea name="background_description"></textarea>
                 </div>
+                <div class="d-flex my-2 flex-direction-column align-items-start">
+                    <label for="thumbnail_image">Thumbnail-image</label>
+                    <input type="file" onchange="checkFile(this,this.files,40000)" id="thumbnail_image"
+                        name="thumbnail_image">
+                    <br>
+                    <img id="display_thumbnail_image" width="400" src="" alt="">
+                </div>
+                <div class="d-flex my-2 flex-direction-column align-items-start">
+                    <label for="bg-image">Background Image</label>
+                    <input onchange="checkFile(this,this.files,100000)" type="file" id="background_image"
+                        name="background_image">
+                    <br>
+                    <img id="display_background_image" width="400" src="" alt="">
+
+                </div>
+
                 <div class="d-flex justify-content-end">
                     <input type="submit" class="btn btn-sm btn-primary my-2">
 
@@ -101,7 +109,7 @@
                                     <input name="thumbnail_image" id="modal-thumbnail-image-input" type="file"
                                         style="margin: 5px 0;">
                                     <input type="hidden" name="thumbnail_image_path" class="thumbnail_image_path_modal"
-                                        value="">
+                                        onchange="checkFile(this,this.files,40000)" value="">
 
 
 
@@ -115,7 +123,8 @@
                                     <input type="file" name="background_image" id="modal-bg-image-input"
                                         style="margin: 5px 0;">
                                     <input type="hidden" value="<%= data.background_image%>"
-                                        name="background_image_path" class="background_image_path_modal">
+                                        name="background_image_path" class="background_image_path_modal"
+                                        onchange="checkFile(this,this.files,100000)">
 
 
                                     <img class="modal-bg-image" width="400" src="" alt="">
@@ -159,5 +168,21 @@
 
     </div>
 
+    <script>
+        function checkFile(element, files, size) {
 
+
+            var file = files[0];
+
+            // Check if the file size is within the allowed limit
+            if (file.size > size) {
+
+                element.value = ''
+                alert("File is too large! Please select a file smaller file.");
+
+                return false;
+            }
+        }
+
+    </script>
     <%- include('../include/admin-footer') %>

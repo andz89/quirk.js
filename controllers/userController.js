@@ -22,7 +22,6 @@ exports.login = (req, res) => {
       };
       req.session.save(function (err) {
         res.redirect("pages/home-dashboard");
-        // console.log(req.session.user.user_role);
       });
     })
     .catch((data) => {
@@ -97,7 +96,7 @@ exports.saved_template = function (req, res) {
   data.purchased_id = req.query.purchased_id;
   data.user_role = req.session.user
     ? encrypt.decryptSessionData(req.session.user.user_role)
-    : req.session.admin.user_role;
+    : encrypt.decryptSessionData(req.session.admin.user_role);
   data.category = req.query.category;
 
   let user = new User(data);
@@ -146,7 +145,6 @@ exports.activateInvitation = (req, res) => {
   template.template_id = req.query.template_id;
   template.category = "invitation";
 
-  console.log(template);
   let user = new User(template);
   user
     .duplicate_invitation()
@@ -176,8 +174,6 @@ exports.submit_code_certificate = (req, res) => {
       res.send("true");
     })
     .catch((data) => {
-      console.log("ddd");
-
       res.send(data);
     });
 };
@@ -193,14 +189,19 @@ exports.resetCanvas = (req, res) => {
 };
 exports.saveList = (req, res) => {
   let data = {};
+
   data.list = req.query.list_data;
   data.user_id =
-    req.session.admin && req.session.admin.user_role == "admin"
+    req.session.admin &&
+    encrypt.decryptSessionData(req.session.admin.user_role) ==
+      process.env.ADMIN_ROLE
       ? req.session.admin.user_id
       : encrypt.decryptSessionData(req.session.user.user_id);
   data.user_role =
-    req.session.admin && req.session.admin.user_role == "admin"
-      ? req.session.admin.user_role
+    req.session.admin &&
+    encrypt.decryptSessionData(req.session.admin.user_role) ==
+      process.env.ADMIN_ROLE
+      ? encrypt.decryptSessionData(req.session.admin.user_role)
       : encrypt.decryptSessionData(req.session.user.user_role);
 
   let user = new User(data);

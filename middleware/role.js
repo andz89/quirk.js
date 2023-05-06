@@ -2,11 +2,15 @@ const encrypt = require("../helper/encrypt");
 const dotenv = require("dotenv");
 
 dotenv.config();
-//  let mode = 'development'
+// let mode = "development";
 let mode = "production";
 
 exports.role_admin = (req, res, next) => {
-  if (req.session.admin && req.session.admin.user_role == "admin") {
+  if (
+    req.session.admin &&
+    encrypt.decryptSessionData(req.session.admin.user_role) ==
+      process.env.ADMIN_ROLE
+  ) {
     next();
   } else {
     res.redirect("/admin-login");
@@ -32,7 +36,7 @@ exports.queryFromcanvas_role = (req, res, next) => {
   if (mode == "development") {
     req.session.admin = {
       user_id: "dsafe321",
-      user_role: "admin",
+      user_role: encrypt.encryptSessionData(process.env.ADMIN_ROLE),
     };
   }
 
@@ -43,7 +47,11 @@ exports.queryFromcanvas_role = (req, res, next) => {
       process.env.USER_ROLE
   ) {
     next();
-  } else if (req.session.admin && req.session.admin.user_role == "admin") {
+  } else if (
+    req.session.admin &&
+    encrypt.decryptSessionData(req.session.admin.user_role) ==
+      process.env.ADMIN_ROLE
+  ) {
     next();
   } else {
     console.log("kk");
@@ -67,11 +75,15 @@ exports.saveCanvas_role = (req, res, next) => {
   if (mode == "development") {
     req.session.admin = {
       user_id: "dsafe321",
-      user_role: "admin",
+      user_role: encrypt.encryptSessionData(process.env.ADMIN_ROLE),
     };
   }
 
-  if (req.session.admin && req.session.admin.user_role == "admin") {
+  if (
+    req.session.admin &&
+    encrypt.decryptSessionData(req.session.admin.user_role) ==
+      process.env.ADMIN_ROLE
+  ) {
     next();
   } else {
     if (

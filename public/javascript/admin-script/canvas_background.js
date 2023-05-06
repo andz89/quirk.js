@@ -1,17 +1,22 @@
 class Canvas_background {
+  display_upload_image(selector_input, selector_display) {
+    document.querySelector(selector_input).addEventListener("change", (e) => {
+      const imageFiles = e.target.files;
+      const imageFilesLength = imageFiles.length;
+      if (imageFilesLength > 0) {
+        const imageSrc = URL.createObjectURL(imageFiles[0]);
+        document.querySelector(selector_display).src = imageSrc;
+      }
+    });
+  }
   canvas_background() {
-    function display_upload_image(selector_input, selector_display) {
-      parent.querySelector(selector_input).addEventListener("change", (e) => {
-        const imageFiles = e.target.files;
-        const imageFilesLength = imageFiles.length;
-        if (imageFilesLength > 0) {
-          const imageSrc = URL.createObjectURL(imageFiles[0]);
-          parent.querySelector(selector_display).src = imageSrc;
-        }
-      });
-    }
     //show canvas_background form
     if (document.querySelector(".form-background")) {
+      this.display_upload_image("#thumbnail_image", "#display_thumbnail_image");
+      this.display_upload_image(
+        "#background_image",
+        "#display_background_image"
+      );
       let form = document.querySelector(".form-background");
       document
         .querySelector("#add-background")
@@ -25,7 +30,7 @@ class Canvas_background {
           }
         });
     }
-
+    //this area will show in the canvas, when applying background in the canvas
     if (
       document.querySelector("#modal-container-add-background-page-templates")
     ) {
@@ -34,6 +39,7 @@ class Canvas_background {
       let add_bg_image = document.querySelector(
         "#modal-container-add-background-page-templates"
       ); //modal div element
+
       let modal_body = add_bg_image.querySelector(".modal-body");
 
       template_page.addEventListener("click", (e) => {
@@ -89,19 +95,9 @@ class Canvas_background {
 
   //view and edit
   modal_background_details() {
-    function display_upload_image(selector_input, selector_display) {
-      parent.querySelector(selector_input).addEventListener("change", (e) => {
-        const imageFiles = e.target.files;
-        const imageFilesLength = imageFiles.length;
-        if (imageFilesLength > 0) {
-          const imageSrc = URL.createObjectURL(imageFiles[0]);
-          parent.querySelector(selector_display).src = imageSrc;
-        }
-      });
-    }
     let parent = document.querySelector(".canvas-background-container");
     if (parent) {
-      parent.addEventListener("click", function (e) {
+      parent.addEventListener("click", (e) => {
         //option list
         if (e.target.classList.contains("option-icon")) {
           let element = e.target.parentElement;
@@ -163,11 +159,11 @@ class Canvas_background {
           document.querySelector(".modal-edit-background .modal-bg-image").src =
             bg_image;
           document.querySelector(".modal-edit-background #bg-id").value = id;
-          display_upload_image(
+          this.display_upload_image(
             ".modal-edit-background #modal-thumbnail-image-input",
             ".modal-edit-background .modal-image-thumbnail"
           );
-          display_upload_image(
+          this.display_upload_image(
             ".modal-edit-background #modal-bg-image-input",
             ".modal-edit-background .modal-bg-image"
           );

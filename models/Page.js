@@ -1,5 +1,7 @@
 const db = require("../db");
+const dotenv = require("dotenv");
 
+dotenv.config();
 let Page = function (data) {
   this.data = data;
 };
@@ -61,7 +63,7 @@ Page.prototype.getAccount = function () {
 // }
 Page.prototype.getList = function () {
   return new Promise((resolve, reject) => {
-    if (this.data.user_role === "admin") {
+    if (this.data.user_role === process.env.ADMIN_ROLE) {
       let sql = `SELECT * FROM admin_user WHERE id = "${this.data.user_id}"`;
 
       db.query(sql, (err, result) => {
@@ -73,7 +75,7 @@ Page.prototype.getList = function () {
         resolve();
       });
     }
-    if (this.data.user_role === "user") {
+    if (this.data.user_role === process.env.USER_ROLE) {
       let sql = `SELECT * FROM users WHERE user_id = "${this.data.user_id}"`;
 
       db.query(sql, (err, result) => {
@@ -97,7 +99,7 @@ Page.prototype.check_certificate_subscrition = function () {
         reject(err);
         return false;
       }
-
+      console.log(result);
       if (result.length !== 0) {
         resolve();
       } else {
@@ -116,7 +118,7 @@ Page.prototype.check_invitation_subscrition = function () {
         return false;
       }
 
-      if (result.length !== 0) {
+      if (result.length > 0) {
         resolve();
       } else {
         this.data.invitation_expired = "expired";
@@ -127,7 +129,11 @@ Page.prototype.check_invitation_subscrition = function () {
 };
 Page.prototype.check_user_subscription = function () {
   return new Promise(async (resolve, reject) => {
-    if (this.data.category == "inviation") {
+    if (this.check_all_templates === true) {
+      await this.check_invitation_subscrition();
+
+      await this.check_certificate_subscrition();
+    } else if (this.data.category == "invitation") {
       await this.check_invitation_subscrition();
     } else if (this.data.category == "certificate") {
       await this.check_certificate_subscrition();
@@ -141,8 +147,8 @@ Page.prototype.getCanvas = function () {
   return new Promise(async (resolve, reject) => {
     await this.check_user_subscription();
     await this.getList();
-    console.log(this.data.category);
-    if (this.data.user_role === "admin") {
+
+    if (this.data.user_role === process.env.ADMIN_ROLE) {
       let table_name;
       if (this.data.category == "invitation") {
         table_name = "invitation";
@@ -154,7 +160,6 @@ Page.prototype.getCanvas = function () {
       let sql = `SELECT * FROM ${table_name} WHERE template_id = "${this.data.template_id}"`;
 
       db.query(sql, (err, result) => {
-        console.log(result);
         if (err) {
           reject(err);
           return false;
@@ -172,7 +177,8 @@ Page.prototype.getCanvas = function () {
         resolve(data);
       });
     }
-    if (this.data.user_role === "user") {
+
+    if (this.data.user_role === process.env.USER_ROLE) {
       if (this.data.certificate_expired == undefined) {
         let sql = `SELECT * FROM purchased_template WHERE template_id = "${this.data.template_id}"
                   && user_id = "${this.data.user_id}"&& purchased_id = "${this.data.purchased_id}"`;
@@ -204,7 +210,7 @@ Page.prototype.getCanvas = function () {
 
 Page.prototype.getAllTemplates = function () {
   return new Promise(async (resolve, reject) => {
-    if (this.data.user_role == "admin") {
+    if (this.data.user_role == process.env.ADMIN_ROLE) {
       let sql = `SELECT * FROM templates `;
       db.query(sql, (err, result) => {
         if (err) {
@@ -230,7 +236,7 @@ Page.prototype.getAllTemplates = function () {
 
 Page.prototype.getAllInviations = function () {
   return new Promise(async (resolve, reject) => {
-    if (this.data.user_role == "admin") {
+    if (this.data.user_role == process.env.ADMIN_ROLE) {
       let sql = `SELECT * FROM invitation `;
       db.query(sql, (err, result) => {
         if (err) {
@@ -255,6 +261,7 @@ Page.prototype.getAllInviations = function () {
 };
 Page.prototype.getUserTemplates = function () {
   return new Promise(async (resolve, reject) => {
+    this.check_all_templates = true;
     await this.check_user_subscription();
 
     let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'`;

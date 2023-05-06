@@ -275,7 +275,7 @@ User.prototype.saved_template_database = function () {
       });
     }
 
-    if (this.data.user_role === "admin") {
+    if (this.data.user_role === process.env.ADMIN_ROLE) {
       let table_name;
       if (this.data.category == "invitation") {
         table_name = "invitation";
@@ -597,7 +597,7 @@ User.prototype.update_list = function (count) {
         resolve();
       });
     }
-    if (this.data.user_role == "admin") {
+    if (this.data.user_role == process.env.ADMIN_ROLE) {
       var sql = `UPDATE admin_user SET  list = '${this.data.list}' WHERE  id = '${this.data.user_id}'`;
       db.query(sql, (err, result) => {
         if (err) {

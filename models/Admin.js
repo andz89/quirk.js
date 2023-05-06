@@ -33,7 +33,6 @@ Admin.prototype.add_template_into_database = function () {
     let sql = `INSERT INTO ${table_name} SET ?`;
     db.query(sql, data, (err, result) => {
       if (err) {
-        console.log(err);
         reject(err);
         return false;
       }
@@ -135,8 +134,8 @@ Admin.prototype.update_template = function () {
     let image_to_delete = [];
     let thumbnail;
     let modal_image;
-    if (this.data.template_json.length) {
-      json_file = `template_json ='${this.data.template_json}',`;
+    if (this.data.json_file.length) {
+      json_file = `template_json ='${this.data.json_file}',`;
     } else {
       json_file = "";
     }
@@ -223,7 +222,6 @@ Admin.prototype.delete_code = function () {
 //delete user template and update activation code
 Admin.prototype.delete_template = function (req, res) {
   return new Promise((resolve, reject) => {
-    console.log(this.data.category);
     let table_name;
     if (this.data.category == "invitation") {
       table_name = "invitation";

@@ -100,6 +100,7 @@ exports.invitation = (req, res) => {
 exports.purchased_templates = function (req, res) {
   let data = {};
   data.user_id = encrypt.decryptSessionData(req.session.user.user_id);
+  // data.category = "certificate";
 
   let purchased_templates = new Page(data);
   purchased_templates.getUserTemplates().then((data) => {
@@ -147,7 +148,9 @@ exports.canvas = (req, res) => {
 };
 exports.canvasTest = (req, res) => {
   let data = {};
-  data.user_role = req.session.admin ? req.session.admin.user_role : "user";
+  data.user_role = req.session.admin
+    ? encrypt.decryptSessionData(req.session.admin.user_role)
+    : process.env.USER_ROLE;
   data.user_id = req.session.user
     ? encrypt.decryptSessionData(req.session.user.user_id)
     : req.session.admin.user_id;
@@ -169,9 +172,7 @@ exports.canvasTest = (req, res) => {
         table: data.table,
         category: data.category,
         list: data.list,
-        user_role: req.session.user
-          ? req.session.user.user_role
-          : req.session.admin.user_role,
+        user_role: req.session.user ? "user" : "admin",
       });
     }
   });
@@ -180,9 +181,9 @@ exports.canvasTest = (req, res) => {
 exports.development_query = (req, res) => {
   let data = {};
 
-  data.user_role = "admin";
+  data.user_role = process.env.ADMIN_ROLE;
   data.user_id = "dsafe321";
-  data.template_id = "45be8fd3-9aa3-4c65-b1ad-b84a63ce8605";
+  data.template_id = "232e065e-5f06-47be-bec4-606e15eae65d";
   data.category = "certificate";
 
   let page = new Page(data);

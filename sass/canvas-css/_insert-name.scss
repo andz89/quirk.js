@@ -100,23 +100,19 @@
 
 
   th {
-    // vertical-align: middle;
-    // border-top: .5pt solid black;
-    // border-right: .5pt solid black;
-    // border-bottom: .5pt solid black;
-    // border-left: .5pt solid black;
-
+ 
 
     height: 40px;
   }
 
   td {
-    padding-top: 1px;
+ 
     text-decoration: none;
     font-family: Arial;
     padding-left: 2px;
     text-align: left;
-    word-wrap: break-word;
+    
+   
   }
 
 
@@ -133,11 +129,20 @@
 
 
   }
-
+  .force-reflow {
+    animation: none;
+  }
   .xl65 {
     transition: all .5s;
-
-    font-size: 14px;
+    // overflow-wrap: break-word;
+    
+    word-wrap: break-word;
+    overflow-x: hidden;
+    // text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 20ch;
+    // font-size: 15px;
+    font-size: 12px;
     min-width: 215px;
     max-width: 215px;
     text-align: left;

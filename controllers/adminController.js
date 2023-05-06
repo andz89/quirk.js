@@ -2,6 +2,9 @@ const Admin = require("../models/Admin");
 const User = require("../models/User");
 const Page = require("../models/Page");
 const { v4: uuidv4 } = require("uuid");
+const encrypt = require("../helper/encrypt");
+
+const dotenv = require("dotenv");
 
 exports.dashboard = (req, res) => {
   res.render("admin/dashboard", {
@@ -18,7 +21,7 @@ exports.admin_login_post = (req, res) => {
         user_id: data[0].id,
         user_name: data[0].admin_user_name,
         user_email: data[0].admin_user_email,
-        user_role: data[0].admin_user_role,
+        user_role: encrypt.encryptSessionData(process.env.ADMIN_ROLE),
       };
       req.session.save(function (err) {
         res.redirect("/dashboard");
@@ -41,12 +44,12 @@ exports.login_page = (req, res) => {
 };
 exports.templates = (req, res) => {
   let data = {};
-  data.user_role = req.session.admin.user_role;
+  data.user_role = encrypt.decryptSessionData(req.session.admin.user_role);
   let templates = new Page(data);
   templates.getAllTemplates().then((data) => {
     res.render("admin/admin-templates", {
       data: data,
-      user_type: req.session.admin.user_role,
+
       session: req.session.admin ? true : false,
     });
   });
@@ -56,7 +59,7 @@ exports.background = (req, res) => {
   templates.getAllBackgrounds().then((data) => {
     res.render("admin/admin-background", {
       data: data,
-      user_type: req.session.admin.user_role,
+
       session: req.session.admin ? true : false,
     });
   });
@@ -141,7 +144,7 @@ exports.add_template = function (req, res) {
 
   req.body.thumbnail_image = thumbnail_image;
   req.body.modal_image = modal_image;
-
+  console.log(req.body);
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database
@@ -272,13 +275,13 @@ exports.deleteBackground = (req, res) => {
 // invitation
 exports.invitation = (req, res) => {
   let data = {};
-  data.user_role = req.session.admin.user_role;
+  data.user_role = encrypt.decryptSessionData(req.session.admin.user_role);
 
   let page = new Page(data);
   page.getAllInviations().then(function (data) {
     res.render("admin/admin-invitation-templates", {
       data: data,
-      user_type: req.session.admin.user_role,
+
       session: req.session.admin ? true : false,
     });
   });
