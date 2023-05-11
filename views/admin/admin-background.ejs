@@ -26,7 +26,7 @@
                 </div>
                 <div class="d-flex my-2 flex-direction-column align-items-start">
                     <label for="bg-image">Background Image</label>
-                    <input onchange="checkFile(this,this.files,100000)" type="file" id="background_image"
+                    <input onchange="checkFile(this,this.files,200000)" type="file" id="background_image"
                         name="background_image">
                     <br>
                     <img id="display_background_image" width="400" src="" alt="">
@@ -124,7 +124,7 @@
                                         style="margin: 5px 0;">
                                     <input type="hidden" value="<%= data.background_image%>"
                                         name="background_image_path" class="background_image_path_modal"
-                                        onchange="checkFile(this,this.files,100000)">
+                                        onchange="checkFile(this,this.files,200000)">
 
 
                                     <img class="modal-bg-image" width="400" src="" alt="">

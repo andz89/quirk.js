@@ -977,7 +977,9 @@ border-left:none; " contenteditable="true"></td>
 
         if (textbox[0].text.trim() || textbox[1].text.trim()) {
           this.canvas.renderAll();
-          var scaleFactor = 4;
+
+          let quality = document.querySelector("#image-quality").value;
+          var scaleFactor = quality;
           this.canvas.setWidth(this.width * scaleFactor);
           this.canvas.setHeight(this.height * scaleFactor);
           this.canvas.setZoom(scaleFactor);
@@ -987,8 +989,8 @@ border-left:none; " contenteditable="true"></td>
           const a = document.createElement("a");
           document.body.appendChild(a);
           a.href = this.canvas.toDataURL({
-            format: "png",
-            // quality:  1
+            format: "jpg",
+            quality: 1,
           });
           a.download = `${
             textbox[0].text.trim() || textbox[1].text.trim()

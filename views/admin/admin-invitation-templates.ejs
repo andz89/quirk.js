@@ -182,7 +182,7 @@
                                         class="d-flex flex-direction-column justify-content-start align-items-start gap-10">
                                         <label for="">Modal Image</label>
                                         <input type="file" name="modal_image" class="modal-image p-1"
-                                            onchange="checkFile(this,this.files,100000)">
+                                            onchange="checkFile(this,this.files,200000)">
 
                                         <img class="display_modal_image" width="200"
                                             src="images/canvas_image/<%= data.modal_image %>" alt="">
@@ -255,7 +255,7 @@
 
 
             var file = files[0];
-            console.log(file.size);
+
             // Check if the file size is within the allowed limit
             if (file.size > size) {
 
