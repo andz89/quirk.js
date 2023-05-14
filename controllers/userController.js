@@ -238,11 +238,15 @@ exports.deleteTemplate = (req, res) => {
 exports.userUploadImg = (req, res) => {
   let data = {};
   data.user_id =
-    req.session.admin && req.session.admin.user_role == "admin"
+    req.session.admin &&
+    encrypt.decryptSessionData(req.session.admin.user_role) ==
+      process.env.ADMIN_ROLE
       ? req.session.admin.user_id
       : encrypt.decryptSessionData(req.session.user.user_id);
   data.user_role =
-    req.session.admin && req.session.admin.user_role == "admin"
+    req.session.admin &&
+    encrypt.decryptSessionData(req.session.admin.user_role) ==
+      process.env.ADMIN_ROLE
       ? req.session.admin.user_role
       : encrypt.decryptSessionData(req.session.user.user_role);
 
@@ -255,7 +259,11 @@ exports.userUploadImg = (req, res) => {
   user_img.upload_user_img();
 };
 exports.checkUploadedImages = (req, res, next) => {
-  if (req.session.admin && req.session.admin.user_role == "admin") {
+  if (
+    req.session.admin &&
+    encrypt.decryptSessionData(req.session.admin.user_role) ==
+      process.env.ADMIN_ROLE
+  ) {
     next();
   } else {
     let data = {};

@@ -40,10 +40,10 @@ export class Menu_tools extends Global {
               data.forEach((e) => {
                 let div = document.createElement("div");
                 div.innerHTML = ` 
-                  <img src='http://localhost:5000/images/canvas_image/${e.thumbnail_image}' width="150px">
+                  <img class="apply-btn hover-opactiy" src='http://localhost:5000/images/canvas_image/${e.thumbnail_image}' width="150px">
                   <input type="hidden" name="background_name" class="bg_name" value="${e.background_image}">
 
-                  <span class="btn btn-sm btn-success apply-btn">Apply</span>`;
+                 `;
 
                 modal_body.appendChild(div);
               });
@@ -527,6 +527,25 @@ export class Menu_tools extends Global {
   print_view() {
     document.querySelector("#print-view").addEventListener("click", () => {
       this.loading("visible", " Please wait...");
+
+      //check columns
+      let textbox_1 = this.canvas
+        .getObjects()
+        .filter((el) => el.name === "column-1");
+      let textbox_2 = this.canvas
+        .getObjects()
+        .filter((el) => el.name === "column-2");
+
+      if (textbox_1[0].text == "-column 1-") {
+        textbox_1[0].set({ text: " " });
+        this.canvas.renderAll();
+      }
+
+      if (textbox_2[0].text == "-column 2-") {
+        textbox_2[0].set({ text: " " });
+        this.canvas.renderAll();
+      }
+      this.canvas.renderAll();
       let grid = this.canvas.getObjects().filter((obj) => {
         return obj.name == "grid";
       });
@@ -547,7 +566,7 @@ export class Menu_tools extends Global {
             format: "png",
             // quality:  1
           });
-          console.log(canvas);
+
           imageSrc.src = canvas;
           this.canvas.setHeight(this.height);
           this.canvas.setWidth(this.width);
@@ -1113,26 +1132,6 @@ border-left:none; " contenteditable="true"></td>
     document
       .querySelector(".list-name-container")
       .addEventListener("paste", (e) => {
-        function breakTextToWidth(text, maxWidth) {
-          const words = text.split(" ");
-          let line = "";
-          let brokenText = "";
-
-          for (let i = 0; i < words.length; i++) {
-            const word = words[i];
-
-            if (line.length + word.length <= maxWidth) {
-              line += (line.length > 0 ? " " : "") + word;
-            } else {
-              brokenText += (brokenText ? "<br>" : "") + line;
-              line = word;
-            }
-          }
-
-          brokenText += (brokenText ? "<br>" : "") + line;
-          return brokenText;
-        }
-
         element.innerHTML = e.clipboardData.getData("text/html");
 
         let inputs = document.querySelectorAll(
@@ -1261,8 +1260,16 @@ border-left:none; " contenteditable="true"></td>
           }
         } else {
           e.preventDefault();
+          // Get pasted text
+          const clipboardData = event.clipboardData || window.clipboardData;
+          const pastedText = clipboardData.getData("text");
 
-          e.target.textContent = element.innerText.trim();
+          // Remove formatting from pasted text
+          const plainText = pastedText.replace(/(<([^>]+)>)/gi, "");
+
+          // Insert plain text into element
+
+          e.target.textContent = plainText.trim();
         }
 
         //   //this area exucute after paste event to change the column text in textbox canvas
@@ -1321,12 +1328,14 @@ border-left:none; " contenteditable="true"></td>
         );
 
         a.forEach((element) => {
+ 
+
           if (element.className !== "disable") {
             if (
-              (element.children[1].innerText.length &&
-                element.children[2].innerText.length) ||
-              element.children[1].innerText.length ||
-              element.children[2].innerText.length
+              (element.children[1].innerText.trim() &&
+                element.children[2].innerText.trim()) ||
+              element.children[1].innerText.trim() ||
+              element.children[2].innerText.trim()
             ) {
               let data = {
                 dataOne: element.children[1].innerText,
@@ -1753,6 +1762,7 @@ border-left:none; " contenteditable="true"></td>
       "Arial",
       "Titan One",
       "Fredoka One",
+      "Sansita",
     ];
 
     fonts.unshift("Times New Roman");
