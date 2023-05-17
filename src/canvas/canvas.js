@@ -26,7 +26,7 @@ export class Canvas extends Global {
     // utils.paste_text()
 
     let menu_tools = new Menu_tools(properties);
-
+    menu_tools.small_text();
     menu_tools.deleteObjects();
     menu_tools.print_view();
 

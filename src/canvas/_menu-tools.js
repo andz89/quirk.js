@@ -971,9 +971,12 @@ border-left:none; " contenteditable="true"></td>
           ev.classList.remove("active");
         });
         e.target.parentElement.classList.add("active");
-        let textbox = this.canvas
+        let textbox1 = this.canvas
           .getObjects()
-          .filter((el) => el.name === "column-1" || el.name === "column-2");
+          .filter((el) => el.name === "column-1");
+        let textbox2 = this.canvas
+          .getObjects()
+          .filter((el) => el.name === "column-2");
 
         let grid = this.canvas.getObjects().filter((obj) => {
           return obj.name == "grid";
@@ -983,18 +986,18 @@ border-left:none; " contenteditable="true"></td>
         // Uncheck the checkbox
         checkbox.checked = false;
 
-        textbox[1].set({
+        textbox1[0].set({
           text: e.target.parentElement.parentElement.children[1].innerText
             ? e.target.parentElement.parentElement.children[1].innerText
             : "",
         });
-        textbox[0].set({
+        textbox2[0].set({
           text: e.target.parentElement.parentElement.children[2].innerText
             ? e.target.parentElement.parentElement.children[2].innerText
             : "",
         });
 
-        if (textbox[0].text.trim() || textbox[1].text.trim()) {
+        if (textbox1[0].text.trim() || textbox2[0].text.trim()) {
           this.canvas.renderAll();
 
           let quality = document.querySelector("#image-quality").value;
@@ -1011,9 +1014,15 @@ border-left:none; " contenteditable="true"></td>
             format: "jpg",
             quality: 1,
           });
-          a.download = `${
-            textbox[0].text.trim() || textbox[1].text.trim()
-          }.jpg`;
+          let filename;
+          if (textbox1[0].text.trim()) {
+            filename = textbox1[0].text.trim();
+          } else {
+            filename = textbox2[0].text.trim();
+          }
+
+          a.download = `${filename}.jpg`;
+
           a.click();
           document.body.removeChild(a);
 
@@ -1328,8 +1337,6 @@ border-left:none; " contenteditable="true"></td>
         );
 
         a.forEach((element) => {
- 
-
           if (element.className !== "disable") {
             if (
               (element.children[1].innerText.trim() &&
@@ -1572,6 +1579,37 @@ border-left:none; " contenteditable="true"></td>
       }
     });
   }
+  small_text() {
+    let superScript = document.querySelector("#superScript");
+    // Event listener for input changes
+    let delta = false;
+    superScript.addEventListener("click", () => {
+      let object = this.canvas.getActiveObject();
+      if (object) {
+        if (object.getSelectionStyles()[0].deltaY == 0) {
+          console.log(object.getSelectionStyles()[0].deltaY);
+          object.setSelectionStyles({
+            deltaY: -+object.fontSize * 0.5,
+            fontSize: object.fontSize * 0.6,
+          });
+        } else {
+          object.setSelectionStyles({
+            deltaY: 0,
+            fontSize: object.fontSize,
+          });
+        }
+
+        // // Check if the input is equal to 'th'
+        // if (inputValue === 'th') {
+        //   textbox.set('fill', 'blue');
+        // } else {
+        //   textbox.set('fill', 'black');
+        // }
+
+        this.canvas.renderAll();
+      }
+    });
+  }
   //bold text
   bold_text() {
     document.querySelector("#bold").onclick = () => {
@@ -1581,52 +1619,67 @@ border-left:none; " contenteditable="true"></td>
         this.alert("no selected textbox or image");
         return false;
       }
-      if (object) {
-        if (object.bold === undefined) {
-          if (object.getSelectedText() == "") {
-            // empty
-            // object.removeStyle('fontWeight')
-            object.set({ fontWeight: "bold" });
-            object.dirty = true;
-            this.canvas.renderAll();
-            bold.style.backgroundColor = "#06343b";
-            object.bold = true;
-          } else {
-            object.setSelectionStyles({ fontWeight: "bold" });
-            bold.style.backgroundColor = "#06343b";
-            object.bold = true;
-            object.dirty = true;
-            this.canvas.renderAll();
 
-            bold.style.backgroundColor = "#06343b";
-          }
+      // if (object.getSelectionStyles()[0].fontWeight == "normal") {
+      if (object.getSelectedText() == "") {
+        // empty
+        object.removeStyle("fontWeight");
+        if (object.fontWeight == "normal") {
+          object.set({ fontWeight: "bold" });
+          object.dirty = true;
+          this.canvas.renderAll();
+          bold.style.backgroundColor = "#06343b";
         } else {
-          if (object.getSelectedText() == "") {
-            // empty
-            // object.removeStyle('fontWeight')
+          object.set({ fontWeight: "normal" });
+          object.dirty = true;
+          this.canvas.renderAll();
+          bold.style.backgroundColor = "";
+        }
+      } else {
+        if (
+          object.getSelectionStyles()[0].fontWeight == "normal" ||
+          object.getSelectionStyles()[0].fontWeight == undefined
+        ) {
+          object.setSelectionStyles({ fontWeight: "bold" });
+          bold.style.backgroundColor = "#06343b";
 
-            // to check if some text is normal and bold
-            if (object.fontWeight == "normal") {
-              bold.style.backgroundColor = "#06343b";
+          object.dirty = true;
+          this.canvas.renderAll();
 
-              object.set({ fontWeight: "bold" });
-              this.canvas.renderAll();
-            } else {
-              object.set({ fontWeight: "normal" });
-              object.dirty = true;
-              this.canvas.renderAll();
-              bold.style.backgroundColor = "";
-              object.bold = undefined;
-            }
-          } else {
-            object.setSelectionStyles({ fontWeight: "normal" });
-            object.dirty = true;
-            bold.style.backgroundColor = "";
-            this.canvas.renderAll();
-            object.bold = undefined;
-          }
+          bold.style.backgroundColor = "#06343b";
+        } else {
+          object.setSelectionStyles({ fontWeight: "normal" });
+          object.dirty = true;
+          bold.style.backgroundColor = "";
+          this.canvas.renderAll();
         }
       }
+      // } else {
+      //   if (object.getSelectedText() == "") {
+      //     // empty
+      //     // object.removeStyle('fontWeight')
+
+      //     // to check if some text is normal and bold
+      //     if (object.fontWeight == "normal") {
+      //       bold.style.backgroundColor = "#06343b";
+
+      //       object.set({ fontWeight: "bold" });
+      //       this.canvas.renderAll();
+      //     } else {
+      //       object.set({ fontWeight: "normal" });
+      //       object.dirty = true;
+      //       this.canvas.renderAll();
+      //       bold.style.backgroundColor = "";
+      //       object.bold = undefined;
+      //     }
+      //   } else {
+      //     object.setSelectionStyles({ fontWeight: "normal" });
+      //     object.dirty = true;
+      //     bold.style.backgroundColor = "";
+      //     this.canvas.renderAll();
+      //     object.bold = undefined;
+      //   }
+      // }
     };
   }
   //italic text
@@ -1639,48 +1692,81 @@ border-left:none; " contenteditable="true"></td>
         return false;
       }
 
-      if (object.italic === undefined) {
-        if (object.getSelectedText() == "") {
-          object.removeStyle("fontStyle");
-
+      if (object.getSelectedText() == "") {
+        object.removeStyle("fontStyle");
+        if (object.fontStyle == "normal") {
           object.set({ fontStyle: "italic" });
-
           object.dirty = true;
           this.canvas.renderAll();
-          object.italic = true;
           italic.style.backgroundColor = "#06343b";
         } else {
-          object.setSelectionStyles({ fontStyle: "italic" });
+          object.set({ fontStyle: "normal" });
           object.dirty = true;
           this.canvas.renderAll();
-          object.italic = true;
-          italic.style.backgroundColor = "#06343b";
+          italic.style.backgroundColor = "";
         }
       } else {
-        if (object.getSelectedText() == "") {
-          object.removeStyle("fontStyle");
+        if (
+          object.getSelectionStyles()[0].fontStyle == "normal" ||
+          object.getSelectionStyles()[0].fontStyle == undefined
+        ) {
+          object.setSelectionStyles({ fontStyle: "italic" });
+          italic.style.backgroundColor = "#06343b";
 
-          // to check if some text is normal and italic
-          if (object.fontStyle == "normal") {
-            italic.style.backgroundColor = "#06343b";
-            object.set({ fontStyle: "italic" });
-            this.canvas.renderAll();
-          } else {
-            object.set({ fontStyle: "" });
-            object.dirty = true;
-            this.canvas.renderAll();
-            italic.style.backgroundColor = "";
-            object.italic = undefined;
-          }
+          object.dirty = true;
+          this.canvas.renderAll();
+
+          italic.style.backgroundColor = "#06343b";
         } else {
           object.setSelectionStyles({ fontStyle: "normal" });
-
           object.dirty = true;
           italic.style.backgroundColor = "";
           this.canvas.renderAll();
-          object.italic = undefined;
         }
       }
+
+      // if (object.italic === undefined) {
+      //   if (object.getSelectedText() == "") {
+      //     object.removeStyle("fontStyle");
+
+      //     object.set({ fontStyle: "italic" });
+
+      //     object.dirty = true;
+      //     this.canvas.renderAll();
+      //     object.italic = true;
+      //     italic.style.backgroundColor = "#06343b";
+      //   } else {
+      //     object.setSelectionStyles({ fontStyle: "italic" });
+      //     object.dirty = true;
+      //     this.canvas.renderAll();
+      //     object.italic = true;
+      //     italic.style.backgroundColor = "#06343b";
+      //   }
+      // } else {
+      //   if (object.getSelectedText() == "") {
+      //     object.removeStyle("fontStyle");
+
+      //     // to check if some text is normal and italic
+      //     if (object.fontStyle == "normal") {
+      //       italic.style.backgroundColor = "#06343b";
+      //       object.set({ fontStyle: "italic" });
+      //       this.canvas.renderAll();
+      //     } else {
+      //       object.set({ fontStyle: "" });
+      //       object.dirty = true;
+      //       this.canvas.renderAll();
+      //       italic.style.backgroundColor = "";
+      //       object.italic = undefined;
+      //     }
+      //   } else {
+      //     object.setSelectionStyles({ fontStyle: "normal" });
+
+      //     object.dirty = true;
+      //     italic.style.backgroundColor = "";
+      //     this.canvas.renderAll();
+      //     object.italic = undefined;
+      //   }
+      // }
     };
   }
 
