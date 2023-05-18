@@ -712,6 +712,8 @@ border-left:none; " contenteditable="true"></td>
         }
 
         document.querySelector(".list-names").scrollTop = 0;
+      } else {
+        document.querySelector(".list-names").scrollTop = 0;
       }
     });
 
@@ -961,7 +963,23 @@ border-left:none; " contenteditable="true"></td>
           }
         }
       }
+      if (e.target.classList.contains("upperCase")) {
+        let tr = document.querySelectorAll(
+          ".list-name-container .list-names  table tbody tr"
+        );
 
+        for (let i = 0; i < tr.length; i++) {
+          if (tr[i].classList.contains("active")) {
+            let b = tr[i].children[1].innerText.replace(/,(?=[^\s])/g, ", ");
+
+            tr[i].children[1].innerText = b.toUpperCase();
+
+            let d = tr[i].children[2].innerText.replace(/,(?=[^\s])/g, ", ");
+
+            tr[i].children[2].innerText = d.toUpperCase();
+          }
+        }
+      }
       if (e.target.classList.contains("able-download")) {
         let tr = document.querySelectorAll(
           ".list-name-container .list-names  table tbody tr"
@@ -1268,17 +1286,20 @@ border-left:none; " contenteditable="true"></td>
             }
           }
         } else {
-          e.preventDefault();
-          // Get pasted text
-          const clipboardData = event.clipboardData || window.clipboardData;
-          const pastedText = clipboardData.getData("text");
-
-          // Remove formatting from pasted text
-          const plainText = pastedText.replace(/(<([^>]+)>)/gi, "");
-
-          // Insert plain text into element
-
-          e.target.textContent = plainText.trim();
+          // e.preventDefault();
+          // // Get pasted text
+          // const clipboardData = e.clipboardData || window.clipboardData;
+          // const pastedText = clipboardData.getData("text");
+          // // // Remove formatting from pasted text
+          // const plainText = pastedText.replace(/(<([^>]+)>)/gi, "");
+          // // Insert plain text into element
+          // e.target.textContent = plainText.trim();
+          setTimeout(() => {
+            e.target.textContent = e.target.textContent.replace(
+              /(<([^>]+)>)/gi,
+              ""
+            );
+          });
         }
 
         //   //this area exucute after paste event to change the column text in textbox canvas
@@ -1579,14 +1600,21 @@ border-left:none; " contenteditable="true"></td>
       }
     });
   }
-  small_text() {
+  superScript() {
     let superScript = document.querySelector("#superScript");
     // Event listener for input changes
-    let delta = false;
+
     superScript.addEventListener("click", () => {
       let object = this.canvas.getActiveObject();
-      if (object) {
-        if (object.getSelectionStyles()[0].deltaY == 0) {
+      if (!object) {
+        this.alert("no selected textbox or image");
+        return false;
+      }
+      if (object.getSelectedText() != "") {
+        if (
+          object.getSelectionStyles()[0].deltaY == 0 ||
+          object.getSelectionStyles()[0].deltaY == undefined
+        ) {
           console.log(object.getSelectionStyles()[0].deltaY);
           object.setSelectionStyles({
             deltaY: -+object.fontSize * 0.5,
@@ -1871,6 +1899,7 @@ border-left:none; " contenteditable="true"></td>
         this.alert("no selected textbox or image");
         return false;
       }
+      object.removeStyle("fontFamily");
       if (e.target.value !== "Times New Roman") {
         loadAndUse(e.target.value);
       } else {
@@ -2079,8 +2108,10 @@ border-left:none; " contenteditable="true"></td>
       if (object.length < 2) {
         return false;
       }
+      let group_objects = this.canvas.getActiveObject().toGroup();
+      var groupHeight = group_objects.height;
       object.forEach((obj) => {
-        let itemHeight = obj.getBoundingRect().height;
+        let itemHeight = groupHeight.height;
 
         obj.set({
           top: 0 - itemHeight / 2,

@@ -121,7 +121,7 @@ export class Utilities extends Global {
       "selection:created": select_object,
       "object:modified": modified,
       // 'mouse:down': mouse_down,
-      "object:moving": moving_object,
+      // "object:moving": moving_object,
       "mouse:up": mouse_up,
     });
   }

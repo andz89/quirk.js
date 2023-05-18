@@ -1,5 +1,6 @@
 import { fabric } from "fabric";
 import { Canvas } from "./canvas";
+let FontFaceObserver = require("fontfaceobserver");
 const run_script = (data) => {
   const open_file = () => {
     function replaceBreakLine(valueToEscape) {
@@ -290,40 +291,42 @@ const run_script = (data) => {
 
   var fonts = [
     "Roboto",
-    "Scope One",
-    "Zen Kurenaido",
-    "Rubik Mono One",
-    "Annie Use Your Telescope",
     "Dancing Script",
     "Work Sans",
     "Open Sans",
+    "Arial",
     "Titan One",
     "Fredoka One",
-    "Arial",
     "Sansita",
   ];
+
   const loadAndUse = (font) => {
     return new Promise((resolve, reject) => {
       for (let i = 0; i < font.length; i++) {
+        console.log(font[i]);
         var myfont = new FontFaceObserver(font[i]);
         myfont
           .load()
           .then(() => {
             // when font is loaded, use it.
-
-            resolve();
           })
           .catch((e) => {
             let log = "error loading font";
             reject(log);
           });
+
+        if (i + 1 == font.length) {
+          resolve();
+        }
       }
     });
   };
   loadAndUse(fonts)
-    .then(() => {})
-    .catch((e) => {});
-
-  open_file();
+    .then(() => {
+      open_file();
+    })
+    .catch((e) => {
+      console.log("error of fonts");
+    });
 };
 export { run_script };
