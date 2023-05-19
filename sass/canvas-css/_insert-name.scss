@@ -8,8 +8,8 @@
 
   top: 72px;
   height: 100%;
-  width: 550px;
-  right: -502px;
+  width: 580px;
+  right: -532px;
 
 
   //butto to click to appear list of names
@@ -47,6 +47,10 @@
     background-color: rgba(170, 228, 235, 0.712);
     transition: all .5s;
   }
+  .active-child {
+    background-color: rgba(170, 228, 235, 0.712);
+    transition: all .5s;
+  }
 
   .disable {
     background-color: #d3d2d2;
@@ -60,7 +64,40 @@
     margin: 5px 5px 0 5px;
 
   }
+  .checkbox {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+ 
+  }
+  
+  .checkbox-input {
+    display: none;
 
+  }
+  
+  .checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #9e9e9e;
+    margin-top: -4px;
+    position: relative;
+   
+  }
+  
+  .checkbox-input:checked + .checkbox-custom::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: #333;
+    border-radius: 50%;
+  }
+  
 
 
   .able-download {
@@ -106,27 +143,36 @@
   }
 
   td {
- 
+    user-select: none;
     text-decoration: none;
     font-family: Arial;
     padding-left: 2px;
     text-align: left;
-    
+      
    
   }
 
 
 
   .sequence {
+   
+ 
     font-size: 12px;
-    min-width: 30px;
-    max-width: 30px;
-
+    min-width: 70px;
+    max-width: 70px;
+    position: relative;
     border-top: .5pt solid black;
     border-right: none;
     border-bottom: .5pt solid black;
     border-left: .5pt solid black;
 
+     .sequence-child{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 10px;
+     }
 
   }
   .force-reflow {
@@ -164,7 +210,7 @@
   .modal-header {
     border-top: #fff 3px solid;
     background-color: #0f5c68;
-    width: 550px;
+    width: 580;
     margin: 10px auto 0 auto;
     padding: 10px;
   }
@@ -180,7 +226,7 @@
 
 
     background-color: #fff;
-    width: 550px;
+    width: 580;
     height: 470px;
 
     padding-bottom: 20px;
@@ -189,7 +235,7 @@
 
     .list-names {
       overflow: auto;
-      width: 550px;
+      width: 580;
       height: 500px;
 
       padding-bottom: 20px;

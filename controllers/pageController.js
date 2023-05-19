@@ -89,13 +89,23 @@ exports.invitation = (req, res) => {
   let page = new Page(data);
   page.getAllInviations().then(function (data) {
     res.render("pages/invitation", {
-      success_message_subscriber: req.flash("success_message_subscriber"),
-
-      data: data,
-
+      message: "Available soon",
       session: req.session.user ? true : false,
     });
   });
+  // let data = {};
+  // data.user_role = req.session.admin ? req.session.admin.user_role : "user";
+
+  // let page = new Page(data);
+  // page.getAllInviations().then(function (data) {
+  //   res.render("pages/invitation", {
+  //     success_message_subscriber: req.flash("success_message_subscriber"),
+
+  //     data: data,
+
+  //     session: req.session.user ? true : false,
+  //   });
+  // });
 };
 exports.purchased_templates = function (req, res) {
   let data = {};

@@ -231,7 +231,6 @@ const run_script = (data) => {
     function zoomIn(selector) {
       let zoomIn = document.querySelector(selector);
       zoomIn.addEventListener("click", () => {
-        console.log(arr.length);
         if (index == arr.length - 1) {
           return false;
         }
@@ -303,7 +302,6 @@ const run_script = (data) => {
   const loadAndUse = (font) => {
     return new Promise((resolve, reject) => {
       for (let i = 0; i < font.length; i++) {
-        console.log(font[i]);
         var myfont = new FontFaceObserver(font[i]);
         myfont
           .load()

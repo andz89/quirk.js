@@ -415,7 +415,6 @@ export class Menu_tools extends Global {
 
   save_file_json() {
     document.getElementById("save_json").addEventListener("click", () => {
-      console.log(this.purchased_id);
       this.loading_save("visible", "Saving . . .");
       function replaceBreakLine(valueToEscape) {
         if (valueToEscape != null && valueToEscape != "") {
@@ -640,7 +639,12 @@ export class Menu_tools extends Global {
           div.setAttribute("data", `${i}`);
 
           div.innerHTML = `
-  <td class="sequence ">${i}.</td>
+  <td class="sequence "> <div class="sequence-child"> <label class="checkbox">
+  <input type="checkbox" class="checkbox-input">
+  <span class="checkbox-custom"></span>
+  
+</label> <span class="number">${i}.</span>
+<div></td>
   <td class="xl65 column-1" style="border-right:.5pt solid black;
  " contenteditable="true"></td>
   <td class="xl65 column-2" style="border-right:.5pt solid black;
@@ -727,11 +731,16 @@ border-left:none; " contenteditable="true"></td>
       let div = document.createElement("tr");
 
       div.innerHTML = `
-      <td class="sequence">.</td>
-      <td class="xl65 column-1" spellcheck="false"  style="border-right:.5pt solid black;
+      <td class="sequence">  <div class="sequence-child"> <label class="checkbox">
+      <input type="checkbox" class="checkbox-input">
+      <span class="checkbox-custom"></span>
+      
+    </label> <span class="number"></span>
+    <div></td>
+      <td class="xl65 column-1" spellcheck="false"  
      " contenteditable="true"> </td>
-      <td  spellcheck="false"  class="xl65 column-2" style="border-right:.5pt solid black;
-    border-left:none; " contenteditable="true"></td>
+      <td  spellcheck="false"  class="xl65 column-2" 
+    " contenteditable="true"></td>
     <td>
     <img src="./images/canvas/eye-solid.png" class="eye-show" width="18">
     <img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
@@ -750,7 +759,7 @@ border-left:none; " contenteditable="true"></td>
         .querySelector(".list-name-container table tbody")
         .appendChild(div);
     }
-    parent.addEventListener("input", (e) => {
+    parent.addEventListener("keyup", (e) => {
       if (
         e.target.parentElement.children[1].innerText.length > 0 ||
         e.target.parentElement.children[2].innerText.length > 0
@@ -767,7 +776,6 @@ border-left:none; " contenteditable="true"></td>
       }
       function replaceBreakLine(valueToEscape) {
         if (valueToEscape != null && valueToEscape != "") {
-          console.log();
           return valueToEscape.replaceAll(/(\r\n|\n|\r)/gm, "");
         } else {
           return valueToEscape;
@@ -782,7 +790,6 @@ border-left:none; " contenteditable="true"></td>
 
       // e.target.innerText;
       if (e.target.classList.contains("column-1")) {
-        console.log("1");
         textbox_1[0].set({ text: replaceBreakLine(e.target.innerText) });
       }
       if (e.target.classList.contains("column-2")) {
@@ -792,15 +799,61 @@ border-left:none; " contenteditable="true"></td>
     });
 
     parent.addEventListener("click", (e) => {
+      //check row
+      if (e.target.classList.contains("checkbox-input")) {
+        let parent =
+          e.target.parentElement.parentElement.parentElement.parentElement;
+        if (e.target.checked == true) {
+          console.log("true checked");
+          //removing start-------------------------//
+
+          let list = document.querySelector(".list-name-container .list-names");
+
+          // start//
+          let td = list.querySelector(".active-child");
+          td ? td.classList.remove("active-child") : "";
+          // end//
+
+          // start//
+          let tr = list.querySelector(".active");
+          e.target.classList.contains("active")
+            ? tr
+              ? (tr.classList.remove("active"),
+                (tr.querySelector(".checkbox-input").checked = false))
+              : ""
+            : "";
+          // end//
+
+          function unselectText() {
+            if (window.getSelection) {
+              window.getSelection().removeAllRanges();
+            } else if (document.selection) {
+              document.selection.empty();
+            }
+          }
+
+          // Call the function to unselect the text
+          unselectText();
+          //removing end -------------------------//
+
+          parent.classList.add("active");
+        } else {
+          console.log("false checked");
+
+          parent.classList.remove("active");
+          e.target.checked = false;
+        }
+      }
+
       //remove row
       if (e.target.classList.contains("delete")) {
-        let tr = document.querySelectorAll(
-          ".list-name-container .list-names  table tbody tr"
+        let td = document.querySelectorAll(
+          ".list-name-container .list-names  table tbody tr td"
         );
 
-        Array.from(tr).forEach((ev) => {
-          if (ev.classList.contains("active")) {
-            ev.remove();
+        Array.from(td).forEach((td) => {
+          if (td.classList.contains("active-child")) {
+            td.parentElement.remove();
             addRow();
             let names = document.querySelectorAll(
               ".list-name-container .list-names table tbody tr"
@@ -808,26 +861,43 @@ border-left:none; " contenteditable="true"></td>
             let i = 1;
             names.forEach((e) => {
               e.setAttribute("data", i++);
-              e.children[0].innerText = i - 1 + ".";
+              e.querySelector(".number").innerText = i - 1 + ".";
+            });
+          } else if (td.parentElement.classList.contains("active")) {
+            td.parentElement.remove();
+            addRow();
+            let names = document.querySelectorAll(
+              ".list-name-container .list-names table tbody tr"
+            );
+            let i = 1;
+            names.forEach((e) => {
+              e.setAttribute("data", i++);
+              e.querySelector(".number").innerText = i - 1 + ".";
             });
           }
         });
       }
+
       //click on the table
       if (e.target.classList.contains("xl65")) {
-        let tr = document.querySelectorAll(
-          ".list-name-container .list-names  table tbody tr"
-        );
+        let list = document.querySelector(".list-name-container .list-names");
+        let td = list.querySelector(".active-child");
+        td ? td.classList.remove("active-child") : "";
 
-        Array.from(tr).forEach((ev) => {
-          ev.classList.remove("active");
+        setTimeout(() => {
+          let tr = document.querySelectorAll(".list-name-container .active");
+          tr
+            ? Array.from(tr).forEach((e) => {
+                e.classList.remove("active");
+                e.querySelector(".checkbox-input").checked = false;
+              })
+            : "";
         });
-        if (!e.target.parentElement.classList.contains("disable")) {
-          console.log("ss");
 
-          e.target.parentElement.classList.add("active");
-          e.target.parentElement.children[3].style.backgroundColor = "#fff";
-          e.target.parentElement.children[4].style.backgroundColor = "#fff";
+        if (!e.target.parentElement.classList.contains("disable")) {
+          // e.target.classList.add("active");
+          e.target.classList.add("active-child");
+
           let textbox_1 = this.canvas
             .getObjects()
             .filter((el) => el.name === "column-1");
@@ -853,21 +923,27 @@ border-left:none; " contenteditable="true"></td>
           this.canvas.renderAll();
         }
       }
-
+      //select all rows has text
       if (e.target.classList.contains("select-all")) {
+        //remove active-child
+        let list = document.querySelector(".list-name-container .list-names");
+        let td = list.querySelector(".active-child");
+        td ? td.classList.remove("active-child") : "";
+
         let tr = document.querySelectorAll(
           ".list-name-container .list-names  table tbody tr"
         );
 
         Array.from(tr).forEach((ev) => {
           if (
-            ev.children[1].innerText.length > 0 ||
-            ev.children[2].innerText.length > 0
+            ev.children[1].innerText.trim() ||
+            ev.children[2].innerText.trim()
           )
             if (!ev.classList.contains("disable")) {
               ev.classList.add("active");
-              ev.children[3].style.backgroundColor = "#fff";
-              ev.children[4].style.backgroundColor = "#fff";
+              ev.querySelector(".checkbox-input").checked = true;
+              // ev.children[3].style.backgroundColor = "#fff";
+              // ev.children[4].style.backgroundColor = "#fff";
             }
         });
       }
@@ -875,8 +951,13 @@ border-left:none; " contenteditable="true"></td>
       if (e.target.classList.contains("eye-show")) {
         e.target.parentElement.parentElement.classList.remove("active");
         e.target.parentElement.parentElement.classList.add("disable");
-        e.target.parentElement.parentElement.children[1].contentEditable = false;
-        e.target.parentElement.parentElement.children[2].contentEditable = false;
+        let child_1 = e.target.parentElement.parentElement.children[1];
+        child_1.contentEditable = false;
+        child_1.classList.remove("active-child");
+        let child_2 = e.target.parentElement.parentElement.children[2];
+        child_2.contentEditable = false;
+        child_2.classList.remove("active-child");
+
         e.target.parentElement.parentElement.querySelector(
           ".eye-show"
         ).style.display = "none";
@@ -889,10 +970,11 @@ border-left:none; " contenteditable="true"></td>
         e.target.parentElement.parentElement.querySelector(
           ".disable-download"
         ).style.display = "inline-block";
-        e.target.parentElement.parentElement.children[3].style.backgroundColor =
-          "#fff";
-        e.target.parentElement.parentElement.children[4].style.backgroundColor =
-          "#fff";
+
+        let checkbox =
+          e.target.parentElement.parentElement.querySelector(".checkbox-input");
+        checkbox.disabled = true;
+        checkbox.checked = false;
       }
       //eye hide
       if (e.target.classList.contains("eye-hide")) {
@@ -911,24 +993,44 @@ border-left:none; " contenteditable="true"></td>
         e.target.parentElement.parentElement.querySelector(
           ".disable-download"
         ).style.display = "none";
+        e.target.parentElement.parentElement.querySelector(
+          ".checkbox-input"
+        ).disabled = false;
       }
       //swap column
       if (e.target.classList.contains("swap-column")) {
         let tr = document.querySelectorAll(
-          ".list-name-container .list-names  table tbody tr"
+          ".list-name-container .list-names  table tbody tr td"
         );
 
         Array.from(tr).forEach((ev) => {
-          if (ev.classList.contains("active")) {
-            let a = ev.children[1].innerText;
-            let b = ev.children[2].innerText;
-            ev.children[1].innerText = b;
-            ev.children[2].innerText = a;
+          if (ev.classList.contains("active-child")) {
+            let a = ev.parentElement.children[1].innerText;
+            let b = ev.parentElement.children[2].innerText;
+            ev.parentElement.children[1].innerText = b;
+            ev.parentElement.children[2].innerText = a;
+          } else if (ev.parentElement.classList.contains("active")) {
+            let a = ev.parentElement.children[1].innerText;
+            let b = ev.parentElement.children[2].innerText;
+            ev.parentElement.children[1].innerText = b;
+            ev.parentElement.children[2].innerText = a;
           }
         });
       }
       //clear all rows
       if (e.target.classList.contains("clear-all")) {
+        //----------------------------//
+        //this will excute if the column is selected
+        let parent = document.querySelector(".list-name-container .list-names");
+
+        let td = parent.querySelector(".active-child");
+
+        if (td) {
+          td.parentElement.children[1].innerText = "";
+          td.parentElement.children[2].innerText = "";
+          return false;
+        }
+        //----------------------------//
         let tr = document.querySelectorAll(
           ".list-name-container .list-names  table tbody tr"
         );
@@ -942,11 +1044,51 @@ border-left:none; " contenteditable="true"></td>
           }
         });
       }
+      //sentence case
       if (e.target.classList.contains("sentence-case")) {
+        //----------------------------//
+        // if no selected text
+        if (window.getSelection().toString()) {
+          var selectedText = window.getSelection().toString();
+          var sentenceCaseText = selectedText
+            .replace(/,(?=[^\s])/g, ", ")
+            .replace(/\w\S*/g, function (txt) {
+              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+          // Replace the selected text with the uppercase text
+          if (window.getSelection) {
+            var range = window.getSelection().getRangeAt(0);
+            range.deleteContents();
+            range.insertNode(document.createTextNode(sentenceCaseText));
+          } else if (
+            document.selection &&
+            document.selection.type != "Control"
+          ) {
+            document.selection.createRange().text = sentenceCaseText;
+          }
+          return false;
+        }
+        //----------------------------//
+
+        //----------------------------//
+        //this will excute if the column is selected
+        let parent = document.querySelector(".list-name-container .list-names");
+
+        let td = parent.querySelector(".active-child");
+
+        if (td) {
+          td.textContent = td.textContent
+            .replace(/,(?=[^\s])/g, ", ")
+            .replace(/\w\S*/g, function (txt) {
+              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+          return false;
+        }
+        //----------------------------//
+
         let tr = document.querySelectorAll(
           ".list-name-container .list-names  table tbody tr"
         );
-
         for (let i = 0; i < tr.length; i++) {
           if (tr[i].classList.contains("active")) {
             let b = tr[i].children[1].innerText.replace(/,(?=[^\s])/g, ", ");
@@ -963,7 +1105,38 @@ border-left:none; " contenteditable="true"></td>
           }
         }
       }
+      // upper case
       if (e.target.classList.contains("upperCase")) {
+        // if there is no selected text
+        if (window.getSelection().toString()) {
+          var selectedText = window.getSelection().toString();
+          var uppercaseText = selectedText.toUpperCase();
+          // Replace the selected text with the uppercase text
+          if (window.getSelection) {
+            var range = window.getSelection().getRangeAt(0);
+            range.deleteContents();
+            range.insertNode(document.createTextNode(uppercaseText));
+          } else if (
+            document.selection &&
+            document.selection.type != "Control"
+          ) {
+            document.selection.createRange().text = uppercaseText;
+          }
+          return false;
+        }
+        //----------------------------//
+        //this will excute if the column is selected
+        let parent = document.querySelector(".list-name-container .list-names");
+
+        let td = parent.querySelector(".active-child");
+        if (td) {
+          td.textContent = td.textContent
+            .replace(/,(?=[^\s])/g, ", ")
+            .toUpperCase();
+          return false;
+        }
+        //----------------------------//
+
         let tr = document.querySelectorAll(
           ".list-name-container .list-names  table tbody tr"
         );
@@ -980,6 +1153,7 @@ border-left:none; " contenteditable="true"></td>
           }
         }
       }
+      //download canvas
       if (e.target.classList.contains("able-download")) {
         let tr = document.querySelectorAll(
           ".list-name-container .list-names  table tbody tr"
@@ -1119,7 +1293,7 @@ border-left:none; " contenteditable="true"></td>
 
       xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-          parent.style.right = "-503px";
+          parent.style.right = "-532px";
           add_name_btn.style.display = "block";
 
           document.querySelector("main").style.width = "100%";
@@ -1194,14 +1368,14 @@ border-left:none; " contenteditable="true"></td>
                       parseInt(inputs[x].getAttribute("data")) >=
                       parseInt(e.target.parentElement.getAttribute("data"))
                     ) {
-                      (inputs[x].children[1].innerHTML =
-                        excel_data[i].children[0].textContent),
-                        // inputs[x].children[2].innerHTML = breakTextToWidth(
-                        //   inputs[x].children[2].innerHTML,
-                        //   22
-                        // );
-                        (inputs[x].querySelector(".eye-show").style.display =
-                          "inline-block");
+                      inputs[x].children[1].innerText =
+                        excel_data[i].children[0].innerText;
+
+                      // inputs[x].querySelector(".sequence-child").style.margin =
+                      //   "10px";
+
+                      inputs[x].querySelector(".eye-show").style.display =
+                        "inline-block";
                       inputs[x].querySelector(".able-download").style.display =
                         "inline-block";
                       i++;
@@ -1213,8 +1387,6 @@ border-left:none; " contenteditable="true"></td>
                 }
               }
               if (e.target.classList.contains("column-2")) {
-                console.log("dajon");
-
                 for (let i = 0; i < excel_data.length; ) {
                   for (let x = 0; x < inputs.length; x++) {
                     if (
@@ -1615,7 +1787,6 @@ border-left:none; " contenteditable="true"></td>
           object.getSelectionStyles()[0].deltaY == 0 ||
           object.getSelectionStyles()[0].deltaY == undefined
         ) {
-          console.log(object.getSelectionStyles()[0].deltaY);
           object.setSelectionStyles({
             deltaY: -+object.fontSize * 0.5,
             fontSize: object.fontSize * 0.6,
@@ -2187,7 +2358,6 @@ border-left:none; " contenteditable="true"></td>
         object.set("lockRotation", false);
         this.canvas.renderAll();
       }
-      console.log(objects);
 
       if (objects.length > 1) {
         objects.forEach((obj) => {
