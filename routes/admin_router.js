@@ -25,13 +25,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 //admin page
+router.get("/admin-users", check.role_admin, adminController.users);
+
 router.get("/dashboard", check.role_admin, adminController.dashboard);
 router.get("/admin-login", check.role_guest, adminController.login_page);
 router.get("/admin-templates", check.role_admin, adminController.templates);
 router.get("/admin-invitations", check.role_admin, adminController.invitation);
 
 router.get("/admin-background", check.role_admin, adminController.background);
-router.get("/admin-users", check.role_admin, adminController.users);
+router.get(
+  "/admin-subscription",
+  check.role_admin,
+  adminController.subscription
+);
 
 //user admin action
 router.post("/publish", check.role_admin, adminController.publish_update);
@@ -108,6 +114,8 @@ router.post(
 
 router.post("/create-code", check.role_admin, adminController.createCode);
 router.post("/delete-code", check.role_admin, adminController.deleteCode);
+router.post("/delete-account", check.role_admin, adminController.deleteAccount);
+
 router.post(
   "/delete_background",
   check.role_admin,

@@ -54,6 +54,18 @@ exports.templates = (req, res) => {
     });
   });
 };
+exports.users = (req, res) => {
+  let data = {};
+  data.user_role = encrypt.decryptSessionData(req.session.admin.user_role);
+  let users = new Admin(data);
+  users.getAllUsers().then((data) => {
+    console.log(data);
+    res.render("admin/admin-users", {
+      data: data,
+      session: req.session.admin ? true : false,
+    });
+  });
+};
 exports.background = (req, res) => {
   let templates = new Admin();
   templates.getAllBackgrounds().then((data) => {
@@ -210,10 +222,10 @@ exports.publish_update = function (req, res) {
     res.json("true");
   });
 };
-exports.users = function (req, res) {
+exports.subscription = function (req, res) {
   let users = new Admin();
   users.get_codes().then((data) => {
-    res.render("admin/admin-users", {
+    res.render("admin/admin-subscription", {
       data: data,
     });
   });
@@ -284,5 +296,15 @@ exports.invitation = (req, res) => {
 
       session: req.session.admin ? true : false,
     });
+  });
+};
+exports.deleteAccount = (req, res) => {
+  let data = {};
+  data.user_role = encrypt.decryptSessionData(req.session.admin.user_role);
+  data.user_id = req.query.user_id;
+  data.user_email = req.query.user_email;
+  let admin = new Admin(data);
+  admin.deleteAccount().then(function (data) {
+    res.send(data);
   });
 };

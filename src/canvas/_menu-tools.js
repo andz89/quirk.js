@@ -620,7 +620,53 @@ export class Menu_tools extends Global {
       });
     });
   }
+  context_menu() {
+    // Get a reference to the canvas element
 
+    // Add event listener for the contextmenu event
+    window.addEventListener("contextmenu", function (e) {
+      e.preventDefault(); // Prevent the default context menu from showing
+
+      // Create a custom context menu
+      var contextMenu = document.createElement("ul");
+      contextMenu.className = "context-menu";
+
+      // Create menu items
+      var menuItem1 = document.createElement("li");
+      menuItem1.innerText = "Menu Item 1";
+      contextMenu.appendChild(menuItem1);
+
+      var menuItem2 = document.createElement("li");
+      menuItem2.innerText = "Menu Item 2";
+      contextMenu.appendChild(menuItem2);
+
+      // Position the context menu relative to the mouse coordinates
+      contextMenu.style.position = "fixed";
+      contextMenu.style.left = e.pageX + "px";
+      contextMenu.style.top = e.pageY + "px";
+
+      // Append the context menu to the document body
+      document.body.appendChild(contextMenu);
+
+      // Add event listener for menu item clicks
+      menuItem1.addEventListener("click", function () {
+        console.log("Menu Item 1 clicked");
+        contextMenu.remove(); // Remove the context menu after click
+      });
+
+      menuItem2.addEventListener("click", function () {
+        console.log("Menu Item 2 clicked");
+        contextMenu.remove(); // Remove the context menu after click
+      });
+
+      // Add event listener to close the context menu on outside click
+      window.addEventListener("click", function (event) {
+        if (!contextMenu.contains(event.target)) {
+          contextMenu.remove();
+        }
+      });
+    });
+  }
   //insert data
   insertData() {
     if (this.table == "false") {
@@ -654,7 +700,7 @@ border-left:none; " contenteditable="true"></td>
 <img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
 </td>
 
-<td style="margin-left:-51px">
+<td class="option-container" style="margin-left:-51px">
 <img src="./images/canvas/eye-slash-solid.png"  class="eye-hide" width="18">
 <img src="./images/canvas/download-solid.png"   class="able-download " width="18">
 <img src="./images/canvas/download-solid-disable.png"  class="disable-download" width="18">
@@ -693,10 +739,13 @@ border-left:none; " contenteditable="true"></td>
             if (excel_data[i].data_3 == "disable") {
               inputs[x].children[1].contentEditable = false;
               inputs[x].children[2].contentEditable = false;
+              inputs[x].children[1].classList.add("disable");
+              inputs[x].children[2].classList.add("disable");
               inputs[x].querySelector(".eye-hide").style.display =
                 "inline-block";
               inputs[x].querySelector(".disable-download").style.display =
                 "inline-block";
+              inputs[x].querySelector(".checkbox-input").disabled = true;
               inputs[x].children[3].style.backgroundColor = "#fff";
               inputs[x].children[4].style.backgroundColor = "#fff";
             } else {
@@ -801,10 +850,26 @@ border-left:none; " contenteditable="true"></td>
     parent.addEventListener("click", (e) => {
       //check row
       if (e.target.classList.contains("checkbox-input")) {
+        var element_count = document.querySelector(
+          "#selected-item-container .count"
+        );
+        var element_count_container = document.querySelector(
+          "#selected-item-container"
+        );
+
+        var current_count = element_count.innerText;
         let parent =
           e.target.parentElement.parentElement.parentElement.parentElement;
         if (e.target.checked == true) {
-          console.log("true checked");
+          element_count_container.style.display = "flex";
+          if (current_count == "") {
+            var new_count = 0 + 1;
+            element_count.innerText = new_count + " " + "selected";
+          } else {
+            var new_count = parseInt(current_count) + 1;
+            element_count.innerText = new_count + " " + "selected";
+          }
+
           //removing start-------------------------//
 
           let list = document.querySelector(".list-name-container .list-names");
@@ -835,18 +900,44 @@ border-left:none; " contenteditable="true"></td>
           // Call the function to unselect the text
           unselectText();
           //removing end -------------------------//
-
+          parent.children[3].style.backgroundColor = "#fff";
+          parent.children[4].style.backgroundColor = "#fff";
           parent.classList.add("active");
         } else {
-          console.log("false checked");
+          var new_count = parseInt(current_count) - 1;
+          if (new_count == 0) {
+            element_count_container.style.display = "none";
+            element_count.innerText = "";
+          } else {
+            element_count.innerText = new_count + " " + "selected";
+          }
 
           parent.classList.remove("active");
           e.target.checked = false;
         }
       }
+      //cancel selection
+      if (e.target.classList.contains("cancel-selection")) {
+        let tr = document.querySelectorAll(".list-name-container .active");
+        tr
+          ? Array.from(tr).forEach((e) => {
+              e.classList.remove("active");
+              e.querySelector(".checkbox-input").checked = false;
+            })
+          : "";
 
+        var element_count_container = document.querySelector(
+          "#selected-item-container"
+        );
+        element_count_container.style.display = "none";
+      }
       //remove row
       if (e.target.classList.contains("delete")) {
+        var element_count_container = (document.querySelector(
+          "#selected-item-container"
+        ).style.display = "none");
+        document.querySelector("#selected-item-container .count").innerText =
+          "";
         let td = document.querySelectorAll(
           ".list-name-container .list-names  table tbody tr td"
         );
@@ -880,6 +971,12 @@ border-left:none; " contenteditable="true"></td>
 
       //click on the table
       if (e.target.classList.contains("xl65")) {
+        var element_count_container = (document.querySelector(
+          "#selected-item-container"
+        ).style.display = "none");
+        document.querySelector("#selected-item-container .count").innerText =
+          "";
+
         let list = document.querySelector(".list-name-container .list-names");
         let td = list.querySelector(".active-child");
         td ? td.classList.remove("active-child") : "";
@@ -933,19 +1030,31 @@ border-left:none; " contenteditable="true"></td>
         let tr = document.querySelectorAll(
           ".list-name-container .list-names  table tbody tr"
         );
-
+        var count = 0;
         Array.from(tr).forEach((ev) => {
+          ev.querySelector(".checkbox-input").checked = false;
+          ev.classList.remove("active");
+
           if (
             ev.children[1].innerText.trim() ||
             ev.children[2].innerText.trim()
-          )
+          ) {
             if (!ev.classList.contains("disable")) {
+              count++;
               ev.classList.add("active");
               ev.querySelector(".checkbox-input").checked = true;
-              // ev.children[3].style.backgroundColor = "#fff";
-              // ev.children[4].style.backgroundColor = "#fff";
+              ev.children[3].style.backgroundColor = "#fff";
+              ev.children[4].style.backgroundColor = "#fff";
             }
+          }
         });
+        document.querySelector("#selected-item-container").style.display =
+          "flex";
+        let current_count = document.querySelector(
+          "#selected-item-container .count"
+        );
+
+        current_count.innerText = count + " " + "selected";
       }
       //eye show
       if (e.target.classList.contains("eye-show")) {
@@ -953,8 +1062,11 @@ border-left:none; " contenteditable="true"></td>
         e.target.parentElement.parentElement.classList.add("disable");
         let child_1 = e.target.parentElement.parentElement.children[1];
         child_1.contentEditable = false;
+        child_1.classList.add("disable");
         child_1.classList.remove("active-child");
         let child_2 = e.target.parentElement.parentElement.children[2];
+        child_2.classList.add("disable");
+
         child_2.contentEditable = false;
         child_2.classList.remove("active-child");
 
@@ -979,8 +1091,13 @@ border-left:none; " contenteditable="true"></td>
       //eye hide
       if (e.target.classList.contains("eye-hide")) {
         e.target.parentElement.parentElement.classList.remove("disable");
-        e.target.parentElement.parentElement.children[1].contentEditable = true;
-        e.target.parentElement.parentElement.children[2].contentEditable = true;
+        let child_1 = e.target.parentElement.parentElement.children[1];
+        child_1.classList.remove("disable");
+
+        child_1.contentEditable = true;
+        let child_2 = e.target.parentElement.parentElement.children[2];
+        child_2.contentEditable = true;
+        child_2.classList.remove("disable");
         e.target.parentElement.parentElement.querySelector(
           ".eye-show"
         ).style.display = "inline-block";
@@ -1026,10 +1143,18 @@ border-left:none; " contenteditable="true"></td>
         let td = parent.querySelector(".active-child");
 
         if (td) {
-          td.parentElement.children[1].innerText = "";
-          td.parentElement.children[2].innerText = "";
+          td.innerText = "";
+          if (
+            !td.parentElement.children[1].innerText.length > 0 &&
+            !td.parentElement.children[2].innerText.length > 0
+          ) {
+            td.parentElement.querySelector(".eye-show").style.display = "none";
+            td.parentElement.querySelector(".able-download").style.display =
+              "none";
+          }
           return false;
         }
+
         //----------------------------//
         let tr = document.querySelectorAll(
           ".list-name-container .list-names  table tbody tr"
@@ -1269,7 +1394,12 @@ border-left:none; " contenteditable="true"></td>
         }
       }
       names.forEach((element) => {
+        document.querySelector("#selected-item-container").style.display =
+          "none";
+        document.querySelector("#selected-item-container .count").innerText =
+          "";
         element.classList.remove("active");
+        element.querySelector(".checkbox-input").checked = false;
         let a = replaceBreakLine(element.children[1].innerText.trim());
         let b = replaceBreakLine(element.children[2].innerText.trim());
         let c = element.className;
@@ -1368,6 +1498,9 @@ border-left:none; " contenteditable="true"></td>
                       parseInt(inputs[x].getAttribute("data")) >=
                       parseInt(e.target.parentElement.getAttribute("data"))
                     ) {
+                      if (inputs[x].className == "disable") {
+                        continue; // Skip the current iteration when i is 2
+                      }
                       inputs[x].children[1].innerText =
                         excel_data[i].children[0].innerText;
 
@@ -1393,6 +1526,9 @@ border-left:none; " contenteditable="true"></td>
                       parseInt(inputs[x].getAttribute("data")) >=
                       parseInt(e.target.parentElement.getAttribute("data"))
                     ) {
+                      if (inputs[x].className == "disable") {
+                        continue; // Skip the current iteration when i is 2
+                      }
                       inputs[x].children[2].textContent =
                         excel_data[i].children[0].textContent;
                       inputs[x].querySelector(".eye-show").style.display =
@@ -1418,6 +1554,9 @@ border-left:none; " contenteditable="true"></td>
                       parseInt(inputs[x].getAttribute("data")) >=
                       parseInt(e.target.parentElement.getAttribute("data"))
                     ) {
+                      if (inputs[x].className == "disable") {
+                        continue; // Skip the current iteration when i is 2
+                      }
                       inputs[x].children[1].textContent =
                         excel_data[i].children[0].textContent;
                       inputs[x].children[2].textContent =
@@ -1441,6 +1580,9 @@ border-left:none; " contenteditable="true"></td>
                       parseInt(inputs[x].getAttribute("data")) >=
                       parseInt(e.target.parentElement.getAttribute("data"))
                     ) {
+                      if (inputs[x].className == "disable") {
+                        continue; // Skip the current iteration when i is 2
+                      }
                       inputs[x].children[2].textContent =
                         excel_data[i].children[0].textContent;
                       inputs[x].querySelector(".eye-show").style.display =
@@ -1528,21 +1670,42 @@ border-left:none; " contenteditable="true"></td>
         let a = document.querySelectorAll(
           ".list-name-container .list-names table tbody tr"
         );
-
+        let count = document.querySelector(
+          "#selected-item-container .count"
+        ).innerText;
         a.forEach((element) => {
-          if (element.className !== "disable") {
-            if (
-              (element.children[1].innerText.trim() &&
-                element.children[2].innerText.trim()) ||
-              element.children[1].innerText.trim() ||
-              element.children[2].innerText.trim()
-            ) {
-              let data = {
-                dataOne: element.children[1].innerText,
-                dataTwo: element.children[2].innerText,
-              };
+          if (count != "") {
+            //no selected
+            if (element.className == "active") {
+              if (
+                (element.children[1].innerText.trim() &&
+                  element.children[2].innerText.trim()) ||
+                element.children[1].innerText.trim() ||
+                element.children[2].innerText.trim()
+              ) {
+                let data = {
+                  dataOne: element.children[1].innerText,
+                  dataTwo: element.children[2].innerText,
+                };
 
-              arrayName.push(data);
+                arrayName.push(data);
+              }
+            }
+          } else {
+            if (element.className != "disable") {
+              if (
+                (element.children[1].innerText.trim() &&
+                  element.children[2].innerText.trim()) ||
+                element.children[1].innerText.trim() ||
+                element.children[2].innerText.trim()
+              ) {
+                let data = {
+                  dataOne: element.children[1].innerText,
+                  dataTwo: element.children[2].innerText,
+                };
+
+                arrayName.push(data);
+              }
             }
           }
         });
@@ -1667,7 +1830,7 @@ border-left:none; " contenteditable="true"></td>
         } else {
           this.loading(
             "visible",
-            `<h4> No names added </h4> <br>  <div class="btn  btn-md btn-danger text text-white done-download">Close</div>`
+            `<h4> No selected row </h4> <br>  <div class="btn  btn-md btn-danger text text-white done-download">Close</div>`
           );
 
           document

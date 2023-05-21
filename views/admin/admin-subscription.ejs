@@ -1,0 +1,130 @@
+<%- include('../include/admin-header') %>
+    <div class="bg-white admin-subscription-page">
+        <div class="" style="min-height: 400px;">
+            <div class="d-flex justify-content-center py-1 flex-direction-column">
+                <h3>Certificate Subscription</h3>
+
+            </div>
+            <div class="d-flex flex-direction-column align-items-center">
+                <div class="btn btn-sm btn-primary show-code-form-btn">
+                    Code form
+                </div>
+            </div>
+            <div class="hide code-form-container">
+                <div class="d-flex flex-direction-column align-items-center   gap-10  form code-form   bg-light  ">
+                    <div>
+                        <label for="">Duaration</label>
+                        <input value="3" id="duration" required type="number">
+                    </div>
+                    <div>
+                        <label for="">Template Limit</label>
+                        <input value="3" id="limit" required type="number">
+                    </div>
+                    <div>
+                        <label for="">Note</label>
+                        <textarea required>confirm</textarea>
+                    </div>
+                    <div class="select-element-style">
+                        <select name="Category" id="category">
+                            <option value="invitation">Invitation</option>
+                            <option value="certificate">certificate</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="btn btn-md btn-danger   close-code-form" style="width:100%">
+                        Close</div>
+
+                    <div class="btn btn-md btn-success   create-code" style="width:100%">Create Code
+                    </div>
+                </div>
+            </div>
+
+            <div class=" table-container d-flex justify-content-center align-items-center">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>code</th>
+                            <th>User ID</th>
+                            <th>Username</th>
+
+
+                            <th>date of activation</th>
+                            <th>date of expiration</th>
+                            <th>Days Duration</th>
+                            <th>Certificate Subscription</th>
+                            <th>Template used</th>
+                            <th>Category</th>
+                            <th>Template Limit</th>
+
+                            <th>action
+                    </thead>
+                    <tbody>
+                        <% data.forEach((data)=>{%>
+                            <tr>
+                                <td class="code-display">
+                                    <span>
+                                        <%= data.code %>
+                                    </span>
+
+                                    <div>
+                                        <div class="btn btn-sm btn-success copy-code">Copy</div>
+                                        <span class="copy-message">Copied</span>
+                                    </div>
+                                </td>
+                                <td>
+
+
+                                    <%= data.user_id %>
+
+
+
+                                </td>
+                                <td>
+                                    <%= data.user_name %>
+                                </td>
+
+
+                                <td>
+                                    <%= data.date_purchased %>
+                                </td>
+                                <td>
+                                    <%= data.date_expired %>
+                                </td>
+                                <td>
+                                    <%= data.days_duration %>
+
+                                </td>
+                                <td>
+                                    <%= data.certificate_subscription %>
+
+                                </td>
+                                <td>
+                                    <%= data.template_used %>
+                                </td>
+                                <td>
+                                    <%= data.category %>
+                                </td>
+                                <td>
+                                    <%= data.template_limit %>
+
+                                </td>
+
+                                <td class="action">
+                                    <div class="btn btn-sm btn-primary text text-white view">View</div>
+                                    <input type="hidden" id="code" value="<%= data.code %>">
+                                    <div class="btn btn-sm btn-danger text text-white delete-code">Remove</div>
+
+                                </td>
+                            </tr>
+                            <% }) %>
+
+                    </tbody>
+                </table>
+                <!-- partial -->
+            </div>
+        </div>
+
+    </div>
+
+    <%- include('../include/admin-footer') %>

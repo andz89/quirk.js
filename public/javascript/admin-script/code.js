@@ -1,17 +1,17 @@
 class Code {
   copy_code() {
-    if (document.querySelector(".admin-users-page")) {
+    if (document.querySelector(".admin-subscription-page")) {
       document
         .querySelector(".close-code-form")
         .addEventListener("click", () => {
           let element = document.querySelector(
-            ".admin-users-page .code-form-container"
+            ".admin-subscription-page .code-form-container"
           );
           element.classList.add("hide");
           element.classList.remove("show");
         });
       document
-        .querySelector(".admin-users-page table tbody")
+        .querySelector(".admin-subscription-page table tbody")
         .addEventListener("click", (e) => {
           if (e.target.classList.contains("copy-code")) {
             let input = document.createElement("input");
@@ -41,12 +41,12 @@ class Code {
     }
   }
   create_code() {
-    if (document.querySelector(".admin-users-page")) {
+    if (document.querySelector(".admin-subscription-page")) {
       document
-        .querySelector(".admin-users-page .show-code-form-btn")
+        .querySelector(".admin-subscription-page .show-code-form-btn")
         .addEventListener("click", () => {
           let element = document.querySelector(
-            ".admin-users-page .code-form-container"
+            ".admin-subscription-page .code-form-container"
           );
           if (element.classList.contains("hide")) {
             element.classList.add("show");
@@ -59,7 +59,7 @@ class Code {
       if (document.querySelector(".create-code")) {
         document.querySelector(".create-code").addEventListener("click", () => {
           let element = document.querySelector(
-            ".admin-users-page .code-form-container"
+            ".admin-subscription-page .code-form-container"
           );
           let duration = element.querySelector("#duration").value;
           let category = element.querySelector("#category");
@@ -77,13 +77,13 @@ class Code {
               if (xhttp.readyState == 4 && xhttp.status == 200) {
                 let code = xhttp.responseText;
                 let element = document.querySelector(
-                  ".admin-users-page .code-form-container"
+                  ".admin-subscription-page .code-form-container"
                 );
                 element.classList.add("hide");
                 element.classList.remove("show");
 
                 let parent = document.querySelector(
-                  ".admin-users-page table tbody"
+                  ".admin-subscription-page table tbody"
                 );
                 let tr = document.createElement("tr");
                 tr.innerHTML = `
@@ -153,7 +153,9 @@ class Code {
         });
       }
 
-      let element = document.querySelector(".admin-users-page table tbody");
+      let element = document.querySelector(
+        ".admin-subscription-page table tbody"
+      );
       element.addEventListener("click", (e) => {
         if (e.target.classList.contains("delete-code")) {
           let code = e.target.parentElement.querySelector("#code").value;

@@ -61,7 +61,7 @@
   }
 
   table {
-    margin: 5px 5px 0 5px;
+    margin: 5px;
 
   }
   .checkbox {
@@ -98,18 +98,22 @@
     border-radius: 50%;
   }
   
+.option-container{
+  max-width: 50px;
+  
 
+}
 
   .able-download {
     display: none;
-    margin: 10px 7px;
+    margin: 10px 3px;
     cursor: pointer;
     padding: 0;
   }
 
   .disable-download {
     display: none;
-    margin: 10px 7px;
+    margin: 10px 3px;
     cursor: pointer;
     padding: 0;
 
@@ -120,15 +124,17 @@
   .eye-hide {
     display: none;
     cursor: pointer;
-    margin: 10px 7px;
+    margin: 10px 3px;
     padding: 0;
+ 
 
   }
 
   .eye-show {
+ 
     padding: 0;
 
-    margin: 10px 7px;
+    margin: 10px 3px;
     display: none;
     cursor: pointer;
 
@@ -141,6 +147,7 @@
 
     height: 40px;
   }
+  
 
   td {
     user-select: none;
@@ -153,6 +160,12 @@
   }
 
 
+  td:focus {
+
+
+    outline: none;
+
+  }
 
   .sequence {
    
@@ -200,19 +213,14 @@
   }
 
 
-  td:focus {
-
-
-    outline: none;
-
-  }
 
   .modal-header {
     border-top: #fff 3px solid;
     background-color: #0f5c68;
-    width: 580;
+    width: 580px;
     margin: 10px auto 0 auto;
     padding: 10px;
+    height: 60px;
   }
 
 
@@ -226,7 +234,7 @@
 
 
     background-color: #fff;
-    width: 580;
+    width: 580px;
     height: 470px;
 
     padding-bottom: 20px;
@@ -235,7 +243,7 @@
 
     .list-names {
       overflow: auto;
-      width: 580;
+      width: 580px;
       height: 500px;
 
       padding-bottom: 20px;

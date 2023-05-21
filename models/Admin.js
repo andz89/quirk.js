@@ -285,5 +285,31 @@ Admin.prototype.publish_update = function (req, res) {
     });
   });
 };
+Admin.prototype.getAllUsers = function (req, res) {
+  return new Promise((resolve, reject) => {
+    let sql = "SELECT * FROM users";
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
 
+      resolve(result);
+    });
+  });
+};
+Admin.prototype.deleteAccount = function () {
+  return new Promise((resolve, reject) => {
+    console.log(this.data);
+    let sql = `DELETE FROM users WHERE user_email = '${this.data.user_email}' && user_id = '${this.data.user_id}'`;
+    db.query(sql, (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      resolve();
+    });
+  });
+};
 module.exports = Admin;

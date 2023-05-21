@@ -4,11 +4,7 @@ const encrypt = require("../helper/encrypt");
 const dotenv = require("dotenv");
 
 dotenv.config();
-//  req.query.user_name;
-//   req.query.user_email;
-//  req.session.user.user_id;
 
-// encrypt.decryptSessionData(req.session.user.user_role)
 exports.login = (req, res) => {
   let user = new User(req.body);
   user

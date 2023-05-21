@@ -161,14 +161,27 @@ User.prototype.validate = function () {
     }
   });
 };
-
+User.prototype.update_date_login = function () {
+  return new Promise((resolve, reject) => {
+    var currentDate = new Date();
+    this.data.date_login = currentDate.toLocaleDateString();
+    var sql = `UPDATE users SET date_login = '${this.data.date_login}' WHERE user_email = '${this.data.user_email}'`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      resolve();
+    });
+  });
+};
 User.prototype.login = function () {
   this.cleanUp();
 
   return new Promise((resolve, reject) => {
     let sql = `SELECT * FROM users WHERE user_email = "${this.data.user_email}"`;
 
-    db.query(sql, (err, result) => {
+    db.query(sql, async (err, result) => {
       if (err) {
         reject(err);
         return false;
@@ -178,6 +191,7 @@ User.prototype.login = function () {
         result.length &&
         bcrypt.compareSync(this.data.user_password, result[0].user_password)
       ) {
+        await this.update_date_login();
         resolve(result);
       } else {
         reject(this.data);
@@ -339,11 +353,11 @@ User.prototype.getUserTemplates = function () {
 //update activation code details -
 
 User.prototype.update_code = function () {
-  this.data.code_date = new Date().toLocaleString(); //date code created
+  this.data.code_date = new Date().toLocaleDateString(); //date code created
 
   var tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + this.data.days_duration);
-  let date_expired = tomorrow.toLocaleString(); //date expiration
+  let date_expired = tomorrow.toLocaleDateString(); //date expiration
 
   return new Promise((resolve, reject) => {
     var sql = `UPDATE activation_code SET user_id = '${this.data.user_id}',  user_name = '${this.data.user_name}',date_purchased = '${this.data.code_date}',template_used=${this.data.current_template},date_expired= '${date_expired}',certificate_subscription = 'true' WHERE code = '${this.data.code}'`;

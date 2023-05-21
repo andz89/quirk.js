@@ -1,130 +1,205 @@
 <%- include('../include/admin-header') %>
     <div class="bg-white admin-users-page">
         <div class="" style="min-height: 400px;">
-            <div class="d-flex justify-content-center py-1 flex-direction-column">
-                <h3>Certificate Subscription</h3>
+            <div style="margin:10px auto;max-width: 800px; ">
+                <label for="start-date">Start Date:</label>
+                <input class="btn btn-sm" type="date" id="start-date">
 
-            </div>
-            <div class="d-flex flex-direction-column align-items-center">
-                <div class="btn btn-sm btn-primary show-code-form-btn">
-                    Code form
-                </div>
-            </div>
-            <div class="hide code-form-container">
-                <div class="d-flex flex-direction-column align-items-center   gap-10  form code-form   bg-light  ">
-                    <div>
-                        <label for="">Duaration</label>
-                        <input value="3" id="duration" required type="number">
-                    </div>
-                    <div>
-                        <label for="">Template Limit</label>
-                        <input value="3" id="limit" required type="number">
-                    </div>
-                    <div>
-                        <label for="">Note</label>
-                        <textarea required>confirm</textarea>
-                    </div>
-                    <div class="select-element-style">
-                        <select name="Category" id="category">
-                            <option value="invitation">Invitation</option>
-                            <option value="certificate">certificate</option>
-                        </select>
-                    </div>
-                    <br>
-                    <div class="btn btn-md btn-danger   close-code-form" style="width:100%">
-                        Close</div>
 
-                    <div class="btn btn-md btn-success   create-code" style="width:100%">Create Code
-                    </div>
-                </div>
+                <label for="end-date">End Date:</label>
+                <input class="btn btn-sm" type="date" id="end-date">
             </div>
 
-            <div class=" table-container d-flex justify-content-center align-items-center">
 
-                <table>
-                    <thead>
+
+            <table id="table" class="my-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+
+                        <th>User Email</th>
+                        <th>Last Login</th>
+                        <th>
+                            <select name="" id="filter-options" class="btn btn-sm">
+                                <option value="days">Days</option>
+                                <option value="weeks">Weeks</option>
+
+                            </select>
+                        </th>
+
+
+                        <th class="action-column">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% data.forEach((data)=>{%>
                         <tr>
-                            <th>code</th>
-                            <th>User ID</th>
-                            <th>Username</th>
+                            <td>
+                                <%= data.user_id%>
+                            </td>
+                            <td>
+                                <%= data.user_email%>
+                            </td>
+                            <td>
+                                <%= data.date_login%>
+                            </td>
+                            <td>
+
+                            </td>
+                            <td class=" action">
+                                <!-- Add your action buttons or links here -->
+
+                                <button style="margin:auto"
+                                    class="btn btn-sm btn-secondary text text-white delete">Delete</button>
+                            </td>
+                        </tr>
 
 
-                            <th>date of activation</th>
-                            <th>date of expiration</th>
-                            <th>Days Duration</th>
-                            <th>Certificate Subscription</th>
-                            <th>Template used</th>
-                            <th>Category</th>
-                            <th>Template Limit</th>
+                        <% }) %>
+                </tbody>
+            </table>
 
-                            <th>action
-                    </thead>
-                    <tbody>
-                        <% data.forEach((data)=>{%>
-                            <tr>
-                                <td class="code-display">
-                                    <span>
-                                        <%= data.code %>
-                                    </span>
-
-                                    <div>
-                                        <div class="btn btn-sm btn-success copy-code">Copy</div>
-                                        <span class="copy-message">Copied</span>
-                                    </div>
-                                </td>
-                                <td>
-
-
-                                    <%= data.user_id %>
-
-
-
-                                </td>
-                                <td>
-                                    <%= data.user_name %>
-                                </td>
-
-
-                                <td>
-                                    <%= data.date_purchased %>
-                                </td>
-                                <td>
-                                    <%= data.date_expired %>
-                                </td>
-                                <td>
-                                    <%= data.days_duration %>
-
-                                </td>
-                                <td>
-                                    <%= data.certificate_subscription %>
-
-                                </td>
-                                <td>
-                                    <%= data.template_used %>
-                                </td>
-                                <td>
-                                    <%= data.category %>
-                                </td>
-                                <td>
-                                    <%= data.template_limit %>
-
-                                </td>
-
-                                <td class="action">
-                                    <div class="btn btn-sm btn-primary text text-white view">View</div>
-                                    <input type="hidden" id="code" value="<%= data.code %>">
-                                    <div class="btn btn-sm btn-danger text text-white delete-code">Remove</div>
-
-                                </td>
-                            </tr>
-                            <% }) %>
-
-                    </tbody>
-                </table>
-                <!-- partial -->
-            </div>
         </div>
 
     </div>
+    <script>
 
+        // Get the table element
+        const table = document.getElementById('table');
+
+
+        const rows = table.getElementsByTagName("tr");
+        for (let i = 1; i < rows.length; i++) {
+            const cell = rows[i].getElementsByTagName("td")[2];
+            const lastLoginDate = new Date(cell.innerText);
+            const currentDate = new Date();
+            const timeDiff = Math.abs(currentDate - lastLoginDate);
+            const daysSinceLastLogin = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+
+            rows[i].getElementsByTagName("td")[3].innerText = daysSinceLastLogin;
+
+        }
+        const rows_sort = Array.from(table.getElementsByTagName("tr")).slice(1); // Exclude the header row
+
+        rows_sort.sort((rowA, rowB) => {
+            const cellA = rowA.getElementsByTagName("td")[3];
+            const cellB = rowB.getElementsByTagName("td")[3];
+            const daysA = parseInt(cellA.innerText, 10);
+            const daysB = parseInt(cellB.innerText, 10);
+
+            return daysB - daysA; // Sort in descending order
+        });
+
+        rows_sort.forEach(row => table.appendChild(row));
+        table.addEventListener('change', (e) => {
+            if (e.target.value == 'weeks') {
+                console.log(e.target.value);
+
+                for (let i = 1; i < rows.length; i++) {
+                    const cell = rows[i].getElementsByTagName("td")[2];
+                    const lastLoginDate = new Date(cell.innerText);
+                    const currentDate = new Date();
+                    const timeDiff = Math.abs(currentDate - lastLoginDate);
+                    const daysSinceLastLogin = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                    const weeksSinceLastLogin = Math.ceil(daysSinceLastLogin / 7);
+
+
+                    rows[i].getElementsByTagName("td")[3].innerText = weeksSinceLastLogin;
+                }
+            }
+            if (e.target.value == 'days') {
+
+
+                for (let i = 1; i < rows.length; i++) {
+                    const cell = rows[i].getElementsByTagName("td")[2];
+                    const lastLoginDate = new Date(cell.innerText);
+                    const currentDate = new Date();
+                    const timeDiff = Math.abs(currentDate - lastLoginDate);
+                    const daysSinceLastLogin = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+
+                    rows[i].getElementsByTagName("td")[3].innerText = daysSinceLastLogin;
+
+                }
+            }
+        })
+
+
+
+
+
+
+        // Get the date range inputs
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+
+        // Function to filter dates within a range
+        function filterDates(startDate, endDate) {
+            // Convert start and end dates to Date objects
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            // Get all the rows in the table body
+            const rows = table.tBodies[0].querySelectorAll('tr');
+
+            // Loop through each row and filter based on date range
+            rows.forEach(row => {
+                const dateCell = row.querySelector('td:nth-child(2)');
+                const date = new Date(dateCell.textContent);
+
+                if (date >= start && date <= end) {
+                    row.style.display = ''; // Show the row if within range
+                } else {
+                    row.style.display = 'none'; // Hide the row if outside range
+                }
+            });
+        }
+
+        // Event listener for date range inputs
+        startDateInput.addEventListener('input', () => {
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+            filterDates(startDate, endDate);
+        });
+
+        endDateInput.addEventListener('input', () => {
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+            filterDates(startDate, endDate);
+        });
+
+
+
+        table.addEventListener('click', (e) => {
+
+            if (e.target.classList.contains('delete')) {
+
+                let id = e.target.parentElement.parentElement.children[0].innerText.trim()
+                let email = e.target.parentElement.parentElement.children[1].innerText.trim()
+                console.log(id);
+                console.log(email);
+
+
+
+                var xhttp = new XMLHttpRequest();
+
+                xhttp.onreadystatechange = () => {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        let data = xhttp.responseText;
+                        console.log(data);
+                        //remove
+                        e.target.parentElement.parentElement.remove()
+                    }
+                };
+                xhttp.open(
+                    "POST",
+                    `http://localhost:5000/delete-account?user_id=${id}&user_email=${email} `,
+                    true
+                );
+                xhttp.send();
+
+            }
+        })
+    </script>
     <%- include('../include/admin-footer') %>

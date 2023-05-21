@@ -154,10 +154,26 @@
         </div>
 
         <div class="list-name-content">
-            <div class="modal-header d-flex justify-content-end bg-dark">
 
-                <div id="preview-image" class="btn btn-xl btn-success">Bulk Download <img
-                        src="./images/canvas/download-solid-white.png" width="20" style="margin-left:5px"></div>
+            <div class="modal-header d-flex justify-content-between">
+
+                <div class="d-flex">
+                    <div id="selected-item-container" class="d-none ">
+                        <div class="cancel-selection text text-white btn btn-sm btn-dark d-flex justifiy-content-center gap-10 "
+                            style=" border-radius: 20px; padding:7px 15px;max-width: 200px;">
+                            <div class="cancel-selection" style="font-size:16px">&#x2715</div>
+                            <div class="cancel-selection count"></div>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+
+
+
                 <div class="btn btn-sm btn-primary save">
                     Save and close
                 </div>
@@ -176,10 +192,21 @@
 
                     </div>
                     <div style="height:30px" class="text text-white btn btn-sm   clear-all">
-                        Clear row
+                        Clear
                     </div>
-                    <div style="height:30px" class=" btn btn-sm   delete">
-                        <img class="delete" src="images/canvas/trash.png" width="18">
+                    <div style="height:30px" class=" btn btn-sm  btn-dark delete">
+                        <div class="d-flex justify-content-center gap-10">
+                            <span class="text text-white delete"> Delete row </span>
+
+                            <img class="delete" src="images/canvas/trash.png" width="18">
+                        </div>
+
+                    </div>
+                    <div style="height:30px" id="preview-image" class="btn btn-sm btn-success">
+                        <div class="d-flex justify-content-center gap-10">
+                            <span> Download</span>
+                            <img src="./images/canvas/download-solid-white.png" width="18" style="margin-left:5px">
+                        </div>
                     </div>
                 </div>
                 <div>
