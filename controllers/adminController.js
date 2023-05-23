@@ -59,7 +59,6 @@ exports.users = (req, res) => {
   data.user_role = encrypt.decryptSessionData(req.session.admin.user_role);
   let users = new Admin(data);
   users.getAllUsers().then((data) => {
-    console.log(data);
     res.render("admin/admin-users", {
       data: data,
       session: req.session.admin ? true : false,
@@ -100,7 +99,6 @@ exports.addBackground = (req, res) => {
 };
 
 exports.updateBackground = (req, res) => {
-  //    console.log(req.files);
   if (req.files) {
     //if no photos updloaded
 
@@ -128,7 +126,7 @@ exports.updateBackground = (req, res) => {
   }
 
   let bg = new Admin(req.body);
-  console.log(bg);
+
   bg.update_background().then((data) => {
     res.redirect("/admin-background");
   });
@@ -137,7 +135,6 @@ exports.add_template = function (req, res) {
   let thumbnail_image;
   let modal_image;
 
-  console.log(modal_image);
   if (req.files.thumbnail_image) {
     req.files.thumbnail_image.forEach((e) => {
       thumbnail_image = e.filename;
@@ -156,7 +153,7 @@ exports.add_template = function (req, res) {
 
   req.body.thumbnail_image = thumbnail_image;
   req.body.modal_image = modal_image;
-  console.log(req.body);
+
   let admin = new Admin(req.body);
   admin
     .add_template_into_database() //database
@@ -302,7 +299,7 @@ exports.deleteAccount = (req, res) => {
   let data = {};
   data.user_role = encrypt.decryptSessionData(req.session.admin.user_role);
   data.user_id = req.query.user_id;
-  data.user_email = req.query.user_email;
+
   let admin = new Admin(data);
   admin.deleteAccount().then(function (data) {
     res.send(data);

@@ -1,7 +1,8 @@
 const db = require("../db");
 const { v4: uuidv4 } = require("uuid");
 
-const fs = require("fs").promises;
+// const fs = require("fs").promises;
+const fs = require("fs");
 
 const unlinkAsync = fs.unlink;
 
@@ -116,11 +117,54 @@ Admin.prototype.update_background = function () {
 };
 
 Admin.prototype.deleteImageBackground = async function (data) {
-  for (let i = 0; i < data.length; i++) {
-    await unlinkAsync("public/images/canvas_image/" + data[i]);
+  const isParametersArray = Array.isArray(data);
+  console.log("ning sulod");
+  if (isParametersArray == true) {
+    console.log("image is available and array");
+    for (let i = 0; i < data.length; i++) {
+      const filePath = "public/images/users/" + data[i];
+
+      fs.access(filePath, fs.constants.F_OK, (err) => {
+        if (err) {
+          // File does not exist or is not accessible
+          console.error("File does not exist:", err);
+        } else {
+          // File exists and is accessible, proceed with deletion
+          fs.unlink(filePath, async (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Error deleting file:", unlinkErr);
+            } else {
+              console.log("success deleting images");
+
+              // await unlinkAsync("public/images/canvas_image/" + data[i]);
+            }
+          });
+        }
+      });
+    }
+  } else {
+    const filePath = "public/images/users/" + data;
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+      console.log(filePath);
+      console.log("image is available");
+
+      if (err) {
+        // File does not exist or is not accessible
+        console.error("File does not exist:", err);
+      } else {
+        // File exists and is accessible, proceed with deletion
+        fs.unlink(filePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error("Error deleting file:", unlinkErr);
+          } else {
+            console.log("success deleting image");
+            // await unlinkAsync("public/images/users/" + data);
+          }
+        });
+      }
+    });
   }
 };
-
 Admin.prototype.update_template = function () {
   return new Promise(async (resolve, reject) => {
     let table_name;
@@ -298,10 +342,60 @@ Admin.prototype.getAllUsers = function (req, res) {
     });
   });
 };
-Admin.prototype.deleteAccount = function () {
+// will delete the copied templates of certificates
+Admin.prototype.deleteAccount_certificates = function (req, res) {
   return new Promise((resolve, reject) => {
-    console.log(this.data);
-    let sql = `DELETE FROM users WHERE user_email = '${this.data.user_email}' && user_id = '${this.data.user_id}'`;
+    let sql = `DELETE FROM purchased_template WHERE user_id = '${this.data.user_id}'`;
+    db.query(sql, (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      resolve();
+    });
+  });
+};
+Admin.prototype.deleteAccount_userTableImages = function (req, res) {
+  return new Promise((resolve, reject) => {
+    let sql = `DELETE FROM user_image WHERE user_id = '${this.data.user_id}'`;
+    db.query(sql, (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      resolve();
+    });
+  });
+};
+Admin.prototype.deleteAccount_images = function (req, res) {
+  return new Promise((resolve, reject) => {
+    let sql = `SELECT * FROM  user_image WHERE user_id = "${this.data.user_id}"`;
+    db.query(sql, async (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      if (result) {
+        await this.deleteImageBackground(result[0].image_path);
+        await this.deleteAccount_userTableImages();
+        resolve();
+      }
+    });
+  });
+};
+// let sql = `SELECT * FROM ${table_name} WHERE template_id = "${this.data.template_id}"`;
+// if (image_to_delete.length) {
+//   this.deleteImageBackground(image_to_delete);
+// }
+Admin.prototype.deleteAccount = async function () {
+  await this.deleteAccount_certificates();
+  await this.deleteAccount_images();
+
+  return new Promise((resolve, reject) => {
+    let sql = `DELETE FROM users WHERE user_id = '${this.data.user_id}'`;
     db.query(sql, (err) => {
       if (err) {
         reject(err);

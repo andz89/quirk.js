@@ -176,9 +176,8 @@
             if (e.target.classList.contains('delete')) {
 
                 let id = e.target.parentElement.parentElement.children[0].innerText.trim()
-                let email = e.target.parentElement.parentElement.children[1].innerText.trim()
-                console.log(id);
-                console.log(email);
+
+
 
 
 
@@ -194,7 +193,7 @@
                 };
                 xhttp.open(
                     "POST",
-                    `http://localhost:5000/delete-account?user_id=${id}&user_email=${email} `,
+                    `http://localhost:5000/delete-account?user_id=${id} `,
                     true
                 );
                 xhttp.send();
