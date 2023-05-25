@@ -142,7 +142,7 @@ Page.prototype.check_user_subscription = function () {
     resolve();
   });
 };
-
+// 9cf045d2-41bd-4a89-9032-61bcd1519ba7
 Page.prototype.getCanvas = function () {
   return new Promise(async (resolve, reject) => {
     await this.check_user_subscription();

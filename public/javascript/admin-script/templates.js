@@ -100,6 +100,8 @@ class Crud_templates {
           let modal_title = modal_parent.querySelector(".modal-title");
           let modal_description = modal_parent.querySelector(".description");
           let modal_id = modal_parent.querySelector(".template_id");
+          let modal_json_file = modal_parent.querySelector("#json_file");
+
           let display_thumbnail =
             modal_parent.querySelector(".display_thumbnail");
 
@@ -108,6 +110,8 @@ class Crud_templates {
           //element from display element start//
 
           let template_title = template.querySelector(".title").innerText;
+          let template_json = template.querySelector("#template_json").value;
+
           let template_description =
             template.querySelector(".description").innerText;
           let template_id = template.querySelector(".template-id").value;
@@ -117,6 +121,7 @@ class Crud_templates {
           );
 
           modal_title.value = template_title;
+          modal_json_file.value = template_json;
           modal_description.value = template_description.trim();
           display_thumbnail.src = template_thumbnail;
 

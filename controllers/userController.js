@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 exports.login = (req, res) => {
+  req.body.sessionID = req.sessionID;
   let user = new User(req.body);
   user
     .login()

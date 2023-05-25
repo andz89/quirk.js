@@ -31,6 +31,7 @@ User.prototype.cleanUp = function () {
     user_name: this.data.user_name.trim().toLowerCase(),
     user_email: this.data.user_email.trim().toLowerCase(),
     user_password: this.data.user_password,
+    sessionID: this.data.sessionID,
   };
 };
 User.prototype.validate = function () {
@@ -165,7 +166,19 @@ User.prototype.update_date_login = function () {
   return new Promise((resolve, reject) => {
     var currentDate = new Date();
     this.data.date_login = currentDate.toLocaleDateString();
-    var sql = `UPDATE users SET date_login = '${this.data.date_login}' WHERE user_email = '${this.data.user_email}'`;
+    var sql = `UPDATE users SET date_login = '${this.data.date_login}'  WHERE user_email = '${this.data.user_email}'`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+      resolve();
+    });
+  });
+};
+User.prototype.update_sessions_table = function () {
+  return new Promise((resolve, reject) => {
+    var sql = `UPDATE sessions SET user_id = '${this.data.user_id}' WHERE session_id = '${this.data.sessionID}'`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);
@@ -191,7 +204,9 @@ User.prototype.login = function () {
         result.length &&
         bcrypt.compareSync(this.data.user_password, result[0].user_password)
       ) {
+        this.data.user_id = result[0].user_id;
         await this.update_date_login();
+        await this.update_sessions_table();
         resolve(result);
       } else {
         reject(this.data);

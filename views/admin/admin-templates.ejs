@@ -166,7 +166,8 @@
                             <span style="display:none" class="description">
                                 <%= data.template_description %>
                             </span>
-
+                            <textarea style="display: none;" name="" id="template_json" cols="30"
+                                rows="10"> <%= data.template_json %></textarea>
                             <input type="hidden" class="template-id" value="<%= data.template_id %>">
 
                         </div>
@@ -209,6 +210,7 @@
                         <small id="status" class="<%= data.live == 'true' ?  'live':'not-live' %>">
                             <%= data.live=='true' ? 'Live' :'Hidden' %>
                         </small>
+
                         <!-- edit temmplate modal -->
                         <div class="modal-edit-admin">
                             <form action="/updateTemplate" method="POST" enctype="multipart/form-data">

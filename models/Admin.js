@@ -378,11 +378,27 @@ Admin.prototype.deleteAccount_images = function (req, res) {
         return false;
       }
 
-      if (result) {
+      if (result.length !== 0) {
         await this.deleteImageBackground(result[0].image_path);
         await this.deleteAccount_userTableImages();
         resolve();
+      } else {
+        await this.deleteAccount_userTableImages();
+        resolve();
       }
+    });
+  });
+};
+Admin.prototype.deleteAccount_sessions = function (req, res) {
+  return new Promise((resolve, reject) => {
+    let sql = `DELETE FROM sessions WHERE user_id = '${this.data.user_id}'`;
+    db.query(sql, (err) => {
+      if (err) {
+        reject(err);
+        return false;
+      }
+
+      resolve();
     });
   });
 };
@@ -393,6 +409,7 @@ Admin.prototype.deleteAccount_images = function (req, res) {
 Admin.prototype.deleteAccount = async function () {
   await this.deleteAccount_certificates();
   await this.deleteAccount_images();
+  await this.deleteAccount_sessions();
 
   return new Promise((resolve, reject) => {
     let sql = `DELETE FROM users WHERE user_id = '${this.data.user_id}'`;

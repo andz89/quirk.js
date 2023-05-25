@@ -14,9 +14,6 @@ var sessionStore = new MySQLStore({
   database: process.env.MYSQL_DB,
 });
 
-const passport = require("passport");
-const FacebookStrategy = require("passport-facebook").Strategy;
-
 const app = express();
 
 app.use(express.static("public", { maxAge: 0 }));
@@ -65,19 +62,19 @@ app.use(function (req, res, next) {
   next();
 });
 
-let sessionOptions = session({
-  name: process.env.SESS_NAME,
-  secret: process.env.SESS_SECRET,
-  resave: false,
-  saveUninitialized: true,
-  store: sessionStore,
-  cookie: {
-    httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24,
-    secure: IN_PROD,
-  },
-});
-app.use(sessionOptions);
+// let sessionOptions = session({
+//   name: process.env.SESS_NAME,
+//   secret: process.env.SESS_SECRET,
+//   resave: false,
+//   saveUninitialized: true,
+//   store: sessionStore,
+//   cookie: {
+//     httpOnly: true,
+//     maxAge: 1000 * 60 * 60 * 24,
+//     secure: IN_PROD,
+//   },
+// });
+// app.use(sessionOptions);
 app.use(flash());
 const router = require("./routes/router");
 const admin_router = require("./routes/admin_router");
