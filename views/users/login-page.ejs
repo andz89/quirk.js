@@ -1,6 +1,6 @@
 <%- include('../include/user-header') %>
 
-  <div class="bg-white">
+  <div class="bg-white login-page">
 
     <div class="d-flex justify-content-center flex-direction-column form-container bg-white" style="min-height:420px">
       <img src="images/quirk-logo.png" width="45" alt="">
@@ -25,11 +25,17 @@
           <input style="width:300px" name="user_email" type="text" placeholder="Email" autocomplete="off"
             value="<%= locals.users_data && users_data.length ? users_data[0].user_email : '' %>" />
 
-          <input style="width:300px" name="user_password" type="password" placeholder="Password" id="login-password" />
-          <div class="d-flex align-items-center check-password-container">
+          <input style="width:300px" name="user_password" autocomplete type="password" placeholder="Password"
+            id="login-password" />
+
+
+          <div class="d-flex align-items-center gap-10 check-password-container"
+            style="padding-top:3px; user-select: none;gap: 5px;">
             <input type="checkbox" id="check-password-login-input" />
 
-            <label for="check-password-login-input" class="pad-x"><small> Show Password</small>
+            <label for="check-password-login-input" class="pad-x"><small>
+                Show
+                Password</small>
             </label>
           </div>
         </div>
