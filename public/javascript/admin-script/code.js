@@ -89,10 +89,10 @@ class Code {
                 tr.innerHTML = `
              <tr>
              <td class="code-display">
-             <span>${code}</span>
+           
                
                      <div>
-                         <div class="btn btn-sm btn-success copy-code">Copy</div>
+                         <div class="btn btn-sm btn-success copy-code">Get code</div>
                          <span class="copy-message">Copied</span>
                      </div>
              </td>
@@ -108,19 +108,16 @@ class Code {
              </td>
   
              <td>
-           
+             ${duration} 
              </td>
              <td>
-             ${duration}   
+             
              </td>
              <td>
            
   
          </td>
-             <td>
-               
-  
-             </td>
+            
              <td>
              ${category.value}
   
@@ -165,7 +162,7 @@ class Code {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
               let code = xhttp.responseText;
 
-              e.target.parentElement.parentElement.remove();
+              e.target.parentElement.parentElement.parentElement.remove();
             }
           };
           xhttp.open(

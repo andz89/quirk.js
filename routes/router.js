@@ -30,7 +30,7 @@ const upload = multer({ storage: storage });
 //pages
 router.get("/development-query", pageController.development_query);
 
-router.get("/canvas", check.role_user, pageController.canvas);
+// router.get("/canvas", check.role_user, pageController.canvas);
 router.get("/", pageController.home); // home
 router.get("/account-page", check.role_user, pageController.account_page);
 router.get("/templates", pageController.templates_page);
@@ -40,11 +40,7 @@ router.get(
   pageController.purchased_templates
 );
 router.get("/invitation", pageController.invitation);
-router.get(
-  "/canvas-test",
-  check.queryFromcanvas_role,
-  pageController.canvasTest
-);
+router.get("/canvas", check.queryFromcanvas_role, pageController.canvas);
 router.get("/register-page", check.role_guest, pageController.register_page);
 router.get("/contact-page", pageController.contact_page);
 router.get("/login-page", check.role_guest, pageController.login_page);

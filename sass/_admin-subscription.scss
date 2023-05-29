@@ -1,7 +1,4 @@
- ////////////////////////////////
- /// 
- /// 
- ///  
+
  .admin-subscription-page {
 
      *:before,
@@ -72,17 +69,12 @@
      .table-container {
  
   
-         margin: auto;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         flex-direction: column;
-         // overflow: auto;
+        
 
      }
 
      table {
-         background: #012B39;
+     
          border-radius: 0.25em;
          border-collapse: collapse;
          margin: 1em;
@@ -91,71 +83,70 @@
      }
 
      th {
+        background: #012B39;
          border-bottom: 1px solid #364043;
          color: #E2B842;
          font-size: 0.85em;
          font-weight: 600;
          padding: 0.5em 1em;
-         text-align: left;
+         text-align: center;
 
 
      }
-
-     tbody tr td:first-child {
-
-
-
-
-         .btn {
-             font-size: 11px;
-         }
-
-     }
-
+ 
+       tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+    
      .code-display {
-         overflow: hidden;
-         text-overflow: ellipsis;
-         white-space: nowrap;
-         max-width: 12ch;
-         font-size: 12px;
-     }
-
+         
+         .code{
+            display: none;
+         }
+         
      .copy-code {
-         padding: 2px 4px;
-         word-break: normal;
+        padding: 2px 4px;
+        word-break: normal;
+        font-size: 11px;
+       
+    }
+
+    .copy-message {
+        display: none;
+        position: absolute;
+        margin-top: -55px;
+        margin-left: 45px;
+        color: #fdfdfd;
+        background-color: #000;
+        padding: 5px;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
      }
 
-     .copy-message {
-         display: none;
-         position: absolute;
-         margin-top: -55px;
-         margin-left: 45px;
 
-         background-color: #000;
-         padding: 5px;
-         border-top-right-radius: 10px;
-         border-top-left-radius: 10px;
-         border-bottom-right-radius: 10px;
-     }
+    //  td:nth-child(2) {
+    //     width: 30px;
+    //     word-wrap: break-word;
+    //   }
 
+     td{
 
-
-     td {
-
-         border-bottom: .5pt solid rgb(81, 100, 110);
-         color: #fff;
+        border: 1px solid #e6dede;
+         color: #333;
          font-weight: 400;
-         padding: 0.65em .5em;
+         padding: 3px  5px;
          word-break: break-all;
          font-size: 12px;
-
+        height: 50px;
 
 
 
      }
 
      .action {
-
+ 
          .btn {
              text-align: center;
 
@@ -183,7 +174,8 @@
 
      }
 
-     tbody tr:hover {
-         background: #014055;
-     }
+     tbody  tr:hover {
+        background-color: #eae4e2;
+      }
+    
  }

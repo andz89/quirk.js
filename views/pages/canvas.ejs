@@ -85,36 +85,39 @@
             </div>
             <div class="text">
                 <div class="text-properties">
-                    <!-- color -->
-                    <label id="bold" class="hover"> <img src="images/canvas/bold-solid.png" width="15" alt="">
+
+                    <label id="fontWeight" for="bold-icon" class="hover"> <img src="images/canvas/bold-solid.png"
+                            width="15" alt="" class="bold-icon">
+
+
                     </label>
 
                     <!-- italic -->
-                    <label id="italic" class="hover">
-                        <img class=" " src="images/canvas/italic-solid.png" width="15" alt="" />
+                    <label id="fontStyle" for="fontStyle-img" class="hover">
+                        <img src="images/canvas/italic-solid.png" class="fontStyle-img" width="15" alt="" />
                     </label>
 
                 </div>
 
-                <div class="text-style-align">
+                <div class="textAlign">
 
 
                     <!-- alignLeftText -->
-                    <label id="alignLeftText" class="hover">
-                        <img class=" "
+                    <label for="left" class="hover">
+                        <img id="left"
                             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4LjAzIDcuMjkiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+bGVmdDwvdGl0bGU+PGcgaWQ9IkxheWVyXzIiIGRhdGEtbmFtZT0iTGF5ZXIgMiI+PGcgaWQ9IkxheWVyXzYiIGRhdGEtbmFtZT0iTGF5ZXIgNiI+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIwLjAzIiB3aWR0aD0iOCIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yOCIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeT0iNCIgd2lkdGg9IjgiIGhlaWdodD0iMC45MSIgcng9IjAuMjgiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHk9IjEuOTMiIHdpZHRoPSI1Ljk3IiBoZWlnaHQ9IjAuOTEiIHJ4PSIwLjI0Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB5PSI2LjM4IiB3aWR0aD0iNS43NiIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yNCIvPjwvZz48L2c+PC9zdmc+"
                             width="15" alt="" />
                     </label>
 
                     <!-- alignCenterText -->
-                    <label id="alignCenterText" class="hover">
-                        <img class=" "
+                    <label for="center" class="hover">
+                        <img id="center"
                             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4IDcuMjkiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+Y2VudGVyXzE8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJjZW50ZXIiPjxyZWN0IGNsYXNzPSJjbHMtMSIgd2lkdGg9IjgiIGhlaWdodD0iMC45MSIgcng9IjAuMjgiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHk9IjQiIHdpZHRoPSI4IiBoZWlnaHQ9IjAuOTEiIHJ4PSIwLjI4Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIxLjEzIiB5PSIxLjkzIiB3aWR0aD0iNS43NCIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yNCIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMS4yMyIgeT0iNi4zOCIgd2lkdGg9IjUuNTMiIGhlaWdodD0iMC45MSIgcng9IjAuMjMiLz48L2c+PC9nPjwvc3ZnPg=="
                             width="15" alt="" />
                     </label>
                     <!-- alignRightText -->
-                    <label id="alignRightText" class="hover">
-                        <img class=" "
+                    <label for="right" class="hover">
+                        <img id="right"
                             src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4IDcuMjkiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojY2NjO308L3N0eWxlPjwvZGVmcz48dGl0bGU+cmlnaHQ8L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJyaWdodCI+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iOCIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yOCIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeT0iNCIgd2lkdGg9IjgiIGhlaWdodD0iMC45MSIgcng9IjAuMjgiLz48cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjIuMDMiIHk9IjEuOTMiIHdpZHRoPSI1Ljk3IiBoZWlnaHQ9IjAuOTEiIHJ4PSIwLjI0Ii8+PHJlY3QgY2xhc3M9ImNscy0xIiB4PSIyLjI0IiB5PSI2LjM4IiB3aWR0aD0iNS43NiIgaGVpZ2h0PSIwLjkxIiByeD0iMC4yNCIvPjwvZz48L2c+PC9zdmc+"
                             alt="" width="15" />
                     </label>
@@ -125,7 +128,7 @@
                     <input type="number" value="18" id="fontSize"><br>
 
                 </div>
-                <input type="color" id="color" class="color  " value="#008080">
+                <input type="color" id="fill" class="color  " value="#008080">
 
 
             </div>

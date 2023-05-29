@@ -1,26 +1,10 @@
 import { Global } from "./_global.js";
+
 let FontFaceObserver = require("fontfaceobserver");
 let JSZip = require("jszip");
 let JSZipUtils = require("jszip-utils");
 
 export class Menu_tools extends Global {
-  admin() {
-    let close_btn = document.querySelector(".admin-tool-container .close");
-    close_btn.addEventListener("click", (e) => {
-      if (e.target.classList.contains("hide")) {
-        document.querySelector(".admin-tool-content").style.display = "none";
-
-        e.target.classList.remove("hide");
-        e.target.classList.add("open");
-        e.target.innerText = "Show";
-      } else {
-        document.querySelector(".admin-tool-content").style.display = "block";
-        e.target.classList.remove("open");
-        e.target.classList.add("hide");
-        e.target.innerText = "Hide";
-      }
-    });
-  }
   //add background
   add_background() {
     let add_bg_image = document.querySelector(
@@ -164,7 +148,7 @@ export class Menu_tools extends Global {
         xhttp.send();
       });
     } else {
-      document.querySelector("#reset").style.display = "none";
+      // document.querySelector("#reset").style.display = "none";
     }
   }
 
@@ -412,99 +396,101 @@ export class Menu_tools extends Global {
       photo_container.style.display = "none";
     });
   }
-
-  save_file_json() {
-    document.getElementById("save_json").addEventListener("click", () => {
-      this.loading_save("visible", "Saving . . .");
-      function replaceBreakLine(valueToEscape) {
-        if (valueToEscape != null && valueToEscape != "") {
-          return valueToEscape.replaceAll(/(\r\n|\n|\r)/gm, "<-br->");
-        } else {
-          return valueToEscape;
-        }
+  compile_json() {
+    this.loading_save("visible", "Saving . . .");
+    function replaceBreakLine(valueToEscape) {
+      if (valueToEscape != null && valueToEscape != "") {
+        return valueToEscape.replaceAll(/(\r\n|\n|\r)/gm, "<-br->");
+      } else {
+        return valueToEscape;
       }
-      function replaceQoute(valueToEscape) {
-        if (valueToEscape != null && valueToEscape != "") {
-          return valueToEscape.replaceAll(/'/g, "<-q->");
-        } else {
-          return valueToEscape;
-        }
+    }
+    function replaceQoute(valueToEscape) {
+      if (valueToEscape != null && valueToEscape != "") {
+        return valueToEscape.replaceAll(/'/g, "<-q->");
+      } else {
+        return valueToEscape;
       }
-      //delete not used bg
-      this.canvas
-        .getObjects()
-        .filter((e) => {
-          return e.name === "bg-image" && e.opacity === 0;
-        })
-        .forEach((e) => {
-          e.excludeFromExport = true;
+    }
+    //delete not used bg
+    this.canvas
+      .getObjects()
+      .filter((e) => {
+        return e.name === "bg-image" && e.opacity === 0;
+      })
+      .forEach((e) => {
+        e.excludeFromExport = true;
 
-          this.canvas.renderAll();
-        });
-
-      let json = this.canvas.toJSON(["id", "name"]);
-
-      json.objects.forEach((e) => {
-        if (e.type === "textbox") {
-          e.text = e.text.trim();
-          e.text = replaceQoute(replaceBreakLine(e.text));
-        }
+        this.canvas.renderAll();
       });
 
-      let size = {
-        w: this.width,
-        h: this.height,
-      };
+    let json = this.canvas.toJSON(["id", "name"]);
 
-      let merge = {
-        json,
-        size,
-      };
-      let json_file = JSON.stringify(merge);
-      let json_text = document.querySelector("#text-input");
-      json_text.value = json_file;
-      // const xhr = new XMLHttpRequest()
-      const form = document.querySelector("#upload-form");
+    json.objects.forEach((e) => {
+      if (e.type === "textbox") {
+        e.text = e.text.trim();
+        e.text = replaceQoute(replaceBreakLine(e.text));
+      }
+    });
 
-      const formData = new FormData(form);
+    let size = {
+      w: this.width,
+      h: this.height,
+    };
 
-      // formData.append("file_input", upload_img.files[0]);
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4) {
-          if (xhttp.status == 200) {
-            let data = JSON.parse(xhttp.responseText);
-            if (data === "ok") {
-              setTimeout((e) => {
-                this.loading_save("hidden", null);
-                // document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
-              }, 3000);
-            }
-            if (data === "no-user") {
+    let merge = {
+      json,
+      size,
+    };
+    let json_file = JSON.stringify(merge);
+    let json_text = document.querySelector("#text-input");
+    json_text.value = json_file;
+    // const xhr = new XMLHttpRequest()
+    const form = document.querySelector("#upload-form");
+
+    const formData = new FormData(form);
+
+    // formData.append("file_input", upload_img.files[0]);
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState == 4) {
+        if (xhttp.status == 200) {
+          let data = JSON.parse(xhttp.responseText);
+          if (data === "ok") {
+            setTimeout((e) => {
               this.loading_save("hidden", null);
-
-              this.alert("Something went wrong. Please refresh the page!");
-            }
+              // document.querySelector('.lds-spinner-container-saving-json').style.display = 'none';
+            }, 3000);
           }
-        } else {
-          // handle error
-          if (xhttp.status === 404) {
-            console.log("Resource not found");
-          } else if (xhttp.status === 500) {
-            console.log("Server error");
+          if (data === "no-user") {
+            this.loading_save("hidden", null);
+
+            this.alert("Something went wrong. Please refresh the page!");
           }
         }
-      };
-      xhttp.open(
-        "POST",
-        `http://localhost:5000/saved-template?template_id=${this.template_id}&purchased_id=${this.purchased_id}&category=${this.category}`,
-        true
-      );
-      xhttp.send(formData);
+      } else {
+        // handle error
+        if (xhttp.status === 404) {
+          console.log("Resource not found");
+        } else if (xhttp.status === 500) {
+          console.log("Server error");
+        }
+      }
+    };
+    xhttp.open(
+      "POST",
+      `http://localhost:5000/saved-template?template_id=${this.template_id}&purchased_id=${this.purchased_id}&category=${this.category}`,
+      true
+    );
+    xhttp.send(formData);
+  }
+  send_to_server() {
+    document.getElementById("save_json").addEventListener("click", () => {
+      this.compile_json();
     });
   }
   grid() {
-    document.querySelector("#grid").addEventListener("click", (e) => {
+    document.querySelector("#grid").onclick = (e) => {
       let grid = this.canvas.getObjects().filter((obj) => {
         return obj.name == "grid";
       });
@@ -512,7 +498,7 @@ export class Menu_tools extends Global {
         return obj.name == "bg-image";
       });
 
-      if (grid[0].opacity == 0) {
+      if (e.target.checked) {
         grid[0].set({ opacity: 1 });
         if (bg[0]) {
           this.canvas.sendToBack(bg[0]);
@@ -521,7 +507,7 @@ export class Menu_tools extends Global {
         grid[0].set({ opacity: 0 });
       }
       this.canvas.renderAll();
-    });
+    };
   }
   print_view() {
     document.querySelector("#print-view").addEventListener("click", () => {
@@ -1916,24 +1902,7 @@ border-left:none; " contenteditable="true"></td>
 
   // font color change
   fontColor() {
-    let color = document.querySelector("#color");
-    color.addEventListener("input", (e) => {
-      let object = this.canvas.getActiveObject();
-      if (object === undefined) {
-        this.alert("no selected textbox or image");
-      }
-      if (object != undefined) {
-        if (window.getSelection().toString() != "") {
-          object.setSelectionStyles({ fill: e.target.value });
-          this.canvas.renderAll();
-        } else if (window.getSelection().toString() == "") {
-          object.removeStyle("fill");
-          object.set("fill", e.target.value);
-          object.dirty = true;
-          this.canvas.renderAll();
-        }
-      }
-    });
+    this.observeValue("fill");
   }
   superScript() {
     let superScript = document.querySelector("#superScript");
@@ -1950,14 +1919,15 @@ border-left:none; " contenteditable="true"></td>
           object.getSelectionStyles()[0].deltaY == 0 ||
           object.getSelectionStyles()[0].deltaY == undefined
         ) {
-          object.setSelectionStyles({
-            deltaY: -+object.fontSize * 0.5,
-            fontSize: object.fontSize * 0.6,
-          });
+          // object.setSelectionStyles({
+          //   deltaY: -+object.fontSize * 0.5,
+          //   fontSize: object.fontSize * 0.6,
+          // });
+          object.setSuperscript();
         } else {
           object.setSelectionStyles({
-            deltaY: 0,
-            fontSize: object.fontSize,
+            deltaY: undefined,
+            fontSize: undefined,
           });
         }
 
@@ -1972,232 +1942,20 @@ border-left:none; " contenteditable="true"></td>
       }
     });
   }
-  //bold text
-  bold_text() {
-    document.querySelector("#bold").onclick = () => {
-      let object = this.canvas.getActiveObject();
-      let bold = document.querySelector("#bold");
-      if (!object) {
-        this.alert("no selected textbox or image");
-        return false;
-      }
 
-      // if (object.getSelectionStyles()[0].fontWeight == "normal") {
-      if (object.getSelectedText() == "") {
-        // empty
-        object.removeStyle("fontWeight");
-        if (object.fontWeight == "normal") {
-          object.set({ fontWeight: "bold" });
-          object.dirty = true;
-          this.canvas.renderAll();
-          bold.style.backgroundColor = "#06343b";
-        } else {
-          object.set({ fontWeight: "normal" });
-          object.dirty = true;
-          this.canvas.renderAll();
-          bold.style.backgroundColor = "";
-        }
-      } else {
-        if (
-          object.getSelectionStyles()[0].fontWeight == "normal" ||
-          object.getSelectionStyles()[0].fontWeight == undefined
-        ) {
-          object.setSelectionStyles({ fontWeight: "bold" });
-          bold.style.backgroundColor = "#06343b";
-
-          object.dirty = true;
-          this.canvas.renderAll();
-
-          bold.style.backgroundColor = "#06343b";
-        } else {
-          object.setSelectionStyles({ fontWeight: "normal" });
-          object.dirty = true;
-          bold.style.backgroundColor = "";
-          this.canvas.renderAll();
-        }
-      }
-      // } else {
-      //   if (object.getSelectedText() == "") {
-      //     // empty
-      //     // object.removeStyle('fontWeight')
-
-      //     // to check if some text is normal and bold
-      //     if (object.fontWeight == "normal") {
-      //       bold.style.backgroundColor = "#06343b";
-
-      //       object.set({ fontWeight: "bold" });
-      //       this.canvas.renderAll();
-      //     } else {
-      //       object.set({ fontWeight: "normal" });
-      //       object.dirty = true;
-      //       this.canvas.renderAll();
-      //       bold.style.backgroundColor = "";
-      //       object.bold = undefined;
-      //     }
-      //   } else {
-      //     object.setSelectionStyles({ fontWeight: "normal" });
-      //     object.dirty = true;
-      //     bold.style.backgroundColor = "";
-      //     this.canvas.renderAll();
-      //     object.bold = undefined;
-      //   }
-      // }
-    };
-  }
-  //italic text
-  italic_text() {
-    let italic = document.querySelector("#italic");
-    italic.onclick = () => {
-      let object = this.canvas.getActiveObject();
-      if (!object) {
-        this.alert("no selected textbox or image");
-        return false;
-      }
-
-      if (object.getSelectedText() == "") {
-        object.removeStyle("fontStyle");
-        if (object.fontStyle == "normal") {
-          object.set({ fontStyle: "italic" });
-          object.dirty = true;
-          this.canvas.renderAll();
-          italic.style.backgroundColor = "#06343b";
-        } else {
-          object.set({ fontStyle: "normal" });
-          object.dirty = true;
-          this.canvas.renderAll();
-          italic.style.backgroundColor = "";
-        }
-      } else {
-        if (
-          object.getSelectionStyles()[0].fontStyle == "normal" ||
-          object.getSelectionStyles()[0].fontStyle == undefined
-        ) {
-          object.setSelectionStyles({ fontStyle: "italic" });
-          italic.style.backgroundColor = "#06343b";
-
-          object.dirty = true;
-          this.canvas.renderAll();
-
-          italic.style.backgroundColor = "#06343b";
-        } else {
-          object.setSelectionStyles({ fontStyle: "normal" });
-          object.dirty = true;
-          italic.style.backgroundColor = "";
-          this.canvas.renderAll();
-        }
-      }
-
-      // if (object.italic === undefined) {
-      //   if (object.getSelectedText() == "") {
-      //     object.removeStyle("fontStyle");
-
-      //     object.set({ fontStyle: "italic" });
-
-      //     object.dirty = true;
-      //     this.canvas.renderAll();
-      //     object.italic = true;
-      //     italic.style.backgroundColor = "#06343b";
-      //   } else {
-      //     object.setSelectionStyles({ fontStyle: "italic" });
-      //     object.dirty = true;
-      //     this.canvas.renderAll();
-      //     object.italic = true;
-      //     italic.style.backgroundColor = "#06343b";
-      //   }
-      // } else {
-      //   if (object.getSelectedText() == "") {
-      //     object.removeStyle("fontStyle");
-
-      //     // to check if some text is normal and italic
-      //     if (object.fontStyle == "normal") {
-      //       italic.style.backgroundColor = "#06343b";
-      //       object.set({ fontStyle: "italic" });
-      //       this.canvas.renderAll();
-      //     } else {
-      //       object.set({ fontStyle: "" });
-      //       object.dirty = true;
-      //       this.canvas.renderAll();
-      //       italic.style.backgroundColor = "";
-      //       object.italic = undefined;
-      //     }
-      //   } else {
-      //     object.setSelectionStyles({ fontStyle: "normal" });
-
-      //     object.dirty = true;
-      //     italic.style.backgroundColor = "";
-      //     this.canvas.renderAll();
-      //     object.italic = undefined;
-      //   }
-      // }
-    };
+  fontProperties() {
+    this.bold_Italic("fontWeight", "bold");
+    this.bold_Italic("fontStyle", "italic");
   }
 
   //text align left
-  textAlign_left() {
-    document.querySelector("#alignLeftText");
-    alignLeftText.onclick = () => {
-      let object = this.canvas.getActiveObject();
-      if (!object) {
-        this.alert("no selected textbox or image");
-        return false;
-      }
-      object.set("textAlign", "left");
+  textAlign() {
+    this.observeTargetValue("textAlign");
+  }
 
-      object.dirty = true;
-      this.canvas.renderAll();
-    };
-  }
-  //text align center
-  textAlign_center() {
-    let alignCenterText = document.querySelector("#alignCenterText");
-    alignCenterText.onclick = () => {
-      let object = this.canvas.getActiveObject();
-      if (!object) {
-        return false;
-      }
-      object.set("textAlign", "center");
-      object.dirty = true;
-      this.canvas.renderAll();
-    };
-  }
-  //text align right
-  textAlign_right() {
-    let alignRightText = document.querySelector("#alignRightText");
-    alignRightText.onclick = () => {
-      let object = this.canvas.getActiveObject();
-      if (!object) {
-        return false;
-      }
-      object.set("textAlign", "right");
-      this.canvas.setActiveObject(object);
-      object.dirty = true;
-      this.canvas.renderAll();
-    };
-  }
   //font size
   fontSize() {
-    let fontSize = document.querySelector("#fontSize");
-    fontSize.oninput = (e) => {
-      let object = this.canvas.getActiveObject();
-      if (!object) {
-        this.alert("no selected textbox or image");
-        return false;
-      }
-      if (object) {
-        if (object.getSelectedText() != "") {
-          object.setSelectionStyles({ fontSize: parseInt(e.target.value) });
-          // fontSizeinput = e.target.value
-          object.dirty = true;
-          this.canvas.renderAll();
-          // object.set({fontSize: e.target.value })
-        } else {
-          object.removeStyle("fontSize");
-          object.set({ fontSize: parseInt(e.target.value) });
-          object.dirty = true;
-          this.canvas.renderAll();
-        }
-      }
-    };
+    this.observeValue("fontSize");
   }
   //font family
   fontStyle() {
@@ -2227,7 +1985,7 @@ border-left:none; " contenteditable="true"></td>
     });
 
     // Apply selected font on change
-    fontFamilySelect.onchange = (e) => {
+    fontFamilySelect.oninput = (e) => {
       let object = this.canvas.getActiveObject();
       if (!object) {
         this.alert("no selected textbox or image");
@@ -2250,9 +2008,15 @@ border-left:none; " contenteditable="true"></td>
         .load()
         .then(() => {
           // when font is loaded, use it.
-
-          object.set("fontFamily", font);
-          this.canvas.renderAll();
+          if (object.getSelectedText() != "") {
+            object.setSelectionStyles({ fontFamily: font });
+            this.canvas.renderAll();
+          } else if (window.getSelection().toString() == "") {
+            object.removeStyle("fontFamily");
+            object.set("fontFamily", font);
+            object.dirty = true;
+            this.canvas.renderAll();
+          }
         })
         .catch((e) => {
           this.alert("unstable internet connection. cannot load google fonts");
@@ -2277,311 +2041,32 @@ border-left:none; " contenteditable="true"></td>
     });
   }
 
-  align_canvas() {
-    document.querySelector("#align-canvas").addEventListener("click", (e) => {
-      if (e.target.value == "Horizontal") {
-        if (this.canvas.getActiveObject().type === "activeSelection") {
-          let obj = this.canvas.getActiveObject().toGroup();
-          this.canvas.viewportCenterObjectH(obj);
-
-          let selected_objects = this.canvas
-            .getActiveObject()
-            .toActiveSelection();
-          this.groupObjectStyle(selected_objects);
-
-          this.canvas.renderAll();
-        } else {
-          let object = this.canvas.getActiveObject();
-          this.canvas.viewportCenterObjectH(object);
-          this.canvas.setActiveObject(object);
-        }
+  keyboard_shortcut() {
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "d") {
+        event.preventDefault();
       }
-      if (e.target.value == "Vertical") {
-        if (this.canvas.getActiveObject().type === "activeSelection") {
-          let obj = this.canvas.getActiveObject().toGroup();
-          this.canvas.viewportCenterObjectV(obj);
-          let selected_objects = this.canvas
-            .getActiveObject()
-            .toActiveSelection();
-          this.groupObjectStyle(selected_objects);
 
-          this.canvas.renderAll();
-        } else {
-          let object = this.canvas.getActiveObject();
-          this.canvas.viewportCenterObjectV(object);
-          this.canvas.setActiveObject(object);
-        }
-      }
-      if (e.target.value == "Center") {
-        if (this.canvas.getActiveObject().type === "activeSelection") {
-          let obj = this.canvas.getActiveObject().toGroup();
-          this.canvas.viewportCenterObject(obj);
-          let selected_objects = this.canvas
-            .getActiveObject()
-            .toActiveSelection();
-          this.groupObjectStyle(selected_objects);
-
-          this.canvas.renderAll();
-        } else {
-          let object = this.canvas.getActiveObject();
-          this.canvas.viewportCenterObject(object);
-
-          this.canvas.setActiveObject(object);
-        }
+      if (event.ctrlKey && event.key === "s") {
+        event.preventDefault();
       }
     });
-  }
-
-  align_left() {
-    let align_left = document.querySelector("#align_left");
-    align_left.onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
+    fabric.util.addListener(document.body, "keydown", (options) => {
+      if (options.repeat) {
+        return;
       }
+      var key = options.which || options.keyCode; // key detection
 
-      let group_objects = this.canvas.getActiveObject().toGroup();
+      // if (key === 83 && options.ctrlKey) {
+      // save()
+      // }
 
-      var groupWidth = group_objects.width;
-
-      object.forEach((obj) => {
-        obj.set({
-          left: -(groupWidth / 2),
-          originX: "left",
-        });
-      });
-      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
-      this.groupObjectStyle(groupObjects);
-
-      this.canvas.renderAll();
-    };
-  }
-
-  align_center() {
-    let align_center = document.querySelector("#align_center");
-    align_center.onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
+      if (key === 83 && options.ctrlKey) {
+        this.compile_json();
       }
-
-      let group_objects = this.canvas.getActiveObject().toGroup();
-
-      var groupWidth = group_objects.width;
-
-      object.forEach((obj) => {
-        var itemWidth = obj.getBoundingRect().width;
-        obj.set({
-          left: 0 - itemWidth / 2,
-          originX: "left",
-        });
-      });
-      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
-
-      this.groupObjectStyle(groupObjects);
-
-      this.canvas.renderAll();
-    };
-  }
-
-  align_right() {
-    let align_right = document.querySelector("#align-right");
-    align_right.onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
-      }
-
-      let group_objects = this.canvas.getActiveObject().toGroup();
-
-      var groupWidth = group_objects.width;
-
-      object.forEach((obj) => {
-        var itemWidth = obj.getBoundingRect().width;
-        obj.set({
-          left: groupWidth / 2 - itemWidth / 2,
-          originX: "center",
-        });
-      });
-
-      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
-      this.groupObjectStyle(groupObjects);
-
-      this.canvas.renderAll();
-    };
-  }
-
-  align_top() {
-    document.querySelector("#align-top").onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
-      }
-
-      let group_objects = this.canvas.getActiveObject().toGroup();
-      var groupHeight = group_objects.height;
-
-      object.forEach((obj) => {
-        obj.set({
-          top: 0 - groupHeight / 2,
-          originY: "top",
-        });
-      });
-
-      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
-      this.groupObjectStyle(groupObjects);
-
-      this.canvas.renderAll();
-    };
-  }
-
-  align_middle() {
-    document.querySelector("#align-middle").onclick = () => {
-      let object = this.canvas.getActiveObjects();
-
-      if (object.length < 2) {
-        return false;
-      }
-      let group_objects = this.canvas.getActiveObject().toGroup();
-      var groupHeight = group_objects.height;
-      object.forEach((obj) => {
-        let itemHeight = groupHeight.height;
-
-        obj.set({
-          top: 0 - itemHeight / 2,
-          originY: "top",
-        });
-      });
-      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
-
-      this.groupObjectStyle(groupObjects);
-
-      this.canvas.renderAll();
-    };
-  }
-
-  align_bottom() {
-    document.querySelector("#align-bottom").onclick = () => {
-      let object = this.canvas.getActiveObjects();
-      if (object.length < 2) {
-        return false;
-      }
-
-      let group_objects = this.canvas.getActiveObject().toGroup();
-      var groupHeight = group_objects.height;
-
-      object.forEach((obj) => {
-        var itemHeight = obj.getBoundingRect().height;
-        obj.set({
-          top: groupHeight / 2 - itemHeight / 2,
-          originY: "center",
-        });
-      });
-      let groupObjects = this.canvas.getActiveObject().toActiveSelection();
-      this.groupObjectStyle(groupObjects);
-
-      this.canvas.renderAll();
-    };
-  }
-
-  object_name() {
-    document.querySelector("#object-name").addEventListener("input", (e) => {
-      let obj = this.canvas.getActiveObject();
-      obj.set({ name: e.target.value });
+      //   if (key === 79 && options.ctrlKey) {
+      // getFile()
+      // }
     });
-  }
-  lock() {
-    let lock = document.querySelector("#lock");
-    lock.onclick = () => {
-      let object = this.canvas.getActiveObject();
-      let objects = this.canvas.getActiveObjects();
-      if (!objects) {
-        return false;
-      }
-      if (!object) {
-        return false;
-      }
-
-      if (object.lockMovementX == false) {
-        this.canvas.discardActiveObject();
-        object.selectable = true;
-        // object.editable = false;
-        object.set("lockMovementX", true);
-
-        object.set("lockRotation", true);
-        this.canvas.renderAll();
-
-        document.querySelector("#lock").innerHTML = "&#x1F512;";
-      } else {
-        document.querySelector("#lock").innerHTML = "<small> lock </small>";
-        this.canvas.discardActiveObject();
-
-        object.set("lockMovementX", false);
-
-        object.set("lockRotation", false);
-        this.canvas.renderAll();
-      }
-
-      if (objects.length > 1) {
-        objects.forEach((obj) => {
-          if (obj.lockMovementX == false) {
-            obj.editable = true;
-            obj.selectable = true;
-            obj.set("lockMovementX", true);
-
-            obj.set("lockRotation", true);
-            this.canvas.discardActiveObject();
-            this.canvas.renderAll();
-            document.querySelector("#lock").innerHTML = "&#x1F512;";
-          } else {
-            obj.editable = true;
-            obj.selectable = true;
-            obj.set("lockMovementX", false);
-
-            obj.set("lockRotation", false);
-            this.canvas.discardActiveObject();
-            this.canvas.renderAll();
-            document.querySelector("#lock").innerHTML = "<small> lock </small>";
-          }
-        });
-      }
-    };
-  }
-
-  group_objects() {
-    let group = document.querySelector("#group");
-
-    group.onclick = () => {
-      let object = this.canvas.getActiveObject();
-      if (!object) {
-        return false;
-      }
-      let obj = this.canvas.getActiveObject().toGroup();
-
-      obj.editable = true;
-      obj.name = obj.type;
-      obj.id = this.uniqueId();
-      this.groupObjectStyle(obj);
-    };
-  }
-
-  ungroup_objects() {
-    let ungroup = document.querySelector("#ungroup");
-    ungroup.onclick = () => {
-      let object = this.canvas.getActiveObject();
-      if (!object) {
-        return false;
-      }
-      if (object.type == "activeSelection") {
-        return false;
-      }
-
-      if (object.lockMovementX == true) {
-        return false;
-      } // to check if object is lock
-
-      let a = object.toActiveSelection();
-      this.groupObjectStyle(a);
-    };
   }
 }

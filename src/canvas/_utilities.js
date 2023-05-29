@@ -23,21 +23,20 @@ export class Utilities extends Global {
 
       // fontSize
       if (activeObj.type == "textbox") {
-        let bold = document.querySelector("#bold");
+        let bold = document.querySelector("#fontWeight");
         //bold
         if (activeObj.fontWeight == "bold") {
-          console.log(activeObj.fontWeight);
           bold.style.backgroundColor = "#06343b";
-        }
-
-        if (activeObj.type == "textbox" && activeObj.fontWeight === "normal") {
+        } else {
           bold.style.backgroundColor = "";
         }
+
         //italic
         if (activeObj.fontStyle == "italic") {
-          document.querySelector("#italic").style.backgroundColor = "#06343b";
+          document.querySelector("#fontStyle").style.backgroundColor =
+            "#06343b";
         } else {
-          document.querySelector("#italic").style.backgroundColor = "";
+          document.querySelector("#fontStyle").style.backgroundColor = "";
         }
 
         //font
@@ -126,163 +125,23 @@ export class Utilities extends Global {
     });
   }
 
-  // arrow movement // mirror
-  mirror_movement() {
-    var Direction = {
-      LEFT: 0,
-      UP: 1,
-      RIGHT: 2,
-      DOWN: 3,
-    };
-    document.body.addEventListener("keydown", function (e) {
-      if (e.code == "ArrowUp" || e.code == "ArrowDown") {
-        e.preventDefault();
-
-        // return false;
-      }
-    });
-    fabric.util.addListener(document.body, "keydown", (options) => {
-      if (options.repeat) {
-        return;
-      }
-      let object = this.canvas.getActiveObject();
-
-      const mirror = () => {
-        if (object) {
-          let activeObj = object;
-          this.canvas.getObjects().forEach((e) => {
-            if (activeObj.name == "footer-name") {
-              if (e.name == "footer-name") {
-                e.top = activeObj.top;
-                if (e !== object) {
-                  this.canvas.setActiveObject(e);
-                  e.set("borderColor", "transparent");
-                  e.set("cornerColor", "transparent");
-                }
-
-                this.canvas.renderAll();
-              }
-            }
-            if (activeObj.name == "footer-position") {
-              if (e.name == "footer-position") {
-                e.top = activeObj.top;
-                if (e !== object) {
-                  this.canvas.setActiveObject(e);
-                  e.set("borderColor", "transparent");
-                  e.set("cornerColor", "transparent");
-                }
-                this.canvas.renderAll();
-              }
-            }
-          });
-        }
-      };
-      if (object) {
-        var key = options.which || options.keyCode; // key detection
-        if (key === 37) {
-          // handle Left key
-
-          this.moveSelected(Direction.LEFT);
-        } else if (key === 38) {
-          // handle Up key
-          this.moveSelected(Direction.UP);
-          mirror();
-        } else if (key === 39) {
-          // handle Right key
-          this.moveSelected(Direction.RIGHT);
-        } else if (key === 40) {
-          // handle Down key
-          this.moveSelected(Direction.DOWN);
-          mirror();
-        }
-      }
-    });
-  }
-
   canvas_option() {
-    document.querySelector(".files-btn").onclick = (e) => {
-      let el = document.querySelector(".files-container .dropdown-content");
+    window.onclick = (e) => {
+      if (e.target.classList.contains("files-btn")) {
+        let el = e.target.parentElement.querySelector(
+          ".files-container .dropdown-content"
+        );
 
-      if (el.style.display == "block") {
-        el.style.display = "none";
-      } else {
-        el.style.display = "block";
+        if (el.style.display == "block") {
+          el.style.display = "none";
+        } else {
+          el.style.display = "block";
+        }
+      }
+
+      if (e.target.parentElement.classList.contains("dropdown-content")) {
+        e.target.parentElement.style.display = "none";
       }
     };
   }
-  //   paste_text(){
-  //       let a
-  //       let b
-  //       let c
-  //       let target
-  //     const mouseUp_object = (o) =>{
-
-  //       let activeObj = o.target;
-  //       if(!activeObj){
-  //         return false
-  //       }
-  //       if(activeObj.type == 'textbox'){
-
-  //         // activeObj.selectAll()
-  //         let text = activeObj.text;
-  //         target = o.target.selectionStart
-  //           c = activeObj.getSelectedText()
-
-  //       a = text.slice(0, target)
-  //       b = text.slice(target + c.length  )
-
-  //       }
-
-  //     }
-
-  //     // b = text.slice(target + c.length)
-  //     // d = text.slice(target , c.length)
-
-  //     this.canvas.on({
-
-  //      'mouse:up': mouseUp_object,
-  //     // 'mouse:down': mouseDown_object,
-
-  //       });
-  //       window.addEventListener('keydown',(e)=>{
-  //         let obj = this.canvas.getActiveObject();
-
-  //         if(!obj || obj.type !== 'textbox'){
-  //           return false
-  //         }
-  //      target = e.target.selectionStart
-  //      console.log(target);
-
-  //      let text = obj.text
-  //       c = obj.getSelectedText()
-  //       a = text.slice(0, target)
-  //       b = text.slice(target + c.length )
-
-  //       });
-
-  //     window.addEventListener("paste", (e)=>{
-  //       e.preventDefault()
-  //       let obj = this.canvas.getActiveObject();
-  //       if(!obj){
-  //         return false
-  //       }
-
-  //       let text = e.clipboardData.getData("text");
-
-  //       if(obj.text ==''){
-  //         obj.set('text', '' )
-
-  //         obj.set('text', text.trim() )
-
-  //       }else{
-
-  // console.log(a);
-  // console.log(b);
-  //       obj.set('text',a + text.trim() +b)
-  //       }
-
-  //       this.canvas.discardActiveObject()
-  //       this.canvas.renderAll()
-  //     })
-  //   }
 }

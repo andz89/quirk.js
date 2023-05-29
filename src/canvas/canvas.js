@@ -1,6 +1,7 @@
 import { Menu_tools } from "./_menu-tools";
 import { Global } from "./_global";
 import { Utilities } from "./_utilities";
+import { Tools } from "./admin_tools";
 export class Canvas extends Global {
   create_main_canvas = () => {
     let properties = {
@@ -21,9 +22,8 @@ export class Canvas extends Global {
     let utils = new Utilities(properties);
 
     utils.canvasOn();
-    utils.mirror_movement();
+
     utils.canvas_option();
-    // utils.paste_text()
 
     let menu_tools = new Menu_tools(properties);
     menu_tools.superScript();
@@ -34,7 +34,7 @@ export class Canvas extends Global {
 
     menu_tools.insertText();
     menu_tools.add_background();
-    menu_tools.save_file_json();
+    menu_tools.send_to_server();
     menu_tools.resetCanvas();
     menu_tools.insert_textbox();
     menu_tools.generate_certificate();
@@ -42,29 +42,16 @@ export class Canvas extends Global {
     menu_tools.insertData();
     menu_tools.fontSize();
     menu_tools.fontColor();
-    menu_tools.bold_text();
-    menu_tools.italic_text();
-    menu_tools.textAlign_left();
-    menu_tools.textAlign_center();
-    menu_tools.textAlign_right();
+    menu_tools.fontProperties();
+    menu_tools.keyboard_shortcut();
+    menu_tools.textAlign();
+
     menu_tools.fontStyle();
     menu_tools.grid();
     menu_tools.context_menu();
-
     if (this.user_role == "admin") {
-      menu_tools.admin();
-      menu_tools.align_canvas();
-      menu_tools.align_left();
-      menu_tools.align_center();
-      menu_tools.align_right();
-      menu_tools.align_top();
-      menu_tools.align_middle();
-      menu_tools.align_bottom();
-      menu_tools.object_name();
-      menu_tools.lock();
-      menu_tools.group_objects();
-      menu_tools.ungroup_objects();
-      document.querySelector(".admin-tool-container").style.display = "flex";
+      let tools = new Tools();
+      tools.admin_tools(this.canvas);
     }
   };
 }

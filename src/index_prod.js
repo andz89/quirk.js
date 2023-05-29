@@ -1,11 +1,8 @@
- 
+import { run_script } from "./canvas/_index";
 
+let FontFaceObserver = require("fontfaceobserver");
 
-import { run_script } from './canvas/_index';
-
-let FontFaceObserver = require('fontfaceobserver');
-
-import '../sass/canvas-css/main-canvas.scss'
+import "../sass/canvas-css/main-canvas.scss";
 
 console.log(MODE);
 const data = {};
@@ -17,18 +14,5 @@ data.template_id = template_id;
 data.table = table;
 data.list = list;
 data.category = category;
- 
 
-
-run_script(data)
- 
-console.log('<%=template_json%>')
- 
-
-
-   
-
-
-
-
- 
+run_script(data);

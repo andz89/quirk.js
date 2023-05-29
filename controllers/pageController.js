@@ -93,19 +93,6 @@ exports.invitation = (req, res) => {
       session: req.session.user ? true : false,
     });
   });
-  // let data = {};
-  // data.user_role = req.session.admin ? req.session.admin.user_role : "user";
-
-  // let page = new Page(data);
-  // page.getAllInviations().then(function (data) {
-  //   res.render("pages/invitation", {
-  //     success_message_subscriber: req.flash("success_message_subscriber"),
-
-  //     data: data,
-
-  //     session: req.session.user ? true : false,
-  //   });
-  // });
 };
 exports.purchased_templates = function (req, res) {
   let data = {};
@@ -124,39 +111,39 @@ exports.purchased_templates = function (req, res) {
     });
   });
 };
+// exports.canvas = (req, res) => {
+//   let data = {};
+//   data.user_role = req.session.user.user_role;
+//   data.user_id = req.session.user.user_id;
+//   data.template_id = req.query.template_id;
+//   data.purchased_id = req.query.id;
+
+//   let page = new Page(data);
+//   page.getCanvas().then((data) => {
+//     if (data === "expired") {
+//       res.redirect("/my-templates");
+//     } else {
+//       let image_name;
+//       if (data.canvas_image) {
+//         image_name = "http://localhost:5000/images/ci/" + data.canvas_image;
+//       } else {
+//         image_name = null;
+//       }
+//       res.render("pages/canvas", {
+//         purchased_id: data.purchased_id,
+
+//         template_json: data.template_json,
+//         template_id: data.template_id,
+//         template_name: data.template_name,
+
+//         canvas_image: image_name,
+//         list: data.list,
+//         user_role: req.session.user.user_role,
+//       });
+//     }
+//   });
+// };
 exports.canvas = (req, res) => {
-  let data = {};
-  data.user_role = req.session.user.user_role;
-  data.user_id = req.session.user.user_id;
-  data.template_id = req.query.template_id;
-  data.purchased_id = req.query.id;
-
-  let page = new Page(data);
-  page.getCanvas().then((data) => {
-    if (data === "expired") {
-      res.redirect("/my-templates");
-    } else {
-      let image_name;
-      if (data.canvas_image) {
-        image_name = "http://localhost:5000/images/ci/" + data.canvas_image;
-      } else {
-        image_name = null;
-      }
-      res.render("pages/canvas", {
-        purchased_id: data.purchased_id,
-
-        template_json: data.template_json,
-        template_id: data.template_id,
-        template_name: data.template_name,
-
-        canvas_image: image_name,
-        list: data.list,
-        user_role: req.session.user.user_role,
-      });
-    }
-  });
-};
-exports.canvasTest = (req, res) => {
   let data = {};
   data.user_role = req.session.admin
     ? encrypt.decryptSessionData(req.session.admin.user_role)
@@ -174,7 +161,7 @@ exports.canvasTest = (req, res) => {
     if (data === "expired") {
       res.redirect("/my-templates");
     } else {
-      res.render("pages/canvas-test", {
+      res.render("pages/canvas", {
         purchased_id: data.purchased_id,
         template_json: data.template_json,
         template_id: data.template_id,
