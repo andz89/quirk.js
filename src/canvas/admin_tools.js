@@ -1,5 +1,6 @@
 export class Tools {
   admin_tools(canvas) {
+    //group style
     function groupObjectStyle(object) {
       object.set("borderColor", "#333");
       object.set("cornerColor", "#17a2b8");
@@ -19,6 +20,40 @@ export class Tools {
         mtr: false,
       });
     }
+    function Paste() {
+      let _clipboard;
+      canvas.getActiveObject().clone(function (cloned) {
+        _clipboard = cloned;
+      });
+      // clone again, so you can do multiple copies.
+      _clipboard.clone(function (clonedObj) {
+        canvas.discardActiveObject();
+        clonedObj.set({
+          left: clonedObj.left + 10,
+          top: clonedObj.top + 10,
+          evented: true,
+        });
+        if (clonedObj.type === "activeSelection") {
+          // active selection needs a reference to the canvas.
+          clonedObj.canvas = canvas;
+          clonedObj.forEachObject(function (obj) {
+            canvas.add(obj);
+          });
+          // this should solve the unselectability
+          clonedObj.setCoords();
+        } else {
+          canvas.add(clonedObj);
+        }
+        _clipboard.top += 10;
+        _clipboard.left += 10;
+        canvas.setActiveObject(clonedObj);
+        canvas.requestRenderAll();
+      });
+    }
+
+    document.querySelector("#duplicate").onclick = (e) => {
+      Paste();
+    };
 
     let close_btn = document.querySelector(".admin-tool-container .close");
     close_btn.addEventListener("click", (e) => {

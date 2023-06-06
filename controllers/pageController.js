@@ -82,18 +82,7 @@ exports.templates_page = (req, res) => {
     });
   });
 };
-exports.invitation = (req, res) => {
-  let data = {};
-  data.user_role = req.session.admin ? req.session.admin.user_role : "user";
 
-  let page = new Page(data);
-  page.getAllInviations().then(function (data) {
-    res.render("pages/invitation", {
-      message: "Available soon",
-      session: req.session.user ? true : false,
-    });
-  });
-};
 exports.purchased_templates = function (req, res) {
   let data = {};
   data.user_id = encrypt.decryptSessionData(req.session.user.user_id);

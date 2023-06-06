@@ -89,7 +89,7 @@ export class Global {
   }
   //arrow key functionality
   moveSelected(direction) {
-    let STEP = 5;
+    let STEP = 0.5;
 
     var Direction = {
       LEFT: 0,
@@ -157,8 +157,10 @@ export class Global {
   observeValue = (property) => {
     document.getElementById(property).oninput = (e) => {
       let object = this.canvas.getActiveObject();
-      if (object === undefined) {
+      if (object === undefined || object === null) {
+        console.log(object);
         this.alert("no selected textbox or image");
+        return false;
       }
 
       if (object.getSelectedText() != "") {

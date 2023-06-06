@@ -307,15 +307,18 @@ const run_script = (data) => {
           .load()
           .then(() => {
             // when font is loaded, use it.
+            if (i + 2 == font.length + 1) {
+              console.log(i);
+              console.log(font.length);
+
+              resolve();
+              console.log("resolve");
+            }
           })
           .catch((e) => {
             let log = "error loading font";
             reject(log);
           });
-
-        if (i + 1 == font.length) {
-          resolve();
-        }
       }
     });
   };

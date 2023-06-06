@@ -39,7 +39,7 @@ router.get(
   check.role_user,
   pageController.purchased_templates
 );
-router.get("/invitation", pageController.invitation);
+
 router.get("/canvas", check.queryFromcanvas_role, pageController.canvas);
 router.get("/register-page", check.role_guest, pageController.register_page);
 router.get("/contact-page", pageController.contact_page);

@@ -30,7 +30,6 @@ router.get("/admin-users", check.role_admin, adminController.users);
 router.get("/dashboard", check.role_admin, adminController.dashboard);
 router.get("/admin-login", check.role_guest, adminController.login_page);
 router.get("/admin-templates", check.role_admin, adminController.templates);
-router.get("/admin-invitations", check.role_admin, adminController.invitation);
 
 router.get("/admin-background", check.role_admin, adminController.background);
 router.get(

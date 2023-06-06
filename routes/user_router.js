@@ -46,11 +46,7 @@ router.post(
   check.role_user,
   userController.activateCertificate
 );
-router.post(
-  "/activateInvitation",
-  check.role_user,
-  userController.activateInvitation
-);
+
 router.post("/saveList", check.queryFromcanvas_role, userController.saveList);
 router.post("/resetCanvas", check.role_user, userController.resetCanvas);
 router.post(

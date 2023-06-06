@@ -22,9 +22,7 @@ export class Canvas extends Global {
     let utils = new Utilities(properties);
 
     utils.canvasOn();
-
-    utils.canvas_option();
-
+    utils.mirror_movement();
     let menu_tools = new Menu_tools(properties);
     menu_tools.superScript();
     menu_tools.deleteObjects();

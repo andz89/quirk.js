@@ -1822,6 +1822,7 @@ border-left:none; " contenteditable="true"></td>
           document
             .querySelector(".done-download")
             .addEventListener("click", () => {
+              console.log("kk");
               this.loading("hidden", null);
             });
         }
@@ -2043,10 +2044,6 @@ border-left:none; " contenteditable="true"></td>
 
   keyboard_shortcut() {
     document.addEventListener("keydown", (event) => {
-      if (event.key === "d") {
-        event.preventDefault();
-      }
-
       if (event.ctrlKey && event.key === "s") {
         event.preventDefault();
       }

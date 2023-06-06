@@ -109,32 +109,11 @@ Page.prototype.check_certificate_subscrition = function () {
     });
   });
 };
-Page.prototype.check_invitation_subscrition = function () {
-  return new Promise((resolve, reject) => {
-    let sql = `SELECT * FROM activation_code WHERE user_id = "${this.data.user_id}" AND certificate_subscription="true" AND category = "invitation"`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
 
-      if (result.length > 0) {
-        resolve();
-      } else {
-        this.data.invitation_expired = "expired";
-        resolve();
-      }
-    });
-  });
-};
 Page.prototype.check_user_subscription = function () {
   return new Promise(async (resolve, reject) => {
     if (this.check_all_templates === true) {
-      await this.check_invitation_subscrition();
-
       await this.check_certificate_subscrition();
-    } else if (this.data.category == "invitation") {
-      await this.check_invitation_subscrition();
     } else if (this.data.category == "certificate") {
       await this.check_certificate_subscrition();
     }
@@ -150,9 +129,7 @@ Page.prototype.getCanvas = function () {
 
     if (this.data.user_role === process.env.ADMIN_ROLE) {
       let table_name;
-      if (this.data.category == "invitation") {
-        table_name = "invitation";
-      } else if (this.data.category == "certificate") {
+      if (this.data.category == "certificate") {
         table_name = "templates";
       } else {
         return false;
@@ -234,31 +211,6 @@ Page.prototype.getAllTemplates = function () {
   });
 };
 
-Page.prototype.getAllInviations = function () {
-  return new Promise(async (resolve, reject) => {
-    if (this.data.user_role == process.env.ADMIN_ROLE) {
-      let sql = `SELECT * FROM invitation `;
-      db.query(sql, (err, result) => {
-        if (err) {
-          reject(err);
-          return false;
-        }
-
-        resolve(result);
-      });
-    } else {
-      let sql = `SELECT * FROM invitation WHERE live = 'true'`;
-      db.query(sql, (err, result) => {
-        if (err) {
-          reject(err);
-          return false;
-        }
-
-        resolve(result);
-      });
-    }
-  });
-};
 Page.prototype.getUserTemplates = function () {
   return new Promise(async (resolve, reject) => {
     this.check_all_templates = true;
@@ -274,7 +226,6 @@ Page.prototype.getUserTemplates = function () {
       let data = {};
       data.result = result;
       data.certificate_expired = this.data.certificate_expired ? true : false;
-      data.invitation_expired = this.data.invitation_expired ? true : false;
 
       resolve(data);
     });

@@ -131,55 +131,6 @@ class Templates {
 
       //delete puchased templates
       document
-        .querySelector(".invitation-container  ")
-        .addEventListener("click", (e) => {
-          let container = e.target.parentElement.querySelector(".container");
-          let btn_element =
-            e.target.parentElement.querySelector(".delete-template");
-          if (e.target.classList.contains("gear-option")) {
-            if (btn_element.classList.contains("hide")) {
-              container.classList.add("show");
-              container.classList.remove("hide");
-              btn_element.classList.add("show");
-              btn_element.classList.remove("hide");
-            } else {
-              btn_element.classList.add("hide");
-              btn_element.classList.remove("show");
-              container.classList.add("hide");
-              container.classList.remove("show");
-            }
-          }
-          if (e.target.classList.contains("container")) {
-            btn_element.classList.add("hide");
-            btn_element.classList.remove("show");
-            container.classList.add("hide");
-            container.classList.remove("show");
-          }
-          if (e.target.classList.contains("delete-template")) {
-            let parent = e.target.parentElement.parentElement;
-            let category = parent.querySelector("#category").value;
-
-            let purchased_id = parent.querySelector(".purchased_id").value;
-            let template_id = parent.querySelector(".template_id").value;
-
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = () => {
-              if (xhttp.readyState == 4 && xhttp.status == 200) {
-                Global.alert();
-
-                e.target.parentElement.parentElement.remove();
-              }
-            };
-            xhttp.open(
-              "POST",
-              `http://localhost:5000/delete_template?purchased_id=${purchased_id}&template_id=${template_id}&category=${category}`,
-              true
-            );
-            xhttp.send();
-          }
-        });
-      //delete puchased templates
-      document
         .querySelector(".certificate-container  ")
         .addEventListener("click", (e) => {
           let container = e.target.parentElement.querySelector(".container");

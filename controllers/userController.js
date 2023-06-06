@@ -130,29 +130,6 @@ exports.activateCertificate = (req, res) => {
       res.send(data);
     });
 };
-exports.activateInvitation = (req, res) => {
-  if (!req.session.user || !req.session.user.user_id) {
-    res.redirect("/");
-    return false;
-  }
-  let template = {};
-  template.code = req.query.code;
-  template.user_name = req.session.user.user_name;
-  template.user_id = encrypt.decryptSessionData(req.session.user.user_id);
-  template.template_id = req.query.template_id;
-  template.category = "invitation";
-
-  let user = new User(template);
-  user
-    .duplicate_invitation()
-    .then(function (data) {
-      req.flash("success_message", ` ${req.query.template_name}. `);
-      res.send("true");
-    })
-    .catch((data) => {
-      res.send(data);
-    });
-};
 
 exports.submit_code_certificate = (req, res) => {
   let code = {};

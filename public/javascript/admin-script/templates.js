@@ -14,27 +14,9 @@ class Crud_templates {
       certificate_form ? (certificate_form.style.display = "none") : null;
       let school_form = template_form.querySelector("#school-template-form");
       school_form ? (school_form.style.display = "none") : null;
-      let invitation_form = template_form.querySelector(
-        "#invitation-template-form"
-      );
-      invitation_form ? (invitation_form.style.display = "none") : null;
+
       template_form.querySelector("#close-form").style.display = "none";
     };
-
-    if (
-      template_form &&
-      template_form.querySelector("#invitation-templates-form-btn")
-    ) {
-      template_form
-        .querySelector("#invitation-templates-form-btn")
-        .addEventListener("click", () => {
-          template_form.querySelector("#close-form").style.display = "block";
-
-          template_form.querySelector(
-            "#invitation-template-form"
-          ).style.display = "block";
-        });
-    }
 
     if (
       template_form &&
@@ -126,19 +108,6 @@ class Crud_templates {
           display_thumbnail.src = template_thumbnail;
 
           modal_id.value = template_id;
-
-          // //json file
-          // modal_parent
-          //   .querySelector(".json-file")
-          //   .addEventListener("change", (e) => {
-          //     var reader = new FileReader();
-          //     reader.onload = (event) => {
-          //       let json = event.target.result;
-
-          //       modal_parent.querySelector(".json-text").value = json;
-          //     };
-          //     reader.readAsText(e.target.files[0]);
-          //   });
 
           modal_parent
             .querySelector(".cancel-btn")

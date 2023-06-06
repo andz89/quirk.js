@@ -12,9 +12,7 @@ let Admin = function (data) {
 Admin.prototype.add_template_into_database = function () {
   return new Promise(async (resolve, reject) => {
     let table_name;
-    if (this.data.category == "invitation") {
-      table_name = "invitation";
-    }
+
     if (this.data.category == "certificate") {
       table_name = "templates";
     }
@@ -168,9 +166,7 @@ Admin.prototype.deleteImageBackground = async function (data) {
 Admin.prototype.update_template = function () {
   return new Promise(async (resolve, reject) => {
     let table_name;
-    if (this.data.category == "invitation") {
-      table_name = "invitation";
-    }
+
     if (this.data.category == "certificate") {
       table_name = "templates";
     }
@@ -267,11 +263,9 @@ Admin.prototype.delete_code = function () {
 Admin.prototype.delete_template = function (req, res) {
   return new Promise((resolve, reject) => {
     let table_name;
-    if (this.data.category == "invitation") {
-      table_name = "invitation";
-    } else {
-      table_name = "templates";
-    }
+
+    table_name = "templates";
+
     let sql = `DELETE FROM  ${table_name} WHERE template_id='${this.data.template_id}' `;
     db.query(sql, async (err) => {
       if (err) {
@@ -313,9 +307,7 @@ Admin.prototype.delete_background = function (req, res) {
 Admin.prototype.publish_update = function (req, res) {
   return new Promise((resolve, reject) => {
     let table_name;
-    if (this.data.category == "invitation") {
-      table_name = "invitation";
-    }
+
     if (this.data.category == "certificate") {
       table_name = "templates";
     }

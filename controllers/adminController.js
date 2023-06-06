@@ -158,11 +158,7 @@ exports.add_template = function (req, res) {
   admin
     .add_template_into_database() //database
     .then(function () {
-      if (req.body.category == "invitation") {
-        res.redirect("/admin-invitations");
-      } else {
-        res.redirect("/admin-templates");
-      }
+      res.redirect("/admin-templates");
     })
     .catch((err) => {
       res.send(err);
@@ -197,11 +193,7 @@ exports.updateTemplate = function (req, res) {
   admin
     .update_template()
     .then(function () {
-      if (req.body.category == "invitation") {
-        res.redirect("/admin-invitations");
-      } else {
-        res.redirect("/admin-templates");
-      }
+      res.redirect("/admin-templates");
     })
     .catch((err) => {
       // res.json(err);
@@ -281,20 +273,6 @@ exports.deleteBackground = (req, res) => {
   });
 };
 
-// invitation
-exports.invitation = (req, res) => {
-  let data = {};
-  data.user_role = encrypt.decryptSessionData(req.session.admin.user_role);
-
-  let page = new Page(data);
-  page.getAllInviations().then(function (data) {
-    res.render("admin/admin-invitation-templates", {
-      data: data,
-
-      session: req.session.admin ? true : false,
-    });
-  });
-};
 exports.deleteAccount = (req, res) => {
   let data = {};
   data.user_role = encrypt.decryptSessionData(req.session.admin.user_role);

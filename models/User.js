@@ -306,9 +306,7 @@ User.prototype.saved_template_database = function () {
 
     if (this.data.user_role === process.env.ADMIN_ROLE) {
       let table_name;
-      if (this.data.category == "invitation") {
-        table_name = "invitation";
-      } else if (this.data.category == "certificate") {
+      if (this.data.category == "certificate") {
         table_name = "templates";
       } else {
         return false;
@@ -506,86 +504,6 @@ User.prototype.duplicate_certificate = function () {
   });
 };
 
-User.prototype.check_code_invitation = function () {
-  return new Promise((resolve, reject) => {
-    let sql = `SELECT * FROM activation_code WHERE code= "${this.data.code}" AND user_id = "" AND certificate_subscription = "" AND category = "${this.data.category}"`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
-      if (result.length !== 0) {
-        resolve();
-      } else {
-        this.data.not_found = "not found";
-        resolve();
-      }
-    });
-  });
-};
-
-User.prototype.create_invitation_copy = function () {
-  return new Promise((resolve, reject) => {
-    let sql = `SELECT * FROM  invitation WHERE template_id = "${this.data.template_id}"`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
-
-      this.data.copied_template = {
-        purchased_id: uuidv4(),
-        user_id: this.data.user_id,
-        template_id: result[0].template_id,
-        template_name: result[0].template_name,
-        template_description: result[0].template_description,
-        template_json: result[0].template_json,
-        category: result[0].category,
-
-        thumbnail: result[0].thumbnail,
-      };
-      resolve();
-    });
-  });
-};
-//update activatation code table
-User.prototype.updateActivationCode_invitation_used = function () {
-  return new Promise((resolve, reject) => {
-    // user_id = "" AND certificate_subscription = "" AND category ="${this.data.category}" AND
-    let sql = `UPDATE activation_code SET  user_id = "${this.data.user_id}",certificate_subscription = "true" WHERE  code ="${this.data.code}"`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
-
-      resolve();
-    });
-  });
-};
-
-User.prototype.duplicate_invitation = function () {
-  return new Promise(async (resolve, reject) => {
-    await this.check_code_invitation();
-
-    if (this.data.not_found === undefined) {
-      await this.create_invitation_copy(); //get a copy of selected template
-
-      let sql_2 = "INSERT INTO purchased_template SET ?";
-      db.query(sql_2, this.data.copied_template, async (err, result) => {
-        if (err) {
-          reject(err);
-          return false;
-        }
-        await this.updateActivationCode_invitation_used();
-        resolve("true");
-      });
-    } else {
-      console.log(this.data.not_found);
-      reject(this.data.not_found);
-    }
-  });
-};
 // end ------------------//
 
 //delete user template and update activation code
@@ -598,9 +516,7 @@ User.prototype.delete_template = function (req, res) {
         return false;
       }
 
-      if (this.data.category == "invitation") {
-        resolve("true");
-      } else if (this.data.category == "certificate") {
+      if (this.data.category == "certificate") {
         await this.getUserTemplates();
         this.data.template_used_count = this.data.current_template;
         await this.updateActivationCode_template_used();
