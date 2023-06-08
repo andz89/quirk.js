@@ -15,6 +15,6 @@ pool.getConnection(function (err) {
 
   module.exports = pool;
   const app = require("./index");
-  app.listen(process.env.PORT);
+  app.listen(process.env.PORT || 5000);
   console.log("database is connected");
 });

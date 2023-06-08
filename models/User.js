@@ -627,7 +627,7 @@ User.prototype.upload_user_img = function async(req, res) {
 };
 User.prototype.get_user_image = function (req, res) {
   return new Promise(async (resolve, reject) => {
-    let sql = `SELECT * FROM user_image WHERE user_id = "${this.data.user_id}" || role = "admin"
+    let sql = `SELECT * FROM user_image WHERE user_id = "${this.data.user_id}" && role = "admin"
  `;
     db.query(sql, (err, result) => {
       if (err) {
