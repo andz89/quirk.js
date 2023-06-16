@@ -1,5 +1,7 @@
 import { fabric } from "fabric";
 import { Canvas } from "./canvas";
+import penIcon from "../assets/pen-solid.png";
+document.querySelector("#insert-names").src = penIcon;
 let FontFaceObserver = require("fontfaceobserver");
 const run_script = (data) => {
   const open_file = () => {

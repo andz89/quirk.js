@@ -2,9 +2,11 @@ const express = require("express");
 const session = require("express-session");
 const flash = require("connect-flash");
 const cors = require("cors");
+
 const MySQLStore = require("express-mysql-session")(session);
 const IN_PROD = process.env.NODE_ENV === "production";
-
+const path = require("path");
+const encrypt = require("./helper/encrypt");
 var sessionStore = new MySQLStore({
   connectionLimit: 10,
   expiration: 10800000,
@@ -16,7 +18,7 @@ var sessionStore = new MySQLStore({
 
 const app = express();
 
-app.use(express.static("public", { maxAge: 0 }));
+// app.use("/dist", express.static(path.resolve(__dirname, "public", "dist")));
 
 app.use(
   session({
@@ -88,12 +90,15 @@ app.set("view engine", "ejs"); // ejs
 app.use("/", router);
 app.use("/", admin_router);
 app.use("/", user_router);
+app.use(express.static("public", { maxAge: 0 }));
+
+app.set("views", [
+  path.join(__dirname, "views"),
+  path.join(__dirname, "public"),
+]);
 
 app.all("*", function (req, res) {
-  if (!req.session.user || req.session.user.user_role == "user") {
-    res.redirect("/");
-  } else {
-    res.redirect("/dashboard");
-  }
+  res.redirect("/");
 });
+
 module.exports = app;

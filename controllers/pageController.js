@@ -1,6 +1,6 @@
 const Page = require("../models/Page");
 const encrypt = require("../helper/encrypt");
-
+const path = require("path");
 exports.home = (req, res) => {
   //session as user
 
@@ -107,69 +107,82 @@ exports.purchased_templates = function (req, res) {
 //   data.template_id = req.query.template_id;
 //   data.purchased_id = req.query.id;
 
+// let page = new Page(data);
+// page.getCanvas().then((data) => {
+//   if (data === "expired") {
+//     res.redirect("/my-templates");
+//   } else {
+//     let image_name;
+//     if (data.canvas_image) {
+//       image_name = "http://localhost:5000/images/ci/" + data.canvas_image;
+//     } else {
+//       image_name = null;
+//     }
+//     res.render("pages/canvas", {
+//       purchased_id: data.purchased_id,
+
+//       template_json: data.template_json,
+//       template_id: data.template_id,
+//       template_name: data.template_name,
+
+//       canvas_image: image_name,
+//       list: data.list,
+//       user_role: req.session.user.user_role,
+//     });
+//   }
+// });
+// };
+// exports.canvas = (req, res) => {
+//   let data = {};
+//   data.user_role = req.session.admin
+//     ? encrypt.decryptSessionData(req.session.admin.user_role)
+//     : process.env.USER_ROLE;
+//   data.user_id = req.session.user
+//     ? encrypt.decryptSessionData(req.session.user.user_id)
+//     : req.session.admin.user_id;
+//   data.template_id = req.query.template_id;
+//   data.category = req.query.category;
+
+//   data.purchased_id = req.query.id;
+
 //   let page = new Page(data);
 //   page.getCanvas().then((data) => {
 //     if (data === "expired") {
 //       res.redirect("/my-templates");
+//     } else if (data == undefined) {
+//       res.render("pages/canvas", {
+//         purchased_id: 12322,
+//         template_json: { hello: "hi" },
+//         template_id: 2231221,
+//         template_name: "",
+//         table: "",
+//         category: "",
+//         list: "",
+//         user_role: "",
+//       });
 //     } else {
-//       let image_name;
-//       if (data.canvas_image) {
-//         image_name = "http://localhost:5000/images/ci/" + data.canvas_image;
-//       } else {
-//         image_name = null;
-//       }
 //       res.render("pages/canvas", {
 //         purchased_id: data.purchased_id,
-
 //         template_json: data.template_json,
 //         template_id: data.template_id,
 //         template_name: data.template_name,
-
-//         canvas_image: image_name,
+//         table: data.table,
+//         category: data.category,
 //         list: data.list,
-//         user_role: req.session.user.user_role,
+//         user_role: req.session.user ? "user" : "admin",
 //       });
 //     }
 //   });
 // };
-exports.canvas = (req, res) => {
-  let data = {};
-  data.user_role = req.session.admin
-    ? encrypt.decryptSessionData(req.session.admin.user_role)
-    : process.env.USER_ROLE;
-  data.user_id = req.session.user
-    ? encrypt.decryptSessionData(req.session.user.user_id)
-    : req.session.admin.user_id;
-  data.template_id = req.query.template_id;
-  data.category = req.query.category;
-
-  data.purchased_id = req.query.id;
-
-  let page = new Page(data);
-  page.getCanvas().then((data) => {
-    if (data === "expired") {
-      res.redirect("/my-templates");
-    } else {
-      res.render("pages/canvas", {
-        purchased_id: data.purchased_id,
-        template_json: data.template_json,
-        template_id: data.template_id,
-        template_name: data.template_name,
-        table: data.table,
-        category: data.category,
-        list: data.list,
-        user_role: req.session.user ? "user" : "admin",
-      });
-    }
-  });
-};
 
 exports.development_query = (req, res) => {
   let data = {};
 
-  data.user_role = process.env.ADMIN_ROLE;
-  data.user_id = "dsafe321";
-  data.template_id = "232e065e-5f06-47be-bec4-606e15eae65d";
+  data.user_role = "12-34343-lsdfcsSds21";
+  data.user_id = "cbf5248c-ade8-41d6-84ad-90d5f3097e6a";
+  data.template_id = "99248138-02be-4a98-90d9-5b3f44cea0ac";
+  data.purchased_id = "baf4f8e6-843c-4934-9edc-ebe55a7b2169";
+
   data.category = "certificate";
 
   let page = new Page(data);
@@ -188,5 +201,144 @@ exports.development_query = (req, res) => {
     };
 
     res.send(json_file);
+  });
+};
+// exports.canvasStatic = (req, res) => {
+//   let data = {};
+//   encrypt.decryptSessionData(req.session.user.user_id);
+//   data.user_role = encrypt.decryptSessionData(req.session.user.user_role);
+//   data.user_id = encrypt.decryptSessionData(req.session.user.user_id);
+
+//   data.template_id = req.query.template_id;
+//   data.purchased_id = req.query.id;
+//   let page = new Page(data);
+//   page.getCanvas().then((data) => {
+//     if (data === "expired") {
+//       res.redirect("/my-templates");
+//     } else {
+//       let image_name;
+//       if (data.canvas_image) {
+//         image_name = "http://localhost:5000/images/ci/" + data.canvas_image;
+//       } else {
+//         image_name = null;
+//       }
+//       res.render("canvas.ejs", {
+//         table: data.table,
+//         category: data.category,
+//         purchased_id: data.purchased_id,
+
+//         template_json: data.template_json,
+//         template_id: data.template_id,
+//         template_name: data.template_name,
+
+//         canvas_image: image_name,
+//         list: data.list,
+//         user_role: req.session.user.user_role,
+//       });
+//     }
+//   });
+// };
+
+exports.canvasStatic = (req, res) => {
+  let data = {};
+  data.user_id = encrypt.decryptSessionData(req.session.user.user_id);
+
+  let purchased_templates = new Page(data);
+  purchased_templates.getUserTemplates().then((data) => {
+    res.render("canvas.ejs", {
+      success_message: req.flash("success_message"),
+      certificate_expired: data.certificate_expired,
+
+      session: req.session.user.user_id ? true : false,
+    });
+  });
+};
+exports.fetch_purchased_templates = function (req, res) {
+  console.log("here");
+  let data = {};
+  data.user_id = encrypt.decryptSessionData(req.session.user.user_id);
+  // data.user_id = "cbf5248c-ade8-41d6-84ad-90d5f3097e6a";
+  // data.category = "certificate";
+
+  let purchased_templates = new Page(data);
+  purchased_templates.getUserTemplates().then((data) => {
+    res.json(data);
+  });
+};
+
+// exports.canvas = (req, res) => {
+//   let data = {};
+//   data.user_role = req.session.admin
+//     ? encrypt.decryptSessionData(req.session.admin.user_role)
+//     : process.env.USER_ROLE;
+//   data.user_id = req.session.user
+//     ? encrypt.decryptSessionData(req.session.user.user_id)
+//     : req.session.admin.user_id;
+//   data.template_id = req.query.template_id;
+//   data.category = req.query.category;
+
+//   data.purchased_id = req.query.id;
+
+//   let page = new Page(data);
+//   page.getCanvas().then((data) => {
+//     if (data === "expired") {
+//       res.redirect("/my-templates");
+//     } else if (data == undefined) {
+//       res.render("pages/canvas", {
+//         purchased_id: 12322,
+//         template_json: { hello: "hi" },
+//         template_id: 2231221,
+//         template_name: "",
+//         table: "",
+//         category: "",
+//         list: "",
+//         user_role: "",
+//       });
+//     } else {
+//       res.render("pages/canvas", {
+//         purchased_id: data.purchased_id,
+//         template_json: data.template_json,
+//         template_id: data.template_id,
+//         template_name: data.template_name,
+//         table: data.table,
+//         category: data.category,
+//         list: data.list,
+//         user_role: req.session.user ? "user" : "admin",
+//       });
+//     }
+//   });
+// };
+exports.get_canvas_data = (req, res) => {
+  console.log("get-canvas-data");
+  let data = {};
+  data.user_role = encrypt.decryptSessionData(req.session.user.user_role);
+  data.user_id = encrypt.decryptSessionData(req.session.user.user_id);
+  data.template_id = req.query.template_id;
+  data.purchased_id = req.query.purchased_id;
+  console.log(data);
+  let page = new Page(data);
+  page.getCanvas().then((data) => {
+    if (data === "expired") {
+      res.redirect("/my-templates");
+    } else {
+      let image_name;
+      if (data.canvas_image) {
+        image_name = "http://localhost:5000/images/ci/" + data.canvas_image;
+      } else {
+        image_name = null;
+      }
+      let obj = {
+        purchased_id: data.purchased_id,
+
+        template_json: data.template_json,
+        template_id: data.template_id,
+        template_name: data.template_name,
+
+        canvas_image: image_name,
+        list: data.list,
+        user_role: req.session.user.user_role,
+      };
+      res.send(obj);
+    }
   });
 };

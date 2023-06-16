@@ -99,7 +99,7 @@ Page.prototype.check_certificate_subscrition = function () {
         reject(err);
         return false;
       }
-      console.log(result);
+
       if (result.length !== 0) {
         resolve();
       } else {
@@ -124,8 +124,13 @@ Page.prototype.check_user_subscription = function () {
 // 9cf045d2-41bd-4a89-9032-61bcd1519ba7
 Page.prototype.getCanvas = function () {
   return new Promise(async (resolve, reject) => {
-    await this.check_user_subscription();
-    await this.getList();
+    // await this.check_user_subscription();
+    // await this.getList();
+
+    if (this.data.template_id == undefined) {
+      resolve();
+      return false;
+    }
 
     if (this.data.user_role === process.env.ADMIN_ROLE) {
       let table_name;
@@ -165,7 +170,7 @@ Page.prototype.getCanvas = function () {
             reject(err);
             return false;
           }
-
+          console.log(result);
           let data = [];
           data.list = this.data.list;
           data.template_id = result[0].template_id;
@@ -216,7 +221,7 @@ Page.prototype.getUserTemplates = function () {
     this.check_all_templates = true;
     await this.check_user_subscription();
 
-    let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'`;
+    let sql = `SELECT * FROM purchased_template WHERE user_id = "${this.data.user_id}"`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);

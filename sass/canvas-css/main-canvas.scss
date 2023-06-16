@@ -112,3 +112,125 @@ main {
 ::-webkit-scrollbar-corner {
     background-color: rgba(75, 75, 75, 0.712)
 }
+
+.purchased-templates-container{
+    display: flex;
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    user-select: none;
+    background-color: #7e7e7e00;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .content{
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+     
+    width: 900px;
+    min-height: 400px;
+    background-color:#c4c2c2;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    overflow: auto;
+    border-radius: 10px;
+        .purchased-templates {
+
+            display: flex;
+            flex-wrap: wrap;
+            // justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            gap: 20px;
+        
+     
+            .template-container {
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+                background-color: #ffffff;
+                width: 230px;
+                height: 210px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+    
+                .template-name {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    max-width: 20ch;
+                    font-size: 15px;
+    
+                }
+            }
+    
+    
+    
+            .d-image {
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    
+            }
+    
+            img {
+                cursor: pointer;
+    
+            }
+    
+            .show {
+                display: block;
+            }
+    
+            .hide {
+                display: none;
+            }
+    
+    
+    
+            .option {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+    
+                .container {
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(248, 248, 248, 0);
+                    position: fixed;
+                    z-index: 1;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    padding: 0;
+                    margin: 0;
+                }
+    
+                .delete-template {
+    
+                    position: absolute;
+                    bottom: 30px;
+                    right: 10px;
+                    background-color: antiquewhite;
+                    z-index: 5;
+                    font-size: 13px;
+                    width: 120px;
+                    padding: 4px;
+                    cursor: pointer;
+                    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    
+                }
+    
+    
+            }
+    
+    
+        }
+    }
+}

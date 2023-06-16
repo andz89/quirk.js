@@ -33,7 +33,11 @@
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
     "uuid": "^9.0.0",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "workbox-core": "^7.0.0",
+    "workbox-precaching": "^7.0.0",
+    "workbox-window": "^7.0.0",
+    "worker-loader": "^3.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.21.4",
@@ -49,6 +53,7 @@
     "style-loader": "^3.3.2",
     "webpack": "^5.77.0",
     "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.13.3"
+    "webpack-dev-server": "^4.13.3",
+    "workbox-webpack-plugin": "^7.0.0"
   }
 }

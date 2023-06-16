@@ -11,6 +11,14 @@
 <script defer src="dist/bundle.js"></script><link href="dist/bundle.css" rel="stylesheet"></head>
 
 <body>
+    <div class="purchased-templates-container">
+        <div class="content">
+
+
+
+        </div>
+    </div>
+
 
     <!-- <div class="modal-loader"></div> -->
 
@@ -32,6 +40,7 @@
 
                 <div class="dropdown dropdown-files files-container sub-header-tools">
                     <li class="dropbtn dropbtn-files files-btn">Canvas</li>
+
                     <div id="myDropdown" class="dropdown-content">
 
                         <a id="save_json">
@@ -156,8 +165,7 @@
     <!-- insert name -->
     <span class="excel-html-view-data" style="display:none"></span>
     <div class="list-name-container">
-        <div class="pen-icon"> <img src="images/canvas/pen-solid.png" id="insert-names" class="btn btn-md btn-success"
-                alt="" width="40">
+        <div class="pen-icon"> <img id="insert-names" class="btn btn-md btn-success" alt="" width="40">
         </div>
 
         <div class="list-name-content">
@@ -456,7 +464,7 @@
 
                 <div id="duplicate">&#10064;</div>
                 <div class="form-group d-flex  gap-10 ">
-                    <label for=""> Image Quality</label>
+                    <label for=""> Image Quality 1</label>
                     <input id="image-quality" style="width:90px" class=" form-control" value="4" type="number">
                 </div>
 
@@ -469,23 +477,38 @@
 
 
 
-
-
 </body>
+
 <script>
-    let template_json = '<%-template_json%>';
-    let purchased_id = '<%-purchased_id%>';
+    // let template_json = '';
+    // let purchased_id = '';
 
-    let template_id = '<%-template_id%>';
-
-
-    let template_name = '<%-template_name%>';
-    let list = '<%-list%>';
-    let table = '<%-table%>';
-    let category = '<%-category%>';
+    // let template_id = '';
 
 
-    let user_role = '<%-user_role%>';
+    // let template_name = '';
+    // let list = '';
+    // let table = '';
+    // let category = '';
+
+
+    // let user_role = '';
+
+    // if ("serviceWorker" in navigator) {
+    //     window.addEventListener("load", () => {
+    //         navigator.serviceWorker
+    //             .register("service-worker.js")
+    //             .then((registration) => {
+    //                 console.log("Service Worker registered:", registration);
+    //             })
+    //             .catch((error) => {
+    //                 console.log("Service Worker registration failed:", error);
+    //             });
+    //     });
+    // }
+
+
+
 </script>
 
 

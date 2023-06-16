@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
-
+const WorkboxPlugin = require("workbox-webpack-plugin");
 module.exports = {
   mode: "development",
   entry: {
@@ -16,7 +16,7 @@ module.exports = {
     // filename:'[name].[contenthash].js',
     clean: true,
     assetModuleFilename: "[name][ext]",
-    publicPath: "dist",
+    publicPath: "dist/",
   },
 
   module: {
@@ -66,18 +66,37 @@ module.exports = {
     //     }
     //     ]
     //   }),
+    // new WorkboxPlugin.GenerateSW({
+    //   cacheId: "quirk",
+    //   swDest: "../service-worker.js",
+    //   clientsClaim: true,
+    //   skipWaiting: true,
+    //   runtimeCaching: [
+    //     {
+    //       urlPattern: "/canvas", // Example regular expression pattern
+    //       handler: "StaleWhileRevalidate",
+    //       options: {
+    //         cacheName: "quirk",
+    //         expiration: {
+    //           maxEntries: 50,
+    //           maxAgeSeconds: 7 * 24 * 60 * 60,
+    //         },
+    //       },
+    //     },
+    //   ],
+    // }),
     new HtmlWebpackPlugin({
       title: "Webpack App",
-      filename: "../../views/pages/canvas.ejs",
+      filename: "../canvas.ejs",
       template: "./src/index.html",
-      template_json: "<%-template_json%>",
-      purchased_id: "<%-purchased_id%>",
-      template_id: "<%-template_id%>",
-      category: "<%-category%>",
-      template_name: "<%-template_name%>",
-      list: "<%-list%>",
-      user_role: "<%-user_role%>",
-      table: "<%-table%>",
+      // template_json: "<%-template_json%>",
+      // purchased_id: "<%-purchased_id%>",
+      // template_id: "<%-template_id%>",
+      // category: "<%-category%>",
+      // template_name: "<%-template_name%>",
+      // list: "<%-list%>",
+      // user_role: "<%-user_role%>",
+      // table: "<%-table%>",
     }),
 
     new MiniCssExtractPlugin({
