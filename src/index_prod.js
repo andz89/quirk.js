@@ -48,7 +48,7 @@ import "../sass/canvas-css/main-canvas.scss";
 // //here
 
 // ajax_request().then(() => {
-//   run_script(data);
+//
 // });
 
 const container = document.querySelector(".content");
@@ -183,7 +183,20 @@ ajax_request().then(() => {
             xhttp.onreadystatechange = () => {
               if (xhttp.readyState == 4 && xhttp.status == 200) {
                 let data = JSON.parse(xhttp.responseText);
-                console.log(data);
+
+                const object = {};
+                object.template_json = data.template_json;
+                object.purchased_id = data.purchased_id;
+                object.template_name = data.template_name;
+                object.user_role = data.user_role;
+                object.template_id = data.template_id;
+                object.table = data.table;
+                object.list = data.list;
+                object.category = data.category;
+                run_script(object);
+                document.querySelector(
+                  ".purchased-templates-container"
+                ).style.display = "none";
                 resolve();
               }
             };
@@ -196,7 +209,7 @@ ajax_request().then(() => {
           });
         };
 
-        get_canvas_data();
+        get_canvas_data().then(() => {});
       }
     });
 });

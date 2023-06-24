@@ -67,13 +67,11 @@ module.exports = {
     //     ]
     //   }),
     // new WorkboxPlugin.GenerateSW({
-    //   cacheId: "quirk",
     //   swDest: "../service-worker.js",
-    //   clientsClaim: true,
-    //   skipWaiting: true,
+
     //   runtimeCaching: [
     //     {
-    //       urlPattern: "/canvas", // Example regular expression pattern
+    //       urlPattern: "/canvas",
     //       handler: "StaleWhileRevalidate",
     //       options: {
     //         cacheName: "quirk",
@@ -87,8 +85,9 @@ module.exports = {
     // }),
     new HtmlWebpackPlugin({
       title: "Webpack App",
-      filename: "../canvas.ejs",
+      filename: "../../views/pages/canvas.ejs",
       template: "./src/index.html",
+
       // template_json: "<%-template_json%>",
       // purchased_id: "<%-purchased_id%>",
       // template_id: "<%-template_id%>",

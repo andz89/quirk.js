@@ -99,7 +99,7 @@ Page.prototype.check_certificate_subscrition = function () {
         reject(err);
         return false;
       }
-
+      console.log(result);
       if (result.length !== 0) {
         resolve();
       } else {
@@ -126,20 +126,8 @@ Page.prototype.getCanvas = function () {
   return new Promise(async (resolve, reject) => {
     // await this.check_user_subscription();
     // await this.getList();
-
-    if (this.data.template_id == undefined) {
-      resolve();
-      return false;
-    }
-
     if (this.data.user_role === process.env.ADMIN_ROLE) {
-      let table_name;
-      if (this.data.category == "certificate") {
-        table_name = "templates";
-      } else {
-        return false;
-      }
-      let sql = `SELECT * FROM ${table_name} WHERE template_id = "${this.data.template_id}"`;
+      let sql = `SELECT * FROM  templates WHERE template_id = "${this.data.template_id}"`;
 
       db.query(sql, (err, result) => {
         if (err) {
@@ -155,7 +143,7 @@ Page.prototype.getCanvas = function () {
         data.canvas_image = result[0].canvas_image;
         data.table = result[0].table_names;
         data.category = result[0].category;
-
+        console.log(data);
         resolve(data);
       });
     }
@@ -170,7 +158,7 @@ Page.prototype.getCanvas = function () {
             reject(err);
             return false;
           }
-          console.log(result);
+
           let data = [];
           data.list = this.data.list;
           data.template_id = result[0].template_id;
@@ -221,7 +209,7 @@ Page.prototype.getUserTemplates = function () {
     this.check_all_templates = true;
     await this.check_user_subscription();
 
-    let sql = `SELECT * FROM purchased_template WHERE user_id = "${this.data.user_id}"`;
+    let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'`;
     db.query(sql, (err, result) => {
       if (err) {
         reject(err);

@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
+app.use(express.static("public", { maxAge: 0 }));
 // let sessionOptions = session({
 //   name: process.env.SESS_NAME,
 //   secret: process.env.SESS_SECRET,
@@ -90,7 +90,6 @@ app.set("view engine", "ejs"); // ejs
 app.use("/", router);
 app.use("/", admin_router);
 app.use("/", user_router);
-app.use(express.static("public", { maxAge: 0 }));
 
 app.set("views", [
   path.join(__dirname, "views"),
