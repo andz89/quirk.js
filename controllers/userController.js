@@ -88,7 +88,7 @@ exports.saved_template = function (req, res) {
   data.saved_json = res.text_input;
   data.user_id = req.session.user
     ? encrypt.decryptSessionData(req.session.user.user_id)
-    : req.session.admin.user_id;
+    : encrypt.decryptSessionData(req.session.admin.user_id);
   data.template_id = req.query.template_id;
   data.purchased_id = req.query.purchased_id;
   data.user_role = req.session.user
@@ -193,11 +193,16 @@ exports.getAllBackgroundImage = (req, res) => {
 };
 
 exports.deleteTemplate = (req, res) => {
+  if (!req.session.user) {
+    console.log("dont delete here");
+    return false;
+  }
   let data = {};
   data.template_id = req.query.template_id;
   data.purchased_id = req.query.purchased_id;
   data.user_id = encrypt.decryptSessionData(req.session.user.user_id);
   data.category = req.query.category;
+  data.user_role = encrypt.decryptSessionData(req.session.user.user_role);
 
   let user = new User(data);
   user.delete_template().then(function (data) {

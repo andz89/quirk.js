@@ -18,7 +18,7 @@ exports.admin_login_post = (req, res) => {
     .admin_login()
     .then((data) => {
       req.session.admin = {
-        user_id: data[0].id,
+        user_id: encrypt.encryptSessionData(data[0].id),
         user_name: data[0].admin_user_name,
         user_email: data[0].admin_user_email,
         user_role: encrypt.encryptSessionData(process.env.ADMIN_ROLE),
@@ -247,7 +247,7 @@ exports.adminDeleteTemplate = (req, res) => {
   req.body.modal_image_path = req.query.modal_image_path;
   req.body.thumbnail_image_path = req.query.thumbnail_image_path;
   req.body.category = req.query.category;
-
+  console.log(req.body);
   let admin = new Admin(req.body);
   admin.delete_template().then(function (data) {
     if (data == "true") {

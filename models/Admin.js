@@ -116,11 +116,11 @@ Admin.prototype.update_background = function () {
 
 Admin.prototype.deleteImageBackground = async function (data) {
   const isParametersArray = Array.isArray(data);
-  console.log("ning sulod");
+
   if (isParametersArray == true) {
     console.log("image is available and array");
     for (let i = 0; i < data.length; i++) {
-      const filePath = "public/images/users/" + data[i];
+      const filePath = "public/images/canvas_image/" + data[i];
 
       fs.access(filePath, fs.constants.F_OK, (err) => {
         if (err) {
@@ -141,7 +141,7 @@ Admin.prototype.deleteImageBackground = async function (data) {
       });
     }
   } else {
-    const filePath = "public/images/users/" + data;
+    const filePath = "public/images/canvas_image/" + data;
     fs.access(filePath, fs.constants.F_OK, (err) => {
       console.log(filePath);
       console.log("image is available");

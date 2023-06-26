@@ -305,13 +305,7 @@ User.prototype.saved_template_database = function () {
     }
 
     if (this.data.user_role === process.env.ADMIN_ROLE) {
-      let table_name;
-      if (this.data.category == "certificate") {
-        table_name = "templates";
-      } else {
-        return false;
-      }
-      var sql = `UPDATE  ${table_name} SET template_json = '${this.data.saved_json}'  WHERE template_id = '${this.data.template_id}'`;
+      var sql = `UPDATE  templates SET template_json = '${this.data.saved_json}'  WHERE template_id = '${this.data.template_id}'`;
       db.query(sql, (err, result) => {
         if (err) {
           reject(err);
@@ -516,14 +510,10 @@ User.prototype.delete_template = function (req, res) {
         return false;
       }
 
-      if (this.data.category == "certificate") {
-        await this.getUserTemplates();
-        this.data.template_used_count = this.data.current_template;
-        await this.updateActivationCode_template_used();
-        resolve("true");
-      } else {
-        return false;
-      }
+      await this.getUserTemplates();
+      this.data.template_used_count = this.data.current_template;
+      await this.updateActivationCode_template_used();
+      resolve("true");
     });
   });
 };
@@ -677,4 +667,5 @@ User.prototype.deleteImageBackground = async function (data) {
     unlinkAsync("public/images/users/" + data);
   }
 };
+
 module.exports = User;

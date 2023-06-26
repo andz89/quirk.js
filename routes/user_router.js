@@ -59,7 +59,11 @@ router.post(
   check.role_user,
   userController.submit_code_certificate
 );
-router.post("/delete_template", check.role_user, userController.deleteTemplate);
+router.post(
+  "/delete_template",
+  // check.role_user,
+  userController.deleteTemplate
+);
 router.post(
   "/get_user_image",
   check.queryFromcanvas_role,

@@ -155,7 +155,7 @@ ajax_request().then(() => {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = () => {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
-            Global.alert();
+            // Global.alert();
 
             e.target.parentElement.parentElement.remove();
           }

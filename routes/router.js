@@ -60,7 +60,7 @@ router.get(
 );
 router.post(
   "/get_canvas_data",
-  check.role_user,
+  // check.role_user,
   pageController.get_canvas_data
 );
 module.exports = router;

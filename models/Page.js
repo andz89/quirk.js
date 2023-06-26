@@ -99,7 +99,7 @@ Page.prototype.check_certificate_subscrition = function () {
         reject(err);
         return false;
       }
-      console.log(result);
+
       if (result.length !== 0) {
         resolve();
       } else {
@@ -124,8 +124,7 @@ Page.prototype.check_user_subscription = function () {
 // 9cf045d2-41bd-4a89-9032-61bcd1519ba7
 Page.prototype.getCanvas = function () {
   return new Promise(async (resolve, reject) => {
-    // await this.check_user_subscription();
-    // await this.getList();
+    await this.getList();
     if (this.data.user_role === process.env.ADMIN_ROLE) {
       let sql = `SELECT * FROM  templates WHERE template_id = "${this.data.template_id}"`;
 
@@ -143,12 +142,13 @@ Page.prototype.getCanvas = function () {
         data.canvas_image = result[0].canvas_image;
         data.table = result[0].table_names;
         data.category = result[0].category;
-        console.log(data);
+
         resolve(data);
       });
     }
 
     if (this.data.user_role === process.env.USER_ROLE) {
+      await this.check_user_subscription();
       if (this.data.certificate_expired == undefined) {
         let sql = `SELECT * FROM purchased_template WHERE template_id = "${this.data.template_id}"
                   && user_id = "${this.data.user_id}"&& purchased_id = "${this.data.purchased_id}"`;
@@ -206,22 +206,37 @@ Page.prototype.getAllTemplates = function () {
 
 Page.prototype.getUserTemplates = function () {
   return new Promise(async (resolve, reject) => {
-    this.check_all_templates = true;
-    await this.check_user_subscription();
+    if (this.data.user_role === process.env.ADMIN_ROLE) {
+      let sql = `SELECT * FROM templates `;
+      db.query(sql, (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }
 
-    let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        reject(err);
-        return false;
-      }
+        let data = {};
+        data.result = result;
+        data.certificate_expired = this.data.certificate_expired ? true : false;
 
-      let data = {};
-      data.result = result;
-      data.certificate_expired = this.data.certificate_expired ? true : false;
+        resolve(data);
+      });
+    } else {
+      this.check_all_templates = true;
+      await this.check_user_subscription();
+      let sql = `SELECT * FROM purchased_template WHERE user_id = '${this.data.user_id}'`;
+      db.query(sql, (err, result) => {
+        if (err) {
+          reject(err);
+          return false;
+        }
 
-      resolve(data);
-    });
+        let data = {};
+        data.result = result;
+        data.certificate_expired = this.data.certificate_expired ? true : false;
+
+        resolve(data);
+      });
+    }
   });
 };
 module.exports = Page;

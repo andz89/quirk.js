@@ -144,12 +144,14 @@ exports.development_query = (req, res) => {
 //   });
 // };
 exports.fetch_purchased_templates = function (req, res) {
-  console.log("here");
   let data = {};
-  data.user_id = encrypt.decryptSessionData(req.session.user.user_id);
-  // data.user_id = "cbf5248c-ade8-41d6-84ad-90d5f3097e6a";
-  data.category = "certificate";
+  data.user_id = req.session.user
+    ? encrypt.decryptSessionData(req.session.user.user_id)
+    : encrypt.decryptSessionData(req.session.admin.user_id);
 
+  data.user_role = req.session.user
+    ? encrypt.decryptSessionData(req.session.user.user_role)
+    : encrypt.decryptSessionData(req.session.admin.user_role);
   let purchased_templates = new Page(data);
   purchased_templates.getUserTemplates().then((data) => {
     res.json(data);
@@ -157,13 +159,17 @@ exports.fetch_purchased_templates = function (req, res) {
 };
 
 exports.get_canvas_data = (req, res) => {
-  console.log("get-canvas-data");
   let data = {};
-  data.user_role = encrypt.decryptSessionData(req.session.user.user_role);
-  data.user_id = encrypt.decryptSessionData(req.session.user.user_id);
+  data.user_role = req.session.user
+    ? encrypt.decryptSessionData(req.session.user.user_role)
+    : encrypt.decryptSessionData(req.session.admin.user_role);
+  data.user_id = req.session.user
+    ? encrypt.decryptSessionData(req.session.user.user_id)
+    : encrypt.decryptSessionData(req.session.admin.user_id);
+
   data.template_id = req.query.template_id;
   data.purchased_id = req.query.purchased_id;
-  console.log(data);
+
   let page = new Page(data);
   page.getCanvas().then((data) => {
     if (data === "expired") {
@@ -184,7 +190,9 @@ exports.get_canvas_data = (req, res) => {
 
         canvas_image: image_name,
         list: data.list,
-        user_role: req.session.user.user_role,
+        user_role: req.session.user
+          ? encrypt.decryptSessionData(req.session.user.user_role)
+          : encrypt.decryptSessionData(req.session.admin.user_role),
       };
       res.send(obj);
     }
