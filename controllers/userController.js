@@ -194,7 +194,6 @@ exports.getAllBackgroundImage = (req, res) => {
 
 exports.deleteTemplate = (req, res) => {
   if (!req.session.user) {
-    console.log("dont delete here");
     return false;
   }
   let data = {};

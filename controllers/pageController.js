@@ -145,13 +145,16 @@ exports.development_query = (req, res) => {
 // };
 exports.fetch_purchased_templates = function (req, res) {
   let data = {};
-  data.user_id = req.session.user
-    ? encrypt.decryptSessionData(req.session.user.user_id)
-    : encrypt.decryptSessionData(req.session.admin.user_id);
+  // data.user_id = req.session.user
+  //   ? encrypt.decryptSessionData(req.session.user.user_id)
+  //   : encrypt.decryptSessionData(req.session.admin.user_id);
 
-  data.user_role = req.session.user
-    ? encrypt.decryptSessionData(req.session.user.user_role)
-    : encrypt.decryptSessionData(req.session.admin.user_role);
+  // data.user_role = req.session.user
+  //   ? encrypt.decryptSessionData(req.session.user.user_role)
+  //   : encrypt.decryptSessionData(req.session.admin.user_role);
+
+  data.user_id = "dsafe321";
+  data.user_role = "sfssdovsW2dsf-sdf5M-sdGe12";
   let purchased_templates = new Page(data);
   purchased_templates.getUserTemplates().then((data) => {
     res.json(data);
@@ -160,16 +163,20 @@ exports.fetch_purchased_templates = function (req, res) {
 
 exports.get_canvas_data = (req, res) => {
   let data = {};
-  data.user_role = req.session.user
-    ? encrypt.decryptSessionData(req.session.user.user_role)
-    : encrypt.decryptSessionData(req.session.admin.user_role);
-  data.user_id = req.session.user
-    ? encrypt.decryptSessionData(req.session.user.user_id)
-    : encrypt.decryptSessionData(req.session.admin.user_id);
+  // data.user_role = req.session.user
+  //   ? encrypt.decryptSessionData(req.session.user.user_role)
+  //   : encrypt.decryptSessionData(req.session.admin.user_role);
+  // data.user_id = req.session.user
+  //   ? encrypt.decryptSessionData(req.session.user.user_id)
+  //   : encrypt.decryptSessionData(req.session.admin.user_id);
 
-  data.template_id = req.query.template_id;
-  data.purchased_id = req.query.purchased_id;
+  // data.template_id = req.query.template_id;
+  // data.purchased_id = req.query.purchased_id;
 
+  data.template_id = "232e065e-5f06-47be-bec4-606e15eae65d";
+
+  data.user_id = "dsafe321";
+  data.user_role = "sfssdovsW2dsf-sdf5M-sdGe12";
   let page = new Page(data);
   page.getCanvas().then((data) => {
     if (data === "expired") {
@@ -190,9 +197,7 @@ exports.get_canvas_data = (req, res) => {
 
         canvas_image: image_name,
         list: data.list,
-        user_role: req.session.user
-          ? encrypt.decryptSessionData(req.session.user.user_role)
-          : encrypt.decryptSessionData(req.session.admin.user_role),
+        user_role: "admin",
       };
       res.send(obj);
     }

@@ -19,23 +19,24 @@ module.exports = {
 
     clean: true,
     assetModuleFilename: "[name][ext]",
-    // publicPath: 'dist'
+    // publicPath: "dist/",
   },
   // devtool:'source-map',
   devServer: {
-    // static: {
-    //   directory: path.resolve(__dirname, "../dist"),
+    // static:{
+    //     directory:path.resolve(__dirname, 'dist')
     // },
+    port: 3000,
+    // hot:true,
+    // open: true,
+    // compress: true,
 
-    port: 3000, // The port number to run the dev server on
-    // hot: true, // Enable Hot Module Replacement (HMR)
-
-    proxy: {
-      "/api": {
-        target: "http://localhost:5000",
-        changeOrigin: true,
-      },
-    },
+    // proxy: {
+    //   "/api": {
+    //     target: "http://localhost:5000",
+    //     changeOrigin: true,
+    //   },
+    // },
   },
   module: {
     rules: [
@@ -89,20 +90,11 @@ module.exports = {
     //   swSrc: "./src/service-worker.js",
     //   swDest: "sw-dist.js",
     // }),
-
+    // new WorkboxPlugin.GenerateSW(),
     new HtmlWebpackPlugin({
       title: "Webpack App",
       filename: "index.html",
       template: "./src/index.html",
-      template_json: "<%-template_json%>",
-      purchased_id: "<%-purchased_id%>",
-      template_id: "<%-template_id%>",
-
-      template_name: "<%-template_name%>",
-      list: "<%-list%>",
-      user_role: "<%-user_role%>",
-      table: "<%-table%>",
-      category: "<%-category%>",
     }),
 
     new MiniCssExtractPlugin({

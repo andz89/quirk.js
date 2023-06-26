@@ -126,6 +126,7 @@ Page.prototype.getCanvas = function () {
   return new Promise(async (resolve, reject) => {
     await this.getList();
     if (this.data.user_role === process.env.ADMIN_ROLE) {
+      console.log("play");
       let sql = `SELECT * FROM  templates WHERE template_id = "${this.data.template_id}"`;
 
       db.query(sql, (err, result) => {
