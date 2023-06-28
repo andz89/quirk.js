@@ -4,53 +4,6 @@ let FontFaceObserver = require("fontfaceobserver");
 
 import "../sass/canvas-css/main-canvas.scss";
 
-// data.template_json = template_json;
-// data.purchased_id = purchased_id;
-// data.template_name = template_name;
-// data.user_role = user_role;
-// data.template_id = template_id;
-// data.table = table;
-// data.list = list;
-// data.category = category;
-
-// run_script(data);
-
-// Check if the current URL matches the specific link where you want to execute the service worker
-
-// Perform actions specific to this link
-
-// const ajax_request = () => {
-//   return new Promise((resolve, reject) => {
-//     var xhttp = new XMLHttpRequest();
-
-//     xhttp.onreadystatechange = () => {
-//       if (xhttp.readyState == 4 && xhttp.status == 200) {
-//         let response_data = JSON.parse(xhttp.responseText);
-
-//         data.template_json = response_data.template_json;
-//         data.purchased_id = response_data.purchased_id;
-//         data.template_name = response_data.template_name;
-//         data.user_role = response_data.user_role;
-//         data.template_id = response_data.template_id;
-
-//         data.table = response_data.table;
-//         data.list = response_data.list;
-//         data.category = response_data.category;
-
-//         resolve();
-//       }
-//     };
-//     xhttp.open("GET", `http://localhost:5000/development-query`, true);
-//     xhttp.send();
-//   });
-// };
-
-// //here
-
-// ajax_request().then(() => {
-//
-// });
-
 const container = document.querySelector(".content");
 const ajax_request = () => {
   return new Promise((resolve, reject) => {

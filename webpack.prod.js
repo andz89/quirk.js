@@ -87,15 +87,6 @@ module.exports = {
       title: "Webpack App",
       filename: "../../views/pages/canvas.ejs",
       template: "./src/index.html",
-
-      // template_json: "<%-template_json%>",
-      // purchased_id: "<%-purchased_id%>",
-      // template_id: "<%-template_id%>",
-      // category: "<%-category%>",
-      // template_name: "<%-template_name%>",
-      // list: "<%-list%>",
-      // user_role: "<%-user_role%>",
-      // table: "<%-table%>",
     }),
 
     new MiniCssExtractPlugin({

@@ -1,7 +1,5 @@
 import { run_script } from "./canvas/_index";
 
-// let FontFaceObserver = require('fontfaceobserver');
-
 import "../sass/canvas-css/main-canvas.scss";
 const container = document.querySelector(".content");
 const ajax_request = () => {

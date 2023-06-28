@@ -23,20 +23,7 @@ module.exports = {
   },
   // devtool:'source-map',
   devServer: {
-    // static:{
-    //     directory:path.resolve(__dirname, 'dist')
-    // },
     port: 3000,
-    // hot:true,
-    // open: true,
-    // compress: true,
-
-    // proxy: {
-    //   "/api": {
-    //     target: "http://localhost:5000",
-    //     changeOrigin: true,
-    //   },
-    // },
   },
   module: {
     rules: [
@@ -70,27 +57,7 @@ module.exports = {
     new webpack.DefinePlugin({
       MODE: JSON.stringify("development"),
     }),
-    // new CopyWebpackPlugin({
-    //     patterns: [
-    //       { from: 'public/dist/index.html', to: '../../views/pages/canvas-test.ejs',
-    //       transform(content, path) {
-    //         const bundlePath = 'dist';
-    //         const cssPath = 'dist';
-    //         let html = content.toString();
-    //         html = html.replace(/(<script[^>]+src=")([^"]+)(\/?)([a-z0-9]*\.js[^>]*>)/g, `$1${bundlePath}/$2$3$4`);
-    //         html = html.replace(/(<link[^>]+href=")([^"]+)(\/?)([a-z0-9]*\.css[^>]*>)/g, `$1${cssPath}/$2$3$4`);
-    //         return Buffer.from(html);
-    //       },
 
-    //     }
-    //     ]
-    //   }),
-    // Configure the WorkboxPlugin
-    // new InjectManifest({
-    //   swSrc: "./src/service-worker.js",
-    //   swDest: "sw-dist.js",
-    // }),
-    // new WorkboxPlugin.GenerateSW(),
     new HtmlWebpackPlugin({
       title: "Webpack App",
       filename: "index.html",

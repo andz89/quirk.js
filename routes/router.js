@@ -55,12 +55,12 @@ router.get(
 // });
 router.get(
   "/fetch_purchased_templates",
-  // check.role_user,
+  check.queryFromcanvas_role,
   pageController.fetch_purchased_templates
 );
 router.post(
   "/get_canvas_data",
-  // check.role_user,
+  check.queryFromcanvas_role,
   pageController.get_canvas_data
 );
 module.exports = router;
