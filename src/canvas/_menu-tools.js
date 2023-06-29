@@ -743,7 +743,7 @@ export class Menu_tools extends Global {
           this.canvas.add(alltogetherObj);
           this.canvas.sendToBack(alltogetherObj);
           this.canvas.viewportCenterObject(alltogetherObj);
-          alltogetherObj.moveTo(2);
+          alltogetherObj.moveTo(1);
           //remove previously created grid lines
 
           objs.forEach((obj) => {
@@ -751,12 +751,11 @@ export class Menu_tools extends Global {
           });
         } else {
           grid[0].set({ opacity: 1 });
-          grid[0].moveTo(2);
+         
         }
       } else {
         grid[0].set({ opacity: 0 });
       }
-   
 
       // if (e.target.checked) {
       //   alltogetherObj.moveTo(2);
