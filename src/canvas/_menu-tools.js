@@ -1,10 +1,121 @@
 import { Global } from "./_global.js";
-
+import { run_script } from "./_index";
 let FontFaceObserver = require("fontfaceobserver");
 let JSZip = require("jszip");
 let JSZipUtils = require("jszip-utils");
 
 export class Menu_tools extends Global {
+  view_templates() {
+    document.querySelector("#view-templates").addEventListener("click", () => {
+      document.querySelector(".purchased-templates-container").style.display =
+        "flex";
+    });
+    document
+      .querySelector(".purchased-templates-container")
+      .addEventListener("click", (e) => {
+        if (e.target.classList.contains("d-image")) {
+          if (document.querySelector("#canvas")) {
+            let parent = e.target.parentElement.parentElement;
+            let template_id = parent.querySelector(".template_id").value;
+            let purchased_id = parent.querySelector(".purchased_id").value;
+
+            const get_canvas_data = () => {
+              var xhttp = new XMLHttpRequest();
+
+              xhttp.onreadystatechange = () => {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                  let data = JSON.parse(xhttp.responseText);
+
+                  this.canvas.clear();
+                  this.canvas.renderAll();
+
+                  function replaceBreakLine(valueToEscape) {
+                    if (valueToEscape != null && valueToEscape != "") {
+                      return valueToEscape.replaceAll("<-br->", "\n");
+                    } else {
+                      return valueToEscape;
+                    }
+                  }
+
+                  function replaceQoute(valueToEscape) {
+                    if (valueToEscape != null && valueToEscape != "") {
+                      return valueToEscape.replaceAll("<-q->", "'");
+                    } else {
+                      return valueToEscape;
+                    }
+                  }
+                  let json_file = JSON.parse(data.template_json);
+
+                  this.width = json_file.size.w;
+                  this.height = json_file.size.h;
+
+                  this.user_role = data.user_role;
+                  this.table = data.table;
+                  this.list = data.list;
+                  this.category = data.category;
+                  this.template_id = data.template_id;
+                  this.purchased_id = data.purchased_id;
+                  let json_data = json_file.json.objects;
+                  json_data.forEach((e) => {
+                    if (e.type === "textbox") {
+                      e.text = replaceQoute(replaceBreakLine(e.text));
+                    }
+                  });
+
+                  this.canvas.loadFromJSON(json_file.json, () => {
+                    let a = this.canvas.getObjects();
+
+                    a.forEach((e) => {
+                      if (e.type === "textbox") {
+                        e.centeredScaling = true;
+                        e.setControlsVisibility({
+                          mt: false,
+                          mb: false,
+                          tr: false,
+                          tl: false,
+                          br: false,
+                          bl: false,
+                          mtr: false,
+                        });
+                        if (e.name === "Column-2-textbox") {
+                          e.editable = false;
+                        }
+                        if (e.name === "Column-1-textbox") {
+                          e.editable = false;
+                        }
+                        e.lockMovementX = true;
+                      }
+                      if (e.name === "bg-image") {
+                        e.lockMovementX = true;
+                        e.lockMovementY = true;
+                        e.lockScalingX = true;
+                        e.lockScalingX = true;
+                        e.lockRotation = true;
+                        e.selectable = false;
+                        e.hoverCursor = "default";
+                      }
+                    });
+                  });
+
+                  this.canvas.renderAll();
+                  document.querySelector(
+                    ".purchased-templates-container"
+                  ).style.display = "none";
+                }
+              };
+              xhttp.open(
+                "post",
+                `http://localhost:5000/get_canvas_data?template_id=${template_id}&purchased_id=${purchased_id}`,
+                true
+              );
+              xhttp.send();
+            };
+
+            get_canvas_data();
+          }
+        }
+      });
+  }
   //add background
   add_background() {
     let add_bg_image = document.querySelector(
@@ -471,9 +582,7 @@ export class Menu_tools extends Global {
       } else {
         // handle error
         if (xhttp.status === 404) {
-          console.log("Resource not found");
         } else if (xhttp.status === 500) {
-          console.log("Server error");
         }
       }
     };
@@ -490,22 +599,172 @@ export class Menu_tools extends Global {
     });
   }
   grid() {
+    // document.querySelector("#grid").onclick = (e) => {
+
+    //   if (e.target.checked) {
+    //     grid[0].set({ opacity: 1 });
+    //     if (bg[0]) {
+    //       this.canvas.sendToBack(bg[0]);
+    //     }
+    //   } else {
+    //     grid[0].set({ opacity: 0 });
+    //   }
+    //   this.canvas.renderAll();
+    // };
     document.querySelector("#grid").onclick = (e) => {
       let grid = this.canvas.getObjects().filter((obj) => {
         return obj.name == "grid";
       });
-      let bg = this.canvas.getObjects().filter((obj) => {
-        return obj.name == "bg-image";
-      });
-
       if (e.target.checked) {
-        grid[0].set({ opacity: 1 });
-        if (bg[0]) {
-          this.canvas.sendToBack(bg[0]);
+        if (grid.length === 0) {
+          // Set the canvas dimensions
+          var canvasWidth = this.canvas.getWidth() + 10;
+          var canvasHeight = this.canvas.getHeight() + 5;
+          // Create the vertical grid lines
+          for (var x = 0; x <= canvasWidth; x += 50) {
+            if (x == 100) {
+              var line = new fabric.Line([x, 0, x, canvasHeight], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeWidth: 1,
+              });
+            } else if (x == 200) {
+              var line = new fabric.Line([x, 0, x, canvasHeight], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeWidth: 1,
+              });
+            } else if (x == 300) {
+              var line = new fabric.Line([x, 0, x, canvasHeight], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeWidth: 1,
+              });
+            } else if (x == 550) {
+              var line = new fabric.Line([x, 0, x, canvasHeight], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeWidth: 1,
+              });
+            } else if (x == 650) {
+              var line = new fabric.Line([x, 0, x, canvasHeight], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeWidth: 1,
+              });
+            } else if (x == 750) {
+              var line = new fabric.Line([x, 0, x, canvasHeight], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeWidth: 1,
+              });
+            } else {
+              var line = new fabric.Line([x, 0, x, canvasHeight], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeDashArray: [5, 5],
+              });
+            }
+            this.canvas.add(line);
+          }
+
+          // Create the horizontal grid lines
+          for (var y = 0; y <= canvasHeight; y += 50) {
+            if (y == 300) {
+              var line = new fabric.Line([0, y, canvasWidth, y], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeWidth: 2,
+              });
+            } else if (y == 150) {
+              var line = new fabric.Line([0, y, canvasWidth, y], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeWidth: 1,
+              });
+            } else if (y == 450) {
+              var line = new fabric.Line([0, y, canvasWidth, y], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeWidth: 1,
+              });
+            } else {
+              var line = new fabric.Line([0, y, canvasWidth, y], {
+                stroke: "gray",
+                selectable: false,
+                name: "grid-lines",
+                strokeDashArray: [5, 5],
+              });
+            }
+
+            this.canvas.add(line);
+          }
+
+          // Calculate the x position of the center of the canvas
+          var centerX = canvasWidth / 2;
+
+          // Create the vertical line
+          var line_center = new fabric.Line(
+            [centerX, 0, centerX, canvasHeight],
+            {
+              stroke: "gray",
+              selectable: false,
+              stroke: "gray",
+              strokeWidth: 2,
+              name: "grid-lines",
+            }
+          );
+          this.canvas.add(line_center);
+
+          let objs = this.canvas.getObjects().filter(function (obj) {
+            return obj.name == "grid-lines";
+          });
+          //group all the objects
+          var alltogetherObj = new fabric.Group(objs, {
+            lockMovementY: true,
+            lockMovementX: true,
+            selectable: false,
+            excludeFromExport: true,
+            opacity: 1,
+            name: "grid",
+            hoverCursor: "default",
+          });
+
+          this.canvas.add(alltogetherObj);
+          this.canvas.sendToBack(alltogetherObj);
+          this.canvas.viewportCenterObject(alltogetherObj);
+          alltogetherObj.moveTo(2);
+          //remove previously created grid lines
+
+          objs.forEach((obj) => {
+            this.canvas.remove(obj);
+          });
+        } else {
+          grid[0].set({ opacity: 1 });
+          grid[0].moveTo(2);
         }
       } else {
         grid[0].set({ opacity: 0 });
       }
+   
+
+      // if (e.target.checked) {
+      //   alltogetherObj.moveTo(2);
+      //   alltogetherObj.opacity = 1;
+      // } else {
+      //   console.log("setting");
+      //   alltogetherObj.opacity = 0;
+      // }
       this.canvas.renderAll();
     };
   }
@@ -636,12 +895,10 @@ export class Menu_tools extends Global {
 
       // Add event listener for menu item clicks
       menuItem1.addEventListener("click", function () {
-        console.log("Menu Item 1 clicked");
         contextMenu.remove(); // Remove the context menu after click
       });
 
       menuItem2.addEventListener("click", function () {
-        console.log("Menu Item 2 clicked");
         contextMenu.remove(); // Remove the context menu after click
       });
 
@@ -1333,7 +1590,6 @@ border-left:none; " contenteditable="true"></td>
           this.canvas.setHeight(this.height);
           this.canvas.setZoom(1);
         } else {
-          console.log("no download");
         }
       }
     });

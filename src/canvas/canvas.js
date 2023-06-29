@@ -43,7 +43,7 @@ export class Canvas extends Global {
     menu_tools.fontProperties();
     menu_tools.keyboard_shortcut();
     menu_tools.textAlign();
-
+    menu_tools.view_templates();
     menu_tools.fontStyle();
     menu_tools.grid();
     menu_tools.context_menu();

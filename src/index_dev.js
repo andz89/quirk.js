@@ -10,7 +10,6 @@ const ajax_request = () => {
       if (xhttp.readyState == 4 && xhttp.status == 200) {
         let data = JSON.parse(xhttp.responseText);
         let x = data["result"];
-        console.log(data["result"].length);
 
         let html = document.createElement("div");
         html.className = "purchased-templates  certificate-container py-1";
@@ -118,48 +117,48 @@ ajax_request().then(() => {
         xhttp.send();
       }
       if (e.target.classList.contains("d-image")) {
-        console.log("done");
+        if (document.querySelector("#canvas") == undefined) {
+          // <input type="hidden" class="template_id" value="${data.template_id}">
+          // <input type="hidden" class="purchased_id" value="${data.purchased_id} ">
+          let parent = e.target.parentElement.parentElement;
+          let template_id = parent.querySelector(".template_id").value;
+          let purchased_id = parent.querySelector(".purchased_id").value;
 
-        // <input type="hidden" class="template_id" value="${data.template_id}">
-        // <input type="hidden" class="purchased_id" value="${data.purchased_id} ">
-        let parent = e.target.parentElement.parentElement;
-        let template_id = parent.querySelector(".template_id").value;
-        let purchased_id = parent.querySelector(".purchased_id").value;
-        console.log(template_id + " " + purchased_id);
-        const get_canvas_data = () => {
-          return new Promise((resolve, reject) => {
-            var xhttp = new XMLHttpRequest();
+          const get_canvas_data = () => {
+            return new Promise((resolve, reject) => {
+              var xhttp = new XMLHttpRequest();
 
-            xhttp.onreadystatechange = () => {
-              if (xhttp.readyState == 4 && xhttp.status == 200) {
-                let data = JSON.parse(xhttp.responseText);
+              xhttp.onreadystatechange = () => {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                  let data = JSON.parse(xhttp.responseText);
 
-                const object = {};
-                object.template_json = data.template_json;
-                object.purchased_id = data.purchased_id;
-                object.template_name = data.template_name;
-                object.user_role = data.user_role;
-                object.template_id = data.template_id;
-                object.table = data.table;
-                object.list = data.list;
-                object.category = data.category;
-                run_script(object);
-                document.querySelector(
-                  ".purchased-templates-container"
-                ).style.display = "none";
-                resolve();
-              }
-            };
-            xhttp.open(
-              "post",
-              `http://localhost:5000/get_canvas_data?template_id=${template_id}&purchased_id=${purchased_id}`,
-              true
-            );
-            xhttp.send();
-          });
-        };
+                  const object = {};
+                  object.template_json = data.template_json;
+                  object.purchased_id = data.purchased_id;
+                  object.template_name = data.template_name;
+                  object.user_role = data.user_role;
+                  object.template_id = data.template_id;
+                  object.table = data.table;
+                  object.list = data.list;
+                  object.category = data.category;
+                  run_script(object);
+                  document.querySelector(
+                    ".purchased-templates-container"
+                  ).style.display = "none";
+                  resolve();
+                }
+              };
+              xhttp.open(
+                "post",
+                `http://localhost:5000/get_canvas_data?template_id=${template_id}&purchased_id=${purchased_id}`,
+                true
+              );
+              xhttp.send();
+            });
+          };
 
-        get_canvas_data().then(() => {});
+          get_canvas_data().then(() => {});
+        }
       }
     });
 });

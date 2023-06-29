@@ -38,9 +38,16 @@ const run_script = (data) => {
 
     //create new canvas
     const canvas = () => {
-      let c = document.createElement("canvas");
-      c.id = "canvas";
-      document.querySelector("#canvas-background").appendChild(c);
+      let c;
+      if (document.querySelector("#canvas")) {
+        c = document.querySelector("#canvas");
+      } else {
+        c = document.createElement("canvas");
+        c.id = "canvas";
+
+        document.querySelector("#canvas-background").appendChild(c);
+      }
+
       return new fabric.Canvas("canvas", {
         width: json_parsed.size.w,
         height: json_parsed.size.h,
@@ -89,137 +96,137 @@ const run_script = (data) => {
       });
       //create grid
 
-      // Set the canvas dimensions
-      var canvasWidth = canvas_created.getWidth() + 10;
-      var canvasHeight = canvas_created.getHeight() + 5;
+      // // Set the canvas dimensions
+      // var canvasWidth = canvas_created.getWidth() + 10;
+      // var canvasHeight = canvas_created.getHeight() + 5;
 
-      // Create a new Fabric.js canvas
+      // // Create a new Fabric.js canvas
 
-      // Create the vertical grid lines
-      for (var x = 0; x <= canvasWidth; x += 50) {
-        if (x == 100) {
-          var line = new fabric.Line([x, 0, x, canvasHeight], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeWidth: 1,
-          });
-        } else if (x == 200) {
-          var line = new fabric.Line([x, 0, x, canvasHeight], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeWidth: 1,
-          });
-        } else if (x == 300) {
-          var line = new fabric.Line([x, 0, x, canvasHeight], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeWidth: 1,
-          });
-        } else if (x == 550) {
-          var line = new fabric.Line([x, 0, x, canvasHeight], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeWidth: 1,
-          });
-        } else if (x == 650) {
-          var line = new fabric.Line([x, 0, x, canvasHeight], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeWidth: 1,
-          });
-        } else if (x == 750) {
-          var line = new fabric.Line([x, 0, x, canvasHeight], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeWidth: 1,
-          });
-        } else {
-          var line = new fabric.Line([x, 0, x, canvasHeight], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeDashArray: [5, 5],
-          });
-        }
-        canvas_created.add(line);
-      }
+      // // Create the vertical grid lines
+      // for (var x = 0; x <= canvasWidth; x += 50) {
+      //   if (x == 100) {
+      //     var line = new fabric.Line([x, 0, x, canvasHeight], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeWidth: 1,
+      //     });
+      //   } else if (x == 200) {
+      //     var line = new fabric.Line([x, 0, x, canvasHeight], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeWidth: 1,
+      //     });
+      //   } else if (x == 300) {
+      //     var line = new fabric.Line([x, 0, x, canvasHeight], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeWidth: 1,
+      //     });
+      //   } else if (x == 550) {
+      //     var line = new fabric.Line([x, 0, x, canvasHeight], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeWidth: 1,
+      //     });
+      //   } else if (x == 650) {
+      //     var line = new fabric.Line([x, 0, x, canvasHeight], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeWidth: 1,
+      //     });
+      //   } else if (x == 750) {
+      //     var line = new fabric.Line([x, 0, x, canvasHeight], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeWidth: 1,
+      //     });
+      //   } else {
+      //     var line = new fabric.Line([x, 0, x, canvasHeight], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeDashArray: [5, 5],
+      //     });
+      //   }
+      //   canvas_created.add(line);
+      // }
 
-      // Create the horizontal grid lines
-      for (var y = 0; y <= canvasHeight; y += 50) {
-        if (y == 300) {
-          var line = new fabric.Line([0, y, canvasWidth, y], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeWidth: 2,
-          });
-        } else if (y == 150) {
-          var line = new fabric.Line([0, y, canvasWidth, y], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeWidth: 1,
-          });
-        } else if (y == 450) {
-          var line = new fabric.Line([0, y, canvasWidth, y], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeWidth: 1,
-          });
-        } else {
-          var line = new fabric.Line([0, y, canvasWidth, y], {
-            stroke: "gray",
-            selectable: false,
-            name: "grid-lines",
-            strokeDashArray: [5, 5],
-          });
-        }
+      // // Create the horizontal grid lines
+      // for (var y = 0; y <= canvasHeight; y += 50) {
+      //   if (y == 300) {
+      //     var line = new fabric.Line([0, y, canvasWidth, y], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeWidth: 2,
+      //     });
+      //   } else if (y == 150) {
+      //     var line = new fabric.Line([0, y, canvasWidth, y], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeWidth: 1,
+      //     });
+      //   } else if (y == 450) {
+      //     var line = new fabric.Line([0, y, canvasWidth, y], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeWidth: 1,
+      //     });
+      //   } else {
+      //     var line = new fabric.Line([0, y, canvasWidth, y], {
+      //       stroke: "gray",
+      //       selectable: false,
+      //       name: "grid-lines",
+      //       strokeDashArray: [5, 5],
+      //     });
+      //   }
 
-        canvas_created.add(line);
-      }
+      //   canvas_created.add(line);
+      // }
 
-      // Calculate the x position of the center of the canvas
-      var centerX = canvasWidth / 2;
+      // // Calculate the x position of the center of the canvas
+      // var centerX = canvasWidth / 2;
 
-      // Create the vertical line
-      var line_center = new fabric.Line([centerX, 0, centerX, canvasHeight], {
-        stroke: "gray",
-        selectable: false,
-        stroke: "gray",
-        strokeWidth: 2,
-        name: "grid-lines",
-      });
-      canvas_created.add(line_center);
+      // // Create the vertical line
+      // var line_center = new fabric.Line([centerX, 0, centerX, canvasHeight], {
+      //   stroke: "gray",
+      //   selectable: false,
+      //   stroke: "gray",
+      //   strokeWidth: 2,
+      //   name: "grid-lines",
+      // });
+      // canvas_created.add(line_center);
 
-      let objs = canvas_created.getObjects().filter(function (obj) {
-        return obj.name == "grid-lines";
-      });
-      //group all the objects
-      var alltogetherObj = new fabric.Group(objs, {
-        lockMovementY: true,
-        lockMovementX: true,
-        selectable: false,
-        excludeFromExport: true,
-        opacity: 0,
-        name: "grid",
-        hoverCursor: "default",
-      });
-      canvas_created.add(alltogetherObj);
-      canvas_created.sendToBack(alltogetherObj);
-      canvas_created.viewportCenterObject(alltogetherObj);
+      // let objs = canvas_created.getObjects().filter(function (obj) {
+      //   return obj.name == "grid-lines";
+      // });
+      // //group all the objects
+      // var alltogetherObj = new fabric.Group(objs, {
+      //   lockMovementY: true,
+      //   lockMovementX: true,
+      //   selectable: false,
+      //   excludeFromExport: true,
+      //   opacity: 0,
+      //   name: "grid",
+      //   hoverCursor: "default",
+      // });
+      // canvas_created.add(alltogetherObj);
+      // canvas_created.sendToBack(alltogetherObj);
+      // canvas_created.viewportCenterObject(alltogetherObj);
 
-      //remove previously created grid lines
-      objs.forEach(function (obj) {
-        canvas_created.remove(obj);
-      });
-      canvas_created.renderAll();
+      // //remove previously created grid lines
+      // objs.forEach(function (obj) {
+      //   canvas_created.remove(obj);
+      // });
+      // canvas_created.renderAll();
     });
 
     let index = 1;
@@ -310,11 +317,7 @@ const run_script = (data) => {
           .then(() => {
             // when font is loaded, use it.
             if (i + 2 == font.length + 1) {
-              console.log(i);
-              console.log(font.length);
-
               resolve();
-              console.log("resolve");
             }
           })
           .catch((e) => {
