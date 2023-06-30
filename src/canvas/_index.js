@@ -94,7 +94,6 @@ const run_script = (data) => {
           e.hoverCursor = "default";
         }
       });
-      //create grid
 
       // // Set the canvas dimensions
       // var canvasWidth = canvas_created.getWidth() + 10;

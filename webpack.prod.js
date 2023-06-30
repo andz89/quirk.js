@@ -66,23 +66,23 @@ module.exports = {
     //     }
     //     ]
     //   }),
-    // new WorkboxPlugin.GenerateSW({
-    //   swDest: "../service-worker.js",
+    new WorkboxPlugin.GenerateSW({
+      swDest: "../service-worker.js",
 
-    //   runtimeCaching: [
-    //     {
-    //       urlPattern: "/canvas",
-    //       handler: "StaleWhileRevalidate",
-    //       options: {
-    //         cacheName: "quirk",
-    //         expiration: {
-    //           maxEntries: 50,
-    //           maxAgeSeconds: 7 * 24 * 60 * 60,
-    //         },
-    //       },
-    //     },
-    //   ],
-    // }),
+      // runtimeCaching: [
+      //   {
+      //     urlPattern: "/canvas",
+      //     handler: "StaleWhileRevalidate",
+      //     options: {
+      //       cacheName: "quirk",
+      //       expiration: {
+      //         maxEntries: 50,
+      //         maxAgeSeconds: 7 * 24 * 60 * 60,
+      //       },
+      //     },
+      //   },
+      // ],
+    }),
     new HtmlWebpackPlugin({
       title: "Webpack App",
       filename: "../../views/pages/canvas.ejs",

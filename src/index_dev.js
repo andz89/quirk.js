@@ -117,12 +117,22 @@ ajax_request().then(() => {
         xhttp.send();
       }
       if (e.target.classList.contains("d-image")) {
+        let parent = e.target.parentElement.parentElement;
+        let template_id = parent.querySelector(".template_id").value;
+        let purchased_id = parent.querySelector(".purchased_id").value;
+
+        let data = JSON.parse(localStorage.getItem("quirk-template"));
+
+        if (data.templateId == template_id) {
+          // Local storage has the data item
+          window.alert("Data item exists in local storage");
+        } else {
+          // Local storage does not have the data item
+          window.alert("Data item exists in local storage");
+        }
         if (document.querySelector("#canvas") == undefined) {
           // <input type="hidden" class="template_id" value="${data.template_id}">
           // <input type="hidden" class="purchased_id" value="${data.purchased_id} ">
-          let parent = e.target.parentElement.parentElement;
-          let template_id = parent.querySelector(".template_id").value;
-          let purchased_id = parent.querySelector(".purchased_id").value;
 
           const get_canvas_data = () => {
             return new Promise((resolve, reject) => {
@@ -131,7 +141,26 @@ ajax_request().then(() => {
               xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                   let data = JSON.parse(xhttp.responseText);
+                  function saveDataToLocalStorage(templateId, purchaseId) {
+                    // Check if local storage is available
+                    if (typeof Storage !== "undefined") {
+                      // Create an object to store the data
+                      var data = {
+                        templateId: templateId,
+                        purchaseId: purchaseId,
+                      };
 
+                      // Save the data object in local storage
+                      localStorage.setItem(
+                        "quirk-template",
+                        JSON.stringify(data)
+                      );
+                      console.log("Data saved to local storage");
+                    } else {
+                      console.log("Local storage is not supported");
+                    }
+                  }
+                  saveDataToLocalStorage(data.template_id, data.purchased_id);
                   const object = {};
                   object.template_json = data.template_json;
                   object.purchased_id = data.purchased_id;

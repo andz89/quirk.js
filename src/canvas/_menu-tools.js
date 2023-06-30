@@ -7,8 +7,85 @@ let JSZipUtils = require("jszip-utils");
 export class Menu_tools extends Global {
   view_templates() {
     document.querySelector("#view-templates").addEventListener("click", () => {
-      document.querySelector(".purchased-templates-container").style.display =
-        "flex";
+      const container = document.querySelector(".content");
+      container.innerHTML = "";
+      const ajax_request = () => {
+        return new Promise((resolve, reject) => {
+          var xhttp = new XMLHttpRequest();
+
+          xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+              let data = JSON.parse(xhttp.responseText);
+              let x = data["result"];
+              console.log(data["result"].length);
+
+              let html = document.createElement("div");
+              html.className =
+                "purchased-templates  certificate-container py-1";
+              html.style = "width:100%";
+              x.forEach((data) => {
+                if (data.template_id === undefined) {
+                  return false;
+                }
+                html.innerHTML += `
+               
+                        
+                             
+              <div class="template-container">
+          
+                  <input type="hidden" class="template_id" value="${data.template_id}">
+                  <input type="hidden" class="purchased_id" value="${data.purchased_id} ">
+          
+          
+                
+              
+                            <div>
+          
+                                 
+                                  <img src="http://localhost:5000/images/canvas_image/${data.thumbnail}"
+                                      class="hover-opactiy d-image" width="200" alt="">
+          
+          
+          
+                                  <div class=" text text-dark template-name">
+                                      ${data.template_name}
+                                  </div>
+                                  </div>
+                              <div class="option">
+                                  <img src="http://localhost:5000/images/list.png" class="hover-opactiy gear-option" width="20"
+                                      alt="">
+                                  <div class="container hide">
+                                  </div>
+                                  <div class="delete-template hide">Delete Template</div>
+                                  <input type="hidden" id="category" value="${data.category}">
+                              </div>
+                          
+          
+          
+          
+              </div>
+           
+          
+          `;
+                resolve();
+              });
+
+              container.append(html); // Insert the generated HTML into the container element
+            }
+          };
+          xhttp.open(
+            "get",
+            `http://localhost:5000/fetch_purchased_templates`,
+            true
+          );
+          xhttp.send();
+        });
+      };
+      ajax_request().then(() => {
+        console.log("load");
+        document.querySelector(".purchased-templates-container").style.display =
+          "flex";
+      });
     });
     document
       .querySelector(".purchased-templates-container")
@@ -25,7 +102,26 @@ export class Menu_tools extends Global {
               xhttp.onreadystatechange = () => {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                   let data = JSON.parse(xhttp.responseText);
+                  function saveDataToLocalStorage(templateId, purchaseId) {
+                    // Check if local storage is available
+                    if (typeof Storage !== "undefined") {
+                      // Create an object to store the data
+                      var data = {
+                        templateId: templateId,
+                        purchaseId: purchaseId,
+                      };
 
+                      // Save the data object in local storage
+                      localStorage.setItem(
+                        "quirk-template",
+                        JSON.stringify(data)
+                      );
+                      console.log("Data saved to local storage");
+                    } else {
+                      console.log("Local storage is not supported");
+                    }
+                  }
+                  saveDataToLocalStorage(data.template_id, data.purchased_id);
                   this.canvas.clear();
                   this.canvas.renderAll();
 
@@ -751,7 +847,6 @@ export class Menu_tools extends Global {
           });
         } else {
           grid[0].set({ opacity: 1 });
-         
         }
       } else {
         grid[0].set({ opacity: 0 });

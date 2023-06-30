@@ -194,6 +194,6 @@ exports.canvas = (req, res) => {
   data.user_id = req.session.user
     ? encrypt.decryptSessionData(req.session.user.user_id)
     : encrypt.decryptSessionData(req.session.admin.user_id);
-
+  console.log(req.query.template_id);
   res.render("pages/canvas");
 };
