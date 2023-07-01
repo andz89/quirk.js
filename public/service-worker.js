@@ -82,13 +82,13 @@ define(['./workbox-9d146cca'], (function (workbox) { 'use strict';
    */
   workbox.precacheAndRoute([{
     "url": "dist/../../views/pages/canvas.ejs",
-    "revision": "f5d2a5e6edeb52f93c1a25dd18b7b0c9"
+    "revision": "51c52c20818f7935b21ff5e4cb9e9db3"
   }, {
     "url": "dist/bundle.css",
     "revision": "cafa46bd6a7d091064fec304fc53a292"
   }, {
     "url": "dist/bundle.js",
-    "revision": "68f0b218deb1d5176f804fd6f2b492de"
+    "revision": "c08d00c8ac034a0d2fbe8a98ad39cc50"
   }, {
     "url": "dist/pen-solid.png",
     "revision": "04624827138d1fee53d937daeca45e8a"

@@ -79,26 +79,13 @@ window.addEventListener("load", function () {
               if (data.template_id === undefined) {
                 return false;
               }
-              html.innerHTML += `
-             
-                      
-                           
+              html.innerHTML += `          
             <div class="template-container">
-        
                 <input type="hidden" class="template_id" value="${data.template_id}">
                 <input type="hidden" class="purchased_id" value="${data.purchased_id} ">
-        
-        
-              
-            
                           <div>
-        
-                               
                                 <img src="http://localhost:5000/images/canvas_image/${data.thumbnail}"
                                     class="hover-opactiy d-image" width="200" alt="">
-        
-        
-        
                                 <div class=" text text-dark template-name">
                                     ${data.template_name}
                                 </div>
@@ -111,18 +98,19 @@ window.addEventListener("load", function () {
                                 <div class="delete-template hide">Delete Template</div>
                                 <input type="hidden" id="category" value="${data.category}">
                             </div>
-                        
-        
-        
-        
             </div>
-         
-        
         `;
               resolve();
             });
-
+            let close_btn = document.createElement("div");
+            close_btn.innerHTML = ` <div class="d-flex justify-content-end" style="width: 100%;">
+            <div class="btn btn-md btn-primary ">
+            <a href="/" class="text text-white">Home</a>
+            </div>
+        </div>`;
+            container.append(close_btn);
             container.append(html); // Insert the generated HTML into the container element
+
             document.querySelector(
               ".purchased-templates-container"
             ).style.display = "flex";
@@ -172,8 +160,6 @@ window.addEventListener("load", function () {
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = () => {
               if (xhttp.readyState == 4 && xhttp.status == 200) {
-                // Global.alert();
-
                 e.target.parentElement.parentElement.remove();
               }
             };
@@ -186,8 +172,7 @@ window.addEventListener("load", function () {
           }
           if (e.target.classList.contains("d-image")) {
             if (!document.querySelector("#canvas")) {
-              // <input type="hidden" class="template_id" value="${data.template_id}">
-              // <input type="hidden" class="purchased_id" value="${data.purchased_id} ">
+              //if there is no created canvas
               let parent = e.target.parentElement.parentElement;
               let template_id = parent.querySelector(".template_id").value;
               let purchased_id = parent.querySelector(".purchased_id").value;

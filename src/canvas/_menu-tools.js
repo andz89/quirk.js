@@ -29,16 +29,13 @@ export class Menu_tools extends Global {
                 }
                 html.innerHTML += `
                
-                        
+             
                              
               <div class="template-container">
           
                   <input type="hidden" class="template_id" value="${data.template_id}">
                   <input type="hidden" class="purchased_id" value="${data.purchased_id} ">
           
-          
-                
-              
                             <div>
           
                                  
@@ -69,8 +66,23 @@ export class Menu_tools extends Global {
           `;
                 resolve();
               });
+              let div = document.createElement("div");
+              div.innerHTML = ` <div class="d-flex justify-content-end" style="width: 100%;">
+              <div class="btn btn-md btn-primary purchased-templates-button">
+                 Close
+              </div>
+          </div>`;
 
+              container.append(div);
               container.append(html); // Insert the generated HTML into the container element
+
+              document
+                .querySelector(".purchased-templates-button")
+                .addEventListener("click", () => {
+                  document.querySelector(
+                    ".purchased-templates-container"
+                  ).style.display = "none";
+                });
             }
           };
           xhttp.open(
@@ -92,6 +104,7 @@ export class Menu_tools extends Global {
       .addEventListener("click", (e) => {
         if (e.target.classList.contains("d-image")) {
           if (document.querySelector("#canvas")) {
+            //if there is created canvas
             let parent = e.target.parentElement.parentElement;
             let template_id = parent.querySelector(".template_id").value;
             let purchased_id = parent.querySelector(".purchased_id").value;
@@ -695,18 +708,6 @@ export class Menu_tools extends Global {
     });
   }
   grid() {
-    // document.querySelector("#grid").onclick = (e) => {
-
-    //   if (e.target.checked) {
-    //     grid[0].set({ opacity: 1 });
-    //     if (bg[0]) {
-    //       this.canvas.sendToBack(bg[0]);
-    //     }
-    //   } else {
-    //     grid[0].set({ opacity: 0 });
-    //   }
-    //   this.canvas.renderAll();
-    // };
     document.querySelector("#grid").onclick = (e) => {
       let grid = this.canvas.getObjects().filter((obj) => {
         return obj.name == "grid";

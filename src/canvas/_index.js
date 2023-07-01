@@ -38,15 +38,10 @@ const run_script = (data) => {
 
     //create new canvas
     const canvas = () => {
-      let c;
-      if (document.querySelector("#canvas")) {
-        c = document.querySelector("#canvas");
-      } else {
-        c = document.createElement("canvas");
-        c.id = "canvas";
+      let c = document.createElement("canvas");
+      c.id = "canvas";
 
-        document.querySelector("#canvas-background").appendChild(c);
-      }
+      document.querySelector("#canvas-background").appendChild(c);
 
       return new fabric.Canvas("canvas", {
         width: json_parsed.size.w,

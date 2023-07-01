@@ -2,8 +2,8 @@ const encrypt = require("../helper/encrypt");
 const dotenv = require("dotenv");
 
 dotenv.config();
-// let mode = "development";
-let mode = "production";
+let mode = "development";
+// let mode = "production";
 
 exports.role_admin = (req, res, next) => {
   if (
@@ -38,8 +38,6 @@ exports.queryFromcanvas_role = (req, res, next) => {
       user_id: encrypt.encryptSessionData("dsafe321"),
       user_role: encrypt.encryptSessionData(process.env.ADMIN_ROLE),
     };
-
-    req.query.template_id = "232e065e-5f06-47be-bec4-606e15eae65d";
   }
 
   if (
@@ -75,7 +73,7 @@ exports.role_guest = (req, res, next) => {
 exports.saveCanvas_role = (req, res, next) => {
   if (mode == "development") {
     req.session.admin = {
-      user_id: "dsafe321",
+      user_id: encrypt.encryptSessionData("dsafe321"),
       user_role: encrypt.encryptSessionData(process.env.ADMIN_ROLE),
     };
   }
