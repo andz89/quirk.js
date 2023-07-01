@@ -179,7 +179,7 @@ exports.get_canvas_data = (req, res) => {
 
         canvas_image: image_name,
         list: data.list,
-        user_role: "user",
+        user_role: req.session.user ? "user" : "admin",
       };
       res.send(obj);
     }

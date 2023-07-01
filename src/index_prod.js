@@ -215,6 +215,7 @@ window.addEventListener("load", function () {
                       object.table = data.table;
                       object.list = data.list;
                       object.category = data.category;
+                      console.log(data.user_role);
                       run_script(object);
                       document.querySelector(
                         ".purchased-templates-container"

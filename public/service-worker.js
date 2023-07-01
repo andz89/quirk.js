@@ -88,7 +88,7 @@ define(['./workbox-9d146cca'], (function (workbox) { 'use strict';
     "revision": "cafa46bd6a7d091064fec304fc53a292"
   }, {
     "url": "dist/bundle.js",
-    "revision": "c08d00c8ac034a0d2fbe8a98ad39cc50"
+    "revision": "b928476c478d459c0bfc69edcb601c79"
   }, {
     "url": "dist/pen-solid.png",
     "revision": "04624827138d1fee53d937daeca45e8a"

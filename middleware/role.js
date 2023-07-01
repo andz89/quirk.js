@@ -2,8 +2,8 @@ const encrypt = require("../helper/encrypt");
 const dotenv = require("dotenv");
 
 dotenv.config();
-let mode = "development";
-// let mode = "production";
+// let mode = "development";
+let mode = "production";
 
 exports.role_admin = (req, res, next) => {
   if (
